@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NetEscapades.AspNetCore.SecurityHeaders", "src\NetEscapades.AspNetCore.SecurityHeaders\NetEscapades.AspNetCore.SecurityHeaders.xproj", "{99AE9045-0537-4724-B49B-3A463E24F743}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NetEscapades.AspNetCore.SecurityHeaders.Test", "test\NetEscapades.AspNetCore.SecurityHeaders.Test\NetEscapades.AspNetCore.SecurityHeaders.Test.xproj", "{FD377A9F-984D-4E6E-9B4F-1C0448847579}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A2E64919-761D-4412-AFF7-D167023FD55E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,11 +26,16 @@ Global
 		{99AE9045-0537-4724-B49B-3A463E24F743}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99AE9045-0537-4724-B49B-3A463E24F743}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99AE9045-0537-4724-B49B-3A463E24F743}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD377A9F-984D-4E6E-9B4F-1C0448847579}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD377A9F-984D-4E6E-9B4F-1C0448847579}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD377A9F-984D-4E6E-9B4F-1C0448847579}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD377A9F-984D-4E6E-9B4F-1C0448847579}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{99AE9045-0537-4724-B49B-3A463E24F743} = {F51609AF-585F-4BBD-89BD-4FE245292018}
+		{FD377A9F-984D-4E6E-9B4F-1C0448847579} = {A2E64919-761D-4412-AFF7-D167023FD55E}
 	EndGlobalSection
 EndGlobal

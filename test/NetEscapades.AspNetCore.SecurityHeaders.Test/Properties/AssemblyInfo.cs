@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NET Escapades")]
-[assembly: AssemblyProduct("NetEscapades.AspNetCore.SecurityHeaders")]
+[assembly: AssemblyProduct("NetEscapades.AspNetCore.SecurityHeaders.Test")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("99ae9045-0537-4724-b49b-3a463e24f743")]
+[assembly: Guid("fd377a9f-984d-4e6e-9b4f-1c0448847579")]
