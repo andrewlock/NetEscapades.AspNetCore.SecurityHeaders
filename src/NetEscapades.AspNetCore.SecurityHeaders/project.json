@@ -11,13 +11,16 @@
     ]
   },
   "description": "Security header middleware and for ASP.NET Core to automatically add security headers to requests.",
-    "buildOptions": {
-        "warningsAsErrors": true,
-        "nowarn": [
-            "CS1591"
-        ],
-        "xmlDoc": true
-    },
+  "authors": [
+    "Andrew Lock"
+  ],
+  "buildOptions": {
+    "warningsAsErrors": true,
+    "nowarn": [
+      "CS1591"
+    ],
+    "xmlDoc": true
+  },
   "dependencies": {
     "Microsoft.Extensions.Options": "1.0.0-rc2-final",
     "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc2-final",
