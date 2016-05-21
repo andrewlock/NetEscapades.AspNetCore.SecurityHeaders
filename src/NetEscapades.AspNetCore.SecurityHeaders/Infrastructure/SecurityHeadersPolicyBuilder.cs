@@ -112,7 +112,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         }
 
         /// <summary>
-        /// Add Strict-Transport-Security max-age=<see cref="maxAge"/> to all requests.
+        /// Add Strict-Transport-Security max-age=<see paramref="maxAge"/> to all requests.
         /// Tells the user-agent to cache the domain in the STS list for the number of seconds provided.
         /// </summary>
         public SecurityHeadersPolicyBuilder AddStrictTransportSecurityMaxAge(int maxAge = OneYearInSeconds)
@@ -122,7 +122,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         }
 
         /// <summary>
-        /// Add Strict-Transport-Security max-age=<see cref="maxAge"/>; includeSubDomains to all requests.
+        /// Add Strict-Transport-Security max-age=<see paramref="maxAge"/>; includeSubDomains to all requests.
         /// Tells the user-agent to cache the domain in the STS list for the number of seconds provided and include any sub-domains.
         /// </summary>
         public SecurityHeadersPolicyBuilder AddStrictTransportSecurityMaxAgeIncludeSubDomains(int maxAge = OneYearInSeconds)
