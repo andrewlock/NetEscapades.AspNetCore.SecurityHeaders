@@ -9,10 +9,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         public void Default_Constructor()
         {
             // Arrange & Act
-            var result = new SecurityHeadersResult();
+            var result = new SecurityHeadersPolicy();
 
-            Assert.Empty(result.SetHeaders);
-            Assert.Empty(result.RemoveHeaders);
+            Assert.Null(result.XFramesOptions);
+            Assert.Null(result.XssProtection);
+            Assert.Null(result.XContentTypeOptions);
+            Assert.Null(result.StrictTransportSecurity);
         }
     }
 }

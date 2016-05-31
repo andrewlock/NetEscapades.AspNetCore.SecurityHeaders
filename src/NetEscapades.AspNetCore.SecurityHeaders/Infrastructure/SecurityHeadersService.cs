@@ -76,7 +76,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             //Strict-Transport-Security should only be used over SSL
             if (policy.UseStrictTransportSecurity)
             {
-                result.SetHeaders[XssProtectionConstants.Header] = policy.XssProtection;
+                result.SetHeaders[StrictTransportSecurityConstants.Header] = policy.StrictTransportSecurity;
             }
         }
 

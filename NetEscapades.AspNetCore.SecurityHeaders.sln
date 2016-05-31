@@ -16,6 +16,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NetEscapades.AspNetCore.Sec
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A2E64919-761D-4412-AFF7-D167023FD55E}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SecurityHeadersMiddlewareWebSite", "test\SecurityHeadersMiddlewareWebSite\SecurityHeadersMiddlewareWebSite.xproj", "{4EA49DA7-DB46-46A2-9F00-EC575758EECD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{FD377A9F-984D-4E6E-9B4F-1C0448847579}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD377A9F-984D-4E6E-9B4F-1C0448847579}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD377A9F-984D-4E6E-9B4F-1C0448847579}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EA49DA7-DB46-46A2-9F00-EC575758EECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EA49DA7-DB46-46A2-9F00-EC575758EECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EA49DA7-DB46-46A2-9F00-EC575758EECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EA49DA7-DB46-46A2-9F00-EC575758EECD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,5 +43,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{99AE9045-0537-4724-B49B-3A463E24F743} = {F51609AF-585F-4BBD-89BD-4FE245292018}
 		{FD377A9F-984D-4E6E-9B4F-1C0448847579} = {A2E64919-761D-4412-AFF7-D167023FD55E}
+		{4EA49DA7-DB46-46A2-9F00-EC575758EECD} = {A2E64919-761D-4412-AFF7-D167023FD55E}
 	EndGlobalSection
 EndGlobal
