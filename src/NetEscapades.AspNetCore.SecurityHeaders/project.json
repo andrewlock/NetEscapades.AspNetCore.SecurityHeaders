@@ -1,33 +1,37 @@
 ﻿{
-  "version": "1.0.0-*",
-  "packOptions": {
-    "repository": {
-      "type": "git",
-      "url": "https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders"
+    "version": "1.0.0-beta-*",
+    "packOptions": {
+        "owners": [ "Andrew Lock" ],
+        "licenseUrl": "https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/blob/master/LICENSE",
+        "projectUrl": "https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/blob/master/LICENSE",
+        "repository": {
+            "type": "git",
+            "url": "https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders"
+        },
+        "tags": [
+            "aspnetcore",
+            "headers",
+            "ASP.NET MVC"
+        ]
     },
-    "tags": [
-      "aspnetcore",
-      "headers"
-    ]
-  },
-  "description": "Security header middleware and for ASP.NET Core to automatically add security headers to requests.",
-  "authors": [
-    "Andrew Lock"
-  ],
-  "buildOptions": {
-    "warningsAsErrors": true,
-    "nowarn": [
-      "CS1591"
+    "description": "Security header middleware and for ASP.NET Core to automatically add security headers to requests.",
+    "authors": [
+        "Andrew Lock"
     ],
-    "xmlDoc": true
-  },
-  "dependencies": {
-    "Microsoft.Extensions.Options": "1.0.0-rc2-final",
-    "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc2-final",
-    "Microsoft.AspNetCore.Http.Abstractions": "1.0.0-rc2-final"
-  },
-  "frameworks": {
-    "net451": {},
-    "netstandard1.3": {}
-  }
+    "buildOptions": {
+        "warningsAsErrors": true,
+        "nowarn": [
+            "CS1591"
+        ],
+        "xmlDoc": true
+    },
+    "dependencies": {
+        "Microsoft.Extensions.Options": "1.0.0-rc2-final",
+        "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc2-final",
+        "Microsoft.AspNetCore.Http.Abstractions": "1.0.0-rc2-final"
+    },
+    "frameworks": {
+        "net451": { },
+        "netstandard1.3": { }
+    }
 }
