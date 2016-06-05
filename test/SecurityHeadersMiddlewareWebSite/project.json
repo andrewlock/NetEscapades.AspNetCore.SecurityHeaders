@@ -4,7 +4,7 @@
   },
   "dependencies": {
     "NetEscapades.AspNetCore.SecurityHeaders": {
-        "version": "1.0.0-*",
+        "version": "0.1.0-*",
         "target": "project"
      },
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0-rc2-final",
