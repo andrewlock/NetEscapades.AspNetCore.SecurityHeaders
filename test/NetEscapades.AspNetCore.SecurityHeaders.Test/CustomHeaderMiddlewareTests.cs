@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,25 +7,23 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
-using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.Constants;
-using Moq;
 using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders
 {
-    public class SecurityHeadersMiddlewareTests
+    public class CustomHeaderMiddlewareTests
     {
         [Fact]
         public async Task HttpRequest_WithDefaultSecurityPolicy_SetsSecurityHeaders()
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddSecurityHeaders())
+                .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                            {
-                               app.UseSecurityHeadersMiddleware(
-                                   new SecurityHeadersPolicyBuilder()
-                                       .AddDefaultSecurePolicy());
+                               app.UseCustomHeadersMiddleware(
+                                   new HeaderPolicyCollection()
+                                       .AddDefaultSecurityHeaders());
                                app.Run(async context =>
                                              {
                                                  await context.Response.WriteAsync("Test response");
@@ -45,16 +41,16 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 response.EnsureSuccessStatusCode();
 
                 Assert.Equal("Test response", await response.Content.ReadAsStringAsync());
-                var header = response.Headers.GetValues(ContentTypeOptionsConstants.Header).FirstOrDefault();
-                Assert.Equal(header, ContentTypeOptionsConstants.NoSniff);
-                header = response.Headers.GetValues(FrameOptionsConstants.Header).FirstOrDefault();
-                Assert.Equal(header, FrameOptionsConstants.Deny);
-                header = response.Headers.GetValues(XssProtectionConstants.Header).FirstOrDefault();
-                Assert.Equal(header, XssProtectionConstants.Block);
+                var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
+                Assert.Equal(header, "nosniff");
+                header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
+                Assert.Equal(header, "DENY");
+                header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
+                Assert.Equal(header, "1; mode=block");
 
-                Assert.False(response.Headers.Contains(ServerConstants.Header), 
+                Assert.False(response.Headers.Contains("Server"),
                     "Should not contain server header");
-                Assert.False(response.Headers.Contains(StrictTransportSecurityConstants.Header), 
+                Assert.False(response.Headers.Contains("Strict-Transport-Security"),
                     "Should not contain Strict-Transport-Security header over http");
             }
         }
@@ -65,12 +61,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
             // Arrange
             var hostBuilder = new WebHostBuilder()
                 .UseUrls("https://localhost:5001")
-                .ConfigureServices(services => services.AddSecurityHeaders())
+                .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                            {
-                               app.UseSecurityHeadersMiddleware(
-                                   new SecurityHeadersPolicyBuilder()
-                                       .AddDefaultSecurePolicy());
+                               app.UseCustomHeadersMiddleware(
+                                   new HeaderPolicyCollection()
+                                       .AddDefaultSecurityHeaders());
                                app.Run(async context =>
                                              {
                                                  await context.Response.WriteAsync("Test response");
@@ -89,17 +85,16 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 response.EnsureSuccessStatusCode();
 
                 Assert.Equal("Test response", await response.Content.ReadAsStringAsync());
-                var header = response.Headers.GetValues(ContentTypeOptionsConstants.Header).FirstOrDefault();
-                Assert.Equal(header, ContentTypeOptionsConstants.NoSniff);
-                header = response.Headers.GetValues(FrameOptionsConstants.Header).FirstOrDefault();
-                Assert.Equal(header, FrameOptionsConstants.Deny);
-                header = response.Headers.GetValues(XssProtectionConstants.Header).FirstOrDefault();
-                Assert.Equal(header, XssProtectionConstants.Block);
-                header = response.Headers.GetValues(StrictTransportSecurityConstants.Header).FirstOrDefault();
-                Assert.Equal(header, string.Format(StrictTransportSecurityConstants.MaxAge,
-                    SecurityHeadersPolicyBuilder.OneYearInSeconds));
+                var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
+                Assert.Equal(header, "nosniff");
+                header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
+                Assert.Equal(header, "DENY");
+                header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
+                Assert.Equal(header, "1; mode=block");
+                header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
+                Assert.Equal(header, $"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
 
-                Assert.False(response.Headers.Contains(ServerConstants.Header),
+                Assert.False(response.Headers.Contains("Server"),
                     "Should not contain server header");
             }
         }

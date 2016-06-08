@@ -16,14 +16,14 @@ namespace SecurityHeadersMiddlewareWebSite
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSecurityHeaders();
+            services.AddCustomHeaders();
         }
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseSecurityHeadersMiddleware(
-                new SecurityHeadersPolicyBuilder()
-                    .AddDefaultSecurePolicy());
+            app.UseCustomHeadersMiddleware(
+                new HeaderPolicyCollection()
+                    .AddDefaultSecurityHeaders());
             app.UseMiddleware<EchoMiddleware>();
         }
 

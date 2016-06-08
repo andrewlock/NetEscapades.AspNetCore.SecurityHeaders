@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
     /// Provides programmatic configuration for Security Headers.
     /// </summary>
-    public class SecurityHeadersOptions
+    public class CustomHeaderOptions
     {
         private string _defaultPolicyName = "__DefaultSecurityHeadersPolicy";
 
-        public Dictionary<string, SecurityHeadersPolicy> Policies { get; } =
-            new Dictionary<string, SecurityHeadersPolicy>();
+        public Dictionary<string, HeaderPolicyCollection> PolicyCollections { get; } =
+            new Dictionary<string, HeaderPolicyCollection>();
 
         public string DefaultPolicyName
         {
@@ -35,15 +34,15 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// Gets the policy based on the <paramref name="name"/>
         /// </summary>
         /// <param name="name">The name of the policy to lookup.</param>
-        /// <returns>The <see cref="SecurityHeadersPolicy"/> if the policy was added.<c>null</c> otherwise.</returns>
-        public SecurityHeadersPolicy GetPolicy(string name)
+        /// <returns>The <see cref="HeaderPolicyCollection"/> if the policy was added.<c>null</c> otherwise.</returns>
+        public HeaderPolicyCollection GetPolicy(string name)
         {
             if (name == null)
             {
                 throw new ArgumentNullException(nameof(name));
             }
 
-            return Policies.ContainsKey(name) ? Policies[name] : null;
+            return PolicyCollections.ContainsKey(name) ? PolicyCollections[name] : null;
         }
     }
 }
