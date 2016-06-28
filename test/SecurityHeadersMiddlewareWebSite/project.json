@@ -4,18 +4,18 @@
   },
   "dependencies": {
     "NetEscapades.AspNetCore.SecurityHeaders": {
-        "version": "0.1.0-*",
+        "version": "0.1.0",
         "target": "project"
      },
-    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0-rc2-final",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
   },
   "frameworks": {
     "net451": {},
     "netcoreapp1.0": {
       "dependencies": {
         "Microsoft.NETCore.App": {
-          "version": "1.0.0-rc2-3002702",
+          "version": "1.0.0",
           "type": "platform"
         }
       },
@@ -31,7 +31,7 @@
   },
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
-      "version": "1.0.0-preview1-final",
+      "version": "1.0.0-preview2-final",
       "imports": "portable-net45+wp80+win8+wpa81+dnxcore50"
     }
   },
