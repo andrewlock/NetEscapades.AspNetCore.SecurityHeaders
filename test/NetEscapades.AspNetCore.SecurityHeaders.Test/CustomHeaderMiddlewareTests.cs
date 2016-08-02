@@ -98,5 +98,38 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                     "Should not contain server header");
             }
         }
+
+        [Fact]
+        public async Task HttpRequest_WithCustomHeaderPolicy_SetsCustomHeader()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .ConfigureServices(services => services.AddCustomHeaders())
+                .Configure(app =>
+                           {
+                               app.UseCustomHeadersMiddleware(
+                                   new HeaderPolicyCollection()
+                                       .AddCustomHeader("X-My-Test-Header", "Header value"));
+                               app.Run(async context =>
+                                             {
+                                                 await context.Response.WriteAsync("Test response");
+                                             });
+                           });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                Assert.Equal("Test response", await response.Content.ReadAsStringAsync());
+                var header = response.Headers.GetValues("X-My-Test-Header").FirstOrDefault();
+                Assert.Equal(header, "Header value");
+            }
+        }
     }
 }
