@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
-    /// An ASP.NET middleware for adding security headers.
+    /// An ASP.NET Core middleware for adding security headers.
     /// </summary>
     public class CustomHeadersMiddleware
     {

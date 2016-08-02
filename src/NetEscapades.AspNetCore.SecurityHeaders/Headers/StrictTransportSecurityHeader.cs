@@ -6,7 +6,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// The header value to use for Strict-Transport-Security
     /// </summary>
     public class StrictTransportSecurityHeader : HeaderPolicyBase
-    {
+    {        
+        /// <inheritdoc />
         public StrictTransportSecurityHeader(string value) : base(value)
         {
         }
@@ -48,6 +49,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             return new StrictTransportSecurityHeader($"max-age=0");
         }
 
+        /// <inheritdoc />
         protected override void EvaluateHttpRequest(HttpContext context, CustomHeadersResult result)
         {
             return;

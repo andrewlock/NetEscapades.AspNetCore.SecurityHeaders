@@ -1,5 +1,8 @@
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
+    /// <summary>
+    /// Extension methods for adding a <see cref="XContentTypeOptionsHeader" /> to a <see cref="HeaderPolicyCollection" />
+    /// </summary>
     public static class XContentTypeOptionsHeaderExtensions
     {
         /// <summary>

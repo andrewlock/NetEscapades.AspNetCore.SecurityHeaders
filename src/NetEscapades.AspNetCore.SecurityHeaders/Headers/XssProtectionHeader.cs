@@ -5,6 +5,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// </summary>
     public class XssProtectionHeader : HeaderPolicyBase
     {
+        /// <inheritdoc />
         public XssProtectionHeader(string value) : base(value)
         {
             Value = value;

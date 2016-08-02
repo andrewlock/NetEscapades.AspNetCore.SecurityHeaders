@@ -5,6 +5,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// </summary>
     public class XFrameOptionsHeader : HeaderPolicyBase
     {
+        /// <inheritdoc />
         public XFrameOptionsHeader(string value) : base(value)
         {
             Value = value;

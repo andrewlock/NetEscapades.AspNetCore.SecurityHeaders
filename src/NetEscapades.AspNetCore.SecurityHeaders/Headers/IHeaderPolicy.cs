@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
+    /// <summary>
+    /// An interface that defines a custom header
+    /// </summary>
     public interface IHeaderPolicy
     {
         /// <summary>

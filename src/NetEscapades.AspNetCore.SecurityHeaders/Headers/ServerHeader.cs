@@ -7,6 +7,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// </summary>
     public class ServerHeader : HeaderPolicyBase
     {
+
+        /// <inheritdoc />
         public ServerHeader(string value) : base(value)
         {
             Value = value;
@@ -24,11 +26,13 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             return new ServerHeader(null);
         }
 
+        /// <inheritdoc />
         protected override void EvaluateHttpRequest(HttpContext context, CustomHeadersResult result)
         {
             EvaluateRequest(context, result);
         }
 
+        /// <inheritdoc />
         protected override void EvaluateHttpsRequest(HttpContext context, CustomHeadersResult result)
         {
             EvaluateRequest(context, result);

@@ -5,6 +5,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// </summary>
     public class XContentTypeOptionsHeader : HeaderPolicyBase
     {
+        /// <inheritdoc />
         public XContentTypeOptionsHeader(string value) : base(value)
         {
             Value = value;

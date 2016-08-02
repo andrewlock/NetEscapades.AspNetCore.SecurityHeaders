@@ -10,9 +10,17 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     {
         private string _defaultPolicyName = "__DefaultSecurityHeadersPolicy";
 
+        /// <summary>
+        /// The collections of policies to apply
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, HeaderPolicyCollection> PolicyCollections { get; } =
             new Dictionary<string, HeaderPolicyCollection>();
 
+        /// <summary>
+        /// The name of the default policy
+        /// </summary>
+        /// <returns></returns>
         public string DefaultPolicyName
         {
             get
