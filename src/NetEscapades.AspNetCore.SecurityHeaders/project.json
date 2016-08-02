@@ -1,9 +1,9 @@
 ﻿{
-    "version": "0.1.0-beta-*",
+    "version": "0.1.0",
     "packOptions": {
         "owners": [ "Andrew Lock" ],
         "licenseUrl": "https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/blob/master/LICENSE",
-        "projectUrl": "https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/blob/master/LICENSE",
+        "projectUrl": "https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders",
         "repository": {
             "type": "git",
             "url": "https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders"
@@ -26,9 +26,9 @@
         "xmlDoc": true
     },
     "dependencies": {
-        "Microsoft.Extensions.Options": "1.0.0-rc2-final",
-        "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc2-final",
-        "Microsoft.AspNetCore.Http.Abstractions": "1.0.0-rc2-final"
+        "Microsoft.Extensions.Options": "1.0.0",
+        "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
+        "Microsoft.AspNetCore.Http.Abstractions": "1.0.0"
     },
     "frameworks": {
         "net451": { },

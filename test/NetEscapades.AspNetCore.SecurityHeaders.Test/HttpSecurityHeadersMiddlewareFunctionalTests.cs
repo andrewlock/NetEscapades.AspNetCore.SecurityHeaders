@@ -1,10 +1,8 @@
-using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
-using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.Constants;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
@@ -36,16 +34,16 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             var content = await response.Content.ReadAsStringAsync();
             Assert.Equal(path, content);
             var responseHeaders = response.Headers;
-            var header = Assert.Single(responseHeaders, x => x.Key == ContentTypeOptionsConstants.Header);
-            Assert.Equal(new[] {ContentTypeOptionsConstants.NoSniff}, header.Value.ToArray());
-            header = Assert.Single(responseHeaders, x => x.Key == FrameOptionsConstants.Header);
-            Assert.Equal(new[] { FrameOptionsConstants.Deny}, header.Value.ToArray());
-            header = Assert.Single(responseHeaders, x => x.Key == XssProtectionConstants.Header);
-            Assert.Equal(new[] { XssProtectionConstants.Block }, header.Value.ToArray());
+            var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
+            Assert.Equal(header, "nosniff");
+            header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
+            Assert.Equal(header, "DENY");
+            header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
+            Assert.Equal(header, "1; mode=block");
 
             //http so no Strict transport
-            Assert.DoesNotContain(responseHeaders, x => x.Key == StrictTransportSecurityConstants.Header);
-            Assert.DoesNotContain(responseHeaders, x => x.Key == ServerConstants.Header);
+            Assert.DoesNotContain(responseHeaders, x => x.Key == "Strict-Transport-Security");
+            Assert.DoesNotContain(responseHeaders, x => x.Key == "Server");
         }
     }
 }

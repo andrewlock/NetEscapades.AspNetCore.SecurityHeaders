@@ -1,15 +1,14 @@
-using System;
-using Xunit;
+﻿using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
-    public class SecurityHeadersPolicyTests
+    public class CustomHeadersResultTests
     {
         [Fact]
         public void Default_Constructor()
         {
             // Arrange & Act
-            var result = new SecurityHeadersResult();
+            var result = new CustomHeadersResult();
 
             Assert.Empty(result.SetHeaders);
             Assert.Empty(result.RemoveHeaders);

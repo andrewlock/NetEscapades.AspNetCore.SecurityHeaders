@@ -1,30 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
-    /// An ASP.NET middleware for adding security headers.
+    /// An ASP.NET Core middleware for adding security headers.
     /// </summary>
-    public class SecurityHeadersMiddleware
+    public class CustomHeadersMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly SecurityHeadersPolicy _policy;
-        private readonly ISecurityHeadersService _service;
-        private readonly ISecurityHeadersPolicyProvider _policyProvider;
+        private readonly HeaderPolicyCollection _policy;
+        private readonly ICustomHeaderService _service;
+        private readonly ICustomHeaderPolicyProvider _policyProvider;
         private readonly string _policyName;
 
         /// <summary>
-        /// Instantiates a new <see cref="SecurityHeadersMiddleware"/>.
+        /// Instantiates a new <see cref="CustomHeadersMiddleware"/>.
         /// </summary>
         /// <param name="next">The next middleware in the pipeline.</param>
-        /// <param name="service">An instance of <see cref="ISecurityHeadersService"/>.</param>
-        /// <param name="policyProvider">A policy provider which can get an <see cref="SecurityHeadersPolicy"/>.</param>
+        /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
+        /// <param name="policyProvider">A policy provider which can get a <see cref="HeaderPolicyCollection"/>.</param>
         /// <param name="policyName">An optional name of the policy to be fetched..</param>
-        public SecurityHeadersMiddleware(RequestDelegate next, ISecurityHeadersService service, ISecurityHeadersPolicyProvider policyProvider, string policyName)
+        public CustomHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, ICustomHeaderPolicyProvider policyProvider, string policyName)
         {
             if (next == null)
             {
@@ -48,12 +46,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         }
 
         /// <summary>
-        /// Instantiates a new <see cref="SecurityHeadersMiddleware"/>.
+        /// Instantiates a new <see cref="CustomHeadersMiddleware"/>.
         /// </summary>
         /// <param name="next">The next middleware in the pipeline.</param>
-        /// <param name="service">An instance of <see cref="ISecurityHeadersService"/>.</param>
-        /// <param name="policy">An instance of the <see cref="SecurityHeadersPolicy"/> which can be applied.</param>
-        public SecurityHeadersMiddleware(RequestDelegate next, ISecurityHeadersService service, SecurityHeadersPolicy policy)
+        /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
+        /// <param name="policy">A <see cref="HeaderPolicyCollection"/> containing the policies to be applied.</param>
+        public CustomHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policy)
         {
             if (next == null)
             {

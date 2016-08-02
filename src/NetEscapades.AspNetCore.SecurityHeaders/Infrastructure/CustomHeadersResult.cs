@@ -3,9 +3,9 @@
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
-    /// Results returned by <see cref="ISecurityHeadersService"/> 
+    /// Results returned by <see cref="ICustomHeaderService"/> 
     /// </summary>
-    public class SecurityHeadersResult
+    public class CustomHeadersResult
     {
         /// <summary>
         /// A dictionary of Header, Value pairs that should be added to the request
