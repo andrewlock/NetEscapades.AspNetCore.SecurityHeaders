@@ -23,7 +23,7 @@ When you install the package, it should be added to your `package.json`. Alterna
 ```json
 {
   "dependencies" : {
-    "Install-Package NetEscapades.AspNetCore.SecurityHeaders": "0.1.0"
+    "NetEscapades.AspNetCore.SecurityHeaders": "0.1.0"
   }
 }
 ```
