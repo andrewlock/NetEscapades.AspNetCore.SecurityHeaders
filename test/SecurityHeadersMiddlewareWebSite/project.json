@@ -4,11 +4,11 @@
   },
   "dependencies": {
     "NetEscapades.AspNetCore.SecurityHeaders": {
-        "version": "0.1.0",
+        "version": "0.1.1",
         "target": "project"
      },
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0"
   },
   "frameworks": {
     "net451": {},

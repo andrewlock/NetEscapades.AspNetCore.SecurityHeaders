@@ -1,8 +1,8 @@
 ﻿{
-    "version": "0.1.0",
+    "version": "0.1.1",
     "packOptions": {
         "owners": [ "Andrew Lock" ],
-        "licenseUrl": "https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/blob/master/LICENSE",
+        "licenseUrl": "https://raw.githubusercontent.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/master/LICENSE",
         "projectUrl": "https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders",
         "repository": {
             "type": "git",
