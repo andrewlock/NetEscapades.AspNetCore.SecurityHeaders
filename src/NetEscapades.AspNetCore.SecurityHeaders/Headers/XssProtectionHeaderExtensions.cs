@@ -1,4 +1,6 @@
-namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
+
+namespace NetEscapades.AspNetCore.SecurityHeaders
 {
     /// <summary>
     /// Extension methods for adding a <see cref="XssProtectionHeader" /> to a <see cref="HeaderPolicyCollection" />
