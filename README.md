@@ -73,6 +73,20 @@ public void Configure(IApplicationBuilder app)
 }
 ```
 
+##RemoveServerHeader
+
+One point to be aware of is that the `RemoveServerHeader` method will rarely (ever?) be sufficient to remove the `Server` header from your output. If any subsequent middleware in your application pipeline add the header, then this will be able to remove it. However Kestrel will generally add the `Server` header too late in the pipeline to be able to modify it. 
+
+Luckily, Kestrel exposes it's own mechanism to allow you to prevent it being added:
+
+```csharp
+var host = new WebHostBuilder()
+    .UseKestrel(options => options.AddServerHeader = false)
+    //...
+```
+
+In `Program.cs`, when constructing your app's `WebHostBuilder`, configure the `KestrelServerOptions` to prevent the `Server` tag being added.
+
 ## Additional Resources
 * [ASP.NET Core Middleware Docs](https://docs.asp.net/en/latest/fundamentals/middleware.html)
 * [How to add default security headers in ASP.NET Core using custom middleware](http://andrewlock.net/adding-default-security-headers-in-asp-net-core/)
