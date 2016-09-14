@@ -1,5 +1,5 @@
 ﻿{
-    "version": "0.1.1",
+    "version": "0.2.1",
     "packOptions": {
         "owners": [ "Andrew Lock" ],
         "licenseUrl": "https://raw.githubusercontent.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/master/LICENSE",
