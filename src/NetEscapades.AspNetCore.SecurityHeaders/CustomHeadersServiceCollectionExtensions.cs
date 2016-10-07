@@ -23,8 +23,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddOptions();
 
-            services.TryAdd(ServiceDescriptor.Transient<ICustomHeaderService, CustomHeaderService>());
-            services.TryAdd(ServiceDescriptor.Transient<ICustomHeaderPolicyProvider, DefaultCustomHeaderPolicyProvider>());
+            services.TryAdd(ServiceDescriptor.Singleton<ICustomHeaderService, CustomHeaderService>());
+            services.TryAdd(ServiceDescriptor.Singleton<ICustomHeaderPolicyProvider, DefaultCustomHeaderPolicyProvider>());
 
             return services;
         }
