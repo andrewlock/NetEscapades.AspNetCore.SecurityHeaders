@@ -12,15 +12,15 @@
             "version": "1.0.0",
             "target": "project"
         },
-        "Microsoft.AspNetCore.TestHost": "1.0.0",
-        "xunit": "2.2.0-beta2-build3300"
+        "Microsoft.AspNetCore.TestHost": "1.1.0",
+        "xunit": "2.2.0-beta4-build3444"
     },
     "testRunner": "xunit",
     "frameworks": {
         "netcoreapp1.0": {
             "dependencies": {
                 "Microsoft.NETCore.App": {
-                    "version": "1.0.0",
+                    "version": "1.1.0",
                     "type": "platform"
                 },
                 "System.Diagnostics.Process": "4.1.0-*",
