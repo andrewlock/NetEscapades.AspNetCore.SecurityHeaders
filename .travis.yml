@@ -22,7 +22,6 @@ dotnet: 1.0.0-preview2-003156
 mono: latest
 env:
   - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
-  - DOTNET_CLI_TELEMETRY_OPTOUT=true
 branches:
   only:
     - master
