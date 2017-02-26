@@ -4,6 +4,9 @@ pull_requests:
 branches:
   only:
   - master
+environment:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
 nuget:
   disable_publish_on_pr: true
 build_script:
