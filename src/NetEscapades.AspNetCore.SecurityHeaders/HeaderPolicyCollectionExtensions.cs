@@ -3,7 +3,7 @@ using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 namespace NetEscapades.AspNetCore.SecurityHeaders
 {
     /// <summary>
-    /// Utility class exposing common extension methods used only internally
+    /// Utility class exposing common extension methods
     /// </summary>
     public static class HeaderPolicyCollectionExtensions
     {
@@ -30,6 +30,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
             policies.AddXssProtectionBlock();
             policies.AddContentTypeOptionsNoSniff();
             policies.AddStrictTransportSecurityMaxAge();
+            policies.AddReferrerPolicyStrictOriginWhenCrossOrigin();
             policies.RemoveServerHeader();
             return policies;
         }
