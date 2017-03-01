@@ -23,7 +23,7 @@ When you install the package, it should be added to your `package.json`. Alterna
 ```json
 {
   "dependencies" : {
-    "NetEscapades.AspNetCore.SecurityHeaders": "0.1.0"
+    "NetEscapades.AspNetCore.SecurityHeaders": "0.3.0"
   }
 }
 ```
@@ -49,6 +49,7 @@ public void Configure(IApplicationBuilder app)
         .AddXssProtectionBlock()
         .AddContentTypeOptionsNoSniff()
         .AddStrictTransportSecurityMaxAge(maxAge = 60 * 60 * 24 * 365) // maxage = one year in seconds
+        .AddReferrerPolicyStrictOriginWhenCrossOrigin();
         .RemoveServerHeader()
         .AddCustomHeader("X-My-Test-Header", "Header value");
     
