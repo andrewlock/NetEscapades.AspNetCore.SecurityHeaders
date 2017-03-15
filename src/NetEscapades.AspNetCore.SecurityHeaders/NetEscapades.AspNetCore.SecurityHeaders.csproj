@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Security header middleware and for ASP.NET Core to automatically add security headers to requests.</Description>
+    <VersionPrefix>0.3.0</VersionPrefix>
+    <Authors>Andrew Lock</Authors>
+    <TargetFrameworks>net451;netstandard1.3</TargetFrameworks>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>NetEscapades.AspNetCore.SecurityHeaders</AssemblyName>
+    <PackageId>NetEscapades.AspNetCore.SecurityHeaders</PackageId>
+    <PackageTags>aspnetcore;headers;ASP.NET MVC</PackageTags>
+    <PackageProjectUrl>https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders</RepositoryUrl>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Options" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+</Project>
