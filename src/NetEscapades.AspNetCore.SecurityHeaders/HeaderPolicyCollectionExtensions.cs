@@ -30,7 +30,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
             policies.AddXssProtectionBlock();
             policies.AddContentTypeOptionsNoSniff();
             policies.AddStrictTransportSecurityMaxAge();
-            policies.AddReferrerPolicyStrictOriginWhenCrossOrigin();
+            policies.AddReferrerPolicyOriginWhenCrossOrigin();
             policies.RemoveServerHeader();
             return policies;
         }
