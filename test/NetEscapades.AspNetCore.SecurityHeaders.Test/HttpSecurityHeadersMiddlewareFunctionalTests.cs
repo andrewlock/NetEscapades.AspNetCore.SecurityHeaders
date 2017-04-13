@@ -41,7 +41,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
             Assert.Equal(header, "1; mode=block");
             header = response.Headers.GetValues("Referrer-Policy").FirstOrDefault();
-            Assert.Equal(header, "strict-origin-when-cross-origin");
+            Assert.Equal(header, "origin-when-cross-origin");
 
             //http so no Strict transport
             Assert.DoesNotContain(responseHeaders, x => x.Key == "Strict-Transport-Security");
