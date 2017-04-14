@@ -17,9 +17,9 @@ addons:
 # .NET CLI requires OSX 10.11
 osx_image: xcode7.2
 # Ensure that .NET Core is installed
-dotnet: 1.0.0
-# Ensure Mono is installed
-mono: latest
+dotnet: 1.0.1
+# Drop mono support
+mono: nono
 env:
   - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 branches:
