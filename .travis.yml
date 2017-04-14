@@ -15,11 +15,12 @@ addons:
     - libunwind8
     - zlib1g
 # .NET CLI requires OSX 10.11
-osx_image: xcode7.2
+osx_image: xcode7.3
 # Ensure that .NET Core is installed
 dotnet: 1.0.1
 # Ensure Mono is installed
-mono: latest
+mono: 
+  - 4.8.0
 env:
   - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
   - DOTNET_CLI_TELEMETRY_OPTOUT=true
