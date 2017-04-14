@@ -1,7 +1,7 @@
 # NetEscapades.AspNetCore.SecurityHeaders
 
 [![Build status](https://ci.appveyor.com/api/projects/status/q261l3sbokafmx1o/branch/develop?svg=true)](https://ci.appveyor.com/project/andrewlock/netescapades-aspnetcore-securityheaders/branch/master)
-[![Travis](https://img.shields.io/travis/andrewlock/NetEscapades.AspNetCore.SecurityHeaders.svg?maxAge=3600&label=travis)](https://travis-ci.org/andrewlock/NetEscapades.AspNetCore.SecurityHeaders)
+<!--[![Travis](https://img.shields.io/travis/andrewlock/NetEscapades.AspNetCore.SecurityHeaders.svg?maxAge=3600&label=travis)](https://travis-ci.org/andrewlock/NetEscapades.AspNetCore.SecurityHeaders)-->
 [![NuGet](https://img.shields.io/nuget/v/NetEscapades.AspNetCore.SecurityHeaders.svg)](https://www.nuget.org/packages/NetEscapades.AspNetCore.SecurityHeaders/)
 [![MyGet CI](https://img.shields.io/myget/andrewlock-ci/v/NetEscapades.AspNetCore.SecurityHeaders.svg)](http://myget.org/gallery/acndrewlock-ci)
 
@@ -15,7 +15,7 @@ Install using the [NetEscapades.AspNetCore.SecurityHeaders NuGet package](https:
 PM> Install-Package NetEscapades.AspNetCore.SecurityHeaders -Pre
 ```
 
-##Usage 
+## Usage 
 
 When you install the package, it should be added to your `package.json`. Alternatively, you can add it directly by adding:
 
@@ -74,7 +74,7 @@ public void Configure(IApplicationBuilder app)
 }
 ```
 
-##RemoveServerHeader
+## RemoveServerHeader
 
 One point to be aware of is that the `RemoveServerHeader` method will rarely (ever?) be sufficient to remove the `Server` header from your output. If any subsequent middleware in your application pipeline add the header, then this will be able to remove it. However Kestrel will generally add the `Server` header too late in the pipeline to be able to modify it. 
 
@@ -91,3 +91,7 @@ In `Program.cs`, when constructing your app's `WebHostBuilder`, configure the `K
 ## Additional Resources
 * [ASP.NET Core Middleware Docs](https://docs.asp.net/en/latest/fundamentals/middleware.html)
 * [How to add default security headers in ASP.NET Core using custom middleware](http://andrewlock.net/adding-default-security-headers-in-asp-net-core/)
+
+> Note, Building on Travis is currently disabled, due to issues with the mono framework. For details, see
+> * http://stackoverflow.com/questions/42747722/building-vs-2017-msbuild-csproj-projects-with-mono-on-linux/42861338
+> * https://github.com/dotnet/sdk/issues/335
