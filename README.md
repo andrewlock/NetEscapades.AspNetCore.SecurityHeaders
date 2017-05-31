@@ -48,8 +48,8 @@ public void Configure(IApplicationBuilder app)
         .AddFrameOptionsDeny()
         .AddXssProtectionBlock()
         .AddContentTypeOptionsNoSniff()
-        .AddStrictTransportSecurityMaxAge(maxAge = 60 * 60 * 24 * 365) // maxage = one year in seconds
-        .AddReferrerPolicyOriginWhenCrossOrigin();
+        .AddStrictTransportSecurityMaxAge(maxAge: 60 * 60 * 24 * 365) // maxage = one year in seconds
+        .AddReferrerPolicyOriginWhenCrossOrigin()
         .RemoveServerHeader()
         .AddCustomHeader("X-My-Test-Header", "Header value");
     
