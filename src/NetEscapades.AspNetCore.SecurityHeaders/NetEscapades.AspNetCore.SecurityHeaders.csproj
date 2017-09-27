@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>Security header middleware and for ASP.NET Core to automatically add security headers to requests.</Description>
-    <VersionPrefix>0.3.1</VersionPrefix>
+    <VersionPrefix>0.4.1</VersionPrefix>
     <Authors>Andrew Lock</Authors>
     <TargetFrameworks>net451;netstandard1.3;netstandard2.0</TargetFrameworks>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
