@@ -9,23 +9,29 @@ A small package to allow adding security headers to ASP.NET Core websites
 
 ## Installing 
 
-Install using the [NetEscapades.AspNetCore.SecurityHeaders NuGet package](https://www.nuget.org/packages/NetEscapades.AspNetCore.SecurityHeaders) (currently in beta):
+Install using the [NetEscapades.AspNetCore.SecurityHeaders NuGet package](https://www.nuget.org/packages/NetEscapades.AspNetCore.SecurityHeaders):
 
 ```
-PM> Install-Package NetEscapades.AspNetCore.SecurityHeaders -Pre
+PM> Install-Package NetEscapades.AspNetCore.SecurityHeaders
 ```
 
 ## Usage 
 
-When you install the package, it should be added to your `package.json`. Alternatively, you can add it directly by adding:
+When you install the package, it should be added to your `.csproj`. Alternatively, you can add it directly by adding:
 
 
-```json
-{
-  "dependencies" : {
-    "NetEscapades.AspNetCore.SecurityHeaders": "0.3.1"
-  }
-}
+```xml
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.4.1" />
+  </ItemGroup>
+  
+</Project>
 ```
 
 In order to use the CustomHeader middleware, you must configure the services in the `ConfigureServices` call of `Startup`: 
