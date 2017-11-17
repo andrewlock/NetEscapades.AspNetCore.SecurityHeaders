@@ -32,6 +32,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
             policies.AddStrictTransportSecurityMaxAge();
             policies.AddReferrerPolicyOriginWhenCrossOrigin();
             policies.RemoveServerHeader();
+            policies.AddContentSecurityPolicy(builder =>
+            {
+                builder.AddObjectSrc().None();
+                builder.AddFormAction().Self();
+                builder.AddFrameAncestors().None();
+            });
             return policies;
         }
     }

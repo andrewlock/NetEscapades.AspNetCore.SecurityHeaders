@@ -17,3 +17,4 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("99ae9045-0537-4724-b49b-3a463e24f743")]
+[assembly: InternalsVisibleTo("NetEscapades.AspNetCore.SecurityHeaders.Test")]

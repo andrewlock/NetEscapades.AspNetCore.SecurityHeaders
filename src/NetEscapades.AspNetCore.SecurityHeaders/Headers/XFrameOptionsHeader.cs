@@ -32,5 +32,4 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             return new XFrameOptionsHeader($"ALLOW-FROM {uri}");
         }
     }
-
 }
