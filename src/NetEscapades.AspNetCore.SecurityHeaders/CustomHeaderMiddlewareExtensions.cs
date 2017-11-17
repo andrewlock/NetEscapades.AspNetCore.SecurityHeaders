@@ -45,5 +45,25 @@ namespace Microsoft.AspNetCore.Builder
 
             return app.UseMiddleware<CustomHeadersMiddleware>(policies);
         }
+
+        /// <summary>
+        /// Adds middleware to your web application pipeline to automatically add security headers to requests
+        /// 
+        /// Adds a policy collection configured using the default security headers, as in <see cref="HeaderPolicyCollectionExtensions.AddDefaultSecurityHeaders"/>
+        /// </summary>
+        /// <param name="app">The IApplicationBuilder passed to your Configure method.</param>
+        /// <returns>The original app parameter</returns>
+        public static IApplicationBuilder UseCustomHeadersMiddleware(this IApplicationBuilder app)
+        {
+            if (app == null)
+            {
+                throw new ArgumentNullException(nameof(app));
+            }
+
+            var policies = new HeaderPolicyCollection()
+                .AddDefaultSecurityHeaders();
+
+            return app.UseMiddleware<CustomHeadersMiddleware>(policies);
+        }
     }
 }
