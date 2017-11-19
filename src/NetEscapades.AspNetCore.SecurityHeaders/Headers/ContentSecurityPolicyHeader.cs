@@ -1,11 +1,12 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
     /// The header value to use for Content-SecurityHeader
     /// </summary>
-    public class ContentSecurityPolicyHeader : HeaderPolicyBase
+    public class ContentSecurityPolicyHeader : HtmlOnlyHeaderPolicyBase
     {
         /// <summary>
         /// Create a new policy

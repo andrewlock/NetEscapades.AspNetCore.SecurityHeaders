@@ -3,7 +3,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// <summary>
     /// The header value to use for X-Frame-Options
     /// </summary>
-    public class XFrameOptionsHeader : HeaderPolicyBase
+    public class XFrameOptionsHeader : HtmlOnlyHeaderPolicyBase
     {
         /// <inheritdoc />
         public XFrameOptionsHeader(string value) : base(value)

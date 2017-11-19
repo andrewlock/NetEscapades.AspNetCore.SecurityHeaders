@@ -27,7 +27,7 @@ namespace SecurityHeadersMiddlewareWebSite
                 throw new ArgumentNullException(nameof(context));
             }
 
-            context.Response.ContentType = "text/plain; charset=utf-8";
+            context.Response.ContentType = "text/html; charset=utf-8";
             var path = context.Request.PathBase + context.Request.Path + context.Request.QueryString;
             return context.Response.WriteAsync(path, Encoding.UTF8);
         }
