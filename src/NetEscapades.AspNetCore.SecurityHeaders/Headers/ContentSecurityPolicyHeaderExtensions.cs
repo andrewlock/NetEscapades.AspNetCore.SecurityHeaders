@@ -13,9 +13,10 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// </summary>
         /// <param name="policies">The collection of policies</param>
         /// <param name="configure">Configure the CSP</param>
-        public static HeaderPolicyCollection AddContentSecurityPolicy(this HeaderPolicyCollection policies, Action<CspBuilder> configure)
+        /// <param name="asReportOnly">If true, the CSP header is addded as "Content-Security-Policy-Report-Only". If false, it's set to "Content-Security-Policy";</param>
+        public static HeaderPolicyCollection AddContentSecurityPolicy(this HeaderPolicyCollection policies, Action<CspBuilder> configure, bool asReportOnly = false)
         {
-            return policies.ApplyPolicy(ContentSecurityPolicyHeader.Build(configure));
+            return policies.ApplyPolicy(ContentSecurityPolicyHeader.Build(configure, asReportOnly));
         }
     }
 }

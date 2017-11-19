@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -164,5 +165,83 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 Assert.Empty(response.Headers);
             }
         }
+
+        [Fact]
+        public async Task HttpRequest_WithCspHeader_SetsCsp()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .ConfigureServices(services => services.AddCustomHeaders())
+                .Configure(app =>
+                {
+                    app.UseCustomHeadersMiddleware(
+                        new HeaderPolicyCollection()
+                            .AddContentSecurityPolicy(builder =>
+                            {
+                                builder.AddDefaultSrc().Self();
+                                builder.AddObjectSrc().None();
+                            }));
+                    app.Run(async context =>
+                    {
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("default-src 'self'; object-src 'none'");
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCspHeaderUsingReportOnly_SetsCspReportOnly()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .ConfigureServices(services => services.AddCustomHeaders())
+                .Configure(app =>
+                {
+                    app.UseCustomHeadersMiddleware(
+                        new HeaderPolicyCollection()
+                            .AddContentSecurityPolicy(builder =>
+                            {
+                                builder.AddDefaultSrc().Self();
+                                builder.AddObjectSrc().None();
+                            }, asReportOnly: true));
+                    app.Run(async context =>
+                    {
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Content-Security-Policy-Report-Only").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("default-src 'self'; object-src 'none'");
+                response.Headers.Contains("Content-Security-Policy").Should().BeFalse();
+            }
+        }
+
     }
 }
