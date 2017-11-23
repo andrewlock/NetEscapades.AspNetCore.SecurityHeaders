@@ -19,7 +19,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddSecurityHeaders())
                 .Configure(app =>
                            {
                                app.UseSecurityHeaders(
@@ -63,7 +62,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
             // Arrange
             var hostBuilder = new WebHostBuilder()
                 .UseUrls("https://localhost:5001")
-                .ConfigureServices(services => services.AddSecurityHeaders())
                 .Configure(app =>
                            {
                                app.UseSecurityHeaders(
@@ -107,7 +105,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddSecurityHeaders())
                 .Configure(app =>
                            {
                                app.UseSecurityHeaders(
@@ -140,7 +137,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddSecurityHeaders())
                 .Configure(app =>
                            {
                                app.UseSecurityHeaders(
@@ -173,7 +169,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddSecurityHeaders())
                 .Configure(app =>
                 {
                     app.UseSecurityHeaders(
@@ -212,7 +207,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddSecurityHeaders())
                 .Configure(app =>
                 {
                     app.UseSecurityHeaders(
@@ -252,7 +246,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddSecurityHeaders())
                 .Configure(app =>
                 {
                     app.UseSecurityHeaders(
@@ -292,7 +285,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddSecurityHeaders())
                 .Configure(app =>
                 {
                     app.UseSecurityHeaders(
@@ -329,7 +321,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddSecurityHeaders())
                 .Configure(app =>
                 {
                     app.UseSecurityHeaders(

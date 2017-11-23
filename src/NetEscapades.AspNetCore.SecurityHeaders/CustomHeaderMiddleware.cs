@@ -7,6 +7,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// <summary>
     /// An ASP.NET Core middleware for adding security headers.
     /// </summary>
+    [Obsolete("This class is obsolete, use SecurityHeadersMiddleware instead")]
     public class CustomHeadersMiddleware
     {
         private readonly RequestDelegate _next;

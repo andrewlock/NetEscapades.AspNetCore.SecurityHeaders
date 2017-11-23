@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
@@ -6,6 +7,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// <summary>
     /// A type which can provide a <see cref="HeaderPolicyCollection"/> for a particular <see cref="HttpContext"/>.
     /// </summary>
+    [Obsolete("This interface is obsolete, and will be removed in a future version of the package")]
     public interface ICustomHeaderPolicyProvider
     {
         /// <summary>
