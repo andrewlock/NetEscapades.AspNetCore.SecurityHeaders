@@ -16,7 +16,7 @@ namespace SecurityHeadersMiddlewareWebSite
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCustomHeaders();
+            services.AddSecurityHeaders();
         }
 
         public void Configure(IApplicationBuilder app)

@@ -18,12 +18,7 @@ namespace Microsoft.AspNetCore.Builder
         [Obsolete("This method has been renamed to UseSecurityHeaders")]
         public static IApplicationBuilder UseCustomHeadersMiddleware(this IApplicationBuilder app, string policyName)
         {
-            if (app == null)
-            {
-                throw new ArgumentNullException(nameof(app));
-            }
-
-            return app.UseMiddleware<CustomHeadersMiddleware>(policyName);
+            return app.UseSecurityHeaders(policyName);
         }
 
         /// <summary>
@@ -35,17 +30,7 @@ namespace Microsoft.AspNetCore.Builder
         [Obsolete("This method has been renamed to UseSecurityHeaders")]
         public static IApplicationBuilder UseCustomHeadersMiddleware(this IApplicationBuilder app, HeaderPolicyCollection policies)
         {
-            if (app == null)
-            {
-                throw new ArgumentNullException(nameof(app));
-            }
-
-            if (policies == null)
-            {
-                throw new ArgumentNullException(nameof(policies));
-            }
-
-            return app.UseMiddleware<CustomHeadersMiddleware>(policies);
+            return app.UseSecurityHeaders(policies);
         }
 
         /// <summary>
@@ -58,15 +43,7 @@ namespace Microsoft.AspNetCore.Builder
         [Obsolete("This method has been renamed to UseSecurityHeaders")]
         public static IApplicationBuilder UseCustomHeadersMiddleware(this IApplicationBuilder app)
         {
-            if (app == null)
-            {
-                throw new ArgumentNullException(nameof(app));
-            }
-
-            var policies = new HeaderPolicyCollection()
-                .AddDefaultSecurityHeaders();
-
-            return app.UseMiddleware<CustomHeadersMiddleware>(policies);
+            return app.UseSecurityHeaders();
         }
         
         /// <summary>

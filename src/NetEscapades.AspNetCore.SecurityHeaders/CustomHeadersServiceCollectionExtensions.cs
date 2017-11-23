@@ -14,7 +14,30 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
         /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+        [Obsolete("This method has been renamed to AddSecurityHeaders")]
         public static IServiceCollection AddCustomHeaders(this IServiceCollection services)
+        {
+            return services.AddSecurityHeaders();
+        }
+
+        /// <summary>
+        /// Adds security header services to the specified <see cref="IServiceCollection" />.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
+        /// <param name="setupAction">An <see cref="Action{SecurityHeadersOptions}"/> to configure the provided <see cref="CustomHeaderOptions"/>.</param>
+        /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+        [Obsolete("This method has been renamed to AddSecurityHeaders")]
+        public static IServiceCollection AddCustomHeaders(this IServiceCollection services, Action<CustomHeaderOptions> setupAction)
+        {
+            return services.AddSecurityHeaders(setupAction);
+        }
+        
+        /// <summary>
+        /// Adds security header services to the specified <see cref="IServiceCollection" />.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
+        /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+        public static IServiceCollection AddSecurityHeaders(this IServiceCollection services)
         {
             if (services == null)
             {
@@ -35,7 +58,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
         /// <param name="setupAction">An <see cref="Action{SecurityHeadersOptions}"/> to configure the provided <see cref="CustomHeaderOptions"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
-        public static IServiceCollection AddCustomHeaders(this IServiceCollection services, Action<CustomHeaderOptions> setupAction)
+        public static IServiceCollection AddSecurityHeaders(this IServiceCollection services, Action<CustomHeaderOptions> setupAction)
         {
             if (services == null)
             {
@@ -47,7 +70,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new ArgumentNullException(nameof(setupAction));
             }
 
-            services.AddCustomHeaders();
+            services.AddSecurityHeaders();
             services.Configure(setupAction);
 
             return services;
