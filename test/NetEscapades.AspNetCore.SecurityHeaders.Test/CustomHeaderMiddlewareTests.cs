@@ -248,6 +248,46 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         }
 
         [Fact]
+        public async Task HttpRequest_WithCspHeaderReportOnly_SetsCspReportOnly()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .ConfigureServices(services => services.AddSecurityHeaders())
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddContentSecurityPolicyReportOnly(builder =>
+                            {
+                                builder.AddDefaultSrc().Self();
+                                builder.AddObjectSrc().None();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Content-Security-Policy-Report-Only").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("default-src 'self'; object-src 'none'");
+                response.Headers.Contains("Content-Security-Policy").Should().BeFalse();
+            }
+        }
+
+        [Fact]
         public async Task HttpRequest_WithCspHeaderAndNonHtmlContentType_DoesNotSetCspHeader()
         {
             // Arrange

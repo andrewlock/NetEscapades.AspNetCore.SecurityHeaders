@@ -92,15 +92,10 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns>The original app parameter</returns>
         public static IApplicationBuilder UseSecurityHeaders(this IApplicationBuilder app)
         {
-            if (app == null)
-            {
-                throw new ArgumentNullException(nameof(app));
-            }
-
             var policies = new HeaderPolicyCollection()
                 .AddDefaultSecurityHeaders();
 
-            return app.UseMiddleware<CustomHeadersMiddleware>(policies);
+            return app.UseSecurityHeaders(policies);
         }
     }
 }

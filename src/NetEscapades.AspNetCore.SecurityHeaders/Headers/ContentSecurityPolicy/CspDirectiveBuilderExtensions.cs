@@ -66,7 +66,7 @@
         /// <returns>The CSP builder for method chaining</returns>
         public static T OverHttps<T>(this T builder) where T: CspDirectiveBuilder
         {
-            builder.Sources.Add("'https'");
+            builder.Sources.Add("https:");
             return builder;
         }
 
