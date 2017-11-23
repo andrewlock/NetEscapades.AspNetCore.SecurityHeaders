@@ -22,7 +22,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                            {
-                               app.UseCustomHeadersMiddleware(
+                               app.UseSecurityHeaders(
                                    new HeaderPolicyCollection()
                                        .AddDefaultSecurityHeaders());
                                app.Run(async context =>
@@ -66,7 +66,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                            {
-                               app.UseCustomHeadersMiddleware(
+                               app.UseSecurityHeaders(
                                    new HeaderPolicyCollection()
                                        .AddDefaultSecurityHeaders());
                                app.Run(async context =>
@@ -110,7 +110,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                            {
-                               app.UseCustomHeadersMiddleware(
+                               app.UseSecurityHeaders(
                                    new HeaderPolicyCollection()
                                        .AddCustomHeader("X-My-Test-Header", "Header value"));
                                app.Run(async context =>
@@ -143,7 +143,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                            {
-                               app.UseCustomHeadersMiddleware(
+                               app.UseSecurityHeaders(
                                    new HeaderPolicyCollection()
                                        .AddCustomHeader("X-My-Test-Header", "Header value")
                                        .RemoveCustomHeader("X-My-Test-Header"));
@@ -176,7 +176,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                 {
-                    app.UseCustomHeadersMiddleware(
+                    app.UseSecurityHeaders(
                         new HeaderPolicyCollection()
                             .AddContentSecurityPolicy(builder =>
                             {
@@ -215,7 +215,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                 {
-                    app.UseCustomHeadersMiddleware(
+                    app.UseSecurityHeaders(
                         new HeaderPolicyCollection()
                             .AddContentSecurityPolicy(builder =>
                             {
@@ -255,7 +255,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                 {
-                    app.UseCustomHeadersMiddleware(
+                    app.UseSecurityHeaders(
                         new HeaderPolicyCollection()
                             .AddContentSecurityPolicy(builder =>
                             {
@@ -292,7 +292,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                 {
-                    app.UseCustomHeadersMiddleware(
+                    app.UseSecurityHeaders(
                         new HeaderPolicyCollection()
                             .AddContentSecurityPolicy(builder =>
                             {

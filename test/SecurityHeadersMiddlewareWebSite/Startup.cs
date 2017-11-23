@@ -21,7 +21,7 @@ namespace SecurityHeadersMiddlewareWebSite
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseCustomHeadersMiddleware();
+            app.UseSecurityHeaders();
             app.UseMiddleware<EchoMiddleware>();
         }
 
