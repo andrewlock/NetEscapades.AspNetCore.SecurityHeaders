@@ -41,13 +41,13 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 // Assert
                 response.EnsureSuccessStatusCode();
 
-                Assert.Equal("Test response", await response.Content.ReadAsStringAsync());
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
                 var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
-                Assert.Equal(header, "nosniff");
+                header.Should().Be("nosniff");
                 header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
-                Assert.Equal(header, "DENY");
+                header.Should().Be("DENY");
                 header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
-                Assert.Equal(header, "1; mode=block");
+                header.Should().Be("1; mode=block");
 
                 Assert.False(response.Headers.Contains("Server"),
                     "Should not contain server header");
@@ -85,15 +85,15 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 // Assert
                 response.EnsureSuccessStatusCode();
 
-                Assert.Equal("Test response", await response.Content.ReadAsStringAsync());
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
                 var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
-                Assert.Equal(header, "nosniff");
+                header.Should().Be("nosniff");
                 header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
-                Assert.Equal(header, "DENY");
+                header.Should().Be("DENY");
                 header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
-                Assert.Equal(header, "1; mode=block");
+                header.Should().Be("1; mode=block");
                 header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
-                Assert.Equal(header, $"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
+                header.Should().Be($"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
 
                 Assert.False(response.Headers.Contains("Server"),
                     "Should not contain server header");
@@ -126,9 +126,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 // Assert
                 response.EnsureSuccessStatusCode();
 
-                Assert.Equal("Test response", await response.Content.ReadAsStringAsync());
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
                 var header = response.Headers.GetValues("X-My-Test-Header").FirstOrDefault();
-                Assert.Equal(header, "Header value");
+                header.Should().Be("Header value");
             }
         }
 
@@ -159,8 +159,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 // Assert
                 response.EnsureSuccessStatusCode();
 
-                Assert.Equal("Test response", await response.Content.ReadAsStringAsync());
-                Assert.Empty(response.Headers);
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                response.Headers.Should().BeEmpty();
             }
         }
 
