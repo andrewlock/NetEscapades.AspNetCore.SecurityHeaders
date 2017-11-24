@@ -12,18 +12,16 @@ using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders
 {
-    [Obsolete]
-    public class CustomHeaderMiddlewareTests
+    public class SecurityHeadersMiddlewareTests
     {
         [Fact]
         public async Task HttpRequest_WithDefaultSecurityPolicy_SetsSecurityHeaders()
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                            {
-                               app.UseCustomHeadersMiddleware(
+                               app.UseSecurityHeaders(
                                    new HeaderPolicyCollection()
                                        .AddDefaultSecurityHeaders());
                                app.Run(async context =>
@@ -63,11 +61,10 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddCustomHeaders())
                 .UseUrls("https://localhost:5001")
                 .Configure(app =>
                            {
-                               app.UseCustomHeadersMiddleware(
+                               app.UseSecurityHeaders(
                                    new HeaderPolicyCollection()
                                        .AddDefaultSecurityHeaders());
                                app.Run(async context =>
@@ -108,10 +105,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                            {
-                               app.UseCustomHeadersMiddleware(
+                               app.UseSecurityHeaders(
                                    new HeaderPolicyCollection()
                                        .AddCustomHeader("X-My-Test-Header", "Header value"));
                                app.Run(async context =>
@@ -141,10 +137,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
-                {
-                               app.UseCustomHeadersMiddleware(
+                           {
+                               app.UseSecurityHeaders(
                                    new HeaderPolicyCollection()
                                        .AddCustomHeader("X-My-Test-Header", "Header value")
                                        .RemoveCustomHeader("X-My-Test-Header"));
@@ -174,10 +169,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                 {
-                    app.UseCustomHeadersMiddleware(
+                    app.UseSecurityHeaders(
                         new HeaderPolicyCollection()
                             .AddContentSecurityPolicy(builder =>
                             {
@@ -213,10 +207,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                 {
-                    app.UseCustomHeadersMiddleware(
+                    app.UseSecurityHeaders(
                         new HeaderPolicyCollection()
                             .AddContentSecurityPolicy(builder =>
                             {
@@ -253,10 +246,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                 {
-                    app.UseCustomHeadersMiddleware(
+                    app.UseSecurityHeaders(
                         new HeaderPolicyCollection()
                             .AddContentSecurityPolicyReportOnly(builder =>
                             {
@@ -288,15 +280,14 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
             }
         }
 
-        // [Fact] Doesn't work with obsolete middleware
+        [Fact]
         public async Task HttpRequest_WithCspHeaderAndNonHtmlContentType_DoesNotSetCspHeader()
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                 {
-                    app.UseCustomHeadersMiddleware(
+                    app.UseSecurityHeaders(
                         new HeaderPolicyCollection()
                             .AddContentSecurityPolicy(builder =>
                             {
@@ -330,10 +321,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .ConfigureServices(services => services.AddCustomHeaders())
                 .Configure(app =>
                 {
-                    app.UseCustomHeadersMiddleware(
+                    app.UseSecurityHeaders(
                         new HeaderPolicyCollection()
                             .AddContentSecurityPolicy(builder =>
                             {

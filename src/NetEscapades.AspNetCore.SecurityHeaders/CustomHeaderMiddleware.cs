@@ -89,16 +89,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             var policy = _policy ?? await _policyProvider.GetPolicyAsync(context, _policyName);
             if (policy != null)
             {
-                context.Response.OnStarting(() =>
-                {
-                    var result = _service.EvaluatePolicy(context, policy);
-                    _service.ApplyResult(context.Response, result);
-#if NET451
-                    return Task.FromResult(true);
-#else
-                    return Task.CompletedTask;
-#endif
-                });
+                var result = _service.EvaluatePolicy(context, policy);
+                _service.ApplyResult(context.Response, result);
             }
 
             await _next(context);

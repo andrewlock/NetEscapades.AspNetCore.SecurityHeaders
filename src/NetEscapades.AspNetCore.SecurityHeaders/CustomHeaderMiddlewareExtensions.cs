@@ -23,11 +23,6 @@ namespace Microsoft.AspNetCore.Builder
                 throw new ArgumentNullException(nameof(app));
             }
 
-            if (string.IsNullOrWhiteSpace(policyName))
-            {
-                throw new ArgumentNullException(nameof(policyName));
-            }
-
             return app.UseMiddleware<CustomHeadersMiddleware>(policyName);
         }
 
@@ -52,6 +47,5 @@ namespace Microsoft.AspNetCore.Builder
 
             return app.UseMiddleware<CustomHeadersMiddleware>(policies);
         }
-        
     }
 }
