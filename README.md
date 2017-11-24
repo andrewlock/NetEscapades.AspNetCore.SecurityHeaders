@@ -40,16 +40,7 @@ When you install the package, it should be added to your `.csproj`. Alternativel
 </Project>
 ```
 
-In order to use the security headers middleware, you must configure the services in the `ConfigureServices` call of `Startup`: 
-
-```csharp
-public void ConfigureServices(IServiceCollection services)
-{
-    services.AddSecurityHeaders();
-}
-```
-
-You can then add the middleware to your ASP.NET Core application by configuring it as part of your normal `Startup` pipeline. Note that the order of middleware matters, so to apply the headers to all requests it should be configured first in your pipeline.
+Simply add the middleware to your ASP.NET Core application by configuring it as part of your normal `Startup` pipeline. Note that the order of middleware matters, so to apply the headers to all requests it should be configured first in your pipeline.
 
 To use the default security headers for your application, add the middleware using:
 
