@@ -2,6 +2,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Xunit;
 
 
@@ -37,18 +38,19 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             var responseHeaders = response.Headers;
 
             var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
-            Assert.Equal(header, "nosniff");
+            header.Should().Be("nosniff");
             header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
-            Assert.Equal(header, "DENY");
+            header.Should().Be("DENY");
             header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
-            Assert.Equal(header, "1; mode=block");
-            header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
-            Assert.Equal(header, $"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
+            header.Should().Be("1; mode=block");
             header = response.Headers.GetValues("Referrer-Policy").FirstOrDefault();
-            Assert.Equal(header, "origin-when-cross-origin");
+            header.Should().Be("origin-when-cross-origin");
+            header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
+            header.Should().Be($"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
+            header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+            header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
 
-            //http so no Strict transport
-            Assert.DoesNotContain(responseHeaders, x => x.Key == "Server");
+            responseHeaders.Should().NotContain(x => x.Key == "Server");
         }
     }
 }

@@ -8,6 +8,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// <summary>
     /// A type which can provide a <see cref="HeaderPolicyCollection"/> for a particular <see cref="HttpContext"/>.
     /// </summary>
+    [Obsolete("This class is obsolete, and will be removed in a future version of the package")]
     public class DefaultCustomHeaderPolicyProvider : ICustomHeaderPolicyProvider
     {
         private readonly CustomHeaderOptions _options;

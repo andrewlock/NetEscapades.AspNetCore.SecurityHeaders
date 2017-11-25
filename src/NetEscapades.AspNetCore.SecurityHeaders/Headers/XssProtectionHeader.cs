@@ -3,7 +3,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// <summary>
     /// The header value to use for XSS-Protection
     /// </summary>
-    public class XssProtectionHeader : HeaderPolicyBase
+    public class XssProtectionHeader : HtmlOnlyHeaderPolicyBase
     {
         /// <inheritdoc />
         public XssProtectionHeader(string value) : base(value)
@@ -52,5 +52,4 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             return new XssProtectionHeader($"1; report={reportingUrl}");
         }
     }
-
 }

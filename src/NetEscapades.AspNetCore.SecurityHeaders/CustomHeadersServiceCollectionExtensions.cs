@@ -14,6 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
         /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+        [Obsolete("This method will be removed in a future version")]
         public static IServiceCollection AddCustomHeaders(this IServiceCollection services)
         {
             if (services == null)
@@ -35,6 +36,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
         /// <param name="setupAction">An <see cref="Action{SecurityHeadersOptions}"/> to configure the provided <see cref="CustomHeaderOptions"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+        [Obsolete("This method will be removed in a future version")]
         public static IServiceCollection AddCustomHeaders(this IServiceCollection services, Action<CustomHeaderOptions> setupAction)
         {
             if (services == null)
