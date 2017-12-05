@@ -59,7 +59,7 @@ This adds the following headers to all responses that pass through the middlewar
 * `Strict-Transport-Security: max-age=31536000; includeSubDomains` - _only applied to HTTPS responses_
 * `X-Frame-Options: Deny` - _only applied to `text/html` responses_
 * `X-XSS-Protection: 1; mode=block` - _only applied to `text/html` responses_
-* `Referrer-Policy: origin-when-cross-origin` - _only applied to `text/html` responses_
+* `Referrer-Policy: strict-origin-when-cross-origin` - _only applied to `text/html` responses_
 * `Content-Security-Policy: object-src 'none'; form-action 'self'; frame-ancestors 'none'` - _only applied to `text/html` responses_
 
 ## Customising the security headers added to reponses
@@ -74,7 +74,7 @@ public void Configure(IApplicationBuilder app)
         .AddXssProtectionBlock()
         .AddContentTypeOptionsNoSniff()
         .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAge: 60 * 60 * 24 * 365) // maxage = one year in seconds
-        .AddReferrerPolicyOriginWhenCrossOrigin()
+        .AddReferrerPolicyStrictOriginWhenCrossOrigin()
         .RemoveServerHeader()
         .AddContentSecurityPolicy(builder =>
         {
