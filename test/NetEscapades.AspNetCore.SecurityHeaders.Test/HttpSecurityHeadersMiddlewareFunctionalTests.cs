@@ -42,7 +42,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
             header.Should().Be("1; mode=block");
             header = response.Headers.GetValues("Referrer-Policy").FirstOrDefault();
-            header.Should().Be("origin-when-cross-origin");
+            header.Should().Be("strict-origin-when-cross-origin");
             header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
             header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
 
