@@ -177,6 +177,7 @@ public void Configure(IApplicationBuilder app)
         .AddContentSecurityPolicy(builder =>
         {
             builder.AddUpgradeInsecureRequests() // upgrade-insecure-requests
+            builder.AddBlockAllMixedContent() // block-all-mixed-content
 
             builder.AddReportUri() // report-uri: https://report-uri.com
                 .To("https://report-uri.com");
@@ -201,17 +202,24 @@ public void Configure(IApplicationBuilder app)
             builder.AddImgSrc() // img-src https:
                 .OverHttps();
             
-            builder.AddScriptSrc() // script-src 'self'
-                .Self();
+            builder.AddScriptSrc() // script-src 'self' 'unsafe-inline' 'unsafe-eval' 'report-sample'
+                .Self()
+                .UnsafeInline()
+                .UnsafeEval()
+                .ReportSample();
             
-            builder.AddStyleSrc() // style-src 'self'
-                .Self();
+            builder.AddStyleSrc() // style-src 'self' 'strict-dynamic'
+                .Self()
+                .StrictDynamic();
             
             builder.AddMediaSrc() // media-src https:
                 .OverHttps();
 
             builder.AddFrameAncestors() // frame-ancestors 'none'
                 .None();
+            
+            builder.AddBaseUri() // base-ri 'self'
+                .Self();
                 
             builder.AddFrameSource() // frame-src http://testUrl.com
                 .From("http://testUrl.com");
