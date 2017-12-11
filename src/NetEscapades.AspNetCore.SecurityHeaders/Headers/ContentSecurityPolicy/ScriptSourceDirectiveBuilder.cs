@@ -10,5 +10,15 @@
         public ScriptSourceDirectiveBuilder() : base("script-src")
         {
         }
+
+        /// <summary>
+        /// Requires a sample of the violating code to be included in the violation report
+        /// </summary>
+        /// <returns>The CSP builder for method chaining</returns>
+        public ScriptSourceDirectiveBuilder ReportSample()
+        {
+            Sources.Add("'report-sample'");
+            return this;
+        }
     }
 }

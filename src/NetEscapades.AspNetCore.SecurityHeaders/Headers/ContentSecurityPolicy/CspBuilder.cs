@@ -69,12 +69,33 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         public FrameSourceDirectiveBuilder AddFrameSource() => AddDirective(new FrameSourceDirectiveBuilder());
 
         /// <summary>
+        /// The base-uri directive restricts the URLs which can be used in a document's 
+        /// &lt;base&gt; element. If this value is absent, then any URI is allowed. If this 
+        /// directive is absent, the user agent will use the value in the &lt;base&gt; element.
+        /// </summary>
+        public BaseUriDirectiveBuilder AddBaseUri() => AddDirective(new BaseUriDirectiveBuilder());
+        
+        /// <summary>
         /// The upgrade-insecure-requests directive instructs user agents to treat all of a 
         /// site's insecure URLs (those served over HTTP) as though they have been 
         /// replaced with secure URLs (those served over HTTPS). This directive is 
         /// intended for web sites with large numbers of insecure legacy URLs that need to be rewritten.
         /// </summary>
         public UpgradeInsecureRequestsDirectiveBuilder AddUpgradeInsecureRequests() => AddDirective(new UpgradeInsecureRequestsDirectiveBuilder());
+
+        /// <summary>
+        /// The block-all-mixed-content directive prevents loading any assets using 
+        /// HTTP when the page is loaded using HTTPS.
+        /// 
+        /// All mixed content resource requests are blocked, including both active 
+        /// and passive mixed content. This also applies to &lt;iframe&gt; documents, 
+        /// ensuring the entire page is mixed content free.
+        /// 
+        /// The upgrade-insecure-requests directive is evaluated before block-all-mixed-content 
+        /// and If the former is set, the latter is effectively a no-op. 
+        /// It is recommended to set one directive or the other – not both.
+        /// </summary>
+        public BlockAllMixedContentDirectiveBuilder AddBlockAllMixedContent() => AddDirective(new BlockAllMixedContentDirectiveBuilder());
 
         /// <summary>
         /// The upgrade-insecure-requests directive instructs user agents to treat all of a 

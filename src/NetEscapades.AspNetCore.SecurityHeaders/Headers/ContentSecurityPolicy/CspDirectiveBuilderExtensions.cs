@@ -120,5 +120,41 @@
         {
             return builder.WithHash("sha512", hash);
         }
+
+        /// <summary>
+        /// Allows the use of inline resources, such as inline &lt;script&gt; elements, javascript: URLs, 
+        /// inline event handlers, and inline &lt;style&gt; elements
+        /// WARNING: This source is insecure - you should not use this directive if at all possible
+        /// </summary>
+        /// <returns>The CSP builder for method chaining</returns>
+        public static T UnsafeInline<T>(this T builder) where T : CspDirectiveBuilder
+        {
+            builder.Sources.Add("'unsafe-inline'");
+            return builder;
+        }
+
+        /// <summary>
+        /// Allows the use of eval() and similar methods for creating code from strings.
+        /// WARNING: This source is insecure - you should not use this directive if at all possible
+        /// </summary>
+        /// <returns>The CSP builder for method chaining</returns>
+        public static T UnsafeEval<T>(this T builder) where T : CspDirectiveBuilder
+        {
+            builder.Sources.Add("'unsafe-eval'");
+            return builder;
+        }
+
+        /// <summary>
+        /// The strict-dynamic source expression specifies that the trust explicitly given to a 
+        /// script present in the markup, by accompanying it with a nonce or a hash, shall be 
+        /// propagated to all the scripts loaded by that root script. At the same time, any 
+        /// whitelist or source expressions such as 'self' or 'unsafe-inline' will be ignored. 
+        /// </summary>
+        /// <returns>The CSP builder for method chaining</returns>
+        public static T StrictDynamic<T>(this T builder) where T : CspDirectiveBuilder
+        {
+            builder.Sources.Add("'strict-dynamic'");
+            return builder;
+        }
     }
 }

@@ -125,6 +125,23 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         }
 
         [Fact]
+        public void Build_AddSrciptSrc_WhenAddsInsecureValues_ReturnsAllValues()
+        {
+            var builder = new CspBuilder();
+            builder.AddScriptSrc()
+                .Self()
+                .UnsafeEval()
+                .UnsafeInline()
+                .StrictDynamic()
+                .ReportSample()
+                .From("http://testUrl.com");
+
+            var result = builder.Build();
+
+            result.Should().Be("script-src 'self' 'unsafe-eval' 'unsafe-inline' 'strict-dynamic' 'report-sample' http://testUrl.com");
+        }
+
+        [Fact]
         public void Build_AddStyleSrc_WhenAddsMultipleValue_ReturnsAllValues()
         {
             var builder = new CspBuilder();
@@ -170,10 +187,10 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         }
 
         [Fact]
-        public void Build_AddFrameSrc_WhenAddsMultipleValue_ReturnsAllValues()
+        public void Build_AddBaseUri_WhenAddsMultipleValue_ReturnsAllValues()
         {
             var builder = new CspBuilder();
-            builder.AddFrameSource()
+            builder.AddBaseUri()
                 .Self()
                 .Blob()
                 .Data()
@@ -181,7 +198,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Should().Be("frame-src 'self' blob: data: http://testUrl.com");
+            result.Should().Be("base-uri 'self' blob: data: http://testUrl.com");
         }
 
         [Fact]
@@ -193,6 +210,17 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             var result = builder.Build();
 
             result.Should().Be("upgrade-insecure-requests");
+        }
+
+        [Fact]
+        public void Build_AddBlockAllMixedContent_AddsValue()
+        {
+            var builder = new CspBuilder()
+                .AddBlockAllMixedContent();
+
+            var result = builder.Build();
+
+            result.Should().Be("block-all-mixed-content");
         }
 
         [Fact]
