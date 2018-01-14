@@ -45,7 +45,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="reportUrl">The url to report potential XSS attacks to</param>
         public static HeaderPolicyCollection AddXssProtectionReport(this HeaderPolicyCollection policies, string reportUrl)
         {
-            return policies.ApplyPolicy(XssProtectionHeader.Block());
+            return policies.ApplyPolicy(XssProtectionHeader.Report(reportUrl));
         }
     }
 }
