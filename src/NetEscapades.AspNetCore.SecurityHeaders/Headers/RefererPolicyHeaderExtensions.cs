@@ -15,7 +15,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddReferrerPolicyNone(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(ReferrerPolicyHeader.None());
+            return policies.ApplyPolicy(new ReferrerPolicyHeader(""));
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddReferrerPolicyNoReferrer(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(ReferrerPolicyHeader.NoReferrer());
+            return policies.ApplyPolicy(new ReferrerPolicyHeader("no-referrer"));
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddReferrerPolicyNoReferrerWhenDowngrade(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(ReferrerPolicyHeader.NoReferrerWhenDowngrade());
+            return policies.ApplyPolicy(new ReferrerPolicyHeader("no-referrer-when-downgrade"));
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddReferrerPolicySameOrigin(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(ReferrerPolicyHeader.SameOrigin());
+            return policies.ApplyPolicy(new ReferrerPolicyHeader("same-origin"));
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddReferrerPolicyOrigin(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(ReferrerPolicyHeader.Origin());
+            return policies.ApplyPolicy(new ReferrerPolicyHeader("origin"));
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddReferrerPolicyStrictOrigin(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(ReferrerPolicyHeader.StrictOrigin());
+            return policies.ApplyPolicy(new ReferrerPolicyHeader("strict-origin"));
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddReferrerPolicyOriginWhenCrossOrigin(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(ReferrerPolicyHeader.OriginWhenCrossOrigin());
+            return policies.ApplyPolicy(new ReferrerPolicyHeader("origin-when-cross-origin"));
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddReferrerPolicyStrictOriginWhenCrossOrigin(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(ReferrerPolicyHeader.StrictOriginWhenCrossOrigin());
+            return policies.ApplyPolicy(new ReferrerPolicyHeader("strict-origin-when-cross-origin"));
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddReferrerPolicyUnsafeUrl(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(ReferrerPolicyHeader.UnsafeUrl());
+            return policies.ApplyPolicy(new ReferrerPolicyHeader("unsafe-url"));
         }
     }
 }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using System;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
@@ -16,15 +17,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 
         /// <inheritdoc />
         public override string Header { get; } = "Server";
-
-        /// <summary>
-        /// Removes the server header from the response
-        /// </summary>
-        /// <returns></returns>
-        public static ServerHeader Remove()
-        {
-            return new ServerHeader(null);
-        }
 
         /// <inheritdoc />
         protected override void EvaluateHttpRequest(HttpContext context, CustomHeadersResult result)
