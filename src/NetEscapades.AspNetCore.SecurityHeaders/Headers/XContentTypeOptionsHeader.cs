@@ -1,3 +1,5 @@
+using System;
+
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
@@ -13,13 +15,5 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 
         /// <inheritdoc />
         public override string Header { get; } = "X-Content-Type-Options";
-
-        /// <summary>
-        /// Disables content sniffing
-        /// </summary>
-        public static XContentTypeOptionsHeader NoSniff()
-        {
-            return new XContentTypeOptionsHeader("nosniff");
-        }
     }
 }

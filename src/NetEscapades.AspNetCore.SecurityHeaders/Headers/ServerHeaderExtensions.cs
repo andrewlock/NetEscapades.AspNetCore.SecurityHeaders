@@ -13,7 +13,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection RemoveServerHeader(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(ServerHeader.Remove());
+            return policies.ApplyPolicy(new ServerHeader(null));
         }
     }
 

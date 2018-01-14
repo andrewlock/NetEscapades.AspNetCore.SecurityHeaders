@@ -14,7 +14,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddFrameOptionsDeny(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(XFrameOptionsHeader.Deny());
+            return policies.ApplyPolicy(new XFrameOptionsHeader("DENY"));
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddFrameOptionsSameOrigin(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(XFrameOptionsHeader.SameOrigin());
+            return policies.ApplyPolicy(new XFrameOptionsHeader("SAMEORIGIN"));
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="uri">The uri of the origin in which the page may be displayed in a frame</param>
         public static HeaderPolicyCollection AddFrameOptionsSameOrigin(this HeaderPolicyCollection policies, string uri)
         {
-            return policies.ApplyPolicy(XFrameOptionsHeader.AllowFromUri(uri));
+            return policies.ApplyPolicy(new XFrameOptionsHeader($"ALLOW-FROM {uri}"));
         }
     }
 }

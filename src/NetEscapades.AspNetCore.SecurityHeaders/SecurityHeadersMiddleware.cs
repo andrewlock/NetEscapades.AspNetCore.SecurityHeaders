@@ -14,7 +14,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         private readonly ICustomHeaderService _service;
 
         /// <summary>
-        /// Instantiates a new <see cref="CustomHeadersMiddleware"/>.
+        /// Instantiates a new <see cref="SecurityHeadersMiddleware"/>.
         /// </summary>
         /// <param name="next">The next middleware in the pipeline.</param>
         /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>

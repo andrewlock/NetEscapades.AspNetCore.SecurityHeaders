@@ -14,7 +14,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddXssProtectionEnabled(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(XssProtectionHeader.Enabled());
+            return policies.ApplyPolicy(new XssProtectionHeader("1"));
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddXssProtectionDisabled(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(XssProtectionHeader.Disabled());
+            return policies.ApplyPolicy(new XssProtectionHeader("0"));
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddXssProtectionBlock(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(XssProtectionHeader.Block());
+            return policies.ApplyPolicy(new XssProtectionHeader("1; mode=block"));
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="reportUrl">The url to report potential XSS attacks to</param>
         public static HeaderPolicyCollection AddXssProtectionReport(this HeaderPolicyCollection policies, string reportUrl)
         {
-            return policies.ApplyPolicy(XssProtectionHeader.Block());
+            return policies.ApplyPolicy(new XssProtectionHeader($"1; report={reportUrl}"));
         }
     }
 }

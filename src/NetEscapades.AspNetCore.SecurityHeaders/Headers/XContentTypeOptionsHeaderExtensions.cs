@@ -9,12 +9,13 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
     {
         /// <summary>
         /// Add X-Content-Type-Options nosniff to all requests.
+        /// Disables content sniffing
         /// Can be set to protect against MIME type confusion attacks.
         /// </summary>
         /// <param name="policies">The collection of policies</param>
         public static HeaderPolicyCollection AddContentTypeOptionsNoSniff(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(XContentTypeOptionsHeader.NoSniff());
+            return policies.ApplyPolicy(new XContentTypeOptionsHeader("nosniff"));
         }
     }
 }
