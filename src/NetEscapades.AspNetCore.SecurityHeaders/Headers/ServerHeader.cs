@@ -12,7 +12,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// <inheritdoc />
         public ServerHeader(string value) : base(value)
         {
-            Value = value;
         }
 
         /// <inheritdoc />
