@@ -11,7 +11,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// <inheritdoc />
         public ReferrerPolicyHeader(string value) : base(value)
         {
-            Value = value;
         }
 
         /// <inheritdoc />

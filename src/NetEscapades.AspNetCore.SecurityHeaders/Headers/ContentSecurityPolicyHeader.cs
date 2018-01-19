@@ -15,7 +15,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// <param name="value">The value to apply for the header</param>
         public ContentSecurityPolicyHeader(string value, bool asReportOnly) : base(value)
         {
-            Value = value;
             ReportOnly = asReportOnly;
         }
 

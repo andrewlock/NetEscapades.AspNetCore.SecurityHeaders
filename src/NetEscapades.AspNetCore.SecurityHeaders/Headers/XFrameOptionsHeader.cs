@@ -10,7 +10,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// <inheritdoc />
         public XFrameOptionsHeader(string value) : base(value)
         {
-            Value = value;
         }
 
         /// <inheritdoc />
