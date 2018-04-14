@@ -1,5 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
@@ -8,6 +11,18 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// </summary>
     public abstract class HeaderPolicyBase : IHeaderPolicy
     {
+        /// <summary>
+        /// Headers for forwarded https requests, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Proto
+        /// </summary>
+        private readonly static Tuple<string, string>[] HttpsForwardedHeaders = new Tuple<string, string>[5]
+        {
+            Tuple.Create("X-Forwarded-Proto", "https"),
+            Tuple.Create("X-Forwarded-Protocol", "https"),
+            Tuple.Create("X-Url-Scheme", "https"),
+            Tuple.Create("Front-End-Https", "on"),
+            Tuple.Create("X-Forwarded-Ssl", "on"),
+        };
+
         /// <summary>
         /// Create a new policy
         /// </summary>
@@ -32,7 +47,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (request.IsHttps)
+            if (request.IsHttps || IsForwardedHttps(request))
             {
                 EvaluateHttpsRequest(context, result);
             }
@@ -61,5 +76,18 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         {
             result.SetHeaders[Header] = Value;
         }
+
+        /// <summary>
+        /// Check if the if http request was originally https and forwarded by a proxy
+        /// See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-Proto
+        /// </summary>
+        /// <param name="request">The http request</param>
+        /// <returns>If the request was forwarded from a proxy that had a user perform an https request against it</returns>
+        private bool IsForwardedHttps(HttpRequest request)
+            => HttpsForwardedHeaders.Any(forwardedHeader =>
+            {
+                return request.Headers.TryGetValue(forwardedHeader.Item1, out StringValues headerValue) &&
+                       headerValue[0] == forwardedHeader.Item2;
+            });
     }
 }

@@ -101,6 +101,39 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         }
 
         [Fact]
+        public async Task SecureRequest_WithDefaultSecurityPolicy_UsesStrictTransportForForwardedHttps()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("http://localhost:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                                    new HeaderPolicyCollection()
+                                        .AddDefaultSecurityHeaders());
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("http://localhost:5001");
+                var response = await server.CreateRequest("/")
+                    .AddHeader("X-Forwarded-Proto", "https")
+                    .SendAsync("PUT");
+
+                // Assert
+                var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
+                header.Should().Be($"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
+            }
+        }
+
+        [Fact]
         public async Task HttpRequest_WithCustomHeaderPolicy_SetsCustomHeader()
         {
             // Arrange
