@@ -47,7 +47,7 @@ To use the default security headers for your application, add the middleware usi
 ```csharp
 public void Configure(IApplicationBuilder app)
 {
-    app.UseSecurityHeaders()
+    app.UseSecurityHeaders();
     
     // other middleware e.g. static files, MVC etc  
 }
@@ -73,7 +73,7 @@ public void Configure(IApplicationBuilder app)
         .AddFrameOptionsDeny()
         .AddXssProtectionBlock()
         .AddContentTypeOptionsNoSniff()
-        .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAge: 60 * 60 * 24 * 365) // maxage = one year in seconds
+        .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAgeInSeconds: 60 * 60 * 24 * 365) // maxage = one year in seconds
         .AddReferrerPolicyStrictOriginWhenCrossOrigin()
         .RemoveServerHeader()
         .AddContentSecurityPolicy(builder =>
@@ -81,10 +81,10 @@ public void Configure(IApplicationBuilder app)
             builder.AddObjectSrc().None();
             builder.AddFormAction().Self();
             builder.AddFrameAncestors().None();
-        });
+        })
         .AddCustomHeader("X-My-Test-Header", "Header value");
     
-    app.UseSecurityHeaders(policyCollection)
+    app.UseSecurityHeaders(policyCollection);
     
     // other middleware e.g. static files, MVC etc  
 }
@@ -99,7 +99,7 @@ public void Configure(IApplicationBuilder app)
         .AddDefaultSecurityHeaders()
         .AddCustomHeader("X-My-Test-Header", "Header value");
     
-    app.UseSecurityHeaders(policyCollection)
+    app.UseSecurityHeaders(policyCollection);
     
     // other middleware e.g. static files, MVC etc  
 }
@@ -112,9 +112,9 @@ public void Configure(IApplicationBuilder app)
 {
     var policyCollection = new HeaderPolicyCollection()
         .AddDefaultSecurityHeaders()
-        .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAge: 63072000);
+        .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAgeInSeconds: 63072000);
     
-    app.UseSecurityHeaders(policyCollection)
+    app.UseSecurityHeaders(policyCollection);
     
     // other middleware e.g. static files, MVC etc  
 }
@@ -176,8 +176,8 @@ public void Configure(IApplicationBuilder app)
     var policyCollection = new HeaderPolicyCollection()
         .AddContentSecurityPolicy(builder =>
         {
-            builder.AddUpgradeInsecureRequests() // upgrade-insecure-requests
-            builder.AddBlockAllMixedContent() // block-all-mixed-content
+            builder.AddUpgradeInsecureRequests(); // upgrade-insecure-requests
+            builder.AddBlockAllMixedContent(); // block-all-mixed-content
 
             builder.AddReportUri() // report-uri: https://report-uri.com
                 .To("https://report-uri.com");
@@ -227,10 +227,10 @@ public void Configure(IApplicationBuilder app)
             // You can also add arbitrary extra directives: plugin-types application/x-shockwave-flash"
             builder.AddCustomDirective("plugin-types", "application/x-shockwave-flash");
             
-        });
+        })
         .AddCustomHeader("X-My-Test-Header", "Header value");
     
-    app.UseSecurityHeaders(policyCollection)
+    app.UseSecurityHeaders(policyCollection);
     
     // other middleware e.g. static files, MVC etc  
 }
