@@ -26,12 +26,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         ///<inheritdoc />
         public void Apply(HttpContext context, CustomHeadersResult result)
         {
-            var request = context?.Request;
             if (context == null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
 
+            var request = context.Request;
             if (request.IsHttps)
             {
                 EvaluateHttpsRequest(context, result);
