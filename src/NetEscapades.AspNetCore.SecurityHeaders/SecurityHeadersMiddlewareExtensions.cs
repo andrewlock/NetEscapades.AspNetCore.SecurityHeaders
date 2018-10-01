@@ -34,6 +34,25 @@ namespace Microsoft.AspNetCore.Builder
 
         /// <summary>
         /// Adds middleware to your web application pipeline to automatically add security headers to requests
+        /// </summary>
+        /// <param name="app">The IApplicationBuilder passed to your Configure method.</param>
+        /// <param name="configure">An <see cref="Action{T}"/>to configure the security headers for the application</param>
+        /// <returns>The original app parameter</returns>
+        public static IApplicationBuilder UseSecurityHeaders(this IApplicationBuilder app, Action<HeaderPolicyCollection> configure)
+        {
+            if (configure == null)
+            {
+                throw new ArgumentNullException(nameof(configure));
+            }
+
+            var policies = new HeaderPolicyCollection();
+            configure(policies);
+
+            return app.UseSecurityHeaders(policies);
+        }
+
+        /// <summary>
+        /// Adds middleware to your web application pipeline to automatically add security headers to requests
         /// 
         /// Adds a policy collection configured using the default security headers, as in <see cref="HeaderPolicyCollectionExtensions.AddDefaultSecurityHeaders"/>
         /// </summary>
@@ -41,10 +60,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns>The original app parameter</returns>
         public static IApplicationBuilder UseSecurityHeaders(this IApplicationBuilder app)
         {
-            var policies = new HeaderPolicyCollection()
-                .AddDefaultSecurityHeaders();
-
-            return app.UseSecurityHeaders(policies);
+            return app.UseSecurityHeaders(policies => policies.AddDefaultSecurityHeaders());
         }
     }
 }
