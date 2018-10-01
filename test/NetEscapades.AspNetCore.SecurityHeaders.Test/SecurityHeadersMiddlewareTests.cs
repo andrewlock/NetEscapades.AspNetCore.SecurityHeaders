@@ -352,5 +352,35 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 header.Should().Be("default-src 'self'; object-src 'none'");
             }
         }
+
+        [Fact]
+        public async Task HttpRequest_UsingConfigExtensionMethod_SetsCustomHeader()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(policies => policies.AddCustomHeader("X-My-Test-Header", "Header value"));
+                    app.Run(async context =>
+                    {
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("X-My-Test-Header").FirstOrDefault();
+                header.Should().Be("Header value");
+            }
+        }
     }
 }
