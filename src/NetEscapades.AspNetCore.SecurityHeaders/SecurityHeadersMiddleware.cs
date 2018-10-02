@@ -14,7 +14,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         private readonly ICustomHeaderService _service;
 
         /// <summary>
-        /// Instantiates a new <see cref="SecurityHeadersMiddleware"/>.
+        /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.
         /// </summary>
         /// <param name="next">The next middleware in the pipeline.</param>
         /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
@@ -30,7 +30,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// Invoke the middleware
         /// </summary>
         /// <param name="context">The current context</param>
-        /// <returns></returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task Invoke(HttpContext context)
         {
             if (context == null)
@@ -51,6 +51,5 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 
             await _next(context);
         }
-
     }
 }

@@ -13,6 +13,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// </summary>
         /// <param name="policies">The collection of policies</param>
         /// <param name="maxAgeInSeconds">The maximum number of seconds to cache the domain</param>
+        /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
         public static HeaderPolicyCollection AddStrictTransportSecurityMaxAge(this HeaderPolicyCollection policies, int maxAgeInSeconds = StrictTransportSecurityHeader.OneYearInSeconds)
         {
             return policies.ApplyPolicy(new StrictTransportSecurityHeader($"max-age={maxAgeInSeconds}"));
@@ -24,6 +25,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// </summary>
         /// <param name="policies">The collection of policies</param>
         /// <param name="maxAgeInSeconds">The maximum number of seconds to cache the domain</param>
+        /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
         public static HeaderPolicyCollection AddStrictTransportSecurityMaxAgeIncludeSubDomains(this HeaderPolicyCollection policies, int maxAgeInSeconds = StrictTransportSecurityHeader.OneYearInSeconds)
         {
             return policies.ApplyPolicy(new StrictTransportSecurityHeader($"max-age={maxAgeInSeconds}; includeSubDomains"));
@@ -34,10 +36,10 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// Tells the user-agent to remove, or not cache the host in the STS cache
         /// </summary>
         /// <param name="policies">The collection of policies</param>
+        /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
         public static HeaderPolicyCollection AddStrictTransportSecurityNoCache(this HeaderPolicyCollection policies)
         {
             return policies.ApplyPolicy(new StrictTransportSecurityHeader($"max-age=0"));
         }
     }
-
 }

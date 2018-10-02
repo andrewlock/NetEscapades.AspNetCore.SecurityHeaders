@@ -7,6 +7,9 @@
     /// </summary>
     public class MidiFeaturePolicyDirectiveBuilder : FeaturePolicyDirectiveBuilder
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MidiFeaturePolicyDirectiveBuilder"/> class.
+        /// </summary>
         public MidiFeaturePolicyDirectiveBuilder() : base("midi")
         {
         }

@@ -12,6 +12,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// The page cannot be displayed in a frame, regardless of the site attempting to do so
         /// </summary>
         /// <param name="policies">The collection of policies</param>
+        /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
         public static HeaderPolicyCollection AddFrameOptionsDeny(this HeaderPolicyCollection policies)
         {
             return policies.ApplyPolicy(new XFrameOptionsHeader("DENY"));
@@ -22,6 +23,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// The page can only be displayed in a frame on the same origin as the page itself.
         /// </summary>
         /// <param name="policies">The collection of policies</param>
+        /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
         public static HeaderPolicyCollection AddFrameOptionsSameOrigin(this HeaderPolicyCollection policies)
         {
             return policies.ApplyPolicy(new XFrameOptionsHeader("SAMEORIGIN"));
@@ -33,6 +35,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// </summary>
         /// <param name="policies">The collection of policies</param>
         /// <param name="uri">The uri of the origin in which the page may be displayed in a frame</param>
+        /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
         public static HeaderPolicyCollection AddFrameOptionsSameOrigin(this HeaderPolicyCollection policies, string uri)
         {
             return policies.ApplyPolicy(new XFrameOptionsHeader($"ALLOW-FROM {uri}"));

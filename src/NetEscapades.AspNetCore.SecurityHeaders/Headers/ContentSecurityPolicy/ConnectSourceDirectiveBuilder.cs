@@ -6,6 +6,9 @@
     /// </summary>
     public class ConnectSourceDirectiveBuilder : CspDirectiveBuilder
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectSourceDirectiveBuilder"/> class.
+        /// </summary>
         public ConnectSourceDirectiveBuilder() : base("connect-src")
         {
         }

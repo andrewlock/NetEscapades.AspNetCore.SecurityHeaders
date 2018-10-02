@@ -3,31 +3,47 @@
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
-    /// The frame-ancestors directive specifies valid parents that may embed a page using 
+    /// The frame-ancestors directive specifies valid parents that may embed a page using
     /// &lt;frame&gt;, &lt;iframe&gt;, &lt;object&gt;, &lt;embed&gt;, or &lt;applet&gt;.
     /// Setting this directive to 'none' is similar to X-Frame-Options: DENY (which is also supported in older browers).
     /// </summary>
     public class FrameAncestorsDirectiveBuilder : CspDirectiveBuilderBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameAncestorsDirectiveBuilder"/> class.
+        /// </summary>
         public FrameAncestorsDirectiveBuilder() : base("frame-ancestors")
         {
         }
 
+        /// <summary>
+        /// The sources from which the directive is allowed.
+        /// </summary>
         public List<string> Sources { get; } = new List<string>();
+
+        /// <summary>
+        /// If true, no sources are allowed.
+        /// </summary>
         public bool BlockResources { get; set; } = false;
 
+        /// <inheritdoc />
         internal override string Build()
         {
             if (BlockResources)
             {
                 return GetPolicy("'none'");
             }
+
             return GetPolicy(string.Join(" ", Sources));
         }
 
         private string GetPolicy(string value)
         {
-            if (string.IsNullOrEmpty(value)) { return string.Empty; }
+            if (string.IsNullOrEmpty(value))
+            {
+                return string.Empty;
+            }
+
             return $"{Directive} {value}";
         }
 
@@ -52,7 +68,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         }
 
         /// <summary>
-        /// data: Allows data: URIs to be used as a content source. 
+        /// data: Allows data: URIs to be used as a content source.
         /// WARNING: This is insecure; an attacker can also inject arbitrary data: URIs. Use this sparingly and definitely not for scripts.
         /// </summary>
         /// <returns>The CSP builder for method chaining</returns>

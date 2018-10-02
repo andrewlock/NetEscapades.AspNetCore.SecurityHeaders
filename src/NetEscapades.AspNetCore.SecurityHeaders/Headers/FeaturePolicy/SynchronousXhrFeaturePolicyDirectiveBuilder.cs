@@ -7,6 +7,9 @@
     /// </summary>
     public class SynchronousXhrFeaturePolicyDirectiveBuilder : FeaturePolicyDirectiveBuilder
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SynchronousXhrFeaturePolicyDirectiveBuilder"/> class.
+        /// </summary>
         public SynchronousXhrFeaturePolicyDirectiveBuilder() : base("sync-xhr")
         {
         }

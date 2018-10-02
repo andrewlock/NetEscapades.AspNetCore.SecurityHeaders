@@ -10,7 +10,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         [Fact]
         public void AddCustomHeader_WhenNullHeader_IncludesHeaderInTheMessage()
         {
-            https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/issues/35
+            // https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/issues/35
             var collection = new HeaderPolicyCollection();
 
             Assert.Throws<ArgumentNullException>(

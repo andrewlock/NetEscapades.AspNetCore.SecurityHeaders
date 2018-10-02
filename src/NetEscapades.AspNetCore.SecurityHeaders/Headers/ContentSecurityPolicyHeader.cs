@@ -9,17 +9,18 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     public class ContentSecurityPolicyHeader : HtmlOnlyHeaderPolicyBase
     {
         /// <summary>
-        /// Create a new policy
+        /// Initializes a new instance of the <see cref="ContentSecurityPolicyHeader"/> class.
         /// </summary>
         /// <param name="asReportOnly">If true, the header is added as report only</param>
         /// <param name="value">The value to apply for the header</param>
-        public ContentSecurityPolicyHeader(string value, bool asReportOnly) : base(value)
+        public ContentSecurityPolicyHeader(string value, bool asReportOnly)
+            : base(value)
         {
             ReportOnly = asReportOnly;
         }
 
         /// <inheritdoc />
-        public override string Header => ReportOnly? "Content-Security-Policy-Report-Only" : "Content-Security-Policy";
+        public override string Header => ReportOnly ? "Content-Security-Policy-Report-Only" : "Content-Security-Policy";
 
         /// <summary>
         /// If true, the CSP header is addded as "Content-Security-Policy-Report-Only".
@@ -32,7 +33,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// </summary>
         /// <param name="configure">Configure the CSP</param>
         /// <param name="asReportOnly">If true, the header is added as report only</param>
-        /// <returns></returns>
+        /// <returns>The configured <see cref="ContentSecurityPolicyHeader "/></returns>
         public static ContentSecurityPolicyHeader Build(Action<CspBuilder> configure, bool asReportOnly)
         {
             var builder = new CspBuilder();

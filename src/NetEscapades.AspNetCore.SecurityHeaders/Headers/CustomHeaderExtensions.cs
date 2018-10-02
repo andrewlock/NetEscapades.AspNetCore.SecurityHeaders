@@ -1,5 +1,5 @@
-using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 using System;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders
 {
@@ -14,6 +14,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="policies">The collection of policies</param>
         /// <param name="header">The header value to use</param>
         /// <param name="value">The value to set for the given header</param>
+        /// <returns>The <see cref="HeaderPolicyCollection" /> for method chaining</returns>
         public static HeaderPolicyCollection AddCustomHeader(this HeaderPolicyCollection policies, string header, string value)
         {
             if (string.IsNullOrEmpty(header))

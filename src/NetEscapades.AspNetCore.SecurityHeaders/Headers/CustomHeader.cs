@@ -5,9 +5,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// </summary>
     public class CustomHeader : HeaderPolicyBase
     {
-        
         /// <summary>
-        /// Create a new instance of the custom header
+        /// Initializes a new instance of the <see cref="CustomHeader"/> class.
         /// </summary>
         /// <param name="header">The string value of the header</param>
         /// <param name="value">The value to apply for the header</param>

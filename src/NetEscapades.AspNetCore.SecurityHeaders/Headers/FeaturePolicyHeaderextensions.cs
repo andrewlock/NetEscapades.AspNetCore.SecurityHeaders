@@ -13,6 +13,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// </summary>
         /// <param name="policies">The collection of policies</param>
         /// <param name="configure">Configure the Feature-Policy</param>
+        /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
         public static HeaderPolicyCollection AddFeaturePolicy(this HeaderPolicyCollection policies, Action<FeaturePolicyBuilder> configure)
         {
             return policies.ApplyPolicy(FeaturePolicyHeader.Build(configure));

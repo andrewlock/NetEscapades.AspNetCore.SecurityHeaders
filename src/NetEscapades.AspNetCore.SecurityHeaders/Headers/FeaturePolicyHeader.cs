@@ -9,7 +9,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     public class FeaturePolicyHeader : HtmlOnlyHeaderPolicyBase
     {
         /// <summary>
-        /// Create a new policy.
+        /// Initializes a new instance of the <see cref="FeaturePolicyHeader"/> class.
         /// </summary>
         /// <param name="value">The value to apply for the header</param>
         public FeaturePolicyHeader(string value) : base(value)
@@ -23,7 +23,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// Configure a feature policy.
         /// </summary>
         /// <param name="configure">Configure the Feature-Policy header</param>
-        /// <returns></returns>
+        /// <returns>The complete Feature-Policy header</returns>
         public static FeaturePolicyHeader Build(Action<FeaturePolicyBuilder> configure)
         {
             var builder = new FeaturePolicyBuilder();
