@@ -8,8 +8,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         public FeaturePolicyDirectiveBuilder(string directive) : base(directive) { }
 
         public List<string> Sources { get; } = new List<string>();
-        public bool BlockResources { get; set; } = false;
-        public bool AllowAllResources { get; set; } = false;
+        internal bool BlockResources { get; set; } = false;
+        internal bool AllowAllResources { get; set; } = false;
 
         internal override string Build()
         {
