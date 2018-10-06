@@ -375,8 +375,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                         new HeaderPolicyCollection()
                             .AddFeaturePolicy(builder =>
                             {
-                                builder.AddFullscreen().EnableForSelf();
-                                builder.AddGeolocation().EnableForNone();
+                                builder.AddFullscreen().Self();
+                                builder.AddGeolocation().None();
                             }));
                     app.Run(async context =>
                     {
@@ -414,8 +414,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                         new HeaderPolicyCollection()
                             .AddFeaturePolicy(builder =>
                             {
-                                builder.AddFullscreen().EnableForSelf();
-                                builder.AddGeolocation().EnableForNone();
+                                builder.AddFullscreen().Self();
+                                builder.AddGeolocation().None();
                             }));
                     app.Run(async context =>
                     {

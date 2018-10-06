@@ -147,8 +147,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// <summary>
         /// Create a custom Feature-Policy directive for an un-implemented directive.
         /// 
-        /// The directive can be built using standard methods such as <see cref="FeaturePolicyDirectiveBuilderExtensions.EnableForSelf{T}(T)"/>
-        /// and <see cref="FeaturePolicyDirectiveBuilderExtensions.EnableForNone{T}(T)"/>
+        /// The directive can be built using standard methods such as <see cref="FeaturePolicyDirectiveBuilder.Self"/>
+        /// and <see cref="FeaturePolicyDirectiveBuilder.None"/>
         /// </summary>
         /// <param name="directive">The feature policy name, e.g. push, or vibrate</param>
         public CustomFeaturePolicyDirectiveBuilder AddCustomFeature(string directive) => AddDirective(new CustomFeaturePolicyDirectiveBuilder(directive));
@@ -156,8 +156,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// <summary>
         /// Create a custom Feature-Policy directive for an un-implemented directive.
         /// 
-        /// The directive can be built using standard methods such as <see cref="FeaturePolicyDirectiveBuilderExtensions.EnableForSelf{T}(T)"/>
-        /// and <see cref="FeaturePolicyDirectiveBuilderExtensions.EnableForNone{T}(T)"/>
+        /// The directive can be built using standard methods such as <see cref="FeaturePolicyDirectiveBuilder.Self"/>
+        /// and <see cref="FeaturePolicyDirectiveBuilder.None"/>
         /// </summary>
         /// <param name="directive">The feature policy name, e.g. push, or vibrate</param>
         /// <param name="value">The value to use for the directive, e.g. * or 'none'</param>

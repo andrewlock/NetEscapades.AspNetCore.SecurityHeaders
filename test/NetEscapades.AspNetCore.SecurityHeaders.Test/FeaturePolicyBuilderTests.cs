@@ -24,8 +24,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         {
             var builder = new FeaturePolicyBuilder();
             builder.AddAccelerometer()
-                .EnableForSelf()
-                .EnableFor("http://testUrl.com");
+                .Self()
+                .For("http://testUrl.com");
 
             var result = builder.Build();
 
@@ -37,9 +37,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         {
             var builder = new FeaturePolicyBuilder();
             builder.AddAccelerometer()
-                .EnableForSelf()
-                .EnableFor("http://testUrl.com")
-                .EnableForNone();
+                .Self()
+                .For("http://testUrl.com")
+                .None();
 
             var result = builder.Build();
 
@@ -51,9 +51,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         {
             var builder = new FeaturePolicyBuilder();
             builder.AddAccelerometer()
-                .EnableForSelf()
-                .EnableFor("http://testUrl.com")
-                .EnableForAll();
+                .Self()
+                .For("http://testUrl.com")
+                .All();
 
             var result = builder.Build();
 
@@ -65,8 +65,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         {
             var builder = new FeaturePolicyBuilder();
             builder.AddAccelerometer()
-                .EnableForNone()
-                .EnableForAll();
+                .None()
+                .All();
 
             Assert.Throws<InvalidOperationException>(() => builder.Build());
         }
@@ -88,8 +88,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         public void Build_CustomFeatureDirectiveBuilder_AddsValues()
         {
             var builder = new FeaturePolicyBuilder();
-            builder.AddCustomFeature("push").EnableForNone();
-            builder.AddCustomFeature("vibrate").EnableForAll();
+            builder.AddCustomFeature("push").None();
+            builder.AddCustomFeature("vibrate").All();
 
             var result = builder.Build();
 
@@ -100,8 +100,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         public void Build_AddingTheSameDirectiveTwice_OverwritesThePreviousCopy()
         {
             var builder = new FeaturePolicyBuilder();
-            builder.AddAccelerometer().EnableForSelf();
-            builder.AddAccelerometer().EnableForNone();
+            builder.AddAccelerometer().Self();
+            builder.AddAccelerometer().None();
 
             var result = builder.Build();
 
@@ -113,7 +113,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         public void Build_AddSyncXHR_WhenIncludesSelf_WritesSelf()
         {
             var builder = new FeaturePolicyBuilder();
-            builder.AddSyncXHR().EnableForSelf();
+            builder.AddSyncXHR().Self();
 
             var result = builder.Build();
 
