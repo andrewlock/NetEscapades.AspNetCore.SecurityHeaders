@@ -6,6 +6,10 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F51609AF-585F-4BBD-89BD-4FE245292018}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7EBFA813-EE77-4377-8A45-E5A8527CC12C}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+		netfx.props = netfx.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A2E64919-761D-4412-AFF7-D167023FD55E}"
 EndProject
@@ -41,5 +45,8 @@ Global
 		{99AE9045-0537-4724-B49B-3A463E24F743} = {F51609AF-585F-4BBD-89BD-4FE245292018}
 		{FD377A9F-984D-4E6E-9B4F-1C0448847579} = {A2E64919-761D-4412-AFF7-D167023FD55E}
 		{4EA49DA7-DB46-46A2-9F00-EC575758EECD} = {A2E64919-761D-4412-AFF7-D167023FD55E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7B05CFD-2871-4755-BEA0-E34B4639AE03}
 	EndGlobalSection
 EndGlobal

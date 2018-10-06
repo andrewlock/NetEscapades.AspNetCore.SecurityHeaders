@@ -1,0 +1,34 @@
+trigger:
+- master
+
+jobs:
+
+- job: Linux
+  pool:
+    vmImage: 'ubuntu-16.04'
+  steps:
+  - bash: ./build.sh
+    env:
+      COREHOST_TRACE: 0
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+- job: macOS
+  pool:
+    vmImage: 'xcode9-macos10.13'
+  steps:
+  - bash: ./build.sh
+    env:
+      COREHOST_TRACE: 0
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+- job: Windows
+  pool:
+    vmImage: 'vs2017-win2017'
+  steps:
+  - powershell: .\build.ps1
+    env:
+      COREHOST_TRACE: 0
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
