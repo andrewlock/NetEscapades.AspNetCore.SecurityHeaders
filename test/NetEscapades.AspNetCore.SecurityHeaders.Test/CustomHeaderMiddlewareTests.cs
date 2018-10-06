@@ -362,5 +362,82 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 header.Should().Be("default-src 'self'; object-src 'none'");
             }
         }
+
+        [Fact]
+        public async Task HttpRequest_WithFeaturePolicyHeader_SetsFeaturePolicy()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .ConfigureServices(services => services.AddCustomHeaders())
+                .Configure(app =>
+                {
+                    app.UseCustomHeadersMiddleware(
+                        new HeaderPolicyCollection()
+                            .AddFeaturePolicy(builder =>
+                            {
+                                builder.AddFullscreen().Self();
+                                builder.AddGeolocation().None();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Feature-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("fullscreen 'self'; geolocation 'none'");
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithFeaturePolicyHeaderAndUnknonwnContentType_SetsFeaturePolicyHeader()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .ConfigureServices(services => services.AddCustomHeaders())
+                .Configure(app =>
+                {
+                    app.UseCustomHeadersMiddleware(
+                        new HeaderPolicyCollection()
+                            .AddFeaturePolicy(builder =>
+                            {
+                                builder.AddFullscreen().Self();
+                                builder.AddGeolocation().None();
+                            }));
+                    app.Run(async context =>
+                    {
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Feature-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("fullscreen 'self'; geolocation 'none'");
+            }
+        }
     }
 }
