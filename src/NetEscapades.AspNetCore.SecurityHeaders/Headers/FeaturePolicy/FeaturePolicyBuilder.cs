@@ -124,6 +124,13 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         public SpeakerFeaturePolicyDirectiveBuilder AddSpeaker() => AddDirective(new SpeakerFeaturePolicyDirectiveBuilder());
 
         /// <summary>
+        /// Controls whether the current document is allowed to use synchronous XMLHttpRequest transfers.
+        /// If disabled in a document, then calls to <code>send()</code> on XMLHttpRequest objects
+        /// will throw a <code>NetworkError</code>.
+        /// </summary>
+        public SynchronousXhrFeaturePolicyDirectiveBuilder AddSyncXHR() => AddDirective(new SynchronousXhrFeaturePolicyDirectiveBuilder());
+
+        /// <summary>
         /// Controls whether the current document is allowed to use the WebUSB API.
         /// If disabled then calls to <code>getDevices()</code> should return a 
         /// <code>promise</code> which rejects with a <code>SecurityError</code> DOMException.
