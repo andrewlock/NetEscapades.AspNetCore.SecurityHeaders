@@ -108,5 +108,17 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             result.Should().Be("accelerometer 'none'");
 
         }
+
+        [Fact]
+        public void Build_AddSyncXHR_WhenIncludesSelf_WritesSelf()
+        {
+            var builder = new FeaturePolicyBuilder();
+            builder.AddSyncXHR().EnableForSelf();
+
+            var result = builder.Build();
+
+            result.Should().Be("sync-xhr 'self'");
+
+        }
     }
 }
