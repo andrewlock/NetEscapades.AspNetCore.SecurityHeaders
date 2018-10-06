@@ -103,7 +103,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         {
             if (string.IsNullOrWhiteSpace(uri))
             {
-                throw new System.ArgumentException("Uri may not be null or empty", nameof(uri));
+                throw new ArgumentException("Uri may not be null or empty", nameof(uri));
             }
 
             Sources.Add(uri);

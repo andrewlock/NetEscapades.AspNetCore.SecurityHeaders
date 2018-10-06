@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
     /// Base class for building Feature-Policy directives.

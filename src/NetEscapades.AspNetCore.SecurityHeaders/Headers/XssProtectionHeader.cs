@@ -1,5 +1,3 @@
-using System;
-
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>

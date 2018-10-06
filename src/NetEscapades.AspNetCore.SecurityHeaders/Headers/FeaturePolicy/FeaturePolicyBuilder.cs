@@ -144,6 +144,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// If disabled in a document, then calls to <code>send()</code> on XMLHttpRequest objects
         /// will throw a <code>NetworkError</code>.
         /// </summary>
+        /// <returns>A configured <see cref="SynchronousXhrFeaturePolicyDirectiveBuilder"/></returns>
         public SynchronousXhrFeaturePolicyDirectiveBuilder AddSyncXHR() => AddDirective(new SynchronousXhrFeaturePolicyDirectiveBuilder());
 
         /// <summary>
