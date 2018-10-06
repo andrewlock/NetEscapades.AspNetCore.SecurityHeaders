@@ -13,29 +13,18 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// <summary>
         /// The collections of policies to apply
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The collection of policies, indexed by header name</returns>
         public Dictionary<string, HeaderPolicyCollection> PolicyCollections { get; } =
             new Dictionary<string, HeaderPolicyCollection>();
 
         /// <summary>
-        /// The name of the default policy
+        /// Gets or sets the name of the default policy
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The name of the default policy</returns>
         public string DefaultPolicyName
         {
-            get
-            {
-                return _defaultPolicyName;
-            }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                _defaultPolicyName = value;
-            }
+            get => _defaultPolicyName;
+            set => _defaultPolicyName = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>

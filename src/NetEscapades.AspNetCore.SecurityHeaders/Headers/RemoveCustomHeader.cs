@@ -8,7 +8,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     public class RemoveCustomHeader : HeaderPolicyBase
     {
         /// <summary>
-        /// /// Create a new instance of the remove custom header policy
+        /// Initializes a new instance of the <see cref="RemoveCustomHeader"/> class.
         /// </summary>
         /// <param name="header">The string value of the header to remove</param>
         public RemoveCustomHeader(string header) : base(string.Empty)

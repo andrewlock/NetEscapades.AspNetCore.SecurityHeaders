@@ -17,7 +17,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         private readonly string _policyName;
 
         /// <summary>
-        /// Instantiates a new <see cref="CustomHeadersMiddleware"/>.
+        /// Initializes a new instance of the <see cref="CustomHeadersMiddleware"/> class.
         /// </summary>
         /// <param name="next">The next middleware in the pipeline.</param>
         /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
@@ -47,7 +47,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         }
 
         /// <summary>
-        /// Instantiates a new <see cref="CustomHeadersMiddleware"/>.
+        /// Initializes a new instance of the <see cref="CustomHeadersMiddleware"/> class.
         /// </summary>
         /// <param name="next">The next middleware in the pipeline.</param>
         /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
@@ -63,7 +63,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             {
                 throw new ArgumentNullException(nameof(service));
             }
-            
+
             if (policy == null)
             {
                 throw new ArgumentNullException(nameof(policy));
@@ -78,7 +78,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// Invoke the middleware
         /// </summary>
         /// <param name="context">The current context</param>
-        /// <returns></returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task Invoke(HttpContext context)
         {
             if (context == null)
@@ -95,6 +95,5 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 
             await _next(context);
         }
-
     }
 }

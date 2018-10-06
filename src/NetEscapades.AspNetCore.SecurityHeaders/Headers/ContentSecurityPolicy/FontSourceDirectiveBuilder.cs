@@ -5,6 +5,9 @@
     /// </summary>
     public class FontSourceDirectiveBuilder : CspDirectiveBuilder
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FontSourceDirectiveBuilder"/> class.
+        /// </summary>
         public FontSourceDirectiveBuilder() : base("font-src")
         {
         }

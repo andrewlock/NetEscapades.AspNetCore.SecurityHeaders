@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Http;
-using System;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
@@ -8,8 +7,10 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// </summary>
     public class ServerHeader : HeaderPolicyBase
     {
-
-        /// <inheritdoc />
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServerHeader"/> class.
+        /// </summary>
+        /// <param name="value">The value to apply for the header</param>
         public ServerHeader(string value) : base(value)
         {
         }
@@ -41,5 +42,4 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             }
         }
     }
-
 }

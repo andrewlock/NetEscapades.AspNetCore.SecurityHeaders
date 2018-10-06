@@ -14,7 +14,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         private readonly CustomHeaderOptions _options;
 
         /// <summary>
-        /// Creates a new instance of the <see cref="CustomHeaderOptions"/>
+        /// Initializes a new instance of the <see cref="DefaultCustomHeaderPolicyProvider"/> class.
         /// </summary>
         /// <param name="options">The option model representing <see cref="CustomHeaderOptions"/></param>
         public DefaultCustomHeaderPolicyProvider(IOptions<CustomHeaderOptions> options)

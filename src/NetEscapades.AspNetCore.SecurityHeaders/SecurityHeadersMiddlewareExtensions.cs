@@ -28,7 +28,7 @@ namespace Microsoft.AspNetCore.Builder
             }
 
             var service = app.ApplicationServices.GetService(typeof(ICustomHeaderService)) ?? new CustomHeaderService();
-            
+
             return app.UseMiddleware<SecurityHeadersMiddleware>(service, policies);
         }
 
@@ -53,7 +53,7 @@ namespace Microsoft.AspNetCore.Builder
 
         /// <summary>
         /// Adds middleware to your web application pipeline to automatically add security headers to requests
-        /// 
+        ///
         /// Adds a policy collection configured using the default security headers, as in <see cref="HeaderPolicyCollectionExtensions.AddDefaultSecurityHeaders"/>
         /// </summary>
         /// <param name="app">The IApplicationBuilder passed to your Configure method.</param>

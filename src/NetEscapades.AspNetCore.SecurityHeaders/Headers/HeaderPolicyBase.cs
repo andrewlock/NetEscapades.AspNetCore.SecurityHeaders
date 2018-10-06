@@ -9,7 +9,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     public abstract class HeaderPolicyBase : IHeaderPolicy
     {
         /// <summary>
-        /// Create a new policy
+        /// Initializes a new instance of the <see cref="HeaderPolicyBase"/> class.
         /// </summary>
         /// <param name="value">The value to apply for the header</param>
         protected HeaderPolicyBase(string value)
@@ -17,13 +17,13 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             Value = value;
         }
 
-        ///<inheritdoc />
+        /// <inheritdoc />
         public abstract string Header { get; }
 
-        ///<inheritdoc />
+        /// <inheritdoc />
         public string Value { get; set; }
 
-        ///<inheritdoc />
+        /// <inheritdoc />
         public void Apply(HttpContext context, CustomHeadersResult result)
         {
             if (context == null)
@@ -43,7 +43,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         }
 
         /// <summary>
-        /// Apply the header to the result when the provided <paramref see="context" />  has an insecure request 
+        /// Apply the header to the result when the provided <paramref see="context" />  has an insecure request
         /// </summary>
         /// <param name="context">The <see cref="HttpContext"/> associated with the current call.</param>
         /// <param name="result">The <see cref="CustomHeadersResult"/> to update.</param>
@@ -53,7 +53,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         }
 
         /// <summary>
-        /// Apply the header to the result when the provided <paramref see="context" />  has an secure request 
+        /// Apply the header to the result when the provided <paramref see="context" />  has an secure request
         /// </summary>
         /// <param name="context">The <see cref="HttpContext"/> associated with the current call.</param>
         /// <param name="result">The <see cref="CustomHeadersResult"/> to update.</param>

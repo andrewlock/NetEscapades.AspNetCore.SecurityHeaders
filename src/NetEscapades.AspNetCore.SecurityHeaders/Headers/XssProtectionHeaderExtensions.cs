@@ -12,6 +12,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// Enables the XSS Protections
         /// </summary>
         /// <param name="policies">The collection of policies</param>
+        /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
         public static HeaderPolicyCollection AddXssProtectionEnabled(this HeaderPolicyCollection policies)
         {
             return policies.ApplyPolicy(new XssProtectionHeader("1"));
@@ -22,6 +23,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// Disables the XSS Protections offered by the user-agent.
         /// </summary>
         /// <param name="policies">The collection of policies</param>
+        /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
         public static HeaderPolicyCollection AddXssProtectionDisabled(this HeaderPolicyCollection policies)
         {
             return policies.ApplyPolicy(new XssProtectionHeader("0"));
@@ -32,6 +34,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// Enables XSS protections and instructs the user-agent to block the response in the event that script has been inserted from user input, instead of sanitizing.
         /// </summary>
         /// <param name="policies">The collection of policies</param>
+        /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
         public static HeaderPolicyCollection AddXssProtectionBlock(this HeaderPolicyCollection policies)
         {
             return policies.ApplyPolicy(new XssProtectionHeader("1; mode=block"));
@@ -43,6 +46,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// </summary>
         /// <param name="policies">The collection of policies</param>
         /// <param name="reportUrl">The url to report potential XSS attacks to</param>
+        /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
         public static HeaderPolicyCollection AddXssProtectionReport(this HeaderPolicyCollection policies, string reportUrl)
         {
             return policies.ApplyPolicy(new XssProtectionHeader($"1; report={reportUrl}"));

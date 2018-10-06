@@ -5,6 +5,9 @@
     /// </summary>
     public class StyleSourceDirectiveBuilder : CspDirectiveBuilder
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StyleSourceDirectiveBuilder"/> class.
+        /// </summary>
         public StyleSourceDirectiveBuilder() : base("style-src")
         {
         }

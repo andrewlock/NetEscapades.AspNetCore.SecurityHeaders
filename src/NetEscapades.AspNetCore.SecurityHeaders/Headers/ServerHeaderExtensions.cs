@@ -11,10 +11,10 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// Removes the Server header from all responses
         /// </summary>
         /// <param name="policies">The collection of policies</param>
+        /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
         public static HeaderPolicyCollection RemoveServerHeader(this HeaderPolicyCollection policies)
         {
             return policies.ApplyPolicy(new ServerHeader(null));
         }
     }
-
 }

@@ -12,6 +12,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// </summary>
         /// <param name="policies">The collection of policies</param>
         /// <param name="header">The header value to remove</param>
+        /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
         public static HeaderPolicyCollection RemoveCustomHeader(this HeaderPolicyCollection policies, string header)
         {
             return policies.ApplyPolicy(new RemoveCustomHeader(header));

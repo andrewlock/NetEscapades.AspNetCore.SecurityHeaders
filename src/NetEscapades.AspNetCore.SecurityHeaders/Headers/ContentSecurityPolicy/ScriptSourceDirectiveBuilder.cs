@@ -7,6 +7,9 @@
     /// </summary>
     public class ScriptSourceDirectiveBuilder : CspDirectiveBuilder
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScriptSourceDirectiveBuilder"/> class.
+        /// </summary>
         public ScriptSourceDirectiveBuilder() : base("script-src")
         {
         }

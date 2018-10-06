@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Test
@@ -10,7 +8,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         [Fact]
         public void AddCustomHeader_WhenNullHeader_IncludesHeaderInTheMessage()
         {
-            https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/issues/35
+            // https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/issues/35
             var collection = new HeaderPolicyCollection();
 
             Assert.Throws<ArgumentNullException>(

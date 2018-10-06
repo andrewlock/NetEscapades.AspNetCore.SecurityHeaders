@@ -8,6 +8,9 @@
     /// </summary>
     public class PictureInPictureFeaturePolicyDirectiveBuilder : FeaturePolicyDirectiveBuilder
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PictureInPictureFeaturePolicyDirectiveBuilder"/> class.
+        /// </summary>
         public PictureInPictureFeaturePolicyDirectiveBuilder() : base("picture-in-picture")
         {
         }

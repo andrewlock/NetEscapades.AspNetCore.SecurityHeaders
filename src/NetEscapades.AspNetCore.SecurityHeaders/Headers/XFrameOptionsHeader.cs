@@ -1,5 +1,3 @@
-using System;
-
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
@@ -7,7 +5,10 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// </summary>
     public class XFrameOptionsHeader : HtmlOnlyHeaderPolicyBase
     {
-        /// <inheritdoc />
+        /// <summary>
+        /// Initializes a new instance of the <see cref="XFrameOptionsHeader"/> class.
+        /// </summary>
+        /// <param name="value">The HTTP header value</param>
         public XFrameOptionsHeader(string value) : base(value)
         {
         }
