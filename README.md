@@ -34,7 +34,7 @@ When you install the package, it should be added to your `.csproj`. Alternativel
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.5.0" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.8.0" />
   </ItemGroup>
   
 </Project>
