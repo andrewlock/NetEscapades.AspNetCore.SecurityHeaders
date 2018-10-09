@@ -54,6 +54,46 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                     "Should not contain Strict-Transport-Security header over http");
             }
         }
+        
+        [Fact]
+        public async Task HttpRequest_WithDefaultSecurityPolicyUsingConfigureAction_SetsSecurityHeaders()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                           {
+                               app.UseSecurityHeaders(policies => policies.AddDefaultSecurityHeaders());
+                               app.Run(async context =>
+                                             {
+                                                 context.Response.ContentType = "text/html";
+                                                 await context.Response.WriteAsync("Test response");
+                                             });
+                           });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
+                header.Should().Be("nosniff");
+                header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
+                header.Should().Be("DENY");
+                header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
+                header.Should().Be("1; mode=block");
+
+                Assert.False(response.Headers.Contains("Server"),
+                    "Should not contain server header");
+                Assert.False(response.Headers.Contains("Strict-Transport-Security"),
+                    "Should not contain Strict-Transport-Security header over http");
+            }
+        }
 
         [Fact]
         public async Task SecureRequest_WithDefaultSecurityPolicy_SetsSecurityHeadersIncludingStrictTransport()
@@ -109,6 +149,36 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                                app.UseSecurityHeaders(
                                    new HeaderPolicyCollection()
                                        .AddCustomHeader("X-My-Test-Header", "Header value"));
+                               app.Run(async context =>
+                                             {
+                                                 await context.Response.WriteAsync("Test response");
+                                             });
+                           });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("X-My-Test-Header").FirstOrDefault();
+                header.Should().Be("Header value");
+            }
+        }
+        
+        [Fact]
+        public async Task HttpRequest_WithCustomHeaderPolicyUsingConfigureAction_SetsCustomHeader()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                           {
+                               app.UseSecurityHeaders(policies => policies.AddCustomHeader("X-My-Test-Header", "Header value"));
                                app.Run(async context =>
                                              {
                                                  await context.Response.WriteAsync("Test response");
