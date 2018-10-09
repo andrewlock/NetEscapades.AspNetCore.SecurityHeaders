@@ -120,6 +120,21 @@ public void Configure(IApplicationBuilder app)
 }
 ```
 
+There is also a convenience overload for `UseSecurityHeaders` that takes an `Action<HeaderPolicyCollection>`, instead of requiring you to instantiate a `HeaderPolicyCollection` yourself:
+
+```csharp
+public void Configure(IApplicationBuilder app)
+{
+    app.UseSecurityHeaders(policies =>
+        policies
+            .AddDefaultSecurityHeaders()
+            .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAgeInSeconds: 63072000);
+    );
+    
+    // other middleware e.g. static files, MVC etc  
+}
+```
+
 ## RemoveServerHeader
 
 One point to be aware of is that the `RemoveServerHeader` method will rarely (ever?) be sufficient to remove the `Server` header from your output. If any subsequent middleware in your application pipeline add the header, then this will be able to remove it. However Kestrel will generally add the `Server` header too late in the pipeline to be able to modify it. 
@@ -136,7 +151,7 @@ In `Program.cs`, when constructing your app's `WebHostBuilder`, configure the `K
 
 ## AddContentSecurityPolicy
 
-The `Content-Security-Policy` (CSP) headder is a very powerful header that can protect your website from a wide range of attacks. However, it's also totally possible to create a CSP header that completely breaks your app. 
+The `Content-Security-Policy` (CSP) header is a very powerful header that can protect your website from a wide range of attacks. However, it's also totally possible to create a CSP header that completely breaks your app. 
 
 The CSP has a dizzying array of options, only some of which are implemented in this project. Consequently, I highly recommend reading [this post by Scott Helme](https://scotthelme.co.uk/content-security-policy-an-introduction/), in which he discusses the impact of each "directive". I also highly recommend using the "report only" version of the header when you start. This won't break your site, but will report instances that it would be broken, by providing reports to a service such as report-uri.com.
 
@@ -236,6 +251,99 @@ public void Configure(IApplicationBuilder app)
 }
 ```
 
+## AddFeaturePolicy
+
+The `Feature-Policy` is an experimental header that allows web developers to selectively enable, disable, and modify the behaviour of certain features and APIs in the browser. It is similar to CSP but controls features instead of security behaviour.
+
+With Feature Policy, you opt-in to a set of "policies" for the browser to enforce on specific features used throughout a website. These policies restrict what APIs the site can access or modify the browser's default behaviour for certain features.
+
+By adding Feature-Policy to headers to your website, you can ensure that sensitive APIs like geolocation or the camera cannot be used, even if your site is otherwise compromised, for example by malicious third-party attacks.
+
+For more information about the feature, I recommend the following resources:
+
+* MDN documentation: https://developer.mozilla.org/en-US/docs/Web/HTTP/Feature_Policy
+* Scott Helme's introduction to Feature-Policy: https://scotthelme.co.uk/tag/feature-policy/
+* The list of policy-controlled features: https://github.com/WICG/feature-policy/blob/master/features.md
+* Google's introduction to Feature-Policy: https://developers.google.com/web/updates/2018/06/feature-policy
+
+> Note that Feature-Policy is still an experimental header. The features supported by each browser varies, and is rapidly changing. This library does its best to support common features, but is not exhaustive. If there's a feature you wish to see supported, please raise an issue, or use the `AddCustomFeature` method, shown below:
+
+You configure your CSP policy when you configure your `HeaderPolicyCollection` in `Startup.Configure`. For example:
+
+```csharp
+public void Configure(IApplicationBuilder app)
+{
+    var policyCollection = new HeaderPolicyCollection()
+        .AddFeaturePolicy(builder =>
+        {
+            builder.AddAccelerometer() // accelerometer 'self' http://testUrl.com
+                .Self()
+                .For("http://testUrl.com");
+
+            builder.AddAmbientLightSensor() // ambient-light-sensor 'self' http://testUrl.com
+                .Self()
+                .For("http://testUrl.com");
+
+            builder.AddAutoplay() // autoplay 'self'
+                .Self();
+
+            builder.AddCamera() // camera 'none'
+                .None();
+                
+            builder.AddEncryptedMedia() // encrypted-media 'self'
+                .Self();
+                
+            builder.AddFullscreen() // fullscreen *:
+                .All();
+
+            builder.AddGeolocation() // geolocation 'none'
+                .None();
+
+            builder.AddGyroscope() // gyroscope 'none'
+                .None();
+
+            builder.AddMagnetometer() // magnetometer 'none'
+                .None();
+
+            builder.AddMicrophone() // microphone 'none'
+                .None();
+            
+            builder.AddMidi() // midi 'none'
+                .None();
+            
+            builder.AddPayment() // payment 'none'
+                .None();
+            
+            builder.AddPictureInPicture() // picture-in-picture 'none'
+                .None();
+            
+            builder.AddSpeaker() // speaker 'none'
+                .None();
+            
+            builder.AddSyncXHR() // sync-xhr 'none'
+                .None();
+            
+            builder.AddUsb() // usb 'none'
+                .None();
+            
+            builder.AddVR() // vr 'none'
+                .None();
+            
+            // You can also add arbitrary extra directives: plugin-types application/x-shockwave-flash"
+            builder.AddCustomDirective("plugin-types", "application/x-shockwave-flash");
+            
+            // If a new feature policy is added that follows the standard conventions, you can use this overload
+            // iframe 'self' http://testUrl.com
+            builder.AddCustomDirective("iframe") // 
+                .Self()
+                .For("http://testUrl.com");
+        });
+    
+    app.UseSecurityHeaders(policyCollection);
+    
+    // other middleware e.g. static files, MVC etc  
+}
+```
 
 ## Additional Resources
 * [ASP.NET Core Middleware Docs](https://docs.asp.net/en/latest/fundamentals/middleware.html)
