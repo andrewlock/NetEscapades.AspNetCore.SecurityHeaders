@@ -18,12 +18,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// </summary>
         /// <param name="next">The next middleware in the pipeline.</param>
         /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
-        /// <param name="policy">A <see cref="HeaderPolicyCollection"/> containing the policies to be applied.</param>
-        public SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policy)
+        /// <param name="policies">A <see cref="HeaderPolicyCollection"/> containing the policies to be applied.</param>
+        public SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policies)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _service = service ?? throw new ArgumentNullException(nameof(service));
-            _policy = policy ?? throw new ArgumentNullException(nameof(policy));
+            _policy = policies ?? throw new ArgumentNullException(nameof(policies));
         }
 
         /// <summary>

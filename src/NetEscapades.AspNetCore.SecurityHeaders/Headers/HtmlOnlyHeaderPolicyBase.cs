@@ -7,14 +7,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// </summary>
     public abstract class HtmlOnlyHeaderPolicyBase : HeaderPolicyBase
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HtmlOnlyHeaderPolicyBase"/> class.
-        /// </summary>
-        /// <param name="value">The HTTP header value</param>
-        protected HtmlOnlyHeaderPolicyBase(string value) : base(value)
-        {
-        }
-
         /// <inheritdoc />
         protected override void EvaluateHttpRequest(HttpContext context, CustomHeadersResult result)
         {

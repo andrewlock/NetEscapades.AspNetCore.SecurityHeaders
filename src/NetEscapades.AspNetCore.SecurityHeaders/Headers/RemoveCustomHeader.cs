@@ -11,13 +11,16 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// Initializes a new instance of the <see cref="RemoveCustomHeader"/> class.
         /// </summary>
         /// <param name="header">The string value of the header to remove</param>
-        public RemoveCustomHeader(string header) : base(string.Empty)
+        public RemoveCustomHeader(string header)
         {
             Header = header;
         }
 
         /// <inheritdoc />
         public override string Header { get; }
+
+        /// <inheritdoc />
+        protected override string GetValue(HttpContext context) => string.Empty;
 
         /// <inheritdoc />
         protected override void EvaluateHttpRequest(HttpContext context, CustomHeadersResult result)

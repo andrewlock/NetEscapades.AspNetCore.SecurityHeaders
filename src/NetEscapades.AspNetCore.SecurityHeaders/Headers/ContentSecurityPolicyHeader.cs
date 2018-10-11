@@ -8,14 +8,16 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// </summary>
     public class ContentSecurityPolicyHeader : HtmlOnlyHeaderPolicyBase
     {
+        private readonly string _value;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ContentSecurityPolicyHeader"/> class.
         /// </summary>
         /// <param name="asReportOnly">If true, the header is added as report only</param>
         /// <param name="value">The value to apply for the header</param>
         public ContentSecurityPolicyHeader(string value, bool asReportOnly)
-            : base(value)
         {
+            _value = value;
             ReportOnly = asReportOnly;
         }
 
@@ -27,6 +29,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// If false, it's set to "Content-Security-Policy";
         /// </summary>
         public bool ReportOnly { get; }
+
+        /// <inheritdoc />
+        protected override string GetValue(HttpContext context) => _value;
 
         /// <summary>
         /// Configure a content security policy
