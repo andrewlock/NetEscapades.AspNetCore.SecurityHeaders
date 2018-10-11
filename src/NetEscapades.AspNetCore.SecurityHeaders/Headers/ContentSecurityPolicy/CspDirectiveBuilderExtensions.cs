@@ -180,5 +180,24 @@
             builder.Sources.Add("'strict-dynamic'");
             return builder;
         }
+
+#if !NETSTANDARD1_3
+        /// <summary>
+        /// A whitelist for specific inline scripts using a cryptographic nonce (number used once).
+        /// The server generates a unique nonce value for each request. Specifying a nonce makes a
+        /// modern browser ignore 'unsafe-inline' which could still be set for older browsers
+        /// without nonce support.
+        /// </summary>
+        /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
+        /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
+        /// <returns>The CSP builder for method chaining</returns>
+        public static T WithNonce<T>(this T builder) where T : CspDirectiveBuilder
+        {
+            // The format parameter will be replaced with the nonce for each request
+            builder.IsUniquePerRequest = true;
+            builder.Sources.Add("'nonce-{0}'");
+            return builder;
+        }
+#endif
     }
 }

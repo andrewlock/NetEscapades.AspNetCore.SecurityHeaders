@@ -150,9 +150,16 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// Build the CSP directive
         /// </summary>
         /// <returns>The CSP directive as a string</returns>
-        internal string Build()
+        internal CspBuilderResult Build()
         {
-            return string.Join("; ", _directives.Values.Select(x => x.Build()).Where(x => !string.IsNullOrEmpty(x)));
+            var isUniquePerRequest = _directives.Values.Any(directive => directive.IsUniquePerRequest);
+            var value = string.Join("; ", _directives.Values.Select(x => x.Build()).Where(x => !string.IsNullOrEmpty(x)));
+
+            return new CspBuilderResult
+            {
+                IsUniquePerRequest = isUniquePerRequest,
+                Value = value,
+            };
         }
     }
 }

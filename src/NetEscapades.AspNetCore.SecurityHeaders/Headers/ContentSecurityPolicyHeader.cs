@@ -14,11 +14,14 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// Initializes a new instance of the <see cref="ContentSecurityPolicyHeader"/> class.
         /// </summary>
         /// <param name="asReportOnly">If true, the header is added as report only</param>
+        /// <param name="isUniquePerRequest">If true, the header is unique per request, and should use dynamic
+        /// values (such as a nonce)</param>
         /// <param name="value">The value to apply for the header</param>
-        public ContentSecurityPolicyHeader(string value, bool asReportOnly)
+        public ContentSecurityPolicyHeader(string value, bool asReportOnly, bool isUniquePerRequest)
         {
             _value = value;
             ReportOnly = asReportOnly;
+            IsUniquePerRequest = isUniquePerRequest;
         }
 
         /// <inheritdoc />
@@ -30,8 +33,20 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// </summary>
         public bool ReportOnly { get; }
 
+        /// <summary>
+        /// If true, the header directives are unique per request, and require
+        /// runtime formatting (e.g. for use with Nonce)
+        /// </summary>
+        internal bool IsUniquePerRequest { get; }
+
         /// <inheritdoc />
-        protected override string GetValue(HttpContext context) => _value;
+        protected override string GetValue(HttpContext context) => IsUniquePerRequest ? GetFormattedValue(context) : _value;
+
+        private string GetFormattedValue(HttpContext context)
+        {
+            var nonce = context.Items[Constants.DefaultNonceKey];
+            return string.Format(_value, nonce);
+        }
 
         /// <summary>
         /// Configure a content security policy
@@ -45,7 +60,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 
             configure(builder);
 
-            return new ContentSecurityPolicyHeader(builder.Build(), asReportOnly);
+            var cspResult = builder.Build();
+
+            return new ContentSecurityPolicyHeader(cspResult.Value, asReportOnly, cspResult.IsUniquePerRequest);
         }
     }
 }

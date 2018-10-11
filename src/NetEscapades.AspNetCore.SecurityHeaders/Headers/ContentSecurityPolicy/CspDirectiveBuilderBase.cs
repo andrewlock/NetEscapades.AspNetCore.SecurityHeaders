@@ -20,6 +20,12 @@
         internal string Directive { get; }
 
         /// <summary>
+        /// If true, the header directives are unique per request, and require
+        /// runtime formatting (e.g. for use with Nonce)
+        /// </summary>
+        internal bool IsUniquePerRequest { get; set; } = false;
+
+        /// <summary>
         /// Builds the complete directive policy string.
         /// </summary>
         /// <returns>The complete directive string.</returns>
