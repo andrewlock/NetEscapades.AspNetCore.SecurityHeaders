@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
@@ -27,14 +29,14 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         public bool BlockResources { get; set; } = false;
 
         /// <inheritdoc />
-        internal override string Build()
+        internal override Func<HttpContext, string> CreateBuilder()
         {
             if (BlockResources)
             {
-                return GetPolicy("'none'");
+                return ctx => GetPolicy("'none'");
             }
 
-            return GetPolicy(string.Join(" ", Sources));
+            return ctx => GetPolicy(string.Join(" ", Sources));
         }
 
         private string GetPolicy(string value)

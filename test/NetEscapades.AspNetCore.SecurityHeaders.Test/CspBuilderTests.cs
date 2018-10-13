@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 using Xunit;
 
@@ -13,17 +14,17 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().BeNullOrEmpty();
+            result.ConstantValue.Should().BeNullOrEmpty();
         }
 
         [Fact]
-        public void Build_WhenNoValues_UniquePerRequestReturnsFalse()
+        public void Build_WhenNoValues_HasPerRequestValuesReturnsFalse()
         {
             var builder = new CspBuilder();
 
             var result = builder.Build();
 
-            result.IsUniquePerRequest.Should().BeFalse();
+            result.HasPerRequestValues.Should().BeFalse();
         }
 
         [Fact]
@@ -38,7 +39,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("default-src 'self' blob: data: http://testUrl.com");
+            result.ConstantValue.Should().Be("default-src 'self' blob: data: http://testUrl.com");
         }
 
         [Fact]
@@ -53,7 +54,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("connect-src 'self' blob: data: http://testUrl.com");
+            result.ConstantValue.Should().Be("connect-src 'self' blob: data: http://testUrl.com");
         }
 
         [Fact]
@@ -68,7 +69,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("font-src 'self' blob: data: http://testUrl.com");
+            result.ConstantValue.Should().Be("font-src 'self' blob: data: http://testUrl.com");
         }
 
         [Fact]
@@ -83,7 +84,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("object-src 'self' blob: data: http://testUrl.com");
+            result.ConstantValue.Should().Be("object-src 'self' blob: data: http://testUrl.com");
         }
 
         [Fact]
@@ -98,7 +99,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("form-action 'self' blob: data: http://testUrl.com");
+            result.ConstantValue.Should().Be("form-action 'self' blob: data: http://testUrl.com");
         }
 
         [Fact]
@@ -113,7 +114,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("img-src 'self' blob: data: http://testUrl.com");
+            result.ConstantValue.Should().Be("img-src 'self' blob: data: http://testUrl.com");
         }
 
         [Fact]
@@ -128,12 +129,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("script-src 'self' blob: data: http://testUrl.com");
+            result.ConstantValue.Should().Be("script-src 'self' blob: data: http://testUrl.com");
         }
 
 #if !NETCOREAPP1_0
         [Fact]
-        public void Build_AddSrciptSrc_WhenAddsNonce_ReturnsFormatString()
+        public void Build_AddSrciptSrc_WhenAddsNonce_ConstantValueThrowsInvalidOperation()
         {
             var builder = new CspBuilder();
             builder.AddScriptSrc()
@@ -147,11 +148,36 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("script-src 'self' 'unsafe-eval' 'unsafe-inline' 'strict-dynamic' 'report-sample' 'nonce-{0}' http://testUrl.com");
+            result.Invoking(x =>
+                {
+                    var val = x.ConstantValue;
+                })
+                .ShouldThrow<InvalidOperationException>();
+        }
+        
+        [Fact]
+        public void Build_AddSrciptSrc_WhenDoesntAddNonce_BuilderThrowsInvalidOperation()
+        {
+            var builder = new CspBuilder();
+            builder.AddScriptSrc()
+                .Self()
+                .UnsafeEval()
+                .UnsafeInline()
+                .StrictDynamic()
+                .ReportSample()
+                .From("http://testUrl.com");
+
+            var result = builder.Build();
+
+            result.Invoking(x =>
+                {
+                    var val = x.Builder;
+                })
+                .ShouldThrow<InvalidOperationException>();
         }
 
         [Fact]
-        public void Build_AddSrciptSrc_WhenAddsNonce_UniquePerRequestReturnsTrue()
+        public void Build_AddSrciptSrc_WhenAddsNonce_HasPerRequestValuesReturnsTrue()
         {
             var builder = new CspBuilder();
             builder.AddScriptSrc()
@@ -165,7 +191,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.IsUniquePerRequest.Should().BeTrue();
+            result.HasPerRequestValues.Should().BeTrue();
         }
 #endif
 
@@ -181,7 +207,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("style-src 'self' blob: data: http://testUrl.com");
+            result.ConstantValue.Should().Be("style-src 'self' blob: data: http://testUrl.com");
         }
 
         [Fact]
@@ -196,7 +222,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("media-src 'self' blob: data: http://testUrl.com");
+            result.ConstantValue.Should().Be("media-src 'self' blob: data: http://testUrl.com");
         }
 
         [Fact]
@@ -211,7 +237,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("frame-ancestors 'self' blob: data: http://testUrl.com");
+            result.ConstantValue.Should().Be("frame-ancestors 'self' blob: data: http://testUrl.com");
         }
 
         [Fact]
@@ -226,7 +252,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("base-uri 'self' blob: data: http://testUrl.com");
+            result.ConstantValue.Should().Be("base-uri 'self' blob: data: http://testUrl.com");
         }
 
         [Fact]
@@ -237,7 +263,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("upgrade-insecure-requests");
+            result.ConstantValue.Should().Be("upgrade-insecure-requests");
         }
 
         [Fact]
@@ -248,7 +274,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("block-all-mixed-content");
+            result.ConstantValue.Should().Be("block-all-mixed-content");
         }
 
         [Fact]
@@ -264,7 +290,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("default-src 'none'");
+            result.ConstantValue.Should().Be("default-src 'none'");
         }
 
         [Fact]
@@ -276,7 +302,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("report-uri http://testUrl.com");
+            result.ConstantValue.Should().Be("report-uri http://testUrl.com");
         }
 
         [Fact]
@@ -288,7 +314,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("report-to; plugin-types application/x-shockwave-flash");
+            result.ConstantValue.Should().Be("report-to; plugin-types application/x-shockwave-flash");
         }
 
         [Fact]
@@ -300,12 +326,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.Value.Should().Be("default-src 'none'");
+            result.ConstantValue.Should().Be("default-src 'none'");
 
         }
 
         [Fact]
-        public void Build_ForAllHeaders_WhenNotUsingNonce_UniquePerRequestReturnsFalse()
+        public void Build_ForAllHeaders_WhenNotUsingNonce_HasPerRequestValuesReturnsFalse()
         {
 
             var builder = new CspBuilder();
@@ -325,12 +351,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.IsUniquePerRequest.Should().BeFalse();
+            result.HasPerRequestValues.Should().BeFalse();
         }
 
 #if !NETCOREAPP1_0
         [Fact]
-        public void Build_ForAllHeaders_WhenNotUsingNonce_UniquePerRequestReturnsTrue()
+        public void Build_ForAllHeaders_WhenNotUsingNonce_HasPerRequestValuesReturnsTrue()
         {
 
             var builder = new CspBuilder();
@@ -352,7 +378,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             var result = builder.Build();
 
-            result.IsUniquePerRequest.Should().BeTrue();
+            result.HasPerRequestValues.Should().BeTrue();
         }
 #endif
     }

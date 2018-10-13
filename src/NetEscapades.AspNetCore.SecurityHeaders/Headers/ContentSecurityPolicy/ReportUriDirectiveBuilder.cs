@@ -1,4 +1,7 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+﻿using System;
+using Microsoft.AspNetCore.Http;
+
+namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
     /// The report-uri directive instructs the user agent to report attempts to
@@ -17,15 +20,15 @@
         private string Uri { get; set; }
 
         /// <inheritdoc />
-        internal override string Build()
+        internal override Func<HttpContext, string> CreateBuilder()
         {
             if (string.IsNullOrEmpty(Uri))
             {
                 // TODO warn they added a report uri but no uri
-                return string.Empty;
+                return ctx => string.Empty;
             }
 
-            return $"{Directive} {Uri}";
+            return ctx => $"{Directive} {Uri}";
         }
 
         /// <summary>

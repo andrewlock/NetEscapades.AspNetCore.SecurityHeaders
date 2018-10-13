@@ -43,7 +43,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             _mustGenerateNonce = _policy.Values
                 .Where(header => header is ContentSecurityPolicyHeader)
                 .Cast<ContentSecurityPolicyHeader>()
-                .Any(header => header.IsUniquePerRequest);
+                .Any(header => header.HasPerRequestValues);
         }
 #endif
 
@@ -76,7 +76,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 
             if (_mustGenerateNonce)
             {
-                context.Items[Constants.DefaultNonceKey] = _nonceGenerator.GetNonce(Constants.DefaultBytesInNonce);
+                context.SetNonce(_nonceGenerator.GetNonce(Constants.DefaultBytesInNonce));
             }
 
             context.Response.OnStarting(() =>

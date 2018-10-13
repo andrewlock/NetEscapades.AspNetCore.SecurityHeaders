@@ -1,4 +1,7 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+﻿using System;
+using Microsoft.AspNetCore.Http;
+
+namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
     /// Base class for building CSP directives.
@@ -20,15 +23,18 @@
         internal string Directive { get; }
 
         /// <summary>
-        /// If true, the header directives are unique per request, and require
-        /// runtime formatting (e.g. for use with Nonce)
+        /// If true, the directive value is unique per request, and must be executed
+        /// with an <see cref="HttpContext"/> (e.g. for use with Nonce). If not the value
+        /// is fixed, and does not rely on the <see cref="HttpContext"/>
         /// </summary>
-        internal bool IsUniquePerRequest { get; set; } = false;
+        internal virtual bool HasPerRequestValues { get; } = false;
 
         /// <summary>
-        /// Builds the complete directive policy string.
+        /// Create a builder function that can be invoked to find the directive's value
+        /// If <see cref="HasPerRequestValues"/> is <code>false</code>, can be executed
+        /// ahead of time with a null parameter
         /// </summary>
-        /// <returns>The complete directive string.</returns>
-        internal abstract string Build();
+        /// <returns>A builder function for generating the directive's value</returns>
+        internal abstract Func<HttpContext, string> CreateBuilder();
     }
 }

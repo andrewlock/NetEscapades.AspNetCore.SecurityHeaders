@@ -194,8 +194,7 @@
         public static T WithNonce<T>(this T builder) where T : CspDirectiveBuilder
         {
             // The format parameter will be replaced with the nonce for each request
-            builder.IsUniquePerRequest = true;
-            builder.Sources.Add("'nonce-{0}'");
+            builder.SourceBuilders.Add(ctx => $"'nonce-{ctx.GetNonce()}'");
             return builder;
         }
 #endif
