@@ -71,7 +71,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 
             return ctx =>
             {
-                var dynamicSources = builders.Select(builder => builder.Invoke(ctx));
+                var dynamicSources = builders
+                    .Select(builder => builder.Invoke(ctx))
+                    .Where(str => !string.IsNullOrEmpty(str));
                 return GetPolicy(string.Join(Separator, dynamicSources));
             };
         }

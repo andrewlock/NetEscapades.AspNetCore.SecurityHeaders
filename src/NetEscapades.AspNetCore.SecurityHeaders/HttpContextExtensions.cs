@@ -6,14 +6,14 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
     /// <summary>
     /// Helper methods for working with nonces
     /// </summary>
-    internal static class HttpContextExtensions
+    public static class HttpContextExtensions
     {
         /// <summary>
         /// Fetch the nonce (number used once) for the request
         /// </summary>
         /// <param name="context">The <see cref="HttpContext"/> for the request</param>
         /// <returns>The nonce for the request, as a string</returns>
-        internal static string GetNonce(this HttpContext context)
+        public static string GetNonce(this HttpContext context)
         {
             return context.Items[Constants.DefaultNonceKey] as string ?? string.Empty;
         }
