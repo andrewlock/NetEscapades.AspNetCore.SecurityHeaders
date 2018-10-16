@@ -23,5 +23,19 @@
             Sources.Add("'report-sample'");
             return this;
         }
+
+        /// <summary>
+        /// Allow sources for content generated using the the HashTagHelper.
+        /// </summary>
+        /// <returns>The CSP builder for method chaining</returns>
+        public ScriptSourceDirectiveBuilder WithHashTagHelper()
+        {
+            // TODO: check hash algorithm is one of expected values
+            SourceBuilders.Add(ctx =>
+            {
+                return string.Join(" ", ctx.GetScriptCSPHashes());
+            });
+            return this;
+        }
     }
 }
