@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetEscapades.AspNetCore.Sec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test", "test\NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test\NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test.csproj", "{8793E411-025E-43A7-95E5-97EC61144022}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorWebSite", "test\RazorWebSite\RazorWebSite.csproj", "{0739A48E-D2E5-4529-A539-5A2C44901DFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{8793E411-025E-43A7-95E5-97EC61144022}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8793E411-025E-43A7-95E5-97EC61144022}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8793E411-025E-43A7-95E5-97EC61144022}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0739A48E-D2E5-4529-A539-5A2C44901DFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0739A48E-D2E5-4529-A539-5A2C44901DFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0739A48E-D2E5-4529-A539-5A2C44901DFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0739A48E-D2E5-4529-A539-5A2C44901DFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{4EA49DA7-DB46-46A2-9F00-EC575758EECD} = {A2E64919-761D-4412-AFF7-D167023FD55E}
 		{C59C64E7-B97E-46B8-9E49-18139AF627E6} = {F51609AF-585F-4BBD-89BD-4FE245292018}
 		{8793E411-025E-43A7-95E5-97EC61144022} = {A2E64919-761D-4412-AFF7-D167023FD55E}
+		{0739A48E-D2E5-4529-A539-5A2C44901DFC} = {A2E64919-761D-4412-AFF7-D167023FD55E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BA9BB36D-F8F5-4E54-BE37-94B8AD619F00}

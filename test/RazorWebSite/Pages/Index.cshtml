@@ -1,0 +1,32 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+    var message = "My JavaScript is running!";
+    var color = "red";
+}
+<style asp-add-content-to-csp csp-hash-type="SHA384">
+    #message {
+        color: @color;
+    }  </style>
+
+<h3 id="message">Haha, malicious javascript blocked!</h3>
+
+<script asp-add-content-to-csp>
+    var msg = document.getElementById('message');
+    msg.innerText = "@message";
+</script>
+
+<script asp-add-content-to-csp csp-hash-type="SHA512">
+    var body = document.getElementsByTagName('body')[0];
+    var blink = document.createElement('div');
+    blink.innerText = "I was added using the tag helper";
+    body.appendChild(blink);
+</script>
+
+<script asp-add-nonce>
+    var body = document.getElementsByTagName('body')[0];
+    var blink = document.createElement('div');
+    blink.innerText = "And I was added using the NonceHelper";
+    body.appendChild(blink);
+</script>
