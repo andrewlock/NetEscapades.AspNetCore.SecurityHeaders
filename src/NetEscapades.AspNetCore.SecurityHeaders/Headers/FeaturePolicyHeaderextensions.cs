@@ -1,7 +1,7 @@
 using System;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders
+namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
     /// Extension methods for adding a <see cref="FeaturePolicyHeader" /> to a <see cref="HeaderPolicyCollection" />

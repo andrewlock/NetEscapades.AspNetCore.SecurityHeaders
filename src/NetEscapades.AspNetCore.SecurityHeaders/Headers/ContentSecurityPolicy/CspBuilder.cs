@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
     /// Used to build a CSP header from multiple directives.

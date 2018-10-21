@@ -1,4 +1,7 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+﻿using NetEscapades.AspNetCore.SecurityHeaders;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
+
+namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
     /// Extension methods for <see cref="CspDirectiveBuilder"/>s

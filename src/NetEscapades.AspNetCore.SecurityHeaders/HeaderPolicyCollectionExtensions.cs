@@ -1,6 +1,6 @@
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders
+namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
     /// Utility class exposing common extension methods
