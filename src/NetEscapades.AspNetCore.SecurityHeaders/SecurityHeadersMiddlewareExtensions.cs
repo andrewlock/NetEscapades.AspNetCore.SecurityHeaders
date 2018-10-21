@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.AspNetCore.Builder;
 using NetEscapades.AspNetCore.SecurityHeaders;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 

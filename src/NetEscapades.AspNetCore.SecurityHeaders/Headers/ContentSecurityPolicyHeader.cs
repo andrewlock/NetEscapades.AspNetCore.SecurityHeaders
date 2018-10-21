@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
 {
