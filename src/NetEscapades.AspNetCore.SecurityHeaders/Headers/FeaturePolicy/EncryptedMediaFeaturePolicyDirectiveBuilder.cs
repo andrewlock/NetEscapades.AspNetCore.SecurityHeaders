@@ -1,4 +1,4 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy
 {
     /// <summary>
     /// Controls whether encrypted media extensions are available. If disabled

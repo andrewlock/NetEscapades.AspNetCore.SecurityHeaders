@@ -1,5 +1,7 @@
-using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
+using NetEscapades.AspNetCore.SecurityHeaders.Headers;
+using NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
+// ReSharper disable once CheckNamespace
 namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
+using NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 using Xunit;
 

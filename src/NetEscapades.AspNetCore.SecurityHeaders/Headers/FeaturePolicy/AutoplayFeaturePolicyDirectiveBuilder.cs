@@ -1,4 +1,4 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy
 {
     /// <summary>
     /// Controls access to autoplay of media requested through the

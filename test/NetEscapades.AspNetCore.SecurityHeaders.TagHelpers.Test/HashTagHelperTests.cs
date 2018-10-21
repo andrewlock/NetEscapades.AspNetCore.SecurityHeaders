@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test

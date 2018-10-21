@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
 {
     /// <summary>
     /// A base implementation of <see cref="IHeaderPolicy" /> that only adds the header for text/html responses

@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
 {
     /// <summary>
     /// The header value to use for Feature-Policy.

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using System;
+using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Test

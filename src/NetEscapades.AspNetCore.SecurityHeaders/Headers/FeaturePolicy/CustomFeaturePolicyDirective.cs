@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy
 {
     /// <summary>
     /// Create a custom Feature Policy directive for an un-implemented directive.
