@@ -26,6 +26,11 @@ namespace RazorWebSite
                     csp.AddScriptSrc().Self().WithHashTagHelper().WithNonce();
                     csp.AddStyleSrc().Self().WithHashTagHelper().WithNonce();
                 })
+                .AddFeaturePolicy(fp =>
+                {
+                    fp.AddAccelerometer().Self();
+                    fp.AddCamera().None();
+                })
             );
 
             app.UseStaticFiles();
