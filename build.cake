@@ -55,7 +55,9 @@ Task("Restore")
                 solution.ToString(),
                 new DotNetCoreBuildSettings()
                 {
-                    Configuration = configuration
+                    NoRestore = true,
+                    Configuration = configuration,
+                    VersionSuffix = revision,
                 });
         }
     });
@@ -79,7 +81,8 @@ Task("Test")
                     //     .Append("-xml")
                     //     .Append(artifactsDirectory.Path.CombineWithFilePath(project.GetFilenameWithoutExtension()).FullPath + ".xml"),
                     Configuration = configuration,
-                    NoBuild = true
+                    NoBuild = true,
+                    NoRestore = true,
                 });
         }
     });
@@ -91,16 +94,19 @@ Task("Pack")
     .IsDependentOn("Test")
     .Does(() =>
     {
-        foreach (var project in GetFiles("./src/**/*.csproj"))
+        var solutions = GetFiles("./*.sln");
+        foreach(var solution in solutions)
         {
-            Information("Packing project " + project);
+            Information("Packing solution " + solution);
             DotNetCorePack(
-                project.ToString(),
+                solution.ToString(),
                 new DotNetCorePackSettings()
                 {
                     Configuration = configuration,
                     OutputDirectory = artifactsDirectory,
-                    VersionSuffix = revision
+                    VersionSuffix = revision,
+                    NoRestore = true,
+                    NoBuild = true,
                 });
         }
     });
