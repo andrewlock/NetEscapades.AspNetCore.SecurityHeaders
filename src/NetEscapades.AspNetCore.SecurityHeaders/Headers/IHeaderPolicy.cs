@@ -14,12 +14,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         string Header { get; }
 
         /// <summary>
-        /// The value to set for the header
-        /// </summary>
-        /// <returns>The HTTP header value</returns>
-        string Value { get; set; }
-
-        /// <summary>
         /// Apply the header to the result given the provided context
         /// </summary>
         /// <param name="context">The <see cref="HttpContext"/> associated with the current call.</param>

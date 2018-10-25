@@ -8,7 +8,10 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// </summary>
     public class CspBuilder
     {
-        private readonly Dictionary<string, CspDirectiveBuilderBase> _directives = new Dictionary<string, CspDirectiveBuilderBase>();
+        private const string _directiveSeparator = "; ";
+
+        private readonly Dictionary<string, CspDirectiveBuilderBase> _directives =
+            new Dictionary<string, CspDirectiveBuilderBase>();
 
         /// <summary>
         /// The default-src directive serves as a fallback for the other CSP fetch directives.
@@ -150,9 +153,36 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// Build the CSP directive
         /// </summary>
         /// <returns>The CSP directive as a string</returns>
-        internal string Build()
+        internal CspBuilderResult Build()
         {
-            return string.Join("; ", _directives.Values.Select(x => x.Build()).Where(x => !string.IsNullOrEmpty(x)));
+            // build the constant values ahead of time
+            var staticDirectives = _directives.Values
+                .Where(x => !x.HasPerRequestValues)
+                .Select(x => x.CreateBuilder().Invoke(null))
+                .Where(x => !string.IsNullOrEmpty(x));
+
+            var constantDirective = string.Join(_directiveSeparator, staticDirectives);
+
+            var factories = _directives.Values
+                .Where(x => x.HasPerRequestValues)
+                .Select(x => x.CreateBuilder())
+                .ToList();
+
+            if (factories.Count == 0)
+            {
+                // no dynamic values, just return the string
+                return new CspBuilderResult(constantDirective);
+            }
+
+            if (!string.IsNullOrEmpty(constantDirective))
+            {
+                factories.Add(ctx => constantDirective);
+            }
+
+            return new CspBuilderResult(ctx =>
+            {
+                return string.Join(_directiveSeparator, factories.Select(factory => factory.Invoke(ctx)));
+            });
         }
     }
 }

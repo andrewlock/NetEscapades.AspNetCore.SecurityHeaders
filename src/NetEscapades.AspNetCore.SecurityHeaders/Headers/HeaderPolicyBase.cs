@@ -9,19 +9,17 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     public abstract class HeaderPolicyBase : IHeaderPolicy
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="HeaderPolicyBase"/> class.
+        /// The header value of the policy
         /// </summary>
-        /// <param name="value">The value to apply for the header</param>
-        protected HeaderPolicyBase(string value)
-        {
-            Value = value;
-        }
-
-        /// <inheritdoc />
+        /// <returns>The HTTP header name</returns>
         public abstract string Header { get; }
 
-        /// <inheritdoc />
-        public string Value { get; set; }
+        /// <summary>
+        /// The value to set for the header
+        /// </summary>
+        /// <param name="context">The <see cref="HttpContext"/> for the request</param>
+        /// <returns>The HTTP header value</returns>
+        protected abstract string GetValue(HttpContext context);
 
         /// <inheritdoc />
         public void Apply(HttpContext context, CustomHeadersResult result)
@@ -49,7 +47,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// <param name="result">The <see cref="CustomHeadersResult"/> to update.</param>
         protected virtual void EvaluateHttpRequest(HttpContext context, CustomHeadersResult result)
         {
-            result.SetHeaders[Header] = Value;
+            result.SetHeaders[Header] = GetValue(context);
         }
 
         /// <summary>
@@ -59,7 +57,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// <param name="result">The <see cref="CustomHeadersResult"/> to update.</param>
         protected virtual void EvaluateHttpsRequest(HttpContext context, CustomHeadersResult result)
         {
-            result.SetHeaders[Header] = Value;
+            result.SetHeaders[Header] = GetValue(context);
         }
     }
 }

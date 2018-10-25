@@ -1,4 +1,7 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+﻿using System;
+using Microsoft.AspNetCore.Http;
+
+namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
     /// The upgrade-insecure-requests directive instructs user agents to treat all of a
@@ -16,9 +19,9 @@
         }
 
         /// <inheritdoc />
-        internal override string Build()
+        internal override Func<HttpContext, string> CreateBuilder()
         {
-            return Directive;
+            return ctx => Directive;
         }
     }
 }

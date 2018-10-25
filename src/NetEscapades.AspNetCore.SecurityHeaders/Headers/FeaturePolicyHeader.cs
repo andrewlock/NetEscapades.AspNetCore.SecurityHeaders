@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
@@ -7,16 +8,22 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// </summary>
     public class FeaturePolicyHeader : HtmlOnlyHeaderPolicyBase
     {
+        private readonly string _value;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FeaturePolicyHeader"/> class.
         /// </summary>
         /// <param name="value">The value to apply for the header</param>
-        public FeaturePolicyHeader(string value) : base(value)
+        public FeaturePolicyHeader(string value)
         {
+            _value = value;
         }
 
         /// <inheritdoc />
         public override string Header => "Feature-Policy";
+
+        /// <inheritdoc />
+        protected override string GetValue(HttpContext context) => _value;
 
         /// <summary>
         /// Configure a feature policy.

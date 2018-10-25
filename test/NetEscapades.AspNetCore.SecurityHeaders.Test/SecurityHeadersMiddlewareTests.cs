@@ -271,6 +271,88 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
             }
         }
 
+#if !NETCOREAPP1_0
+        [Fact]
+        public async Task HttpRequest_WithCspHeaderWithNonce_ReturnsNonce()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddContentSecurityPolicy(builder =>
+                            {
+                                builder.AddScriptSrc().WithNonce();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().StartWith("script-src 'nonce-");
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCspHeaderWithNonce_ReturnsDifferentNonceEachRequest()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddContentSecurityPolicy(builder =>
+                            {
+                                builder.AddScriptSrc().WithNonce();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response1 = await server.CreateRequest("/").SendAsync("PUT");
+                var response2 = await server.CreateRequest("/").SendAsync("PUT");
+
+                // Assert
+                response1.EnsureSuccessStatusCode();
+                response2.EnsureSuccessStatusCode();
+
+
+                (await response1.Content.ReadAsStringAsync()).Should().Be("Test response");
+                (await response2.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header1 = response1.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+                var header2 = response2.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+                header1.Should().NotBeNull();
+                header2.Should().NotBeNull();
+
+                header1.Should().NotBe(header2);
+            }
+        }
+#endif
+
         [Fact]
         public async Task HttpRequest_WithCspHeaderUsingReportOnly_SetsCspReportOnly()
         {

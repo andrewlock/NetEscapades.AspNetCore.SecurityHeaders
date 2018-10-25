@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
@@ -49,14 +50,14 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         public string Value { get; }
 
         /// <inheritdoc />
-        internal override string Build()
+        internal override Func<HttpContext, string> CreateBuilder()
         {
             if (string.IsNullOrEmpty(Value))
             {
-                return Directive;
+                return ctx => Directive;
             }
 
-            return $"{Directive} {Value}";
+            return ctx => $"{Directive} {Value}";
         }
     }
 }
