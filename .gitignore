@@ -244,4 +244,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-tools/
+tools/*
+!tools/packages.config
