@@ -1,7 +1,6 @@
 <Project>
 
   <Import Project="version.props" />
-  <Import Project="releasenotes.props" />
 
   <PropertyGroup>
     <Authors>Andrew Lock</Authors>
@@ -18,5 +17,7 @@
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
+
+  <Import Project="releasenotes.props" />
 
 </Project>
