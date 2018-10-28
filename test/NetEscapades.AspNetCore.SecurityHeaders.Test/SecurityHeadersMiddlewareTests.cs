@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.TestHost;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 using Xunit;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders
+namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 {
     public class SecurityHeadersMiddlewareTests
     {
@@ -54,7 +54,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                     "Should not contain Strict-Transport-Security header over http");
             }
         }
-        
+
         [Fact]
         public async Task HttpRequest_WithDefaultSecurityPolicyUsingConfigureAction_SetsSecurityHeaders()
         {
@@ -170,7 +170,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 header.Should().Be("Header value");
             }
         }
-        
+
         [Fact]
         public async Task HttpRequest_WithCustomHeaderPolicyUsingConfigureAction_SetsCustomHeader()
         {
@@ -642,6 +642,138 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 var header = response.Headers.GetValues("Feature-Policy").FirstOrDefault();
                 header.Should().NotBeNull();
                 header.Should().Be("fullscreen 'self'; geolocation 'none'");
+            }
+        }
+
+        [Fact]
+        public async Task SecureRequest_WithStrictTransportSecurity_WithNoSubdomains_IsCorrect()
+        {
+            const int maxAge = 123;
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://localhost:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddStrictTransportSecurityMaxAge(maxAge));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://localhost:5001");
+                var response = await server.CreateRequest("/").SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
+                header.Should().Be($"max-age={maxAge}");
+            }
+        }
+
+        [Fact]
+        public async Task SecureRequest_WithStrictTransportSecurity_AndSubdomains_IsCorrect()
+        {
+            const int maxAge = 123;
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://localhost:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAge));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://localhost:5001");
+                var response = await server.CreateRequest("/").SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
+                header.Should().Be($"max-age={maxAge}; includeSubDomains");
+            }
+        }
+
+        [Fact]
+        public async Task SecureRequest_WithStrictTransportSecurity_AndPreload_IsCorrect()
+        {
+            const int maxAge = 123;
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://localhost:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddStrictTransportSecurityMaxAgeIncludeSubDomainsAndPreload(maxAge));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://localhost:5001");
+                var response = await server.CreateRequest("/").SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
+                header.Should().Be($"max-age={maxAge}; includeSubDomains; preload");
+            }
+        }
+
+        [Fact]
+        public async Task SecureRequest_WithStrictTransportSecurity_WhenUsingTheManualValues_IsCorrect()
+        {
+            const int maxAge = 123;
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://localhost:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddStrictTransportSecurity(maxAge, includeSubdomains: true, preload: false));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://localhost:5001");
+                var response = await server.CreateRequest("/").SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
+                header.Should().Be($"max-age={maxAge}; includeSubDomains");
             }
         }
     }
