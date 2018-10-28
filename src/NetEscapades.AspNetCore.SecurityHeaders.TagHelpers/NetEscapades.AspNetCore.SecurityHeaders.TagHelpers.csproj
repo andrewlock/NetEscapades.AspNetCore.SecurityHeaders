@@ -2,19 +2,14 @@
 
     <PropertyGroup>
         <Description>Tag Helpers for the ASP.NET Core Security Headers middleware for adding Nonces for use with SecurityHeadersMiddleware</Description>
-        <VersionPrefix>0.8.0</VersionPrefix>
-        <Authors>Andrew Lock</Authors>
         <TargetFramework>netstandard2.0</TargetFramework>
         <NoWarn>$(NoWarn)</NoWarn>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <IsPackable>true</IsPackable>
         <AssemblyName>NetEscapades.AspNetCore.SecurityHeaders.TagHelpers</AssemblyName>
         <PackageId>NetEscapades.AspNetCore.SecurityHeaders.TagHelpers</PackageId>
-        <PackageTags>aspnetcore;headers;ASP.NET MVC</PackageTags>
-        <PackageProjectUrl>https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders</PackageProjectUrl>
-        <PackageLicenseUrl>https://raw.githubusercontent.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/master/LICENSE</PackageLicenseUrl>
-        <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders</RepositoryUrl>
+        <PackageTags>aspnetcore;headers;ASP.NET MVC;ASP.NET Core;Tag Helpers;TagHelpers;Razor</PackageTags>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
