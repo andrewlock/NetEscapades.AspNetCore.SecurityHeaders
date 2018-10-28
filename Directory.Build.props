@@ -1,0 +1,22 @@
+<Project>
+
+  <Import Project="version.props" />
+  <Import Project="releasenotes.props" />
+
+  <PropertyGroup>
+    <Authors>Andrew Lock</Authors>
+    <Product>NetEscapades.AspNetCore.SecurityHeaders</Product>
+    <Copyright>Copyright © AndrewLock</Copyright>
+    <NeutralLanguage>en-GB</NeutralLanguage>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <DebugType>embedded</DebugType>
+    <IsPackable>false</IsPackable>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+</Project>

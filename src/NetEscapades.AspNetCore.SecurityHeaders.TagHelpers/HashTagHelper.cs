@@ -16,11 +16,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
     public class HashTagHelper : TagHelper
     {
         private const string AttributeName = "asp-add-content-to-csp";
+        private const string CspHashTypeAttributeName = "csp-hash-type";
 
         /// <summary>
         /// Add a <code>nonce</code> attribute to the element
         /// </summary>
-        [HtmlAttributeName("csp-hash-type")]
+        [HtmlAttributeName(CspHashTypeAttributeName)]
         public CSPHashType CSPHashType { get; set; } = CSPHashType.SHA256;
 
         /// <summary>
@@ -41,6 +42,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
                 var contentBytes = Encoding.UTF8.GetBytes(content);
                 var hashedBytes = sha.ComputeHash(contentBytes);
                 var hash = Convert.ToBase64String(hashedBytes);
+
+                output.Attributes.RemoveAll(AttributeName);
+                output.Attributes.RemoveAll(CspHashTypeAttributeName);
 
                 if (context.TagName == "script")
                 {

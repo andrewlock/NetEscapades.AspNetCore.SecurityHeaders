@@ -62,7 +62,7 @@ This adds the following headers to all responses that pass through the middlewar
 * `Referrer-Policy: strict-origin-when-cross-origin` - _only applied to `text/html` responses_
 * `Content-Security-Policy: object-src 'none'; form-action 'self'; frame-ancestors 'none'` - _only applied to `text/html` responses_
 
-## Customising the security headers added to reponses
+## Customising the security headers added to responses
 
 To customise the headers returned, you should create an instance of a `HeaderPolicyCollection` and add the required policies to it. There are helper methods for adding a number of security-focused header values to the collection, or you can alternatively add any header by using the `CustomHeader` type. For example, the following would set a number of security headers, and a custom header `X-My-Test-Header`. 
 
@@ -344,6 +344,132 @@ public void Configure(IApplicationBuilder app)
     // other middleware e.g. static files, MVC etc  
 }
 ```
+
+## Using Nonces and generated-hashes with Content-Security-Policy
+
+The use of a secure Content-Security-Policy can sometimes be problematic when you need to include inline-scripts, styles, or other objects that haven't been whitelisted. You can achieve this in two ways - using a "nonce" (or "number-used-once"), or specifying the hash of the content to include. 
+
+To help with this you can install the NetEscapades.AspNetCore.SecurityHeaders.TagHelpers package, which provides helpers for generating a nonce per request, which is attached to the HTML element, and included in the CSP header. A similar method helper exists for `<style>` and `<script>` tags, which will take a SHA256 hash of the contents of the HTML element and add it to the CSP whitelist.
+
+> Note that nonce generation is not available in the .NET Standard 1.3 version of the package, as it does not provide the necessary cryptography components. 
+
+
+To use a nonce or an auto-generated hash with your ASP.NET Core application, use the following steps.
+
+### 1. Install the NetEscapades.AspNetCore.SecurityHeaders.TagHelpers NuGet package, e.g.
+
+```
+dotnet package add Install-Package NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
+```
+
+This adds the package to your _.csproj_ file
+
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.8.0" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="0.8.0" />
+  </ItemGroup>
+  
+</Project>
+```
+
+### 2. Configure your CSP to use nonces and/or hashes
+
+Configure your security headers in the usual way. Use the `WithNonce()` extension method when configuring  `ContentSecurityPolicy` directives to allow whitelisting with a nonce. Use the `WithHashTagHelper()` extension methods on `script-src` and `style-src` directives to allow automatic generation of whitelisted inline-scripts
+
+```csharp
+public void Configure(IApplicationBuilder app)
+{
+    var policyCollection = new HeaderPolicyCollection()
+        .AddContentSecurityPolicy(builder =>
+        {
+            builder.AddUpgradeInsecureRequests(); 
+            builder.AddDefaultSrc() // default-src 'self' http://testUrl.com
+                .Self()
+                .From("http://testUrl.com");
+
+            builder.AddScriptSrc() // script-src 'self' 'unsafe-inline' 'nonce-<base64-value>'
+                .Self()
+                .UnsafeInline()
+                .WithNonce(); // Allow elements marked with a nonce attribute
+            
+            builder.AddStyleSrc() // style-src 'self' 'strict-dynamic' 'sha256-<base64-value>'
+                .Self()
+                .StrictDynamic()
+                .WithHashTagHelper(); // Allow whitelsited elements based on their SHA256 hash value
+        })
+        .AddCustomHeader("X-My-Test-Header", "Header value");
+    
+    app.UseSecurityHeaders(policyCollection);
+    
+    // other middleware e.g. static files, MVC etc  
+}
+```
+
+### 3. Whitelist elements using the TagHelpers
+
+Add the `NonceTagHelper` to an element by adding the `asp-add-nonce` attribute. 
+
+```html
+<script asp-add-nonce>
+    var body = document.getElementsByTagName('body')[0];
+    var div = document.createElement('div');
+    div.innerText = "I was added using the NonceHelper";
+    body.appendChild(div);
+</script>
+```
+
+This will use a unique value per-request and attach the required attribute at runtime, to generate markup similar to the following:
+
+```html
+<script nonce="ryPzmoZScSR2xOwV0qTU9mFdFwGPN&#x2B;gy3S2E1/VK1vg=">
+    var body = document.getElementsByTagName('body')[0];
+    var blink = document.createElement('div');
+    blink.innerText = "And I was added using the NonceHelper";
+    body.appendChild(blink);
+</script>
+```
+
+While the CSP policy would look something like the following:
+
+```http
+Content-Security-Policy: script-src 'self' 'unsafe-inline' 'nonce-ryPzmoZScSR2xOwV0qTU9mFdFwGPN&#x2B;gy3S2E1/VK1vg='; style-src 'self' 'strict-dynamic'; default-src 'self' http://testUrl.com
+```
+
+To use a whitelisted hash instead, use the `HashTagHelper`, by adding the `asp-add-content-to-csp` attribute to `<script>` or `<style>` tags. You can optionally add the `csp-hash-type` attribute to choose between SHA256, SHA384, and SHA512:
+
+```html
+<script asp-add-content-to-csp>
+    var msg = document.getElementById('message');
+    msg.innerText = "I'm allowed";
+</script>
+
+<style asp-add-content-to-csp csp-hash-type="SHA384">
+#message {
+    color: @color;
+}  
+</style>
+```
+
+At runtime, these attributes are removed, but the hash values of the contents are added to the `Content-Security-Policy header`.
+
+### Using the generated nonce without a TagHelpers
+
+If you aren't using Razor, or don't want to use the TagHelpers library, you can access the Nonce for a request using an extension method on `HttpContext`:
+
+```csharp
+var nonce = HttpContext.GetNonce();
+```
+
+> Note that you must have enabled nonce generation by using the `WithNonce()` method. `HttpContext.GetNonce()` will return an `string.Empty` if nonce generation has not been added to the middleware.
+
 
 ## Additional Resources
 * [ASP.NET Core Middleware Docs](https://docs.asp.net/en/latest/fundamentals/middleware.html)

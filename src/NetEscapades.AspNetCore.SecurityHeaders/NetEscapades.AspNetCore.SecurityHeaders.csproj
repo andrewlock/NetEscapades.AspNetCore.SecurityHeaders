@@ -1,20 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Security header middleware and for ASP.NET Core to automatically add security headers to requests.</Description>
-    <VersionPrefix>0.8.0</VersionPrefix>
-    <Authors>Andrew Lock</Authors>
+    <Description>Middleware for ASP.NET Core to automatically add security headers to requests.</Description>
     <TargetFrameworks>net451;netstandard1.3;netstandard2.0</TargetFrameworks>
     <NoWarn>$(NoWarn)</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsPackable>true</IsPackable>
     <AssemblyName>NetEscapades.AspNetCore.SecurityHeaders</AssemblyName>
     <PackageId>NetEscapades.AspNetCore.SecurityHeaders</PackageId>
-    <PackageTags>aspnetcore;headers;ASP.NET MVC</PackageTags>
-    <PackageProjectUrl>https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/master/LICENSE</PackageLicenseUrl>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders</RepositoryUrl>
+    <PackageTags>aspnetcore;headers;ASP.NET MVC;ASP.NET Core;middleware</PackageTags>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
