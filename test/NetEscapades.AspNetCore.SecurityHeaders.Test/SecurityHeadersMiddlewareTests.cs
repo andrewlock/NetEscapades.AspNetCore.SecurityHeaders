@@ -96,7 +96,51 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         }
 
         [Fact]
-        public async Task SecureRequest_WithDefaultSecurityPolicy_SetsSecurityHeadersIncludingStrictTransport()
+        public async Task SecureRequest_WithDefaultSecurityPolicy_WhenNotOnLocalhost_SetsSecurityHeadersIncludingStrictTransport()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://example.com:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddDefaultSecurityHeaders());
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://example.com:5001");
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
+                header.Should().Be("nosniff");
+                header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
+                header.Should().Be("DENY");
+                header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
+                header.Should().Be("1; mode=block");
+                header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
+                header.Should().Be($"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
+
+                Assert.False(response.Headers.Contains("Server"),
+                    "Should not contain server header");
+            }
+        }
+
+        [Fact]
+        public async Task SecureRequest_WithDefaultSecurityPolicy_WhenOnLocalhost_DoesNotSetStrictTransportSecurityHeader()
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
@@ -125,17 +169,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
                 response.EnsureSuccessStatusCode();
 
                 (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-                var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
-                header.Should().Be("nosniff");
-                header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
-                header.Should().Be("DENY");
-                header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
-                header.Should().Be("1; mode=block");
-                header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
-                header.Should().Be($"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
-
-                Assert.False(response.Headers.Contains("Server"),
-                    "Should not contain server header");
+                Assert.False(response.Headers.Contains("Strict-Transport-Security"),
+                    "Should not contain Strict-Transport-Security header on localhost");
             }
         }
 
@@ -651,7 +686,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             const int maxAge = 123;
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .UseUrls("https://localhost:5001")
+                .UseUrls("https://example.com:5001")
                 .Configure(app =>
                 {
                     app.UseSecurityHeaders(p => p.AddStrictTransportSecurityMaxAge(maxAge));
@@ -666,7 +701,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             {
                 // Act
                 // Actual request.
-                server.BaseAddress = new Uri("https://localhost:5001");
+                server.BaseAddress = new Uri("https://example.com:5001");
                 var response = await server.CreateRequest("/").SendAsync("PUT");
 
                 // Assert
@@ -684,7 +719,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             const int maxAge = 123;
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .UseUrls("https://localhost:5001")
+                .UseUrls("https://example.com:5001")
                 .Configure(app =>
                 {
                     app.UseSecurityHeaders(p => p.AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAge));
@@ -699,7 +734,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             {
                 // Act
                 // Actual request.
-                server.BaseAddress = new Uri("https://localhost:5001");
+                server.BaseAddress = new Uri("https://example.com:5001");
                 var response = await server.CreateRequest("/").SendAsync("PUT");
 
                 // Assert
@@ -717,7 +752,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             const int maxAge = 123;
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .UseUrls("https://localhost:5001")
+                .UseUrls("https://example.com:5001")
                 .Configure(app =>
                 {
                     app.UseSecurityHeaders(p => p.AddStrictTransportSecurityMaxAgeIncludeSubDomainsAndPreload(maxAge));
@@ -732,7 +767,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             {
                 // Act
                 // Actual request.
-                server.BaseAddress = new Uri("https://localhost:5001");
+                server.BaseAddress = new Uri("https://example.com:5001");
                 var response = await server.CreateRequest("/").SendAsync("PUT");
 
                 // Assert
@@ -750,7 +785,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             const int maxAge = 123;
             // Arrange
             var hostBuilder = new WebHostBuilder()
-                .UseUrls("https://localhost:5001")
+                .UseUrls("https://example.com:5001")
                 .Configure(app =>
                 {
                     app.UseSecurityHeaders(p => p.AddStrictTransportSecurity(maxAge, includeSubdomains: true, preload: false));
@@ -765,7 +800,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             {
                 // Act
                 // Actual request.
-                server.BaseAddress = new Uri("https://localhost:5001");
+                server.BaseAddress = new Uri("https://example.com:5001");
                 var response = await server.CreateRequest("/").SendAsync("PUT");
 
                 // Assert
