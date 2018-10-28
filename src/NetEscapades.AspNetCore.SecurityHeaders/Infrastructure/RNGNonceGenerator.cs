@@ -2,7 +2,7 @@
 using System;
 using System.Security.Cryptography;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders
+namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
     /// Generates nonce values using <see cref="RNGCryptoServiceProvider"/>

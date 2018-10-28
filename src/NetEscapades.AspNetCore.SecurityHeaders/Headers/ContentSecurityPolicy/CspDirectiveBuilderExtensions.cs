@@ -1,4 +1,8 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+﻿using NetEscapades.AspNetCore.SecurityHeaders;
+using NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
+
+// ReSharper disable once CheckNamespace
+namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
     /// Extension methods for <see cref="CspDirectiveBuilder"/>s

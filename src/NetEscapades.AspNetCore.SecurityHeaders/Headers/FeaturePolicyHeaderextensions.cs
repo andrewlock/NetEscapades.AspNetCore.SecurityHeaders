@@ -1,7 +1,8 @@
 using System;
-using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
+using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders
+// ReSharper disable once CheckNamespace
+namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
     /// Extension methods for adding a <see cref="FeaturePolicyHeader" /> to a <see cref="HeaderPolicyCollection" />

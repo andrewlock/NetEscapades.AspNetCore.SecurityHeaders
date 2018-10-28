@@ -1,4 +1,4 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy
 {
     /// <summary>
     /// Controls access to audio output devices requested through

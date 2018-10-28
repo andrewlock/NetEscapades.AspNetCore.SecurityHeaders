@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+// ReSharper disable once CheckNamespace
+namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
     /// Used for building a Feature-Policy header
@@ -160,7 +162,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// If disabled then calls to <code>getVRDisplays()</code> should return a
         /// <code>promise</code> which rejects with a <code>SecurityError</code> DOMException.
         /// </summary>
-        /// <returns>A configured <see cref="DefaultSourceDirectiveBuilder"/></returns>
+        /// <returns>A configured <see cref="VRFeaturePolicyDirectiveBuilder"/></returns>
         public VRFeaturePolicyDirectiveBuilder AddVR() => AddDirective(new VRFeaturePolicyDirectiveBuilder());
 
         /// <summary>

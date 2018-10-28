@@ -1,6 +1,6 @@
 ﻿using System;
 using FluentAssertions;
-using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
+using Microsoft.AspNetCore.Builder;
 using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Test

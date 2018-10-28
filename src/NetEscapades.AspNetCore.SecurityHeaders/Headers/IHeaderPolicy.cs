@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
 {
     /// <summary>
     /// An interface that defines a custom header

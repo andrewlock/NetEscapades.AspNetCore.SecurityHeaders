@@ -1,4 +1,4 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
 {
     /// <summary>
     /// The form-action directive restricts the URLs which can be used as the target of a form submissions from a given context.

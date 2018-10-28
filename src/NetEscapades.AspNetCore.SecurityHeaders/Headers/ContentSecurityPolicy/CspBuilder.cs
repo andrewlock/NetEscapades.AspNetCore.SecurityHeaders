@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+// ReSharper disable once CheckNamespace
+namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
     /// Used to build a CSP header from multiple directives.

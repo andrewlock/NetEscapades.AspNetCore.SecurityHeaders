@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
 {
     /// <summary>
     /// The report-uri directive instructs the user agent to report attempts to

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
 {
     /// <summary>
     /// The block-all-mixed-content directive prevents loading any assets using

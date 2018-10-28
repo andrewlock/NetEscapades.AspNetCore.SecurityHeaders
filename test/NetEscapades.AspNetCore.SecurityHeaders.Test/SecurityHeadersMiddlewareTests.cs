@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
-using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
+using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders

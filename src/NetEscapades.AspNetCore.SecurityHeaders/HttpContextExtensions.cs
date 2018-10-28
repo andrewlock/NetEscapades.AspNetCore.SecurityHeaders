@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
-using NetEscapades.AspNetCore.SecurityHeaders.TagHelpers;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders
 {

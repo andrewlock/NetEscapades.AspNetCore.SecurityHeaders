@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
 {
     /// <summary>
     /// Used to build a CSP directive that has a standard set of sources.

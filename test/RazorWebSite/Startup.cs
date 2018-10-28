@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using NetEscapades.AspNetCore.SecurityHeaders;
-using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 namespace RazorWebSite
 {
@@ -25,6 +23,11 @@ namespace RazorWebSite
                     csp.AddDefaultSrc().Self();
                     csp.AddScriptSrc().Self().WithHashTagHelper().WithNonce();
                     csp.AddStyleSrc().Self().WithHashTagHelper().WithNonce();
+                })
+                .AddFeaturePolicy(fp =>
+                {
+                    fp.AddAccelerometer().Self();
+                    fp.AddCamera().None();
                 })
             );
 

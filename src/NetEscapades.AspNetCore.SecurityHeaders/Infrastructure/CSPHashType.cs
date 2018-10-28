@@ -1,4 +1,4 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
     /// The algorithms available for CSP hashing

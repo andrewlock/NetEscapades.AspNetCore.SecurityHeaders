@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
 {

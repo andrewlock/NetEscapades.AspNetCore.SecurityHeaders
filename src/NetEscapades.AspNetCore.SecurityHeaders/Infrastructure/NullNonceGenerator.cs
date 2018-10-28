@@ -1,4 +1,4 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
     /// Always generates an empty string. SHOULD NOT BE USED IN PRODUCTION
