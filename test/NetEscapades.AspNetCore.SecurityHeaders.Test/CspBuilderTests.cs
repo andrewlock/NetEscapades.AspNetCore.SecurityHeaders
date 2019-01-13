@@ -132,7 +132,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             result.ConstantValue.Should().Be("script-src 'self' blob: data: http://testUrl.com");
         }
 
-#if !NETCOREAPP1_0
         [Fact]
         public void Build_AddSrciptSrc_WhenAddsNonce_ConstantValueThrowsInvalidOperation()
         {
@@ -154,7 +153,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
                 })
                 .ShouldThrow<InvalidOperationException>();
         }
-        
+
         [Fact]
         public void Build_AddSrciptSrc_WhenDoesntAddNonce_BuilderThrowsInvalidOperation()
         {
@@ -193,9 +192,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             result.HasPerRequestValues.Should().BeTrue();
         }
-#endif
 
-    [Fact]
+        [Fact]
         public void Build_AddStyleSrc_WhenAddsMultipleValue_ReturnsAllValues()
         {
             var builder = new CspBuilder();
@@ -354,7 +352,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             result.HasPerRequestValues.Should().BeFalse();
         }
 
-#if !NETCOREAPP1_0
         [Fact]
         public void Build_ForAllHeaders_WhenNotUsingNonce_HasPerRequestValuesReturnsTrue()
         {
@@ -380,6 +377,5 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             result.HasPerRequestValues.Should().BeTrue();
         }
-#endif
     }
 }

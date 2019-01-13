@@ -351,9 +351,6 @@ The use of a secure Content-Security-Policy can sometimes be problematic when yo
 
 To help with this you can install the NetEscapades.AspNetCore.SecurityHeaders.TagHelpers package, which provides helpers for generating a nonce per request, which is attached to the HTML element, and included in the CSP header. A similar method helper exists for `<style>` and `<script>` tags, which will take a SHA256 hash of the contents of the HTML element and add it to the CSP whitelist.
 
-> Note that nonce generation is not available in the .NET Standard 1.3 version of the package, as it does not provide the necessary cryptography components. 
-
-
 To use a nonce or an auto-generated hash with your ASP.NET Core application, use the following steps.
 
 ### 1. Install the NetEscapades.AspNetCore.SecurityHeaders.TagHelpers NuGet package, e.g.
