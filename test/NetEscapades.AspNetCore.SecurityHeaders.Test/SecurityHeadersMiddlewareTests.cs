@@ -306,7 +306,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             }
         }
 
-#if !NETCOREAPP1_0
         [Fact]
         public async Task HttpRequest_WithCspHeaderWithNonce_ReturnsNonce()
         {
@@ -386,7 +385,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
                 header1.Should().NotBe(header2);
             }
         }
-#endif
 
         [Fact]
         public async Task HttpRequest_WithCspHeaderUsingReportOnly_SetsCspReportOnly()

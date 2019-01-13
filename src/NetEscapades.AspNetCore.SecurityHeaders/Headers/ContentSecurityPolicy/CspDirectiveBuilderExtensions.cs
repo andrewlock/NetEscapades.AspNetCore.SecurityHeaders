@@ -185,7 +185,6 @@ namespace Microsoft.AspNetCore.Builder
             return builder;
         }
 
-#if !NETSTANDARD1_3
         /// <summary>
         /// A whitelist for specific inline scripts using a cryptographic nonce (number used once).
         /// The server generates a unique nonce value for each request. Specifying a nonce makes a
@@ -201,6 +200,5 @@ namespace Microsoft.AspNetCore.Builder
             builder.SourceBuilders.Add(ctx => $"'nonce-{ctx.GetNonce()}'");
             return builder;
         }
-#endif
     }
 }

@@ -19,7 +19,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         private readonly INonceGenerator _nonceGenerator;
         private readonly bool _mustGenerateNonce;
 
-#if NETSTANDARD1_3
         /// <summary>
         /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.
         /// </summary>
@@ -27,19 +26,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
         /// <param name="policies">A <see cref="HeaderPolicyCollection"/> containing the policies to be applied.</param>
         public SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policies)
-            : this(next, service, policies, new NullNonceGenerator())
-        {
-            _mustGenerateNonce = false;
-        }
-#else
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.
-        /// </summary>
-        /// <param name="next">The next middleware in the pipeline.</param>
-        /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
-        /// <param name="policies">A <see cref="HeaderPolicyCollection"/> containing the policies to be applied.</param>
-        public SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policies)
-            : this(next, service, policies, new RNGNonceGenerator())
+            : this(next, service, policies, new NonceGenerator())
         {
             // TODO: Yuk. Don't want to be generating a noce every request if we don't have to though...
             // Could look at generalising this if we need it for other CSP headers
@@ -48,7 +35,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 .Cast<ContentSecurityPolicyHeader>()
                 .Any(header => header.HasPerRequestValues);
         }
-#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.

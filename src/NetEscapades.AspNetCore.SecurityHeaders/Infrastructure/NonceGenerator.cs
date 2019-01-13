@@ -1,15 +1,16 @@
-﻿#if !NETSTANDARD1_3
-using System;
+﻿using System;
 using System.Security.Cryptography;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
     /// <summary>
-    /// Generates nonce values using <see cref="RNGCryptoServiceProvider"/>
+    /// Generates nonce values using <see cref="RandomNumberGenerator"/>
     /// </summary>
-    internal class RNGNonceGenerator : INonceGenerator, IDisposable
+    internal class NonceGenerator : INonceGenerator, IDisposable
     {
-        private readonly RandomNumberGenerator _random = new RNGCryptoServiceProvider();
+        // RandomNumberGenerator.Create is preferred over calling the constructor of the derived class RNGCryptoServiceProvider.
+        // https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator?view=netframework-4.7.2#remarks
+        private readonly RandomNumberGenerator _random = RandomNumberGenerator.Create();
 
         /// <inheritdoc />
         public string GetNonce(int nonceBytes)
@@ -30,4 +31,3 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         }
     }
 }
-#endif
