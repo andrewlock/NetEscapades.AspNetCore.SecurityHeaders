@@ -16,7 +16,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         private readonly RequestDelegate _next;
         private readonly HeaderPolicyCollection _policy;
         private readonly ICustomHeaderService _service;
-        private readonly INonceGenerator _nonceGenerator;
+        private readonly NonceGenerator _nonceGenerator;
         private readonly bool _mustGenerateNonce;
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
         /// <param name="policies">A <see cref="HeaderPolicyCollection"/> containing the policies to be applied.</param>
         /// <param name="nonceGenerator">Used to generate nonce (number used once) values for headers</param>
-        internal SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policies, INonceGenerator nonceGenerator)
+        internal SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policies, NonceGenerator nonceGenerator)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _service = service ?? throw new ArgumentNullException(nameof(service));
