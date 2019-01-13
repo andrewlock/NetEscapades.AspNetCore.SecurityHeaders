@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
+using NetEscapades.AspNetCore.SecurityHeaders.Test.Mocks;
 using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Test
@@ -294,6 +297,50 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
                     {
                         context.Response.ContentType = "text/html";
                         await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().StartWith("script-src 'nonce-");
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithNullPolicyNameAndCspHeaderWithNonce_ReturnsNonce()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(policyName: null);
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                }).ConfigureServices(services =>
+                {
+                    services.AddSecurityHeaders(options =>
+                    {
+                        options.AddDefaultPolicy(policies =>
+                        {
+                            policies.AddContentSecurityPolicy(builder =>
+                            {
+                                builder.AddScriptSrc().WithNonce();
+                            });
+                        });
                     });
                 });
 
@@ -778,6 +825,196 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
                 (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
                 var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
                 header.Should().Be($"max-age={maxAge}; includeSubDomains");
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithNullPolicyName_DoesNotSetSecurityHeaders()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(policyName: null);
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                })
+                .ConfigureServices(services => services.AddSecurityHeaders());
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                Assert.False(response.Headers.Any(),
+                    "Should not contain any headers");
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithNullPolicyNameAndDefaultSecurityHeaders_SetsSecurityHeaders()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(policyName: null);
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                })
+                .ConfigureServices(services =>
+                {
+                    services.AddSecurityHeaders(options =>
+                    {
+                        options.AddDefaultPolicy(policies => policies.AddDefaultSecurityHeaders());
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                AssertHttpRequestDefaultSecurityHeaders(response.Headers);
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithForkedMiddlewarePolicyName_SetsDifferentSecurityHeaders()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.Map("/signout-oidc", branch =>
+                    {
+                        branch.UseSecurityHeaders("AllowFrame");
+                        branch.Run(async context =>
+                        {
+                            context.Response.ContentType = "text/html";
+                            await context.Response.WriteAsync("Forked response");
+                        });
+                    });
+
+                    app.UseSecurityHeaders(policyName: null);
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                })
+                .ConfigureServices(services =>
+                {
+                    services.AddSecurityHeaders(options =>
+                    {
+                        options.AddDefaultPolicy(policies =>
+                        {
+                            policies.AddFrameOptionsDeny();
+                            policies.AddContentSecurityPolicy(builder => builder.AddFrameAncestors().None());
+                        });
+                        options.AddPolicy("AllowFrame", policies =>
+                        {
+                            policies.AddFrameOptionsSameOrigin("https://example.com:5001");
+                            policies.AddContentSecurityPolicy(builder => builder.AddFrameAncestors().From("https://example.com:5001"));
+                        });
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response1 = await server.CreateRequest("/").SendAsync("PUT");
+                var response2 = await server.CreateRequest("/signout-oidc").SendAsync("PUT");
+
+                // Assert
+                response1.EnsureSuccessStatusCode();
+                response2.EnsureSuccessStatusCode();
+
+                (await response1.Content.ReadAsStringAsync()).Should().Be("Test response");
+                (await response2.Content.ReadAsStringAsync()).Should().Be("Forked response");
+                var header1 = response1.Headers.GetValues("X-Frame-Options").FirstOrDefault();
+                var header2 = response2.Headers.GetValues("X-Frame-Options").FirstOrDefault();
+                header1.Should().Be("DENY");
+                header2.Should().Be("ALLOW-FROM https://example.com:5001");
+                header1 = response1.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+                header2 = response2.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+                header1.Should().Be("frame-ancestors 'none'");
+                header2.Should().Be("frame-ancestors https://example.com:5001");
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCustomPolicyProvider_SetsDifferentSecurityHeaders()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(policyName: null);
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                })
+                .ConfigureServices(services =>
+                {
+                    services.AddTransient<ISecurityHeadersPolicyProvider, CustomSecurityHeadersPolicyProvider>();
+                    services.AddSecurityHeaders(options =>
+                    {
+                        options.AddDefaultPolicy(policies =>
+                        {
+                            policies.AddFrameOptionsDeny();
+                            policies.AddContentSecurityPolicy(builder => builder.AddFrameAncestors().None());
+                        });
+                        options.AddPolicy("AllowFrame", policies =>
+                        {
+                            policies.AddFrameOptionsSameOrigin("https://example.com:5001");
+                            policies.AddContentSecurityPolicy(builder => builder.AddFrameAncestors().From("https://example.com:5001"));
+                        });
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response1 = await server.CreateRequest("/").SendAsync("PUT");
+                var response2 = await server.CreateRequest("/signout-oidc").SendAsync("PUT");
+
+                // Assert
+                response1.EnsureSuccessStatusCode();
+                response2.EnsureSuccessStatusCode();
+
+                (await response1.Content.ReadAsStringAsync()).Should().Be("Test response");
+                (await response2.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header1 = response1.Headers.GetValues("X-Frame-Options").FirstOrDefault();
+                var header2 = response2.Headers.GetValues("X-Frame-Options").FirstOrDefault();
+                header1.Should().Be("DENY");
+                header2.Should().Be("ALLOW-FROM https://example.com:5001");
+                header1 = response1.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+                header2 = response2.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+                header1.Should().Be("frame-ancestors 'none'");
+                header2.Should().Be("frame-ancestors https://example.com:5001");
             }
         }
 
