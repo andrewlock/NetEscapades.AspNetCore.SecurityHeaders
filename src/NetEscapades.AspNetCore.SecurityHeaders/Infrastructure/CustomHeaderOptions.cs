@@ -7,6 +7,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     /// <summary>
     /// Provides programmatic configuration for Security Headers.
     /// </summary>
+    [Obsolete("This class is unused since v0.5.0, and will be removed in a future version of the package")]
     public class CustomHeaderOptions
     {
         private string _defaultPolicyName = "__DefaultSecurityHeadersPolicy";
