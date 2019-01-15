@@ -15,6 +15,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
     {
         private readonly RequestDelegate _next;
         private readonly HeaderPolicyCollection _policy;
+        private readonly ICustomHeaderService _service;
         private readonly NonceGenerator _nonceGenerator;
         private readonly bool _mustGenerateNonce;
 
@@ -40,12 +41,10 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         internal SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policies, NonceGenerator nonceGenerator)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
-            CustomHeaderService = service ?? throw new ArgumentNullException(nameof(service));
+            _service = service ?? throw new ArgumentNullException(nameof(service));
             _policy = policies ?? throw new ArgumentNullException(nameof(policies));
             _nonceGenerator = nonceGenerator ?? throw new ArgumentException(nameof(nonceGenerator));
         }
-
-        private ICustomHeaderService CustomHeaderService { get; }
 
         /// <summary>
         /// Invoke the middleware
@@ -64,19 +63,19 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 context.SetNonce(_nonceGenerator.GetNonce(Constants.DefaultBytesInNonce));
             }
 
-            context.Response.OnStarting(OnResponseStarting, Tuple.Create(this, context, _policy));
+            context.Response.OnStarting(OnResponseStarting, Tuple.Create(_service, context, _policy));
             await _next(context);
         }
 
         private static Task OnResponseStarting(object state)
         {
-            var tuple = (Tuple<SecurityHeadersMiddleware, HttpContext, HeaderPolicyCollection>)state;
-            var middleware = tuple.Item1;
+            var tuple = (Tuple<ICustomHeaderService, HttpContext, HeaderPolicyCollection>)state;
+            var service = tuple.Item1;
             var context = tuple.Item2;
             var policy = tuple.Item3;
 
-            var result = middleware.CustomHeaderService.EvaluatePolicy(context, policy);
-            middleware.CustomHeaderService.ApplyResult(context.Response, result);
+            var result = service.EvaluatePolicy(context, policy);
+            service.ApplyResult(context.Response, result);
 
 #if NET451
             return Task.FromResult(true);
