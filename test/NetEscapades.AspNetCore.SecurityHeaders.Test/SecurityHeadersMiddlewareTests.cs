@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
@@ -14,7 +15,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
     public class SecurityHeadersMiddlewareTests
     {
         [Fact]
-        public async Task HttpRequest_WithDefaultSecurityPolicy_SetsSecurityHeaders()
+        public async Task HttpRequest_WithDefaultSecurityHeaders_SetsSecurityHeaders()
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
@@ -41,22 +42,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
                 response.EnsureSuccessStatusCode();
 
                 (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-                var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
-                header.Should().Be("nosniff");
-                header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
-                header.Should().Be("DENY");
-                header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
-                header.Should().Be("1; mode=block");
-
-                Assert.False(response.Headers.Contains("Server"),
-                    "Should not contain server header");
-                Assert.False(response.Headers.Contains("Strict-Transport-Security"),
-                    "Should not contain Strict-Transport-Security header over http");
+                AssertHttpRequestDefaultSecurityHeaders(response.Headers);
             }
         }
 
         [Fact]
-        public async Task HttpRequest_WithDefaultSecurityPolicyUsingConfigureAction_SetsSecurityHeaders()
+        public async Task HttpRequest_WithDefaultSecurityHeadersUsingConfigureAction_SetsSecurityHeaders()
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
@@ -81,22 +72,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
                 response.EnsureSuccessStatusCode();
 
                 (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-                var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
-                header.Should().Be("nosniff");
-                header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
-                header.Should().Be("DENY");
-                header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
-                header.Should().Be("1; mode=block");
-
-                Assert.False(response.Headers.Contains("Server"),
-                    "Should not contain server header");
-                Assert.False(response.Headers.Contains("Strict-Transport-Security"),
-                    "Should not contain Strict-Transport-Security header over http");
+                AssertHttpRequestDefaultSecurityHeaders(response.Headers);
             }
         }
 
         [Fact]
-        public async Task SecureRequest_WithDefaultSecurityPolicy_WhenNotOnLocalhost_SetsSecurityHeadersIncludingStrictTransport()
+        public async Task SecureRequest_WithDefaultSecurityHeaders_WhenNotOnLocalhost_SetsSecurityHeadersIncludingStrictTransport()
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
@@ -125,22 +106,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
                 response.EnsureSuccessStatusCode();
 
                 (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-                var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
-                header.Should().Be("nosniff");
-                header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
-                header.Should().Be("DENY");
-                header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
-                header.Should().Be("1; mode=block");
-                header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
-                header.Should().Be($"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
-
-                Assert.False(response.Headers.Contains("Server"),
-                    "Should not contain server header");
+                AssertSecureRequestDefaultSecurityHeaders(response.Headers);
             }
         }
 
         [Fact]
-        public async Task SecureRequest_WithDefaultSecurityPolicy_WhenOnLocalhost_DoesNotSetStrictTransportSecurityHeader()
+        public async Task SecureRequest_WithDefaultSecurityHeaders_WhenOnLocalhost_DoesNotSetStrictTransportSecurityHeader()
         {
             // Arrange
             var hostBuilder = new WebHostBuilder()
@@ -808,6 +779,44 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
                 var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
                 header.Should().Be($"max-age={maxAge}; includeSubDomains");
             }
+        }
+
+        private static void AssertHttpRequestDefaultSecurityHeaders(HttpResponseHeaders headers)
+        {
+            string header = headers.GetValues("X-Content-Type-Options").FirstOrDefault();
+            header.Should().Be("nosniff");
+            header = headers.GetValues("X-Frame-Options").FirstOrDefault();
+            header.Should().Be("DENY");
+            header = headers.GetValues("X-XSS-Protection").FirstOrDefault();
+            header.Should().Be("1; mode=block");
+            header = headers.GetValues("Referrer-Policy").FirstOrDefault();
+            header.Should().Be("strict-origin-when-cross-origin");
+            header = headers.GetValues("Content-Security-Policy").FirstOrDefault();
+            header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
+
+            Assert.False(headers.Contains("Server"),
+                "Should not contain server header");
+            Assert.False(headers.Contains("Strict-Transport-Security"),
+                "Should not contain Strict-Transport-Security header over http");
+        }
+
+        private static void AssertSecureRequestDefaultSecurityHeaders(HttpResponseHeaders headers)
+        {
+            string header = headers.GetValues("X-Content-Type-Options").FirstOrDefault();
+            header.Should().Be("nosniff");
+            header = headers.GetValues("X-Frame-Options").FirstOrDefault();
+            header.Should().Be("DENY");
+            header = headers.GetValues("X-XSS-Protection").FirstOrDefault();
+            header.Should().Be("1; mode=block");
+            header = headers.GetValues("Strict-Transport-Security").FirstOrDefault();
+            header.Should().Be($"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
+            header = headers.GetValues("Referrer-Policy").FirstOrDefault();
+            header.Should().Be("strict-origin-when-cross-origin");
+            header = headers.GetValues("Content-Security-Policy").FirstOrDefault();
+            header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
+
+            Assert.False(headers.Contains("Server"),
+                "Should not contain server header");
         }
     }
 }
