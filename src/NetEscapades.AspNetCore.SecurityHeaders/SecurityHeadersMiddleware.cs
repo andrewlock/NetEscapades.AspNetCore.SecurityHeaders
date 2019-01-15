@@ -15,7 +15,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
     {
         private readonly RequestDelegate _next;
         private readonly HeaderPolicyCollection _policy;
-        private readonly ICustomHeaderService _service;
         private readonly NonceGenerator _nonceGenerator;
         private readonly bool _mustGenerateNonce;
 
@@ -28,12 +27,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         public SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policies)
             : this(next, service, policies, new NonceGenerator())
         {
-            // TODO: Yuk. Don't want to be generating a noce every request if we don't have to though...
-            // Could look at generalising this if we need it for other CSP headers
-            _mustGenerateNonce = _policy.Values
-                .Where(header => header is ContentSecurityPolicyHeader)
-                .Cast<ContentSecurityPolicyHeader>()
-                .Any(header => header.HasPerRequestValues);
+            _mustGenerateNonce = MustGenerateNonce(_policy);
         }
 
         /// <summary>
@@ -46,10 +40,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         internal SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policies, NonceGenerator nonceGenerator)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
-            _service = service ?? throw new ArgumentNullException(nameof(service));
+            CustomHeaderService = service ?? throw new ArgumentNullException(nameof(service));
             _policy = policies ?? throw new ArgumentNullException(nameof(policies));
             _nonceGenerator = nonceGenerator ?? throw new ArgumentException(nameof(nonceGenerator));
         }
+
+        private ICustomHeaderService CustomHeaderService { get; }
 
         /// <summary>
         /// Invoke the middleware
@@ -68,18 +64,34 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 context.SetNonce(_nonceGenerator.GetNonce(Constants.DefaultBytesInNonce));
             }
 
-            context.Response.OnStarting(() =>
-            {
-                var result = _service.EvaluatePolicy(context, _policy);
-                _service.ApplyResult(context.Response, result);
-#if NET451
-                return Task.FromResult(true);
-#else
-                return Task.CompletedTask;
-#endif
-            });
-
+            context.Response.OnStarting(OnResponseStarting, Tuple.Create(this, context, _policy));
             await _next(context);
+        }
+
+        private static Task OnResponseStarting(object state)
+        {
+            var tuple = (Tuple<SecurityHeadersMiddleware, HttpContext, HeaderPolicyCollection>)state;
+            var middleware = tuple.Item1;
+            var context = tuple.Item2;
+            var policy = tuple.Item3;
+
+            var result = middleware.CustomHeaderService.EvaluatePolicy(context, policy);
+            middleware.CustomHeaderService.ApplyResult(context.Response, result);
+
+#if NET451
+            return Task.FromResult(true);
+#else
+            return Task.CompletedTask;
+#endif
+        }
+
+        private static bool MustGenerateNonce(HeaderPolicyCollection policy)
+        {
+            // TODO: Yuk. Don't want to be generating a nonce every request if we don't have to though...
+            // Could look at generalising this if we need it for other CSP headers
+            return policy.Values
+                .OfType<ContentSecurityPolicyHeader>()
+                .Any(header => header.HasPerRequestValues);
         }
     }
 }
