@@ -151,7 +151,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
                 {
                     var val = x.ConstantValue;
                 })
-                .ShouldThrow<InvalidOperationException>();
+                .Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
@@ -172,7 +172,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
                 {
                     var val = x.Builder;
                 })
-                .ShouldThrow<InvalidOperationException>();
+                .Should().Throw<InvalidOperationException>();
         }
 
         [Fact]
