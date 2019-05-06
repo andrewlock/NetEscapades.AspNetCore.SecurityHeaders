@@ -7,7 +7,7 @@
 
 A small package to allow adding security headers to ASP.NET Core websites
 
-## Installing 
+## Installing
 
 Install using the [NetEscapades.AspNetCore.SecurityHeaders NuGet package](https://www.nuget.org/packages/NetEscapades.AspNetCore.SecurityHeaders) from the Visual Studio Package Manager Console:
 
@@ -17,14 +17,13 @@ PM> Install-Package NetEscapades.AspNetCore.SecurityHeaders
 
 Or using the `dotnet` CLI
 
-```
+```bash
 dotnet package add Install-Package NetEscapades.AspNetCore.SecurityHeaders
 ```
 
-## Usage 
+## Usage
 
 When you install the package, it should be added to your `.csproj`. Alternatively, you can add it directly by adding:
-
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Web">
@@ -48,7 +47,7 @@ To use the default security headers for your application, add the middleware usi
 public void Configure(IApplicationBuilder app)
 {
     app.UseSecurityHeaders();
-    
+
     // other middleware e.g. static files, MVC etc  
 }
 ```
@@ -83,9 +82,9 @@ public void Configure(IApplicationBuilder app)
             builder.AddFrameAncestors().None();
         })
         .AddCustomHeader("X-My-Test-Header", "Header value");
-    
+
     app.UseSecurityHeaders(policyCollection);
-    
+
     // other middleware e.g. static files, MVC etc  
 }
 ```
@@ -98,9 +97,9 @@ public void Configure(IApplicationBuilder app)
     var policyCollection = new HeaderPolicyCollection()
         .AddDefaultSecurityHeaders()
         .AddCustomHeader("X-My-Test-Header", "Header value");
-    
+
     app.UseSecurityHeaders(policyCollection);
-    
+
     // other middleware e.g. static files, MVC etc  
 }
 ```
@@ -113,9 +112,9 @@ public void Configure(IApplicationBuilder app)
     var policyCollection = new HeaderPolicyCollection()
         .AddDefaultSecurityHeaders()
         .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAgeInSeconds: 63072000);
-    
+
     app.UseSecurityHeaders(policyCollection);
-    
+
     // other middleware e.g. static files, MVC etc  
 }
 ```
@@ -128,16 +127,16 @@ public void Configure(IApplicationBuilder app)
     app.UseSecurityHeaders(policies =>
         policies
             .AddDefaultSecurityHeaders()
-            .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAgeInSeconds: 63072000);
+            .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAgeInSeconds: 63072000)
     );
-    
+
     // other middleware e.g. static files, MVC etc  
 }
 ```
 
 ## RemoveServerHeader
 
-One point to be aware of is that the `RemoveServerHeader` method will rarely (ever?) be sufficient to remove the `Server` header from your output. If any subsequent middleware in your application pipeline add the header, then this will be able to remove it. However Kestrel will generally add the `Server` header too late in the pipeline to be able to modify it. 
+One point to be aware of is that the `RemoveServerHeader` method will rarely (ever?) be sufficient to remove the `Server` header from your output. If any subsequent middleware in your application pipeline add the header, then this will be able to remove it. However Kestrel will generally add the `Server` header too late in the pipeline to be able to modify it.
 
 Luckily, Kestrel exposes it's own mechanism to allow you to prevent it being added:
 
@@ -157,15 +156,14 @@ The CSP has a dizzying array of options, only some of which are implemented in t
 
 Set the header to report-only by using the `AddContentSecurityPolicyReportOnly()` extension. For example:
 
-
 ```csharp
 public void Configure(IApplicationBuilder app)
 {
     var policyCollection = new HeaderPolicyCollection()
-        .AddContentSecurityPolicyReportOnly(builder => // report-only 
+        .AddContentSecurityPolicyReportOnly(builder => // report-only
         {
             // configure policies
-        }); 
+        });
 }
 ```
 
@@ -179,7 +177,7 @@ public void Configure(IApplicationBuilder app)
         {
             // configure policies
         },
-        asReportOnly: true); // report-only 
+        asReportOnly: true); // report-only
 }
 ```
 
@@ -210,43 +208,43 @@ public void Configure(IApplicationBuilder app)
 
             builder.AddObjectSrc() // object-src 'none'
                 .None();
-                
+
             builder.AddFormAction() // form-action 'self'
                 .Self();
-                
+
             builder.AddImgSrc() // img-src https:
                 .OverHttps();
-            
+
             builder.AddScriptSrc() // script-src 'self' 'unsafe-inline' 'unsafe-eval' 'report-sample'
                 .Self()
                 .UnsafeInline()
                 .UnsafeEval()
                 .ReportSample();
-            
+
             builder.AddStyleSrc() // style-src 'self' 'strict-dynamic'
                 .Self()
                 .StrictDynamic();
-            
+
             builder.AddMediaSrc() // media-src https:
                 .OverHttps();
 
             builder.AddFrameAncestors() // frame-ancestors 'none'
                 .None();
-            
+
             builder.AddBaseUri() // base-ri 'self'
                 .Self();
-                
+
             builder.AddFrameSource() // frame-src http://testUrl.com
                 .From("http://testUrl.com");
-            
+
             // You can also add arbitrary extra directives: plugin-types application/x-shockwave-flash"
             builder.AddCustomDirective("plugin-types", "application/x-shockwave-flash");
-            
+
         })
         .AddCustomHeader("X-My-Test-Header", "Header value");
-    
+
     app.UseSecurityHeaders(policyCollection);
-    
+
     // other middleware e.g. static files, MVC etc  
 }
 ```
@@ -289,10 +287,10 @@ public void Configure(IApplicationBuilder app)
 
             builder.AddCamera() // camera 'none'
                 .None();
-                
+
             builder.AddEncryptedMedia() // encrypted-media 'self'
                 .Self();
-                
+
             builder.AddFullscreen() // fullscreen *:
                 .All();
 
@@ -307,40 +305,40 @@ public void Configure(IApplicationBuilder app)
 
             builder.AddMicrophone() // microphone 'none'
                 .None();
-            
+
             builder.AddMidi() // midi 'none'
                 .None();
-            
+
             builder.AddPayment() // payment 'none'
                 .None();
-            
+
             builder.AddPictureInPicture() // picture-in-picture 'none'
                 .None();
-            
+
             builder.AddSpeaker() // speaker 'none'
                 .None();
-            
+
             builder.AddSyncXHR() // sync-xhr 'none'
                 .None();
-            
+
             builder.AddUsb() // usb 'none'
                 .None();
-            
+
             builder.AddVR() // vr 'none'
                 .None();
-            
+
             // You can also add arbitrary extra directives: plugin-types application/x-shockwave-flash"
             builder.AddCustomDirective("plugin-types", "application/x-shockwave-flash");
-            
+
             // If a new feature policy is added that follows the standard conventions, you can use this overload
             // iframe 'self' http://testUrl.com
             builder.AddCustomDirective("iframe") // 
                 .Self()
                 .For("http://testUrl.com");
         });
-    
+
     app.UseSecurityHeaders(policyCollection);
-    
+
     // other middleware e.g. static files, MVC etc  
 }
 ```
@@ -355,12 +353,11 @@ To use a nonce or an auto-generated hash with your ASP.NET Core application, use
 
 ### 1. Install the NetEscapades.AspNetCore.SecurityHeaders.TagHelpers NuGet package, e.g.
 
-```
+```bash
 dotnet package add Install-Package NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
 ```
 
 This adds the package to your _.csproj_ file
-
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Web">
@@ -396,23 +393,23 @@ public void Configure(IApplicationBuilder app)
                 .Self()
                 .UnsafeInline()
                 .WithNonce(); // Allow elements marked with a nonce attribute
-            
+
             builder.AddStyleSrc() // style-src 'self' 'strict-dynamic' 'sha256-<base64-value>'
                 .Self()
                 .StrictDynamic()
                 .WithHashTagHelper(); // Allow whitelsited elements based on their SHA256 hash value
         })
         .AddCustomHeader("X-My-Test-Header", "Header value");
-    
+
     app.UseSecurityHeaders(policyCollection);
-    
+
     // other middleware e.g. static files, MVC etc  
 }
 ```
 
 ### 3. Whitelist elements using the TagHelpers
 
-Add the `NonceTagHelper` to an element by adding the `asp-add-nonce` attribute. 
+Add the `NonceTagHelper` to an element by adding the `asp-add-nonce` attribute.
 
 ```html
 <script asp-add-nonce>
@@ -467,8 +464,8 @@ var nonce = HttpContext.GetNonce();
 
 > Note that you must have enabled nonce generation by using the `WithNonce()` method. `HttpContext.GetNonce()` will return an `string.Empty` if nonce generation has not been added to the middleware.
 
-
 ## Additional Resources
+
 * [ASP.NET Core Middleware Docs](https://docs.asp.net/en/latest/fundamentals/middleware.html)
 * [How to add default security headers in ASP.NET Core using custom middleware](http://andrewlock.net/adding-default-security-headers-in-asp-net-core/)
 * [Content Security Policy - An Introduction](https://scotthelme.co.uk/content-security-policy-an-introduction/) by Scott Helme
