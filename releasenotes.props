@@ -1,21 +1,12 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.9.0'">
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.0.0'">
       <![CDATA[
-
-Features:
-
-* Add support for Nonce generation for Content-Security-Policy headers. See README.md for details
-* Add TagHelpers library for adding nonces and generating hashes for Razor elements (https://www.nuget.org/packages/NetEscapades.AspNetCore.SecurityHeaders.TagHelpers/)
-* Allow using HSTS preload with Strict-Transport-Security
-* Allow excluding domains from Strict-Transport-Security. Similar to the Microsoft HstsMiddlewareyou can skip applying Strict-Transport-Security to specific hosts
 
 Breaking Changes:
 
-* All obsolete classes have been removed.
-* Many classes have changed namespace to better reflect their location in the project, and also to aid discovery. If you're using the recommended builders and extension methods, you should not have any build-time breaking changes, but the package is not runtime-compatible with previous versions
-* The Strict-Transport-Security header is no longer applied to localhost by default. Generally speaking, this isn't something you should do anyway.
-* The CSP classes have undergone significant refactoring to allow dynamic values per-request (i.e. nonces). This doesn't affect the main public API, but will impact you if you're working with the low-level infrastructure classes.
+* Drop support for ASP.NET Core 1.x
+* Add support for ASP.NET Core 3.0
 
 ]]>
     </PackageReleaseNotes>
