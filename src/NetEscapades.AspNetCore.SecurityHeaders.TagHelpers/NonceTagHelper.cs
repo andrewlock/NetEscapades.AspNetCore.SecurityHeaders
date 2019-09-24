@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,13 +34,18 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
         /// Provides access to the <see cref="ViewContext"/>
         /// </summary>
         [ViewContext]
-        public ViewContext ViewContext { get; set; }
+        public ViewContext? ViewContext { get; set; }
 
         /// <inheritdoc />
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             if (AddNonce)
             {
+                if (ViewContext is null)
+                {
+                    throw new InvalidOperationException("ViewContext was null");
+                }
+
                 var nonce = ViewContext.HttpContext.GetNonce();
 
                 if (string.IsNullOrEmpty(nonce))

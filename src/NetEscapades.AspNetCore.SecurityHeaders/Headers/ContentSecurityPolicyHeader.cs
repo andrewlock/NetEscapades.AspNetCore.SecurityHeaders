@@ -5,35 +5,19 @@ using Microsoft.AspNetCore.Http;
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
 {
     /// <summary>
-    /// The header value to use for Content-SecurityHeader
+    /// The header value to use for Content-Security-Policy
     /// </summary>
-    public class ContentSecurityPolicyHeader : HtmlOnlyHeaderPolicyBase
+    public abstract class ContentSecurityPolicyHeader : HtmlOnlyHeaderPolicyBase
     {
-        private readonly string _value;
-        private readonly Func<HttpContext, string> _builder;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ContentSecurityPolicyHeader"/> class.
         /// </summary>
-        /// <param name="asReportOnly">If true, the header is added as report only</param>
-        /// <param name="value">The value to apply for the header</param>
-        public ContentSecurityPolicyHeader(string value, bool asReportOnly)
+        /// <param name="reportOnly">If true, the CSP header is added as "Content-Security-Policy-Report-Only".</param>
+        /// <param name="hasPerRequestValues">If true, the header directives are unique per request, and require</param>
+        protected ContentSecurityPolicyHeader(bool reportOnly, bool hasPerRequestValues)
         {
-            _value = value;
-            ReportOnly = asReportOnly;
-            HasPerRequestValues = false;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ContentSecurityPolicyHeader"/> class.
-        /// </summary>
-        /// <param name="builder">A function to generate the header's value for a request </param>
-        /// <param name="asReportOnly">If true, the header is added as report only</param>
-        public ContentSecurityPolicyHeader(Func<HttpContext, string> builder, bool asReportOnly)
-        {
-            _builder = builder;
-            ReportOnly = asReportOnly;
-            HasPerRequestValues = true;
+            ReportOnly = reportOnly;
+            HasPerRequestValues = hasPerRequestValues;
         }
 
         /// <inheritdoc />
@@ -51,9 +35,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
         /// </summary>
         internal bool HasPerRequestValues { get; }
 
-        /// <inheritdoc />
-        protected override string GetValue(HttpContext context) => HasPerRequestValues ? _builder(context) : _value;
-
         /// <summary>
         /// Configure a content security policy
         /// </summary>
@@ -69,8 +50,52 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
             var cspResult = builder.Build();
 
             return cspResult.HasPerRequestValues
-                ? new ContentSecurityPolicyHeader(cspResult.Builder, asReportOnly)
-                : new ContentSecurityPolicyHeader(cspResult.ConstantValue, asReportOnly);
+                ? (ContentSecurityPolicyHeader)new DynamicContentSecurityPolicyHeader(cspResult.Builder, asReportOnly)
+                : new StaticContentSecurityPolicyHeader(cspResult.ConstantValue, asReportOnly);
+        }
+
+        /// <summary>
+        /// A <see cref="ContentSecurityPolicyHeader"/> which has a single static value
+        /// </summary>
+        public class StaticContentSecurityPolicyHeader : ContentSecurityPolicyHeader
+        {
+            private readonly string _value;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="StaticContentSecurityPolicyHeader"/> class.
+            /// </summary>
+            /// <param name="asReportOnly">If true, the header is added as report only</param>
+            /// <param name="value">The value to apply for the header</param>
+            public StaticContentSecurityPolicyHeader(string value, bool asReportOnly)
+                : base(reportOnly: asReportOnly, hasPerRequestValues: false)
+            {
+                _value = value;
+            }
+
+            /// <inheritdoc />
+            protected override string GetValue(HttpContext context) => _value;
+        }
+
+        /// <summary>
+        /// A <see cref="DynamicContentSecurityPolicyHeader"/> which has a single static value
+        /// </summary>
+        public class DynamicContentSecurityPolicyHeader : ContentSecurityPolicyHeader
+        {
+            private readonly Func<HttpContext, string> _builder;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DynamicContentSecurityPolicyHeader"/> class.
+            /// </summary>
+            /// <param name="builder">A function to generate the header's value for a request </param>
+            /// <param name="asReportOnly">If true, the header is added as report only</param>
+            public DynamicContentSecurityPolicyHeader(Func<HttpContext, string> builder, bool asReportOnly)
+                : base(reportOnly: asReportOnly, hasPerRequestValues: true)
+            {
+                _builder = builder;
+            }
+
+            /// <inheritdoc />
+            protected override string GetValue(HttpContext context) => _builder(context);
         }
     }
 }

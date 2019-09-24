@@ -15,7 +15,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
         public static HeaderPolicyCollection RemoveServerHeader(this HeaderPolicyCollection policies)
         {
-            return policies.ApplyPolicy(new ServerHeader(null));
+            return policies.ApplyPolicy(new ServerHeader(string.Empty));
         }
     }
 }

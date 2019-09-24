@@ -34,7 +34,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         /// </summary>
         /// <param name="name">The name of the policy to lookup.</param>
         /// <returns>The <see cref="HeaderPolicyCollection"/> if the policy was added.<c>null</c> otherwise.</returns>
-        public HeaderPolicyCollection GetPolicy(string name)
+        public HeaderPolicyCollection? GetPolicy(string name)
         {
             if (name == null)
             {

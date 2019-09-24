@@ -15,6 +15,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         /// </summary>
         public ReportUriDirectiveBuilder() : base("report-uri")
         {
+            Uri = string.Empty;
         }
 
         private string Uri { get; set; }
