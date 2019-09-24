@@ -68,12 +68,12 @@ Task("Test")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var projects = GetFiles("./test/**/*Test.csproj");
-        foreach(var project in projects)
+        var solutions = GetFiles("./*.sln");
+        foreach(var solution in solutions)
         {
-            Information("Testing project " + project);
+            Information("Testing project " + solution);
             DotNetCoreTest(
-                project.ToString(),
+                solution.ToString(),
                 new DotNetCoreTestSettings()
                 {
                     // Currently not possible? https://github.com/dotnet/cli/issues/3114
