@@ -28,11 +28,16 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
         /// Provides access to the <see cref="ViewContext"/>
         /// </summary>
         [ViewContext]
-        public ViewContext ViewContext { get; set; }
+        public ViewContext? ViewContext { get; set; }
 
         /// <inheritdoc />
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
+            if (ViewContext is null)
+            {
+                throw new InvalidOperationException("ViewContext was null");
+            }
+
             using (var sha = CryptographyAlgorithms.Create(CSPHashType))
             {
                 var childContent = await output.GetChildContentAsync();

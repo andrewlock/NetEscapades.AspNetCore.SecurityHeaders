@@ -1,5 +1,12 @@
 # Changelog
 
+## [v1.0.0]
+
+Breaking Changes:
+
+* Drop support for ASP.NET Core 1.x
+* Add support for ASP.NET Core 3.0
+
 ## [v0.9.0]
 
 Features:

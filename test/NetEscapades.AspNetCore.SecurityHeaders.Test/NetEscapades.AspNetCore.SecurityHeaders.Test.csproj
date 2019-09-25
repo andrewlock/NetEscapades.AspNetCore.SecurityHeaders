@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <Authors>Andrew Lock</Authors>
-    <TargetFrameworks>netcoreapp1.0;net452;netcoreapp2.0;</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp2.0;netcoreapp3.0</TargetFrameworks>
     <AssemblyName>NetEscapades.AspNetCore.SecurityHeaders.Test</AssemblyName>
     <PackageId>NetEscapades.AspNetCore.SecurityHeaders.Test</PackageId>
-    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch Condition="'$(TargetFramework)' == 'net452'">None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,23 +18,17 @@
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp2.0'">
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="1.0.2" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.0.0" />
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.TraceSource" Version="4.3.0" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">
-    <PackageReference Include="System.Diagnostics.Process" Version="4.1.0" />
-    <PackageReference Include="System.Diagnostics.TraceSource" Version="4.0.0" />
+  <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0'">
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
