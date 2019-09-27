@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.0.0'">
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.10.0'">
       <![CDATA[
 
 Breaking Changes:
