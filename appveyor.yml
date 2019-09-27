@@ -17,7 +17,7 @@ nuget:
   disable_publish_on_pr: true
 build_script:
 - ps: .\Build.ps1
-- sh: ./build.sh
+- sh: ./build.sh -Target Build
 test: off
 artifacts:
 - path: .\artifacts\**\*.nupkg
