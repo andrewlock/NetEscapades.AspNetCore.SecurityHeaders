@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
@@ -15,6 +16,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
     {
         private readonly RequestDelegate _next;
         private readonly HeaderPolicyCollection _policy;
+        private readonly string _policyName;
         private readonly NonceGenerator _nonceGenerator;
         private readonly bool _mustGenerateNonce;
 
@@ -23,11 +25,21 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// </summary>
         /// <param name="next">The next middleware in the pipeline.</param>
         /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
-        /// <param name="policies">A <see cref="HeaderPolicyCollection"/> containing the policies to be applied.</param>
-        public SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policies)
-            : this(next, service, policies, new NonceGenerator())
+        public SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service)
+            : this(next, service, policyName: null)
         {
-            _mustGenerateNonce = MustGenerateNonce(_policy);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.
+        /// </summary>
+        /// <param name="next">The next middleware in the pipeline.</param>
+        /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
+        /// /// <param name="policyName">An optional name of the policy to be fetched.</param>
+        public SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, string policyName)
+            : this(next, service, new NonceGenerator())
+        {
+            _policyName = policyName;
         }
 
         /// <summary>
@@ -36,12 +48,23 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         /// <param name="next">The next middleware in the pipeline.</param>
         /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
         /// <param name="policies">A <see cref="HeaderPolicyCollection"/> containing the policies to be applied.</param>
+        public SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policies)
+            : this(next, service, new NonceGenerator())
+        {
+            _policy = policies ?? throw new ArgumentNullException(nameof(policies));
+            _mustGenerateNonce = MustGenerateNonce(policies);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.
+        /// </summary>
+        /// <param name="next">The next middleware in the pipeline.</param>
+        /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
         /// <param name="nonceGenerator">Used to generate nonce (number used once) values for headers</param>
-        internal SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policies, NonceGenerator nonceGenerator)
+        internal SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, NonceGenerator nonceGenerator)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
             CustomHeaderService = service ?? throw new ArgumentNullException(nameof(service));
-            _policy = policies ?? throw new ArgumentNullException(nameof(policies));
             _nonceGenerator = nonceGenerator ?? throw new ArgumentException(nameof(nonceGenerator));
         }
 
@@ -59,12 +82,33 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (_mustGenerateNonce)
+            var policy = _policy;
+            var policyName = _policyName;
+            var mustGenerateNonce = _mustGenerateNonce;
+
+            if (policy == null)
+            {
+                // Resolve policy by name if the local policy is not being used
+                var securityHeadersPolicyProvider = context.RequestServices.GetRequiredService<ISecurityHeadersPolicyProvider>();
+                policy = await securityHeadersPolicyProvider.GetPolicyAsync(context, policyName);
+                if (policy != null)
+                {
+                    mustGenerateNonce = MustGenerateNonce(policy);
+                }
+            }
+
+            if (policy == null)
+            {
+                await _next(context);
+                return;
+            }
+
+            if (mustGenerateNonce)
             {
                 context.SetNonce(_nonceGenerator.GetNonce(Constants.DefaultBytesInNonce));
             }
 
-            context.Response.OnStarting(OnResponseStarting, Tuple.Create(this, context, _policy));
+            context.Response.OnStarting(OnResponseStarting, Tuple.Create(this, context, policy));
             await _next(context);
         }
 
