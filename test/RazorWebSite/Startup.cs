@@ -19,6 +19,7 @@ namespace RazorWebSite
                         var policyCollection = new HeaderPolicyCollection()
                 .AddXssProtectionBlock()
                 .AddContentTypeOptionsNoSniff()
+                .AddExpectCTNoEnforceOrReport(0)
                 .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAgeInSeconds: 60 * 60 * 24 * 365) // maxage = one year in seconds
                 .AddReferrerPolicyStrictOriginWhenCrossOrigin()
                 .AddContentSecurityPolicy(builder =>
@@ -42,7 +43,12 @@ namespace RazorWebSite
             app.UseSecurityHeaders(policyCollection);
 
             app.UseStaticFiles();
+#if NETCOREAPP3_0
+            app.UseRouting();
+            app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
+#else
             app.UseMvc();
+#endif
         }
     }
 }
