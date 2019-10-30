@@ -62,7 +62,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
             private readonly string _value;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="StaticContentSecurityPolicyHeader"/> class.
+            /// Initializes a new instance of the <see cref="ContentSecurityPolicyHeader.StaticContentSecurityPolicyHeader"/> class.
             /// </summary>
             /// <param name="asReportOnly">If true, the header is added as report only</param>
             /// <param name="value">The value to apply for the header</param>
@@ -77,14 +77,14 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
         }
 
         /// <summary>
-        /// A <see cref="DynamicContentSecurityPolicyHeader"/> which has a single static value
+        /// A <see cref="ContentSecurityPolicyHeader"/> which has a single static value
         /// </summary>
         public class DynamicContentSecurityPolicyHeader : ContentSecurityPolicyHeader
         {
             private readonly Func<HttpContext, string> _builder;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="DynamicContentSecurityPolicyHeader"/> class.
+            /// Initializes a new instance of the <see cref="ContentSecurityPolicyHeader.DynamicContentSecurityPolicyHeader"/> class.
             /// </summary>
             /// <param name="builder">A function to generate the header's value for a request </param>
             /// <param name="asReportOnly">If true, the header is added as report only</param>

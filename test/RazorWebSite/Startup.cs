@@ -16,20 +16,29 @@ namespace RazorWebSite
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseSecurityHeaders(policies => policies
-                .AddDefaultSecurityHeaders()
-                .AddContentSecurityPolicy(csp =>
+                        var policyCollection = new HeaderPolicyCollection()
+                .AddXssProtectionBlock()
+                .AddContentTypeOptionsNoSniff()
+                .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAgeInSeconds: 60 * 60 * 24 * 365) // maxage = one year in seconds
+                .AddReferrerPolicyStrictOriginWhenCrossOrigin()
+                .AddContentSecurityPolicy(builder =>
                 {
-                    csp.AddDefaultSrc().Self();
-                    csp.AddScriptSrc().Self().WithHashTagHelper().WithNonce();
-                    csp.AddStyleSrc().Self().WithHashTagHelper().WithNonce();
+                    builder.AddUpgradeInsecureRequests();
+                    builder.AddDefaultSrc().Self(); 
+                    builder.AddConnectSrc().From("*");
+                    builder.AddFontSrc().From("*");
+                    builder.AddFrameAncestors().From("*");
+                    builder.AddFrameSource().From("*");
+                    builder.AddMediaSrc().From("*");
+                    builder.AddImgSrc().From("*").Data();
+                    builder.AddObjectSrc().From("*");
+                    builder.AddScriptSrc().From("*").UnsafeInline().UnsafeEval();
+                    builder.AddStyleSrc().From("*").UnsafeEval().UnsafeInline();
                 })
-                .AddFeaturePolicy(fp =>
-                {
-                    fp.AddAccelerometer().Self();
-                    fp.AddCamera().None();
-                })
-            );
+                .RemoveServerHeader();
+
+
+            app.UseSecurityHeaders(policyCollection);
 
             app.UseStaticFiles();
             app.UseMvc();
