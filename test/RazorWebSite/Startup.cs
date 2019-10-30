@@ -29,6 +29,7 @@ namespace RazorWebSite
                     builder.AddFontSrc().From("*");
                     builder.AddFrameAncestors().From("*");
                     builder.AddFrameSource().From("*");
+                    builder.AddWorkerSrc().From("*");
                     builder.AddMediaSrc().From("*");
                     builder.AddImgSrc().From("*").Data();
                     builder.AddObjectSrc().From("*");

@@ -90,6 +90,12 @@ namespace Microsoft.AspNetCore.Builder
         public FrameSourceDirectiveBuilder AddFrameSource() => AddDirective(new FrameSourceDirectiveBuilder());
 
         /// <summary>
+        /// The worker-src directive specifies valid sources for Worker, SharedWorker, or ServiceWorker scripts.
+        /// </summary>
+        /// <returns>A configured <see cref="WorkerSourceDirectiveBuilder"/></returns>
+        public WorkerSourceDirectiveBuilder AddWorkerSrc() => AddDirective(new WorkerSourceDirectiveBuilder());
+
+        /// <summary>
         /// The base-uri directive restricts the URLs which can be used in a document's
         /// &lt;base&gt; element. If this value is absent, then any URI is allowed. If this
         /// directive is absent, the user agent will use the value in the &lt;base&gt; element.
