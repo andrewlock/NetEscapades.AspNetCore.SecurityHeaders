@@ -59,7 +59,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
             private readonly string _constantValue;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="StaticCspBuilderResult"/> class.
+            /// Initializes a new instance of the <see cref="CspBuilderResult.StaticCspBuilderResult"/> class.
             /// </summary>
             /// <param name="constantValue">The constant value to use for all requests</param>
             public StaticCspBuilderResult(string constantValue) : base(false)
@@ -87,7 +87,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
             private readonly Func<HttpContext, string> _builder;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="DynamicCspBuilderResult"/> class.
+            /// Initializes a new instance of the <see cref="CspBuilderResult.DynamicCspBuilderResult"/> class.
             /// </summary>
             /// <param name="builder">A builder function to generate the directives for a given request</param>
             public DynamicCspBuilderResult(Func<HttpContext, string> builder) : base(true)

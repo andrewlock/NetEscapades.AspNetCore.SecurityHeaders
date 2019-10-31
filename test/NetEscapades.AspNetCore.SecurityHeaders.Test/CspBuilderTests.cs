@@ -118,6 +118,21 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         }
 
         [Fact]
+        public void Build_AddWorkerSrc_WhenAddsMultipleValue_ReturnsAllValues()
+        {
+            var builder = new CspBuilder();
+            builder.AddWorkerSrc()
+                .Self()
+                .Blob()
+                .Data()
+                .From("http://testUrl.com");
+
+            var result = builder.Build();
+
+            result.ConstantValue.Should().Be("worker-src 'self' blob: data: http://testUrl.com");
+        }
+
+        [Fact]
         public void Build_AddSrciptSrc_WhenAddsMultipleValue_ReturnsAllValues()
         {
             var builder = new CspBuilder();
@@ -339,6 +354,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             builder.AddObjectSrc().Self().Blob().Data().From("http://testUrl.com");
             builder.AddFormAction().Self().Blob().Data().From("http://testUrl.com");
             builder.AddImgSrc().Self().Blob().Data().From("http://testUrl.com");
+            builder.AddWorkerSrc().Self().Blob().Data().From("http://testUrl.com");
             builder.AddScriptSrc().Self().UnsafeEval().UnsafeInline().StrictDynamic().ReportSample().From("http://testUrl.com");
             builder.AddStyleSrc().Self().Blob().Data().From("http://testUrl.com");
             builder.AddMediaSrc().Self().Blob().Data().From("http://testUrl.com");
@@ -362,6 +378,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             builder.AddFontSrc().Self().Blob().Data().From("http://testUrl.com");
             builder.AddObjectSrc().Self().Blob().Data().From("http://testUrl.com");
             builder.AddFormAction().Self().Blob().Data().From("http://testUrl.com");
+            builder.AddWorkerSrc().Self().Blob().Data().From("http://testUrl.com");
             builder.AddImgSrc().Self().Blob().Data().From("http://testUrl.com");
             builder.AddStyleSrc().Self().Blob().Data().From("http://testUrl.com");
             builder.AddMediaSrc().Self().Blob().Data().From("http://testUrl.com");

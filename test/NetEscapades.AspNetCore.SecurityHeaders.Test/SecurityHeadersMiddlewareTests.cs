@@ -781,6 +781,239 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             }
         }
 
+        [Fact]
+        public async Task HttpRequest_WithExpectCt_DoesNotSetExpectCT()
+        {
+            // Arrange
+            const int maxAge = 123;
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddExpectCTEnforceOnly(maxAge));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                response.Headers.Contains("Expect-CT").Should().BeFalse();
+            }
+        }
+
+        [Fact]
+        public async Task SecureRequest_WhenOnLocalhost_DoesNotSetExpectCtHeader()
+        {
+            // Arrange
+            const int maxAge = 123;
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://localhost:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddExpectCTEnforceOnly(maxAge));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://localhost:5001");
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                Assert.False(response.Headers.Contains("Expect-CT"),
+                    "Should not contain Expect-CT header on localhost");
+            }
+        }
+
+        [Fact]
+        public async Task SecureRequest_WithExpectCt_EnforceOnly_IsCorrect()
+        {
+            const int maxAge = 123;
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://example.com:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddExpectCTEnforceOnly(maxAge));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://example.com:5001");
+                var response = await server.CreateRequest("/").SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
+                header.Should().Be($"max-age={maxAge}, enforce");
+            }
+        }
+
+        [Fact]
+        public async Task SecureRequest_WithExpectCt_IsCorrect()
+        {
+            const int maxAge = 123;
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://example.com:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddExpectCTNoEnforceOrReport(maxAge));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://example.com:5001");
+                var response = await server.CreateRequest("/").SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
+                header.Should().Be($"max-age={maxAge}");
+            }
+        }
+
+        [Fact]
+        public async Task SecureRequest_WithExpectCt_ReportOnly_IsCorrect()
+        {
+            const int maxAge = 123;
+            const string reportUri = "http://test.com";
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://example.com:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddExpectCTReportOnly(maxAge, reportUri));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://example.com:5001");
+                var response = await server.CreateRequest("/").SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
+                header.Should().Be($"max-age={maxAge}, report-uri=\"{reportUri}\"");
+            }
+        }
+
+        [Fact]
+        public async Task SecureRequest_WithExpectCt_EnforceAndReport_IsCorrect()
+        {
+            const int maxAge = 123;
+            const string reportUri = "http://test.com";
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://example.com:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddExpectCTEnforceAndReport(maxAge, reportUri));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://example.com:5001");
+                var response = await server.CreateRequest("/").SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
+                header.Should().Be($"max-age={maxAge}, enforce, report-uri=\"{reportUri}\"");
+            }
+        }
+
+        [Fact]
+        public async Task SecureRequest_WithExpectCt_WhenUsingTheManualValues_IsCorrect()
+        {
+            const int maxAge = 123;
+            const string reportUri = "http://test.com";
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://example.com:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddExpectCT(maxAge, enforce: true, reportUri: reportUri));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://example.com:5001");
+                var response = await server.CreateRequest("/").SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
+                header.Should().Be($"max-age={maxAge}, enforce, report-uri=\"{reportUri}\"");
+            }
+        }
+
         private static void AssertHttpRequestDefaultSecurityHeaders(HttpResponseHeaders headers)
         {
             string header = headers.GetValues("X-Content-Type-Options").FirstOrDefault();
