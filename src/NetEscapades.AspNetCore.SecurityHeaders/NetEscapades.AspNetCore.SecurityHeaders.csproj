@@ -10,6 +10,7 @@
     <AssemblyName>NetEscapades.AspNetCore.SecurityHeaders</AssemblyName>
     <PackageId>NetEscapades.AspNetCore.SecurityHeaders</PackageId>
     <PackageTags>aspnetcore;headers;ASP.NET MVC;ASP.NET Core;middleware</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
