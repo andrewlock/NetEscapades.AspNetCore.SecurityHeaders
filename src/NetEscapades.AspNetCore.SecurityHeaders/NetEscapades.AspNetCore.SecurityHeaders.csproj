@@ -11,8 +11,6 @@
     <PackageId>NetEscapades.AspNetCore.SecurityHeaders</PackageId>
     <PackageTags>aspnetcore;headers;ASP.NET MVC;ASP.NET Core;middleware</PackageTags>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <CodeAnalysisRuleSet>NetEscapades.AspNetCore.SecurityHeaders.ruleset</CodeAnalysisRuleSet>

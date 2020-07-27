@@ -11,8 +11,6 @@
         <PackageId>NetEscapades.AspNetCore.SecurityHeaders.TagHelpers</PackageId>
         <PackageTags>aspnetcore;headers;ASP.NET MVC;ASP.NET Core;Tag Helpers;TagHelpers;Razor</PackageTags>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <IncludeSymbols>true</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
         <CodeAnalysisRuleSet>NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.ruleset</CodeAnalysisRuleSet>
