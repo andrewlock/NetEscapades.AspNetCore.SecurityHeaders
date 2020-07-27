@@ -1,11 +1,10 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.11.1'">
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.11.2'">
       <![CDATA[
 
 Minor:
 
-* Update source link version
 * Switch to standard MIT SPDX license
 
 ]]>
