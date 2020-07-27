@@ -17,8 +17,8 @@ test: off
 artifacts:
 - path: .\artifacts\**\*.nupkg
   name: NuGet
-- path: .\artifacts\**\*.xml
-  name: xUnit Test Results
+- path: .\artifacts\**\*.snupkg
+  name: NuGet Symbols
 deploy:
 - provider: NuGet
   server: https://www.myget.org/F/andrewlock-ci/api/v2/package
