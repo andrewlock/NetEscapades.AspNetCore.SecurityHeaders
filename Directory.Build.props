@@ -8,7 +8,7 @@
     <Copyright>Copyright © AndrewLock</Copyright>
     <NeutralLanguage>en-GB</NeutralLanguage>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders</PackageProjectUrl>
     <RepositoryUrl>https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
