@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.11.1]
+
+Minor:
+
+* Update source link version
+* Switch to standard MIT SPDX license
+
 ## [v0.11.0]
 
 Features:
