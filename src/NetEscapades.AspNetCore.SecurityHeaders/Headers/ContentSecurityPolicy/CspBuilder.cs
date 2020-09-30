@@ -75,6 +75,12 @@ namespace Microsoft.AspNetCore.Builder
         public MediaSourceDirectiveBuilder AddMediaSrc() => AddDirective(new MediaSourceDirectiveBuilder());
 
         /// <summary>
+        /// The manifest-src directive specifies which manifest can be applied to the resource.
+        /// </summary>
+        /// <returns>A configured <see cref="ManifestSourceDirectiveBuilder"/></returns>
+        public ManifestSourceDirectiveBuilder AddManifestSrc() => AddDirective(new ManifestSourceDirectiveBuilder());
+
+        /// <summary>
         /// The frame-ancestors directive specifies valid parents that may embed a page using
         /// &lt;frame&gt;, &lt;iframe&gt;, &lt;object&gt;, &lt;embed&gt;, or &lt;applet&gt;.
         /// Setting this directive to 'none' is similar to X-Frame-Options: DENY (which is also supported in older browers).
