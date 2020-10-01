@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.12.0]
+
+Features:
+
+* Add support for `manifest-src` directive in CSP (Thanks [@jotatoledo](https://github.com/jotatoledo)!)
+* Add support for `Permissions-Policy` (supersedes `Feature-Policy`) (Thanks [@Rtalos](https://github.com/Rtalos)!)
+
 ## [v0.11.2]
 
 Minor:

@@ -1,11 +1,12 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.11.2'">
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.12.0'">
       <![CDATA[
 
-Minor:
+Features:
 
-* Switch to standard MIT SPDX license
+* Add support for manifest-src directive in CSP (Thanks @jotatoledo!)
+* Add support for Permissions-Policy (supersedes Feature-Policy) (Thanks @Rtalos!)
 
 ]]>
     </PackageReleaseNotes>
