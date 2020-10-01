@@ -650,6 +650,121 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         }
 
         [Fact]
+        public async Task HttpRequest_WithPermissionsPolicyHeader_SetsPermissionsPolicy()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddPermissionsPolicy(builder =>
+                            {
+                                builder.AddAccelerometer().Self().For("https://testurl1.com").For("https://testurl2.com").For("https://testurl3.com").For("https://testurl4.com");
+                                builder.AddFullscreen().Self();
+                                builder.AddAmbientLightSensor().For("https://testurl.com");
+                                builder.AddGeolocation().None();
+                                builder.AddCamera().All();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Permissions-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=self, ambient-light-sensor=\"https://testurl.com\", geolocation=(), camera=*");
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithPermissionsPolicyHeaderAndNotHtml_DoesNotSetPermissionsPolicy()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddPermissionsPolicy(builder =>
+                            {
+                                builder.AddFullscreen().Self();
+                                builder.AddGeolocation().None();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/plain";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                response.Headers.Contains("Permissions-Policy").Should().BeFalse();
+            }
+        }
+
+
+        [Fact]
+        public async Task HttpRequest_WithPermissionsPolicyHeaderAndUnknonwnContentType_SetsPermissionsPolicyHeader()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddPermissionsPolicy(builder =>
+                            {
+                                builder.AddFullscreen().Self();
+                                builder.AddGeolocation().None();
+                            }));
+                    app.Run(async context =>
+                    {
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Permissions-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("fullscreen=self, geolocation=()");
+            }
+        }
+
+        [Fact]
         public async Task SecureRequest_WithStrictTransportSecurity_WithNoSubdomains_IsCorrect()
         {
             const int maxAge = 123;
