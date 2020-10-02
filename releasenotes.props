@@ -1,7 +1,10 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.12.0'">
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.12.1'">
       <![CDATA[
+
+BugFix:
+* Fix API inconsistencies between Permissions-Policy and Feature-Policy (Thanks @Rtalos!)
 
 Features:
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.12.1]
+
+BugFix:
+
+* Fix API inconsistencies between Permissions-Policy and Feature-Policy (Thanks [@Rtalos](https://github.com/Rtalos)!)
+ 
 ## [v0.12.0]
 
 Features:
