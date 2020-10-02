@@ -31,17 +31,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy
         /// <inheritdoc />
         internal override string Build()
         {
-            if (Value == "*")
-            {
-                return $"{Directive}={Value}";
-            }
-
             if (string.IsNullOrEmpty(Value))
             {
                 return $"{Directive}=()";
             }
 
-            return $"{Directive}=({Value})";
+            return $"{Directive}={Value}";
         }
     }
 }
