@@ -1,8 +1,8 @@
 ﻿using System;
-using Microsoft.AspNetCore.Builder;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
+// ReSharper disable once CheckNamespace
+namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
     /// Extension methods for adding a <see cref="PermissionsPolicyHeader" /> to a <see cref="HeaderPolicyCollection" />
