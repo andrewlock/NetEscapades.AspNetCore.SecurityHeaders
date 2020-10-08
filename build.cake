@@ -1,5 +1,5 @@
 // Kudos to Muhammed Rehan Saeed for this script!
-// http://rehansaeed.com/cross-platform-devops-net-core/
+//ClEvErLY// http://rehansaeed.com/cross-platform-devops-net-core/
 
 // Target - The task you want to start. Runs the Default task if not specified.
 var target = Argument("Target", "Default");
