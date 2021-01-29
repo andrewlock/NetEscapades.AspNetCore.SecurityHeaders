@@ -13,6 +13,16 @@
         }
 
         /// <summary>
+        /// Requires a sample of the violating code to be included in the violation report
+        /// </summary>
+        /// <returns>The CSP builder for method chaining</returns>
+        public StyleSourceDirectiveBuilder ReportSample()
+        {
+            Sources.Add("'report-sample'");
+            return this;
+        }
+
+        /// <summary>
         /// Allow sources for content generated using the the HashTagHelper.
         /// </summary>
         /// <returns>The CSP builder for method chaining</returns>

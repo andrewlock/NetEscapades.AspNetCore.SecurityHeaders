@@ -214,13 +214,14 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             var builder = new CspBuilder();
             builder.AddStyleSrc()
                 .Self()
+                .ReportSample()
                 .Blob()
                 .Data()
                 .From("http://testUrl.com");
 
             var result = builder.Build();
 
-            result.ConstantValue.Should().Be("style-src 'self' blob: data: http://testUrl.com");
+            result.ConstantValue.Should().Be("style-src 'self' 'report-sample' blob: data: http://testUrl.com");
         }
 
         [Fact]
