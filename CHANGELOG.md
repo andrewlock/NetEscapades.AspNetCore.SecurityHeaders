@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.13.0]
+
+Features:
+
+* Add support for `report-sample` in `style-src` directive for CSP (Thanks [@jeremylindsayni](https://github.com/jeremylindsayni)!)
+
 ## [v0.12.1]
 
 BugFix:

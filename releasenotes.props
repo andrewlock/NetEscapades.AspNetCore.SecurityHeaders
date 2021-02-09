@@ -1,15 +1,11 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.12.1'">
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.13.0'">
       <![CDATA[
-
-BugFix:
-* Fix API inconsistencies between Permissions-Policy and Feature-Policy (Thanks @Rtalos!)
 
 Features:
 
-* Add support for manifest-src directive in CSP (Thanks @jotatoledo!)
-* Add support for Permissions-Policy (supersedes Feature-Policy) (Thanks @Rtalos!)
+* Add support for report-sample in style-src directive for CSP (Thanks @jeremylindsayni!)
 
 ]]>
     </PackageReleaseNotes>
