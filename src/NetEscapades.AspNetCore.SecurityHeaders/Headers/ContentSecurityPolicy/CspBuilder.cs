@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
@@ -83,7 +84,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <summary>
         /// The frame-ancestors directive specifies valid parents that may embed a page using
         /// &lt;frame&gt;, &lt;iframe&gt;, &lt;object&gt;, &lt;embed&gt;, or &lt;applet&gt;.
-        /// Setting this directive to 'none' is similar to X-Frame-Options: DENY (which is also supported in older browers).
+        /// Setting this directive to 'none' is similar to X-Frame-Options: DENY (which is also supported in older browsers).
         /// </summary>
         /// <returns>A configured <see cref="FrameAncestorsDirectiveBuilder"/></returns>
         public FrameAncestorsDirectiveBuilder AddFrameAncestors() => AddDirective(new FrameAncestorsDirectiveBuilder());
@@ -93,6 +94,14 @@ namespace Microsoft.AspNetCore.Builder
         /// using elements such as  &lt;frame&gt; and  &lt;iframe&gt;
         /// </summary>
         /// <returns>A configured <see cref="FrameSourceDirectiveBuilder"/></returns>
+        public FrameSourceDirectiveBuilder AddFrameSrc() => AddDirective(new FrameSourceDirectiveBuilder());
+
+        /// <summary>
+        /// The frame-src directive specifies valid sources for nested browsing contexts loading
+        /// using elements such as  &lt;frame&gt; and  &lt;iframe&gt;
+        /// </summary>
+        /// <returns>A configured <see cref="FrameSourceDirectiveBuilder"/></returns>
+        [Obsolete("Use AddFrameSrc method instead. This method will be removed in a future version of the library.")]
         public FrameSourceDirectiveBuilder AddFrameSource() => AddDirective(new FrameSourceDirectiveBuilder());
 
         /// <summary>
