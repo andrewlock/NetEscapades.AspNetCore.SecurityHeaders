@@ -59,6 +59,18 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         }
 
         [Fact]
+        public void PermissionsPolicy_Build_AddFLoC_Calculation_WhenIncludesNone_OnlyWritesNone()
+        {
+            var builder = new PermissionsPolicyBuilder();
+            builder.AddFederatedLearningOfCohortsCalculation()
+                .None();
+
+            var result = builder.Build();
+
+            result.Should().Be("interest-cohort=()");
+        }
+
+        [Fact]
         public void PermissionsBuild_AddAccelerometer_WhenIncludesAll_OnlyWritesAll()
         {
             var builder = new PermissionsPolicyBuilder();
