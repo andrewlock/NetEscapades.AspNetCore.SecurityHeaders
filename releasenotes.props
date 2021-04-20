@@ -1,11 +1,16 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.13.0'">
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.14.0'">
       <![CDATA[
 
 Features:
 
-* Add support for report-sample in style-src directive for CSP (Thanks @jeremylindsayni!)
+* Add support for `interest-cohort=()` in `Permissions-Policy` directive (Thanks @jeremylindsayni)
+
+BugFix: 
+
+* Rename `AddFrameSource()` -> `AddFrameSrc()` for consistency, and deprecate `AddFrameSource()`
+
 
 ]]>
     </PackageReleaseNotes>

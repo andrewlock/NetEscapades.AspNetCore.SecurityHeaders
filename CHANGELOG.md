@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.14.0]
+
+Features:
+
+* Add support for `interest-cohort=()` in `Permissions-Policy` directive (Thanks [@jeremylindsayni](https://github.com/jeremylindsayni)!)
+
+BugFix: 
+
+* Rename `AddFrameSource()` -> `AddFrameSrc()` for consistency, and deprecate `AddFrameSource()`
+
 ## [v0.13.0]
 
 Features:
