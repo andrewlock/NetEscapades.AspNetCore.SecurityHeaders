@@ -88,6 +88,14 @@ namespace Microsoft.AspNetCore.Builder
         public GyroscopePermissionsPolicyDirectiveBuilder AddGyroscope() => AddDirective(new GyroscopePermissionsPolicyDirectiveBuilder());
 
         /// <summary>
+        /// Controls whether the current document is allowed to make a FLoC calculation.
+        /// If disabled in a document, the promise returned by <code>interestCohort()</code>
+        /// must reject with a DOMException parameter.
+        /// </summary>
+        /// <returns>A configured <see cref="FederatedLearningOfCohortsCalculationPermissionsPolicyDirectiveBuilder"/></returns>
+        public FederatedLearningOfCohortsCalculationPermissionsPolicyDirectiveBuilder AddFederatedLearningOfCohortsCalculation() => AddDirective(new FederatedLearningOfCohortsCalculationPermissionsPolicyDirectiveBuilder());
+
+        /// <summary>
         /// Controls whether the current document is allowed to use the magnetometer sensor.
         /// If disabled then constructing of a Sensor-based interface object will throw a
         /// <code>SecurityError</code>. The events are not fired. If an interface (or an
