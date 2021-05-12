@@ -50,14 +50,14 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns>A configured <see cref="CameraPermissionsPolicyDirectiveBuilder"/></returns>
         public CameraPermissionsPolicyDirectiveBuilder AddCamera() => AddDirective(new CameraPermissionsPolicyDirectiveBuilder());
 
-        ///// <summary>
-        ///// Controls whether encrypted media extensions are available. If disabled
-        ///// The promise returned by <code>requestMediaKeySystemAccess()</code> must
-        ///// return a promise which rejects with a <code>SecurityError</code> DOMException
-        ///// object as its parameter.
-        ///// </summary>
-        ///// <returns>A configured <see cref="EncryptedMediaFeaturePolicyDirectiveBuilder"/></returns>
-        // public EncryptedMediaFeaturePolicyDirectiveBuilder AddEncryptedMedia() => AddDirective(new EncryptedMediaFeaturePolicyDirectiveBuilder());
+        /// <summary>
+        /// Controls whether encrypted media extensions are available. If disabled
+        /// The promise returned by <code>requestMediaKeySystemAccess()</code> must
+        /// return a promise which rejects with a <code>SecurityError</code> DOMException
+        /// object as its parameter.
+        /// </summary>
+        /// <returns>A configured <see cref="EncryptedMediaPermissionsPolicyDirectiveBuilder"/></returns>
+        public EncryptedMediaPermissionsPolicyDirectiveBuilder AddEncryptedMedia() => AddDirective(new EncryptedMediaPermissionsPolicyDirectiveBuilder());
 
         /// <summary>
         /// Controls whether the current document is allowed to use
