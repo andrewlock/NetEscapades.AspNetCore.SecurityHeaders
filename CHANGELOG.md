@@ -1,5 +1,16 @@
 # Changelog
 
+## [v0.15.0]
+
+Features:
+
+* Add support for creating custom CSP directives with `CspDirectiveBuilder`. Enables creating custom directives (for example unsupported, draft, directives) that require nonce or hash values
+
+BugFix:
+
+* Add missing `EncryptedMedia` directive to permissions policy (Thanks [@jotoledo](https://github.com/jotatoledo))
+
+
 ## [v0.14.0]
 
 Features:

@@ -1,16 +1,14 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.14.0'">
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.15.0'">
       <![CDATA[
-
 Features:
 
-* Add support for `interest-cohort=()` in `Permissions-Policy` directive (Thanks @jeremylindsayni)
+* Add support for creating custom CSP directives with `CspDirectiveBuilder`. Enables creating custom directives (for example unsupported, draft, directives) that require nonce or hash values
 
-BugFix: 
+BugFix:
 
-* Rename `AddFrameSource()` -> `AddFrameSrc()` for consistency, and deprecate `AddFrameSource()`
-
+* Add missing `EncryptedMedia` directive to permissions policy (Thanks @jotoledo)
 
 ]]>
     </PackageReleaseNotes>
