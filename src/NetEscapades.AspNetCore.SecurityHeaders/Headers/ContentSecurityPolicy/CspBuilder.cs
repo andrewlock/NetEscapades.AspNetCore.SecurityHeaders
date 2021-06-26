@@ -170,7 +170,8 @@ namespace Microsoft.AspNetCore.Builder
         /// To create a custom CSP directive with a fixed value, use <see cref="AddCustomDirective(string)"/>
         /// </summary>
         /// <param name="directive">The directive name, e.g. default-src</param>
-        /// <returns>A configured <see cref="CustomDirective"/></returns>
+        /// <remarks>If you need a directive without a value, use <see cref="AddCustomDirective(string)"/> instead</remarks>
+        /// <returns>A configured <see cref="CspDirectiveBuilder"/></returns>
         public CspDirectiveBuilder AddCustomDirectiveBuilder(string directive) => AddDirective(new CspDirectiveBuilder(directive));
 
         private T AddDirective<T>(T directive) where T : CspDirectiveBuilderBase
