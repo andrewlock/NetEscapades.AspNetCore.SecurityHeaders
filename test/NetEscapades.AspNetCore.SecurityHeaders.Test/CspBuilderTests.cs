@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Test
@@ -394,6 +395,25 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             var result = builder.Build();
 
             result.HasPerRequestValues.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Builder_WhenUsingNonce_AddsNonceToCSP()
+        {
+            var builder = new CspBuilder();
+            builder.AddScriptSrc().WithNonce();
+            builder.AddStyleSrc().WithNonce();
+            builder.AddCustomDirectiveBuilder("test-directive").WithNonce();
+
+            var result = builder.Build();
+
+            var httpContext = new DefaultHttpContext();
+            var nonce = "ABC123";
+            httpContext.SetNonce(nonce);
+
+            var csp = result.Builder(httpContext);
+
+            csp.Should().Be($"script-src 'nonce-{nonce}'; style-src 'nonce-{nonce}'; test-directive 'nonce-{nonce}'");
         }
     }
 }
