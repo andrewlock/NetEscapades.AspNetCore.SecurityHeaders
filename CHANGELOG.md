@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.16.0]
+
+Features:
+
+* Added support for `Cross-Origin-Opener-Policy` (COOP), `Cross-Origin-Embedder-Policy` (COEP) and `Cross-Origin-Resource-Policy` (CORP) (Thanks [@jeremylindsayni](https://github.com/jeremylindsayni)!)
+
 ## [v0.15.0]
 
 Features:

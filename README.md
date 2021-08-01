@@ -33,7 +33,7 @@ When you install the package, it should be added to your `.csproj`. Alternativel
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.15.0" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.16.0" />
   </ItemGroup>
   
 </Project>
@@ -367,8 +367,8 @@ This adds the package to your _.csproj_ file
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.15.0" />
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="0.15.0" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.16.0" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="0.16.0" />
   </ItemGroup>
   
 </Project>
