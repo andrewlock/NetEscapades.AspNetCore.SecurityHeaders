@@ -1129,6 +1129,544 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             }
         }
 
+        [Fact]
+        public async Task HttpRequest_WithCrossOriginOpenerPolicyHeader_SetsUnsafeNone()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginOpenerPolicy(builder =>
+                            {
+                                builder.UnsafeNone();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("unsafe-none");
+                response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCrossOriginOpenerPolicyHeader_SetsUnsafeNone_WithReportingEndpoint()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginOpenerPolicy(builder =>
+                            {
+                                builder.UnsafeNone();
+                                builder.AddReport().To("coop_endpoint");
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("unsafe-none; report-to=\"coop_endpoint\"");
+                response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCrossOriginOpenerPolicyHeader_SetsSameOrigin()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginOpenerPolicy(builder =>
+                            {
+                                builder.SameOrigin();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("same-origin");
+                response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCrossOriginOpenerPolicyHeader_SetsSameOriginAllowPopups()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginOpenerPolicy(builder =>
+                            {
+                                builder.SameOriginAllowPopups();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("same-origin-allow-popups");
+                response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCrossOriginEmbedderPolicyHeader_SetsUnsafeNone()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginEmbedderPolicy(builder =>
+                            {
+                                builder.UnsafeNone();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Cross-Origin-Embedder-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("unsafe-none");
+                response.Headers.Contains("Cross-Origin-Embedder-Policy-Report-Only").Should().BeFalse();
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCrossOriginEmbedderPolicyHeader_SetsRequireCorp()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginEmbedderPolicy(builder =>
+                            {
+                                builder.RequireCorp();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Cross-Origin-Embedder-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("require-corp");
+                response.Headers.Contains("Cross-Origin-Embedder-Policy-Report-Only").Should().BeFalse();
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCrossOriginResourcePolicyHeader_SetsSameSite()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginResourcePolicy(builder =>
+                            {
+                                builder.SameSite();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Cross-Origin-Resource-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("same-site");
+                response.Headers.Contains("Cross-Origin-Resource-Policy-Report-Only").Should().BeFalse();
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCrossOriginResourcePolicyHeader_SetsSameOrigin()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginResourcePolicy(builder =>
+                            {
+                                builder.SameOrigin();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Cross-Origin-Resource-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("same-origin");
+                response.Headers.Contains("Cross-Origin-Resource-Policy-Report-Only").Should().BeFalse();
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCrossOriginResourcePolicyHeader_SetsCrossOrigin()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginResourcePolicy(builder =>
+                            {
+                                builder.CrossOrigin();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Cross-Origin-Resource-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("cross-origin");
+                response.Headers.Contains("Cross-Origin-Resource-Policy-Report-Only").Should().BeFalse();
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCrossOriginOpenerPolicyHeaderReportOnly_SetsUnsafeNone()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginOpenerPolicyReportOnly(builder =>
+                            {
+                                builder.UnsafeNone();
+                                builder.AddReport().To("coop_endpoint");
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Cross-Origin-Opener-Policy-Report-Only").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("unsafe-none; report-to=\"coop_endpoint\"");
+                response.Headers.Contains("Cross-Origin-Opener-Policy").Should().BeFalse();
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCrossOriginOpenerPolicyHeaderReportOnly_UsingBoolean_SetsUnsafeNone()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginOpenerPolicy(builder =>
+                            {
+                                builder.UnsafeNone();
+                                builder.AddReport().To("coop_endpoint");
+                            }, asReportOnly: true));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Cross-Origin-Opener-Policy-Report-Only").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("unsafe-none; report-to=\"coop_endpoint\"");
+                response.Headers.Contains("Cross-Origin-Opener-Policy").Should().BeFalse();
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCrossOriginOpenerPolicyHeader_UsingBooleanAsFalse_SetsUnsafeNone()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginOpenerPolicy(builder =>
+                            {
+                                builder.UnsafeNone();
+                                builder.AddReport().To("coop_endpoint");
+                            }, asReportOnly: false));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("unsafe-none; report-to=\"coop_endpoint\"");
+                response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCrossOriginEmbedderPolicyHeaderReportOnly_SetsUnsafeNone()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginEmbedderPolicyReportOnly(builder =>
+                            {
+                                builder.UnsafeNone();
+                                builder.AddReport().To("coep_endpoint");
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Cross-Origin-Embedder-Policy-Report-Only").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("unsafe-none; report-to=\"coep_endpoint\"");
+                response.Headers.Contains("Cross-Origin-Embedder-Policy").Should().BeFalse();
+            }
+        }
+
+        [Fact]
+        public async Task HttpRequest_WithCrossOriginEmbedderPolicyHeaderReportOnly_UsingBoolean_SetsUnsafeNone()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginEmbedderPolicy(builder =>
+                            {
+                                builder.UnsafeNone();
+                                builder.AddReport().To("coep_endpoint");
+                            }, asReportOnly: true));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Cross-Origin-Embedder-Policy-Report-Only").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("unsafe-none; report-to=\"coep_endpoint\"");
+                response.Headers.Contains("Cross-Origin-Embedder-Policy").Should().BeFalse();
+            }
+        }
+
         private static void AssertHttpRequestDefaultSecurityHeaders(HttpResponseHeaders headers)
         {
             string header = headers.GetValues("X-Content-Type-Options").FirstOrDefault();
