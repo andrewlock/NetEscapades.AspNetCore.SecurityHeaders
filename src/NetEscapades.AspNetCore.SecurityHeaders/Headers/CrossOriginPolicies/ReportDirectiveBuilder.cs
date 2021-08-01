@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Http;
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies
 {
     /// <summary>
-    /// The report-uri directive instructs the user agent to report attempts to
+    /// The report-to directive instructs the user agent to report attempts to
     /// violate the Cross Origin Policy. These violation reports consist of
-    /// JSON documents sent via an HTTP POST request to the specified URI.
+    /// JSON documents sent via an HTTP POST request to the specified reporting endpoint.
     /// </summary>
     public class ReportDirectiveBuilder : CrossOriginPolicyDirectiveBuilderBase
     {

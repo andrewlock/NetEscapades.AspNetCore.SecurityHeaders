@@ -18,7 +18,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <summary>
         /// The report-to directive instructs the user agent to report attempts to
         /// violate the Cross Origin Policy. These violation reports consist of
-        /// JSON documents sent via an HTTP POST request to the specified URI.
+        /// JSON documents sent via an HTTP POST request to the specified reporting endpoint.
         /// </summary>
         /// <returns>A configured <see cref="ReportDirectiveBuilder"/></returns>
         public ReportDirectiveBuilder AddReport() => AddDirective(new ReportDirectiveBuilder());
