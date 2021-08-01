@@ -9,9 +9,9 @@ namespace Microsoft.AspNetCore.Builder
     public class CrossOriginEmbedderPolicyBuilder : CrossOriginPolicyBuilder
     {
         /// <summary>
-        /// This is the default value. Allows the document to be added to its opener's browsing context
-        /// group unless the opener itself has a COOP of same-origin or same-origin-allow-popups.
-        /// From: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Opener-Policy#directives
+        /// This is the default value. Allows the document to fetch cross-origin resources without
+        /// giving explicit permission through the CORS protocol or the Cross-Origin-Resource-Policy header.
+        /// From: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Embedder-Policy#directives
         /// </summary>
         /// <returns>A configured <see cref="UnsafeNoneDirectiveBuilder"/></returns>
         public UnsafeNoneDirectiveBuilder UnsafeNone() => AddDirective(new UnsafeNoneDirectiveBuilder());
