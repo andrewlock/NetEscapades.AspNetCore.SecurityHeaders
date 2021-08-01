@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.OpenerPolicy
 {
     /// <summary>
-    /// grfr
+    /// The Cross Origin Opener Policy directive builder base class
     /// </summary>
     public abstract class CrossOriginOpenerPolicyDirectiveBuilderBase : CrossOriginPolicyDirectiveBuilderBase
     {
