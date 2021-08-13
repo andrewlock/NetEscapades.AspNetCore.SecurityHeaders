@@ -81,18 +81,18 @@ public void Configure(IApplicationBuilder app)
             builder.AddFormAction().Self();
             builder.AddFrameAncestors().None();
         })
-		.AddCrossOriginOpenerPolicy(builder =>
-		{
-			builder.SameOrigin();
-		})
-		.AddCrossOriginEmbedderPolicy(builder =>
-		{
-			builder.RequireCorp();
-		})
-		.AddCrossOriginResourcePolicy(builder =>
-		{
-			builder.SameOrigin();
-		})
+        .AddCrossOriginOpenerPolicy(builder =>
+        {
+            builder.SameOrigin();
+        })
+        .AddCrossOriginEmbedderPolicy(builder =>
+        {
+            builder.RequireCorp();
+        })
+        .AddCrossOriginResourcePolicy(builder =>
+        {
+            builder.SameOrigin();
+        })
         .AddCustomHeader("X-My-Test-Header", "Header value");
 
     app.UseSecurityHeaders(policyCollection);
