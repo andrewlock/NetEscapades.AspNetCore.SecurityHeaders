@@ -29,7 +29,7 @@ When you install the package, it should be added to your `.csproj`. Alternativel
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -81,6 +81,18 @@ public void Configure(IApplicationBuilder app)
             builder.AddFormAction().Self();
             builder.AddFrameAncestors().None();
         })
+		.AddCrossOriginOpenerPolicy(builder =>
+		{
+			builder.SameOrigin();
+		})
+		.AddCrossOriginEmbedderPolicy(builder =>
+		{
+			builder.RequireCorp();
+		})
+		.AddCrossOriginResourcePolicy(builder =>
+		{
+			builder.SameOrigin();
+		})
         .AddCustomHeader("X-My-Test-Header", "Header value");
 
     app.UseSecurityHeaders(policyCollection);
@@ -249,22 +261,20 @@ public void Configure(IApplicationBuilder app)
 }
 ```
 
-## AddFeaturePolicy
+## AddPermissionsPolicy
 
-The `Feature-Policy` is an experimental header that allows web developers to selectively enable, disable, and modify the behaviour of certain features and APIs in the browser. It is similar to CSP but controls features instead of security behaviour.
+The `permissions-policy` is a header that allows a site to control which features and APIs can be used in the browser. It is similar to CSP but controls features instead of security behaviour.
 
-With Feature Policy, you opt-in to a set of "policies" for the browser to enforce on specific features used throughout a website. These policies restrict what APIs the site can access or modify the browser's default behaviour for certain features.
+With Permissions-Policy, you opt-in to a set of "policies" for the browser to enforce on specific features used throughout a website. These policies restrict what APIs the site can access or modify the browser's default behaviour for certain features.
 
-By adding Feature-Policy to headers to your website, you can ensure that sensitive APIs like geolocation or the camera cannot be used, even if your site is otherwise compromised, for example by malicious third-party attacks.
+By adding Permissions-Policy to headers to your website, you can ensure that sensitive APIs like geolocation or the camera cannot be used, even if your site is otherwise compromised, for example by malicious third-party attacks.
 
-For more information about the feature, I recommend the following resources:
+For more information about the permissions, I recommend the following resources:
 
+* Scott Helme's introduction to Permissions-Policy: https://scotthelme.co.uk/goodbye-feature-policy-and-hello-permissions-policy/
+* The list of policy-controlled permissions: https://www.w3.org/TR/permissions-policy-1/
 * MDN documentation: https://developer.mozilla.org/en-US/docs/Web/HTTP/Feature_Policy
-* Scott Helme's introduction to Feature-Policy: https://scotthelme.co.uk/tag/feature-policy/
-* The list of policy-controlled features: https://github.com/WICG/feature-policy/blob/master/features.md
 * Google's introduction to Feature-Policy: https://developers.google.com/web/updates/2018/06/feature-policy
-
-> Note that Feature-Policy is still an experimental header. The features supported by each browser varies, and is rapidly changing. This library does its best to support common features, but is not exhaustive. If there's a feature you wish to see supported, please raise an issue, or use the `AddCustomFeature` method, shown below:
 
 You configure your CSP policy when you configure your `HeaderPolicyCollection` in `Startup.Configure`. For example:
 
@@ -272,69 +282,60 @@ You configure your CSP policy when you configure your `HeaderPolicyCollection` i
 public void Configure(IApplicationBuilder app)
 {
     var policyCollection = new HeaderPolicyCollection()
-        .AddFeaturePolicy(builder =>
-        {
-            builder.AddAccelerometer() // accelerometer 'self' http://testUrl.com
-                .Self()
-                .For("http://testUrl.com");
+        .AddPermissionsPolicy(builder =>
+		{
+			builder.AddAccelerometer() // accelerometer 'self' http://testUrl.com
+				.Self()
+				.For("http://testUrl.com");
 
-            builder.AddAmbientLightSensor() // ambient-light-sensor 'self' http://testUrl.com
-                .Self()
-                .For("http://testUrl.com");
+			builder.AddAmbientLightSensor() // ambient-light-sensor 'self' http://testUrl.com
+				.Self()
+				.For("http://testUrl.com");
 
-            builder.AddAutoplay() // autoplay 'self'
-                .Self();
+			builder.AddAutoplay() // autoplay 'self'
+				.Self();
 
-            builder.AddCamera() // camera 'none'
-                .None();
+			builder.AddCamera() // camera 'none'
+				.None();
 
-            builder.AddEncryptedMedia() // encrypted-media 'self'
-                .Self();
+			builder.AddEncryptedMedia() // encrypted-media 'self'
+				.Self();
 
-            builder.AddFullscreen() // fullscreen *:
-                .All();
+			builder.AddFullscreen() // fullscreen *:
+				.All();
 
-            builder.AddGeolocation() // geolocation 'none'
-                .None();
+			builder.AddGeolocation() // geolocation 'none'
+				.None();
 
-            builder.AddGyroscope() // gyroscope 'none'
-                .None();
+			builder.AddGyroscope() // gyroscope 'none'
+				.None();
 
-            builder.AddMagnetometer() // magnetometer 'none'
-                .None();
+			builder.AddMagnetometer() // magnetometer 'none'
+				.None();
 
-            builder.AddMicrophone() // microphone 'none'
-                .None();
+			builder.AddMicrophone() // microphone 'none'
+				.None();
 
-            builder.AddMidi() // midi 'none'
-                .None();
+			builder.AddMidi() // midi 'none'
+				.None();
 
-            builder.AddPayment() // payment 'none'
-                .None();
+			builder.AddPayment() // payment 'none'
+				.None();
 
-            builder.AddPictureInPicture() // picture-in-picture 'none'
-                .None();
+			builder.AddPictureInPicture() // picture-in-picture 'none'
+				.None();
 
-            builder.AddSpeaker() // speaker 'none'
-                .None();
+			builder.AddSpeaker() // speaker 'none'
+				.None();
 
-            builder.AddSyncXHR() // sync-xhr 'none'
-                .None();
+			builder.AddSyncXHR() // sync-xhr 'none'
+				.None();
 
-            builder.AddUsb() // usb 'none'
-                .None();
+			builder.AddUsb() // usb 'none'
+				.None();
 
-            builder.AddVR() // vr 'none'
-                .None();
-
-            // You can also add arbitrary extra directives: plugin-types application/x-shockwave-flash"
-            builder.AddCustomDirective("plugin-types", "application/x-shockwave-flash");
-
-            // If a new feature policy is added that follows the standard conventions, you can use this overload
-            // iframe 'self' http://testUrl.com
-            builder.AddCustomDirective("iframe") // 
-                .Self()
-                .For("http://testUrl.com");
+			builder.AddVR() // vr 'none'
+				.None();
         });
 
     app.UseSecurityHeaders(policyCollection);
