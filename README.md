@@ -336,6 +336,14 @@ public void Configure(IApplicationBuilder app)
 
             builder.AddVR() // vr 'none'
                 .None();
+
+            // You can also add arbitrary extra directives: plugin-types application/x-shockwave-flash"
+            builder.AddCustomFeature("plugin-types", "application/x-shockwave-flash");
+            // If a new feature policy is added that follows the standard conventions, you can use this overload
+            // iframe 'self' http://testUrl.com
+            builder.AddCustomFeature("iframe") // 
+                .Self()
+                .For("http://testUrl.com");
         });
 
     app.UseSecurityHeaders(policyCollection);
