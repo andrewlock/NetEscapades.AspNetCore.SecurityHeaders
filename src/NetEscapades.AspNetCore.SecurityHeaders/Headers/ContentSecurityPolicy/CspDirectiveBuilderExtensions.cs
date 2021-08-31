@@ -1,4 +1,7 @@
-﻿using NetEscapades.AspNetCore.SecurityHeaders;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NetEscapades.AspNetCore.SecurityHeaders;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 // ReSharper disable once CheckNamespace
@@ -69,7 +72,7 @@ namespace Microsoft.AspNetCore.Builder
         {
             if (string.IsNullOrWhiteSpace(uri))
             {
-                throw new System.ArgumentException("Uri may not be null or empty", nameof(uri));
+                throw new ArgumentException("Uri may not be null or empty", nameof(uri));
             }
 
             builder.Sources.Add(uri);
@@ -85,7 +88,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns>The CSP builder for method chaining</returns>
         public static T From<T>(this T builder, IEnumerable<string> uris) where T : CspDirectiveBuilder
         {
-            if (uris == null || !uris.Any())
+            if (uris == null || uris.Count() == 0)
             {
                 throw new ArgumentException("Uris may not be null or empty", "uris");
             }
