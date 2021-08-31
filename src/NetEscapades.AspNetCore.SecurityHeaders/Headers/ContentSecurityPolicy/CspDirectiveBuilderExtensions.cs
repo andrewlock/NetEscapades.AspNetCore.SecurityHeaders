@@ -77,6 +77,32 @@ namespace Microsoft.AspNetCore.Builder
         }
 
         /// <summary>
+        /// Allow resources from the given IEnumerable <paramref name="uris"/>. Elements may be any non-empty value
+        /// </summary>
+        /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
+        /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
+        /// <param name="uris">An IEnumerable of URIs to allow.</param>
+        /// <returns>The CSP builder for method chaining</returns>
+        public static T From<T>(this T builder, IEnumerable<string> uris) where T : CspDirectiveBuilder
+        {
+            if (uris == null || !uris.Any())
+            {
+                throw new ArgumentException("Uris may not be null or empty", "uris");
+            }
+
+            foreach (var uri in uris)
+            {
+                if (string.IsNullOrWhiteSpace(uri))
+                {
+                    throw new ArgumentException("Uri may not be null or empty", "uri");
+                }
+                builder.Sources.Add(uri);
+            }
+
+            return builder;
+        }
+
+        /// <summary>
         /// Allow resources served over https
         /// </summary>
         /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
