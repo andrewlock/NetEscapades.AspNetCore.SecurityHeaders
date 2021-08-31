@@ -88,7 +88,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns>The CSP builder for method chaining</returns>
         public static T From<T>(this T builder, IEnumerable<string> uris) where T : CspDirectiveBuilder
         {
-            if (uris == null || uris.Count() == 0)
+            if (uris == null)
             {
                 throw new ArgumentException("Uris may not be null or empty", "uris");
             }

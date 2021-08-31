@@ -27,7 +27,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             result.HasPerRequestValues.Should().BeFalse();
         }
-        
+
         [Fact]
         public void Build_AddDefaultSrc_WhenAddsMultipleValue_ReturnsAllValues()
         {
