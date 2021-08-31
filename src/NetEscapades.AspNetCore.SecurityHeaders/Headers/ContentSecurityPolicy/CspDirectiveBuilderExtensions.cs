@@ -92,11 +92,7 @@ namespace Microsoft.AspNetCore.Builder
 
             foreach (var uri in uris)
             {
-                if (string.IsNullOrWhiteSpace(uri))
-                {
-                    throw new ArgumentException("Uri may not be null or empty", "uri");
-                }
-                builder.Sources.Add(uri);
+                builder.From(uri);
             }
 
             return builder;

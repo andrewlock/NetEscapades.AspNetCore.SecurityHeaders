@@ -27,7 +27,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
 
             result.HasPerRequestValues.Should().BeFalse();
         }
-
+        
         [Fact]
         public void Build_AddDefaultSrc_WhenAddsMultipleValue_ReturnsAllValues()
         {
@@ -41,6 +41,21 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             var result = builder.Build();
 
             result.ConstantValue.Should().Be("default-src 'self' blob: data: http://testUrl.com");
+        }
+
+        [Fact]
+        public void Build_AddDefaultSrc_WhenAddsMultipleValueEnumerable_ReturnsAllValues()
+        {
+            var builder = new CspBuilder();
+            builder.AddDefaultSrc()
+                .Self()
+                .Blob()
+                .Data()
+                .From(new []{"http://testUrl.com", "http://testUrl2.com"});
+
+            var result = builder.Build();
+
+            result.ConstantValue.Should().Be("default-src 'self' blob: data: http://testUrl.com http://testUrl2.com");
         }
 
         [Fact]
