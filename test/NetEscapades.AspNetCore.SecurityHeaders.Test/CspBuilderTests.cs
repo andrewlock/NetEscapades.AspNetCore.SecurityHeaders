@@ -44,6 +44,21 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         }
 
         [Fact]
+        public void Build_AddDefaultSrc_WhenAddsMultipleValueEnumerable_ReturnsAllValues()
+        {
+            var builder = new CspBuilder();
+            builder.AddDefaultSrc()
+                .Self()
+                .Blob()
+                .Data()
+                .From(new []{"http://testUrl.com", "http://testUrl2.com"});
+
+            var result = builder.Build();
+
+            result.ConstantValue.Should().Be("default-src 'self' blob: data: http://testUrl.com http://testUrl2.com");
+        }
+
+        [Fact]
         public void Build_AddConnectSrc_WhenAddsMultipleValue_ReturnsAllValues()
         {
             var builder = new CspBuilder();

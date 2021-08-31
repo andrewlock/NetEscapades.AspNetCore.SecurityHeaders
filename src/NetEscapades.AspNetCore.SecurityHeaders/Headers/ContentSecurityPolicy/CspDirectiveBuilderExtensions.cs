@@ -1,4 +1,7 @@
-﻿using NetEscapades.AspNetCore.SecurityHeaders;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NetEscapades.AspNetCore.SecurityHeaders;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 // ReSharper disable once CheckNamespace
@@ -69,10 +72,32 @@ namespace Microsoft.AspNetCore.Builder
         {
             if (string.IsNullOrWhiteSpace(uri))
             {
-                throw new System.ArgumentException("Uri may not be null or empty", nameof(uri));
+                throw new ArgumentException("Uri may not be null or empty", nameof(uri));
             }
 
             builder.Sources.Add(uri);
+            return builder;
+        }
+
+        /// <summary>
+        /// Allow resources from the given IEnumerable <paramref name="uris"/>. Elements may be any non-empty value
+        /// </summary>
+        /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
+        /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
+        /// <param name="uris">An IEnumerable of URIs to allow.</param>
+        /// <returns>The CSP builder for method chaining</returns>
+        public static T From<T>(this T builder, IEnumerable<string> uris) where T : CspDirectiveBuilder
+        {
+            if (uris == null)
+            {
+                throw new ArgumentException("Uris may not be null or empty", "uris");
+            }
+
+            foreach (var uri in uris)
+            {
+                builder.From(uri);
+            }
+
             return builder;
         }
 
