@@ -37,11 +37,11 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             var output = new TagHelperOutput(
                tagName,
                attributes: new TagHelperAttributeList(),
-               getChildContentAsync: (useCachedResult, encoder) =>
+               getChildContentAsync: (_, _) =>
                {
                    var tagHelperContent = new DefaultTagHelperContent();
-                   tagHelperContent.SetContent("Something");
-                   return Task.FromResult<TagHelperContent>(tagHelperContent);
+                   var content = tagHelperContent.SetContent("Something");
+                   return Task.FromResult(content);
                });
             output.Content.SetContent("Something Else");
 
@@ -63,8 +63,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             var id = Guid.NewGuid().ToString();
             var tagName = "script";
             var tagHelperContext = GetTagHelperContext(id, tagName);
-            string nonceValue = null;
-            var nonceTagHelper = new NonceTagHelper()
+            string? nonceValue = null;
+            var nonceTagHelper = new NonceTagHelper
             {
                 AddNonce = true,
                 ViewContext = GetViewContext(nonceValue),
@@ -73,11 +73,11 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             var output = new TagHelperOutput(
                tagName,
                attributes: new TagHelperAttributeList(),
-               getChildContentAsync: (useCachedResult, encoder) =>
+               getChildContentAsync: (_, _) =>
                {
                    var tagHelperContent = new DefaultTagHelperContent();
-                   tagHelperContent.SetContent("Something");
-                   return Task.FromResult<TagHelperContent>(tagHelperContent);
+                   var content = tagHelperContent.SetContent("Something");
+                   return Task.FromResult(content);
                });
             output.Content.SetContent("Something Else");
 
@@ -90,16 +90,16 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             Assert.Equal("Something Else", output.Content.GetContent());
         }
 
-        private static ViewContext GetViewContext(string nonce)
+        private static ViewContext GetViewContext(string? nonce)
         {
             var actionContext = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
             if (!string.IsNullOrEmpty(nonce))
             {
-                actionContext.HttpContext.SetNonce(nonce);
+                actionContext.HttpContext.SetNonce(nonce!);
             }
 
             actionContext.HttpContext.RequestServices = new ServiceCollection()
-                .AddTransient(provider => Mock.Of<ILogger<NonceTagHelper>>())
+                .AddTransient(_ => Mock.Of<ILogger<NonceTagHelper>>())
                 .BuildServiceProvider();
 
             return new ViewContext(actionContext,

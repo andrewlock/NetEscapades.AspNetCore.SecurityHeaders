@@ -10,13 +10,17 @@ namespace RazorWebSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+#pragma warning disable 618 // Version_2_1 is obsolete
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+#pragma warning restore 618
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+#pragma warning disable 618 // IHostingEnvironment is obsolete
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+#pragma warning restore 618
         {
-                        var policyCollection = new HeaderPolicyCollection()
+            var policyCollection = new HeaderPolicyCollection()
                 .AddXssProtectionBlock()
                 .AddContentTypeOptionsNoSniff()
                 .AddExpectCTNoEnforceOrReport(0)
