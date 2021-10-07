@@ -3,6 +3,7 @@
   <PropertyGroup>
     <Authors>Andrew Lock</Authors>
     <TargetFrameworks>net461;netcoreapp2.0;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">netcoreapp2.0;netcoreapp3.0</TargetFrameworks>
     <AssemblyName>NetEscapades.AspNetCore.SecurityHeaders.Test</AssemblyName>
     <PackageId>NetEscapades.AspNetCore.SecurityHeaders.Test</PackageId>
     <LangVersion>8.0</LangVersion>
