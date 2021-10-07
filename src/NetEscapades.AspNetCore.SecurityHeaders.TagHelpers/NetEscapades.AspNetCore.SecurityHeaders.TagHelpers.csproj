@@ -14,7 +14,6 @@
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
         <CodeAnalysisRuleSet>NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.ruleset</CodeAnalysisRuleSet>
-        <LangVersion>8.0</LangVersion>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
