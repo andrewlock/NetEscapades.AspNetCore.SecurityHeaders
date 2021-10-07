@@ -13,7 +13,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             var collection = new HeaderPolicyCollection();
 
             Assert.Throws<ArgumentNullException>(
-                "header", () => collection.AddCustomHeader(null, "asdf"));
+                "header", () => collection.AddCustomHeader(null!, "asdf"));
         }
 
         [Fact]
