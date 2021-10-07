@@ -246,3 +246,6 @@ ModelManifest.xml
 .fake/
 tools/*
 !tools/packages.config
+
+# Nuke
+!build
