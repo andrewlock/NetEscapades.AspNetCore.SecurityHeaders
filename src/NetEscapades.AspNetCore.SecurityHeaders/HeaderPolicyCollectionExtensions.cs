@@ -34,6 +34,7 @@ namespace Microsoft.AspNetCore.Builder
             policies.AddContentTypeOptionsNoSniff();
             policies.AddStrictTransportSecurityMaxAge();
             policies.AddReferrerPolicyStrictOriginWhenCrossOrigin();
+            policies.AddPermittedCrossDomainPoliciesNone();
             policies.RemoveServerHeader();
             policies.AddContentSecurityPolicy(builder =>
             {
