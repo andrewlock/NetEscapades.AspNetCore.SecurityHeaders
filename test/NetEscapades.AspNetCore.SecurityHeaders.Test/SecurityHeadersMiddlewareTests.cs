@@ -1667,6 +1667,134 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             }
         }
 
+        [Fact]
+        public async Task SecureRequest_PermittedCrossDomainPolicies_WithNone_IsCorrect()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://example.com:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddPermittedCrossDomainPoliciesNone());
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://example.com:5001");
+                var response = await server.CreateRequest("/").SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("X-Permitted-Cross-Domain-Policies").FirstOrDefault();
+                header.Should().Be("none");
+            }
+        }
+
+        [Fact]
+        public async Task SecureRequest_PermittedCrossDomainPolicies_WithMasterOnly_IsCorrect()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://example.com:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddPermittedCrossDomainPoliciesMasterOnly());
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://example.com:5001");
+                var response = await server.CreateRequest("/").SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("X-Permitted-Cross-Domain-Policies").FirstOrDefault();
+                header.Should().Be("master-only");
+            }
+        }
+
+        [Fact]
+        public async Task SecureRequest_PermittedCrossDomainPolicies_WithByContentType_IsCorrect()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://example.com:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddPermittedCrossDomainPoliciesByContentType());
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://example.com:5001");
+                var response = await server.CreateRequest("/").SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("X-Permitted-Cross-Domain-Policies").FirstOrDefault();
+                header.Should().Be("by-content-type");
+            }
+        }
+
+        [Fact]
+        public async Task SecureRequest_PermittedCrossDomainPolicies_WithAll_IsCorrect()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .UseUrls("https://example.com:5001")
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(p => p.AddPermittedCrossDomainPoliciesAll());
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                server.BaseAddress = new Uri("https://example.com:5001");
+                var response = await server.CreateRequest("/").SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("X-Permitted-Cross-Domain-Policies").FirstOrDefault();
+                header.Should().Be("all");
+            }
+        }
+
         private static void AssertHttpRequestDefaultSecurityHeaders(HttpResponseHeaders headers)
         {
             string header = headers.GetValues("X-Content-Type-Options").FirstOrDefault();
@@ -1679,6 +1807,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             header.Should().Be("strict-origin-when-cross-origin");
             header = headers.GetValues("Content-Security-Policy").FirstOrDefault();
             header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
+            header = headers.GetValues("X-Permitted-Cross-Domain-Policies").FirstOrDefault();
+            header.Should().Be("none");
 
             Assert.False(headers.Contains("Server"),
                 "Should not contain server header");
@@ -1700,6 +1830,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             header.Should().Be("strict-origin-when-cross-origin");
             header = headers.GetValues("Content-Security-Policy").FirstOrDefault();
             header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
+            header = headers.GetValues("X-Permitted-Cross-Domain-Policies").FirstOrDefault();
+            header.Should().Be("none");
 
             Assert.False(headers.Contains("Server"),
                 "Should not contain server header");
