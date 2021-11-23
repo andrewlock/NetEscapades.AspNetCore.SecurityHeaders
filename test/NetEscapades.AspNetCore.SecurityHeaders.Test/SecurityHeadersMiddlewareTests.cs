@@ -1473,6 +1473,45 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         }
 
         [Fact]
+        public async Task HttpRequest_NonHtml_WithCrossOriginResourcePolicyHeader_SetsHeader()
+        {
+            // Arrange
+            var json = @"{""Key"":""Value""}";
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddCrossOriginResourcePolicy(builder =>
+                            {
+                                builder.CrossOrigin();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(json);
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be(json);
+                var header = response.Headers.GetValues("Cross-Origin-Resource-Policy").FirstOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("cross-origin");
+                response.Headers.Contains("Cross-Origin-Resource-Policy-Report-Only").Should().BeFalse();
+            }
+        }
+
+        [Fact]
         public async Task HttpRequest_WithCrossOriginOpenerPolicyHeaderReportOnly_SetsUnsafeNone()
         {
             // Arrange
