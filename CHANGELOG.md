@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.16.1]
+
+Bugfix:
+
+* Fix `Cross-Origin-Resource-Policy` (CORP) not being added to non-HTML requests
+
 ## [v0.16.0]
 
 Features:

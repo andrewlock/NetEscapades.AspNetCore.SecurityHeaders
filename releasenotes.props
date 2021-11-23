@@ -1,10 +1,10 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.16.0'">
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.16.1'">
       <![CDATA[
-Features:
+Bugfix:
 
-* Added support for `Cross-Origin-Opener-Policy` (COOP), `Cross-Origin-Embedder-Policy` (COEP) and `Cross-Origin-Resource-Policy` (CORP) (Thanks [@jeremylindsayni](https://github.com/jeremylindsayni)!)
+* Fix `Cross-Origin-Resource-Policy` (CORP) not being added to non-HTML requests
 
 ]]>
     </PackageReleaseNotes>
