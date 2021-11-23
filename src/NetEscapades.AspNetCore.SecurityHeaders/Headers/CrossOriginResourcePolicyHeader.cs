@@ -7,7 +7,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
     /// <summary>
     /// The header value to use for Cross-Origin-Resource-Policy
     /// </summary>
-    public abstract class CrossOriginResourcePolicyHeader : HtmlOnlyHeaderPolicyBase
+    public abstract class CrossOriginResourcePolicyHeader : HeaderPolicyBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CrossOriginResourcePolicyHeader"/> class.
