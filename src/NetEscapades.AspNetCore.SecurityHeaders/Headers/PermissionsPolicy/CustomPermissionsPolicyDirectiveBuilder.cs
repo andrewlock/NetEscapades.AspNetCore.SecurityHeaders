@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
 
 /// <summary>
 /// Create a custom Permission Policy directive for an un-implemented directive.

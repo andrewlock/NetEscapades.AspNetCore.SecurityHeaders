@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
 
 /// <summary>
 /// Used to build a Permissions-Policy directive that uses a standard set of sources.

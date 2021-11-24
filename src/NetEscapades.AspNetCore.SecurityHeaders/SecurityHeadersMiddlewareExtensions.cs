@@ -1,5 +1,4 @@
-﻿using System;
-using NetEscapades.AspNetCore.SecurityHeaders;
+﻿using NetEscapades.AspNetCore.SecurityHeaders;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 // ReSharper disable once CheckNamespace

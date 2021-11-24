@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 /// <summary>
 /// Results returned by <see cref="ICustomHeaderService"/>

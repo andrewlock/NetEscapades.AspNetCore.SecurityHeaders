@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using NetEscapades.AspNetCore.SecurityHeaders.Headers;
+﻿using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.AspNetCore.Builder;

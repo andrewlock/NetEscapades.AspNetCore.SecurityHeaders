@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
+﻿using NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
 
 namespace Microsoft.AspNetCore.Builder;
 

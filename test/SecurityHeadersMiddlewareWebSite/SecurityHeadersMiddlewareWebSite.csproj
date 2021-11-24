@@ -6,6 +6,7 @@
     <AssemblyName>SecurityHeadersMiddlewareWebSite</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>SecurityHeadersMiddlewareWebSite</PackageId>
+    <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
