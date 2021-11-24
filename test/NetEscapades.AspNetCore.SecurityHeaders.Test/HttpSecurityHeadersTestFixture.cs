@@ -1,10 +1,9 @@
-namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
+
+public class HttpSecurityHeadersTestFixture<TStartup> : SecurityHeadersTestFixtureBase<TStartup>
+    where TStartup : class
 {
-    public class HttpSecurityHeadersTestFixture<TStartup> : SecurityHeadersTestFixtureBase<TStartup>
-        where TStartup : class
+    public HttpSecurityHeadersTestFixture() : base("http://localhost:5000")
     {
-        public HttpSecurityHeadersTestFixture() : base("http://localhost:5000")
-        {
-        }
     }
 }

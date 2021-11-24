@@ -1,15 +1,14 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
+
+/// <summary>
+/// The media-src directive specifies valid sources for loading media using the &lt;audio&gt; and &lt;video&gt; elements.
+/// </summary>
+public class MediaSourceDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>
-    /// The media-src directive specifies valid sources for loading media using the &lt;audio&gt; and &lt;video&gt; elements.
+    /// Initializes a new instance of the <see cref="MediaSourceDirectiveBuilder"/> class.
     /// </summary>
-    public class MediaSourceDirectiveBuilder : CspDirectiveBuilder
+    public MediaSourceDirectiveBuilder() : base("media-src")
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MediaSourceDirectiveBuilder"/> class.
-        /// </summary>
-        public MediaSourceDirectiveBuilder() : base("media-src")
-        {
-        }
     }
 }

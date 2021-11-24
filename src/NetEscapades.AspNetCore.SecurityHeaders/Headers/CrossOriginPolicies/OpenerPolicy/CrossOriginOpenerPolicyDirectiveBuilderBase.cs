@@ -1,22 +1,21 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.OpenerPolicy
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.OpenerPolicy;
+
+/// <summary>
+/// The Cross Origin Opener Policy directive builder base class
+/// </summary>
+public abstract class CrossOriginOpenerPolicyDirectiveBuilderBase : CrossOriginPolicyDirectiveBuilderBase
 {
     /// <summary>
-    /// The Cross Origin Opener Policy directive builder base class
+    /// Initializes a new instance of the <see cref="CrossOriginOpenerPolicyDirectiveBuilderBase"/> class.
     /// </summary>
-    public abstract class CrossOriginOpenerPolicyDirectiveBuilderBase : CrossOriginPolicyDirectiveBuilderBase
+    /// <param name="directive">The name of the directive</param>
+    protected CrossOriginOpenerPolicyDirectiveBuilderBase(string directive) : base(directive)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CrossOriginOpenerPolicyDirectiveBuilderBase"/> class.
-        /// </summary>
-        /// <param name="directive">The name of the directive</param>
-        protected CrossOriginOpenerPolicyDirectiveBuilderBase(string directive) : base(directive)
-        {
-        }
-
-        /// <inheritdoc />
-        internal override abstract Func<HttpContext, string> CreateBuilder();
     }
+
+    /// <inheritdoc />
+    internal override abstract Func<HttpContext, string> CreateBuilder();
 }

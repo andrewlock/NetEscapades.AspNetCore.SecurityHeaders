@@ -1,18 +1,17 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy;
+
+/// <summary>
+/// Controls access to video input devices requested through the
+/// NavigatorUserMedia interface. If disabled in a document, then calls
+/// to <code>getUserMedia()</code> will not grant access to video input
+/// devices in that document.
+/// </summary>
+public class CameraFeaturePolicyDirectiveBuilder : FeaturePolicyDirectiveBuilder
 {
     /// <summary>
-    /// Controls access to video input devices requested through the
-    /// NavigatorUserMedia interface. If disabled in a document, then calls
-    /// to <code>getUserMedia()</code> will not grant access to video input
-    /// devices in that document.
+    /// Initializes a new instance of the <see cref="CameraFeaturePolicyDirectiveBuilder"/> class.
     /// </summary>
-    public class CameraFeaturePolicyDirectiveBuilder : FeaturePolicyDirectiveBuilder
+    public CameraFeaturePolicyDirectiveBuilder() : base("camera")
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CameraFeaturePolicyDirectiveBuilder"/> class.
-        /// </summary>
-        public CameraFeaturePolicyDirectiveBuilder() : base("camera")
-        {
-        }
     }
 }

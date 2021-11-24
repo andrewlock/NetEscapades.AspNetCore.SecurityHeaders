@@ -1,16 +1,15 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
+
+/// <summary>
+/// The frame-src directive specifies valid sources for nested browsing contexts loading
+/// using elements such as  &lt;frame&gt; and  &lt;iframe&gt;
+/// </summary>
+public class FrameSourceDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>
-    /// The frame-src directive specifies valid sources for nested browsing contexts loading
-    /// using elements such as  &lt;frame&gt; and  &lt;iframe&gt;
+    /// Initializes a new instance of the <see cref="FrameSourceDirectiveBuilder"/> class.
     /// </summary>
-    public class FrameSourceDirectiveBuilder : CspDirectiveBuilder
+    public FrameSourceDirectiveBuilder() : base("frame-src")
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FrameSourceDirectiveBuilder"/> class.
-        /// </summary>
-        public FrameSourceDirectiveBuilder() : base("frame-src")
-        {
-        }
     }
 }

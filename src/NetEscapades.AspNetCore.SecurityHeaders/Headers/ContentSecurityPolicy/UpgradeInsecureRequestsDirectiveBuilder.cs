@@ -1,27 +1,26 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
+
+/// <summary>
+/// The upgrade-insecure-requests directive instructs user agents to treat all of a
+/// site's insecure URLs (those served over HTTP) as though they have been
+/// replaced with secure URLs (those served over HTTPS). This directive is
+/// intended for web sites with large numbers of insecure legacy URLs that need to be rewritten.
+/// </summary>
+public class UpgradeInsecureRequestsDirectiveBuilder : CspDirectiveBuilderBase
 {
     /// <summary>
-    /// The upgrade-insecure-requests directive instructs user agents to treat all of a
-    /// site's insecure URLs (those served over HTTP) as though they have been
-    /// replaced with secure URLs (those served over HTTPS). This directive is
-    /// intended for web sites with large numbers of insecure legacy URLs that need to be rewritten.
+    /// Initializes a new instance of the <see cref="UpgradeInsecureRequestsDirectiveBuilder"/> class.
     /// </summary>
-    public class UpgradeInsecureRequestsDirectiveBuilder : CspDirectiveBuilderBase
+    public UpgradeInsecureRequestsDirectiveBuilder() : base("upgrade-insecure-requests")
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UpgradeInsecureRequestsDirectiveBuilder"/> class.
-        /// </summary>
-        public UpgradeInsecureRequestsDirectiveBuilder() : base("upgrade-insecure-requests")
-        {
-        }
+    }
 
-        /// <inheritdoc />
-        internal override Func<HttpContext, string> CreateBuilder()
-        {
-            return ctx => Directive;
-        }
+    /// <inheritdoc />
+    internal override Func<HttpContext, string> CreateBuilder()
+    {
+        return ctx => Directive;
     }
 }
