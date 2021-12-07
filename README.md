@@ -416,7 +416,15 @@ public void Configure(IApplicationBuilder app)
 }
 ```
 
-### 3. Whitelist elements using the TagHelpers
+### 3. Add a using directive for the TagHelpers
+
+Add the following to the *_ViewImports.cshtml* file in your application. This makes the tag-helper available in your Razor views. 
+
+```csharp
+@addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
+```
+
+### 4. Whitelist elements using the TagHelpers
 
 Add the `NonceTagHelper` to an element by adding the `asp-add-nonce` attribute.
 
@@ -439,6 +447,8 @@ This will use a unique value per-request and attach the required attribute at ru
     body.appendChild(blink);
 </script>
 ```
+
+> Note that some browsers will hide the value of the `nonce` attribute when viewed from DevTools. View the page source to see the raw nonce value
 
 While the CSP policy would look something like the following:
 
