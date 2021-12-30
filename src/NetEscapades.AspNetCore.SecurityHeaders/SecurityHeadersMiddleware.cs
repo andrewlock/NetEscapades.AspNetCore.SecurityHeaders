@@ -64,25 +64,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
                 context.SetNonce(_nonceGenerator.GetNonce(Constants.DefaultBytesInNonce));
             }
 
-            context.Response.OnStarting(OnResponseStarting, Tuple.Create(this, context, _policy));
+            var result = CustomHeaderService.EvaluatePolicy(context, _policy);
+            CustomHeaderService.ApplyResult(context.Response, result);
             await _next(context);
-        }
-
-        private static Task OnResponseStarting(object state)
-        {
-            var tuple = (Tuple<SecurityHeadersMiddleware, HttpContext, HeaderPolicyCollection>)state;
-            var middleware = tuple.Item1;
-            var context = tuple.Item2;
-            var policy = tuple.Item3;
-
-            var result = middleware.CustomHeaderService.EvaluatePolicy(context, policy);
-            middleware.CustomHeaderService.ApplyResult(context.Response, result);
-
-#if NET451
-            return Task.FromResult(true);
-#else
-            return Task.CompletedTask;
-#endif
         }
 
         private static bool MustGenerateNonce(HeaderPolicyCollection policy)

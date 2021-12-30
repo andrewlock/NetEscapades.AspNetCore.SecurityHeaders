@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 using Xunit;
 
@@ -357,6 +358,61 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             }
         }
 
+#if NETCOREAPP3_0_OR_GREATER
+        [Fact]
+        public async Task HttpRequest_WithCspHeaderWithNonce_ReturnsSameNonceWhenCached()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .ConfigureServices(services => 
+                {
+                    services.AddResponseCaching();
+                })
+                .Configure(app =>
+                {
+                    app.UseResponseCaching();
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddContentSecurityPolicy(builder =>
+                            {
+                                builder.AddScriptSrc().WithNonce();
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.GetTypedHeaders().CacheControl =
+                        new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+                        {
+                            Public = true,
+                            MaxAge = TimeSpan.FromSeconds(60)
+                        };
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response1 = await server.CreateRequest("/").SendAsync("GET");
+                var response2 = await server.CreateRequest("/").SendAsync("GET");
+
+                // Assert
+                response1.EnsureSuccessStatusCode();
+                response2.EnsureSuccessStatusCode();
+
+
+                (await response1.Content.ReadAsStringAsync()).Should().Be("Test response");
+                (await response2.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header1 = response1.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+                var header2 = response2.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+                header1.Should().NotBeNull();
+                header2.Should().NotBeNull();
+
+                header1.Should().Be(header2);
+            }
+        }
+#endif
         [Fact]
         public async Task HttpRequest_WithCspHeaderUsingReportOnly_SetsCspReportOnly()
         {
