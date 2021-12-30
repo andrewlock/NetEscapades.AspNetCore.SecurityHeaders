@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +18,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         private readonly HeaderPolicyCollection _policy;
         private readonly NonceGenerator _nonceGenerator;
         private readonly bool _mustGenerateNonce;
+        private readonly List<string> _htmlOnlyHeaders = new List<string>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.
@@ -43,6 +45,13 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
             CustomHeaderService = service ?? throw new ArgumentNullException(nameof(service));
             _policy = policies ?? throw new ArgumentNullException(nameof(policies));
             _nonceGenerator = nonceGenerator ?? throw new ArgumentException(nameof(nonceGenerator));
+            foreach (var policy in _policy)
+            {
+                if (policy.Value is HtmlOnlyHeaderPolicyBase)
+                {
+                    _htmlOnlyHeaders.Add(policy.Key);
+                }
+            }
         }
 
         private ICustomHeaderService CustomHeaderService { get; }
@@ -66,7 +75,23 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
 
             var result = CustomHeaderService.EvaluatePolicy(context, _policy);
             CustomHeaderService.ApplyResult(context.Response, result);
+            context.Response.OnStarting(CleanUpHeaders, context);
             await _next(context);
+        }
+
+        private Task CleanUpHeaders(object state)
+        {
+            var context = (HttpContext)state;
+            if (!context.Response.ContentType.StartsWith("text/html"))
+            {
+                var headers = context.Response.Headers;
+                foreach (var header in _htmlOnlyHeaders)
+                {
+                    headers.Remove(header);
+                }
+            }
+
+            return Task.CompletedTask;
         }
 
         private static bool MustGenerateNonce(HeaderPolicyCollection policy)
