@@ -82,7 +82,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         private Task CleanUpHeaders(object state)
         {
             var context = (HttpContext)state;
-            if (!context.Response.ContentType.StartsWith("text/html"))
+            if (!context.Response.ContentType?.StartsWith("text/html") ?? false)
             {
                 var headers = context.Response.Headers;
                 foreach (var header in _htmlOnlyHeaders)
