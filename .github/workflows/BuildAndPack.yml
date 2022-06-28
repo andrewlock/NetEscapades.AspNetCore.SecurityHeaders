@@ -33,6 +33,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: | 
+            2.1.x
+            3.0.x
+            6.0.x
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v2
         with:
@@ -54,6 +61,13 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: | 
+            2.1.x
+            3.0.x
+            6.0.x
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v2
         with:
@@ -75,6 +89,13 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: | 
+            2.1.x
+            3.0.x
+            6.0.x
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v2
         with:
