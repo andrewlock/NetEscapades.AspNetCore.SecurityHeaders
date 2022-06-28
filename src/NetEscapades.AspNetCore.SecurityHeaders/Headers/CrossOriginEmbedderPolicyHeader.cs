@@ -7,7 +7,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
     /// <summary>
     /// The header value to use for Cross-Origin-Embedder-Policy
     /// </summary>
-    public abstract class CrossOriginEmbedderPolicyHeader : HtmlOnlyHeaderPolicyBase
+    public abstract class CrossOriginEmbedderPolicyHeader : HeaderPolicyBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CrossOriginEmbedderPolicyHeader"/> class.
