@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.17.0]
+
+Bugfix:
+
+* Fix `Cross-Origin-Embedder-Policy` (COEP) not being added to non-HTML requests
+
 ## [v0.16.1]
 
 Bugfix:

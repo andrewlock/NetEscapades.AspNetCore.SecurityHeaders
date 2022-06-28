@@ -1,10 +1,10 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.16.1'">
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.17.0'">
       <![CDATA[
 Bugfix:
 
-* Fix `Cross-Origin-Resource-Policy` (CORP) not being added to non-HTML requests
+* Fix `Cross-Origin-Embedder-Policy` (COEP) not being added to non-HTML requests
 
 ]]>
     </PackageReleaseNotes>
