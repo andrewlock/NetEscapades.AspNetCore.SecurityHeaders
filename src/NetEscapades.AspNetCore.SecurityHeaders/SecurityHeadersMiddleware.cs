@@ -70,10 +70,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
 
         private static Task OnResponseStarting(object state)
         {
-            var tuple = (Tuple<SecurityHeadersMiddleware, HttpContext, HeaderPolicyCollection>)state;
-            var middleware = tuple.Item1;
-            var context = tuple.Item2;
-            var policy = tuple.Item3;
+            var(middleware, context, policy) = (Tuple<SecurityHeadersMiddleware, HttpContext, HeaderPolicyCollection>)state;
 
             var result = middleware.CustomHeaderService.EvaluatePolicy(context, policy);
             middleware.CustomHeaderService.ApplyResult(context.Response, result);
