@@ -183,6 +183,21 @@ namespace Microsoft.AspNetCore.Builder
         }
 
         /// <summary>
+        /// Allows enabling specific inline event handlers. If you only need to allow inline
+        /// event handlers and not inline &lt;script&gt; elements or javascript: URLs,
+        /// this is a safer method than using the unsafe-inline expression.
+        /// WARNING: This source is insecure - you should not use this directive if at all possible
+        /// </summary>
+        /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
+        /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
+        /// <returns>The CSP builder for method chaining</returns>
+        public static T UnsafeHashes<T>(this T builder) where T : CspDirectiveBuilder
+        {
+            builder.Sources.Add("'unsafe-hashes'");
+            return builder;
+        }
+
+        /// <summary>
         /// Allows the use of eval() and similar methods for creating code from strings.
         /// WARNING: This source is insecure - you should not use this directive if at all possible
         /// </summary>
@@ -192,6 +207,20 @@ namespace Microsoft.AspNetCore.Builder
         public static T UnsafeEval<T>(this T builder) where T : CspDirectiveBuilder
         {
             builder.Sources.Add("'unsafe-eval'");
+            return builder;
+        }
+
+        /// <summary>
+        /// Allows the loading and execution of WebAssembly modules without the need to also
+        /// allow unsafe JavaScript execution via 'unsafe-eval'.
+        /// WARNING: This source is insecure - you should not use this directive if at all possible
+        /// </summary>
+        /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
+        /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
+        /// <returns>The CSP builder for method chaining</returns>
+        public static T WasmUnsafeEval<T>(this T builder) where T : CspDirectiveBuilder
+        {
+            builder.Sources.Add("'wasm-unsafe-eval'");
             return builder;
         }
 
