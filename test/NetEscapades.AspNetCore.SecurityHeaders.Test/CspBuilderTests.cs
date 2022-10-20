@@ -170,6 +170,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             builder.AddScriptSrc()
                 .Self()
                 .UnsafeEval()
+                .WasmUnsafeEval()
                 .UnsafeInline()
                 .StrictDynamic()
                 .ReportSample()
@@ -372,7 +373,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             builder.AddFormAction().Self().Blob().Data().From("http://testUrl.com");
             builder.AddImgSrc().Self().Blob().Data().From("http://testUrl.com");
             builder.AddWorkerSrc().Self().Blob().Data().From("http://testUrl.com");
-            builder.AddScriptSrc().Self().UnsafeEval().UnsafeInline().StrictDynamic().ReportSample().From("http://testUrl.com");
+            builder.AddScriptSrc().Self().UnsafeEval().UnsafeHashes().UnsafeInline().WasmUnsafeEval().StrictDynamic().ReportSample().From("http://testUrl.com");
             builder.AddStyleSrc().Self().Blob().Data().From("http://testUrl.com");
             builder.AddMediaSrc().Self().Blob().Data().From("http://testUrl.com");
             builder.AddFrameAncestors().Self().Blob().Data().From("http://testUrl.com");
