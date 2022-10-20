@@ -148,7 +148,20 @@ namespace Microsoft.AspNetCore.Builder
         /// JSON documents sent via an HTTP POST request to the specified URI.
         /// </summary>
         /// <returns>A configured <see cref="ReportUriDirectiveBuilder"/></returns>
+        /// /// <remarks>NOTE: this directive has been deprecated in favour of <c>Report-To</c>.
+        /// Use <see cref="AddReportTo"/> instead.</remarks>
         public ReportUriDirectiveBuilder AddReportUri() => AddDirective(new ReportUriDirectiveBuilder());
+
+        /// <summary>
+        /// The report-to directive instructs the user agent to send requests to
+        /// an endpoint defined in a <c>Report-To</c> HTTP header. The directive
+        /// has no effect in and of itself, but only gains meaning in
+        /// combination with other reporting directives.
+        /// </summary>
+        /// <param name="groupName">The name of the group in the <code>Report-To</code> JSON field
+        /// to send reports to</param>
+        /// <returns>A configured <see cref="ReportToDirectiveBuilder"/></returns>
+        public ReportToDirectiveBuilder AddReportTo(string groupName) => AddDirective(new ReportToDirectiveBuilder(groupName));
 
         /// <summary>
         /// Create a custom CSP directive for an un-implemented directive

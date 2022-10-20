@@ -8,6 +8,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
     /// violate the Content Security Policy. These violation reports consist of
     /// JSON documents sent via an HTTP POST request to the specified URI.
     /// </summary>
+    /// <remarks>NOTE: this directive has been deprecated in favour of <c>Report-To</c>.
+    /// Use <see cref="ReportToDirectiveBuilder"/> instead.</remarks>
     public class ReportUriDirectiveBuilder : CspDirectiveBuilderBase
     {
         /// <summary>
