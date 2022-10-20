@@ -119,6 +119,15 @@ namespace Microsoft.AspNetCore.Builder
         public BaseUriDirectiveBuilder AddBaseUri() => AddDirective(new BaseUriDirectiveBuilder());
 
         /// <summary>
+        /// The sandbox directive enables a sandbox for the requested resource similar
+        /// to the &lt;script&gt; sandbox attribute. It applies restrictions to a
+        /// page's actions including preventing popups, preventing the execution
+        /// of plugins and scripts, and enforcing a same-origin policy.
+        /// </summary>
+        /// <returns>A configured <see cref="SandboxDirectiveBuilder"/></returns>
+        public SandboxDirectiveBuilder AddSandbox() => AddDirective(new SandboxDirectiveBuilder());
+
+        /// <summary>
         /// The upgrade-insecure-requests directive instructs user agents to treat all of a
         /// site's insecure URLs (those served over HTTP) as though they have been
         /// replaced with secure URLs (those served over HTTPS). This directive is

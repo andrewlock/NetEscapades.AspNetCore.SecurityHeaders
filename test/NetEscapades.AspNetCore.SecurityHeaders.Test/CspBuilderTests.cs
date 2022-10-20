@@ -287,6 +287,43 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         }
 
         [Fact]
+        public void Build_AddSandbox_WhenAddsMultipleValue_ReturnsAllValues()
+        {
+            var builder = new CspBuilder();
+            builder.AddSandbox()
+                .AllowDownloads()
+                .AllowForms()
+                .AllowModals();
+
+            var result = builder.Build();
+
+            result.ConstantValue.Should().Be("sandbox allow-downloads allow-forms allow-modals");
+        }
+
+        [Fact]
+        public void Build_AddSandbox_WhenSingleValue_ReturnsDirective()
+        {
+            var builder = new CspBuilder();
+            builder.AddSandbox()
+                .AllowTopNavigationToCustomProtocols();
+
+            var result = builder.Build();
+
+            result.ConstantValue.Should().Be("sandbox allow-top-navigation-to-custom-protocols");
+        }
+
+        [Fact]
+        public void Build_AddSandbox_WhenNoValues_ReturnsDirective()
+        {
+            var builder = new CspBuilder();
+            builder.AddSandbox();
+
+            var result = builder.Build();
+
+            result.ConstantValue.Should().Be("sandbox");
+        }
+
+        [Fact]
         public void Build_AddUpgradeInsecureRequests_AddsValue()
         {
             var builder = new CspBuilder();
@@ -389,6 +426,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             builder.AddMediaSrc().Self().Blob().Data().From("http://testUrl.com");
             builder.AddFrameAncestors().Self().Blob().Data().From("http://testUrl.com");
             builder.AddBaseUri().Self().Blob().Data().From("http://testUrl.com");
+            builder.AddSandbox();
             builder.AddUpgradeInsecureRequests();
             builder.AddBlockAllMixedContent();
 
@@ -398,7 +436,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         }
 
         [Fact]
-        public void Build_ForAllHeaders_WhenNotUsingNonce_HasPerRequestValuesReturnsTrue()
+        public void Build_ForAllHeaders_WhenUsingNonce_HasPerRequestValuesReturnsTrue()
         {
 
             var builder = new CspBuilder();
@@ -413,6 +451,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             builder.AddMediaSrc().Self().Blob().Data().From("http://testUrl.com");
             builder.AddFrameAncestors().Self().Blob().Data().From("http://testUrl.com");
             builder.AddBaseUri().Self().Blob().Data().From("http://testUrl.com");
+            builder.AddSandbox();
             builder.AddUpgradeInsecureRequests();
             builder.AddBlockAllMixedContent();
 
