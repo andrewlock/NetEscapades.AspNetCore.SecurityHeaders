@@ -337,6 +337,17 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         }
 
         [Fact]
+        public void Build_ReportTo_AddsValue()
+        {
+            var builder = new CspBuilder();
+            builder.AddReportTo("some-endpoint");
+
+            var result = builder.Build();
+
+            result.ConstantValue.Should().Be("report-to some-endpoint");
+        }
+
+        [Fact]
         public void Build_CustomDirective_AddsValues()
         {
             var builder = new CspBuilder();
