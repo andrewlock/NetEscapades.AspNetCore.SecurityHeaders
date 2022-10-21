@@ -1706,6 +1706,44 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             }
         }
 
+        [Fact]
+        public async Task HttpRequest_WithReportingEndpoints_SetsHeader()
+        {
+            // Arrange
+            var hostBuilder = new WebHostBuilder()
+                .Configure(app =>
+                {
+                    app.UseSecurityHeaders(
+                        new HeaderPolicyCollection()
+                            .AddReportingEndpoints(builder =>
+                            {
+                                builder.AddDefaultEndpoint("https://localhost:5000/default");
+                                builder.AddEndpoint("endpoint-1", "http://localhost/endpoint-1");
+                            }));
+                    app.Run(async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+
+            using (var server = new TestServer(hostBuilder))
+            {
+                // Act
+                // Actual request.
+                var response = await server.CreateRequest("/")
+                    .SendAsync("PUT");
+
+                // Assert
+                response.EnsureSuccessStatusCode();
+
+                (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+                var header = response.Headers.GetValues("Reporting-Endpoints").SingleOrDefault();
+                header.Should().NotBeNull();
+                header.Should().Be("default=\"https://localhost:5000/default\", endpoint-1=\"http://localhost/endpoint-1\"");
+            }
+        }
+
         private static void AssertHttpRequestDefaultSecurityHeaders(HttpResponseHeaders headers)
         {
             string header = headers.GetValues("X-Content-Type-Options").FirstOrDefault();
