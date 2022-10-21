@@ -53,7 +53,7 @@ public class ReportingEndpointsHeaderBuilder
             throw new ArgumentNullException(nameof(url));
         }
 
-        if (!Uri.TryCreate(url, UriKind.Absolute, out var uri))
+        if (!Uri.TryCreate(url, UriKind.Absolute, out var uri) || !IsValid(uri))
         {
             throw new ArgumentException($"The provided url {url} was not a valid absolute URL", nameof(url));
         }
@@ -87,7 +87,7 @@ public class ReportingEndpointsHeaderBuilder
             throw new ArgumentNullException(nameof(url));
         }
 
-        if (!url.IsAbsoluteUri)
+        if (!IsValid(url))
         {
             throw new ArgumentException($"The provided url '{url}' was not a valid absolute URL", nameof(url));
         }
@@ -117,4 +117,7 @@ public class ReportingEndpointsHeaderBuilder
     {
         return string.Join(Separator, _endpoints.Select(x => $"{x.Key}=\"{x.Value}\""));
     }
+
+    private static bool IsValid(Uri uri)
+        => uri.IsAbsoluteUri && !string.IsNullOrEmpty(uri.Host) && !string.IsNullOrEmpty(uri.Scheme);
 }
