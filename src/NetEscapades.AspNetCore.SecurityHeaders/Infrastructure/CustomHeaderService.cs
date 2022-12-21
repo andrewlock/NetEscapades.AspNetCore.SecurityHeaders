@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
 {
@@ -31,7 +32,14 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
             var result = new CustomHeadersResult();
             foreach (var policy in policies.Values)
             {
-                policy.Apply(context, result);
+                if (policy is IDocumentHeaderPolicy documentPolicy)
+                {
+                    documentPolicy.Apply(context, result, policies);
+                }
+                else
+                {
+                    policy.Apply(context, result);
+                }
             }
 
             return result;
