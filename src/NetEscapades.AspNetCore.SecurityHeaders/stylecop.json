@@ -12,7 +12,8 @@
       "usingDirectivesPlacement": "outsideNamespace"
     },
     "documentationRules": {
-      "xmlHeader": false
+      "xmlHeader": false,
+      "excludeFromPunctuationCheck": ["summary", "param", "returns", "remarks", "typeparam"]
     }
   }
 }

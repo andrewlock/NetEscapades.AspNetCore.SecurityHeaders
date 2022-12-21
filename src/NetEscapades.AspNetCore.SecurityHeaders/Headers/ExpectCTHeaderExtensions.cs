@@ -11,7 +11,7 @@ namespace Microsoft.AspNetCore.Builder
         {
             "localhost",
             "127.0.0.1", // ipv4
-            "[::1]" // ipv6
+            "[::1]", // ipv6
         };
 
         /// <summary>
