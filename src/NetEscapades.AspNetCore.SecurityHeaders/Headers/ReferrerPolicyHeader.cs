@@ -5,7 +5,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
     /// <summary>
     /// The header value to use for ReferrerPolicy
     /// </summary>
-    public class ReferrerPolicyHeader : HtmlOnlyHeaderPolicyBase
+    public class ReferrerPolicyHeader : DocumentHeaderPolicyBase
     {
         private readonly string _value;
 

@@ -7,7 +7,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
     /// <summary>
     /// The header value to use for Feature-Policy.
     /// </summary>
-    public class FeaturePolicyHeader : HtmlOnlyHeaderPolicyBase
+    public class FeaturePolicyHeader : DocumentHeaderPolicyBase
     {
         private readonly string _value;
 

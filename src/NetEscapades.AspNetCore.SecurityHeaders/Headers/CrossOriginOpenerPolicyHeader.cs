@@ -7,7 +7,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
     /// <summary>
     /// The header value to use for Cross-Origin-Opener-Policy
     /// </summary>
-    public abstract class CrossOriginOpenerPolicyHeader : HtmlOnlyHeaderPolicyBase
+    public abstract class CrossOriginOpenerPolicyHeader : DocumentHeaderPolicyBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CrossOriginOpenerPolicyHeader"/> class.
