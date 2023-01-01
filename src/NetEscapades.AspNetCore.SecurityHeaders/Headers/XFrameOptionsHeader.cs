@@ -5,7 +5,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
     /// <summary>
     /// The header value to use for X-Frame-Options
     /// </summary>
-    public class XFrameOptionsHeader : HtmlOnlyHeaderPolicyBase
+    public class XFrameOptionsHeader : DocumentHeaderPolicyBase
     {
         private readonly string _value;
 

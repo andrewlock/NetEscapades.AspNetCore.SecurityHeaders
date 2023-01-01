@@ -23,7 +23,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
         protected abstract string GetValue(HttpContext context);
 
         /// <inheritdoc />
-        public void Apply(HttpContext context, CustomHeadersResult result)
+        public virtual void Apply(HttpContext context, CustomHeadersResult result)
         {
             if (context == null)
             {

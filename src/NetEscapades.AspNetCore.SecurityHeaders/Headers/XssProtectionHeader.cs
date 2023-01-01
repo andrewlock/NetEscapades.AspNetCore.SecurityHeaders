@@ -5,7 +5,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
     /// <summary>
     /// The header value to use for XSS-Protection
     /// </summary>
-    public class XssProtectionHeader : HtmlOnlyHeaderPolicyBase
+    public class XssProtectionHeader : DocumentHeaderPolicyBase
     {
         private readonly string _value;
 
