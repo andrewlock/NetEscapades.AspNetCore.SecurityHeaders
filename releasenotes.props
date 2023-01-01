@@ -1,10 +1,18 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.17.0'">
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.18.0'">
       <![CDATA[
+Features:
+
+* Add support for applying document headers (such as CSP) to all responses (#130)
+* Add support for `unsafe-hashes` and `wasm-unsafe-eval` (#125)
+* Add support for Report-To directive in Content-Security-Policy (#126)
+* Add support for sandbox directive in Content-Security-Policy (#127)
+* Add support for Reporting-Endpoints header (part of the Reporting API) (#128)
+
 Bugfix:
 
-* Fix `Cross-Origin-Embedder-Policy` (COEP) not being added to non-HTML requests
+* Document headers (such as CSP) are now applied to `application/javascript` in addition to `text/html` (#130)
 
 ]]>
     </PackageReleaseNotes>

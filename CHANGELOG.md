@@ -1,5 +1,19 @@
 # Changelog
 
+## [v0.18.0]
+
+Features:
+
+* Add support for applying document headers (such as CSP) to all responses (#130)
+* Add support for `unsafe-hashes` and `wasm-unsafe-eval` (#125)
+* Add support for Report-To directive in Content-Security-Policy (#126)
+* Add support for sandbox directive in Content-Security-Policy (#127)
+* Add support for Reporting-Endpoints header (part of the Reporting API) (#128)
+
+Bugfix:
+
+* Document headers (such as CSP) are now applied to `application/javascript` in addition to `text/html` (#130)
+
 ## [v0.17.0]
 
 Bugfix:
@@ -95,3 +109,15 @@ Breaking Changes:
 * The CSP classes have undergone significant refactoring to allow dynamic values per-request (i.e. nonces). This doesn't affect the main public API, but will impact you if you're working with the low-level infrastructure classes.
 
 [v0.9.0]: https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/compare/v0.8.0...0.9.0
+[v0.10.0]: https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/compare/v0.9.0...0.10.0
+[v0.11.0]: https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/compare/v0.10.0...0.11.0
+[v0.11.2]: https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/compare/v0.11.0...0.11.2
+[v0.12.0]: https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/compare/v0.11.2...0.12.0
+[v0.12.1]: https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/compare/v0.12.0...0.12.1
+[v0.13.0]: https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/compare/v0.12.1...0.13.0
+[v0.14.0]: https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/compare/v0.13.0...0.14.0
+[v0.15.0]: https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/compare/v0.14.0...0.15.0
+[v0.16.0]: https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/compare/v0.15.0...0.16.0
+[v0.16.1]: https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/compare/v0.16.0...0.16.1
+[v0.17.0]: https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/compare/v0.16.1...0.17.0
+[v0.18.0]: https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/compare/v0.17.0...0.18.0
