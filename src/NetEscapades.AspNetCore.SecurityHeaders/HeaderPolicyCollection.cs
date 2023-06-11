@@ -13,7 +13,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <summary>
         /// The content types that document-based headers such as Content-Security-Policy should apply to
         /// </summary>
-        internal string[]? DocumentHeaderContentTypePrefixes { get; set; } = { "text/html", "application/javascript" };
+        internal string[]? DocumentHeaderContentTypePrefixes { get; set; } = { "text/html", "application/javascript", "text/javascript" };
 
         /// <summary>
         /// Apply document-based headers such as Content-Security-Policy to all responses serving the provided
