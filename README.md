@@ -56,10 +56,16 @@ This adds the following headers to all responses that pass through the middlewar
 
 * `X-Content-Type-Options: nosniff`
 * `Strict-Transport-Security: max-age=31536000; includeSubDomains` - _only applied to HTTPS responses_
-* `X-Frame-Options: Deny` - _only applied to `text/html` responses_
-* `X-XSS-Protection: 1; mode=block` - _only applied to `text/html` responses_
-* `Referrer-Policy: strict-origin-when-cross-origin` - _only applied to `text/html` responses_
-* `Content-Security-Policy: object-src 'none'; form-action 'self'; frame-ancestors 'none'` - _only applied to `text/html` responses_
+* `X-Frame-Options: Deny` - _only applied to "document" responses_
+* `X-XSS-Protection: 1; mode=block` - _only applied to "document" responses_
+* `Referrer-Policy: strict-origin-when-cross-origin` - _only applied to "document" responses_
+* `Content-Security-Policy: object-src 'none'; form-action 'self'; frame-ancestors 'none'` - _only applied to "document" responses_
+
+"Document" responses are defined as responses that return one of the following content-types:
+
+- `text/html`
+- `text/javascript`
+- `application/javascript`
 
 ## Customising the security headers added to responses
 
