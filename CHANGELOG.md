@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.19.0]
+
+Features:
+
+* Apply "document" headers to `text/javascript` responses 
+
+
 ## [v0.18.0]
 
 Features:
