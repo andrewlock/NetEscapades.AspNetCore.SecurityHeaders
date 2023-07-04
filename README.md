@@ -18,7 +18,7 @@ PM> Install-Package NetEscapades.AspNetCore.SecurityHeaders
 Or using the `dotnet` CLI
 
 ```bash
-dotnet package add Install-Package NetEscapades.AspNetCore.SecurityHeaders
+dotnet add package NetEscapades.AspNetCore.SecurityHeaders
 ```
 
 ## Usage
