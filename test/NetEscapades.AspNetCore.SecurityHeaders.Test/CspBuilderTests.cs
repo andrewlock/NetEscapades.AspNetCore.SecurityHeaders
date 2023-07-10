@@ -164,6 +164,36 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
         }
 
         [Fact]
+        public void Build_AddSrciptSrcAttr_WhenAddsMultipleValue_ReturnsAllValues()
+        {
+            var builder = new CspBuilder();
+            builder.AddScriptSrcAttr()
+                .Self()
+                .Blob()
+                .Data()
+                .From("http://testUrl.com");
+
+            var result = builder.Build();
+
+            result.ConstantValue.Should().Be("script-src-attr 'self' blob: data: http://testUrl.com");
+        }
+
+        [Fact]
+        public void Build_AddSrciptSrcElem_WhenAddsMultipleValue_ReturnsAllValues()
+        {
+            var builder = new CspBuilder();
+            builder.AddScriptSrcElem()
+                .Self()
+                .Blob()
+                .Data()
+                .From("http://testUrl.com");
+
+            var result = builder.Build();
+
+            result.ConstantValue.Should().Be("script-src-elem 'self' blob: data: http://testUrl.com");
+        }
+
+        [Fact]
         public void Build_AddSrciptSrc_WhenAddsNonce_ConstantValueThrowsInvalidOperation()
         {
             var builder = new CspBuilder();
@@ -239,6 +269,38 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Test
             var result = builder.Build();
 
             result.ConstantValue.Should().Be("style-src 'self' 'report-sample' blob: data: http://testUrl.com");
+        }
+
+        [Fact]
+        public void Build_AddStyleSrcAttr_WhenAddsMultipleValue_ReturnsAllValues()
+        {
+            var builder = new CspBuilder();
+            builder.AddStyleSrcAttr()
+                .Self()
+                .ReportSample()
+                .Blob()
+                .Data()
+                .From("http://testUrl.com");
+
+            var result = builder.Build();
+
+            result.ConstantValue.Should().Be("style-src-attr 'self' 'report-sample' blob: data: http://testUrl.com");
+        }
+
+        [Fact]
+        public void Build_AddStyleSrcElem_WhenAddsMultipleValue_ReturnsAllValues()
+        {
+            var builder = new CspBuilder();
+            builder.AddStyleSrcElem()
+                .Self()
+                .ReportSample()
+                .Blob()
+                .Data()
+                .From("http://testUrl.com");
+
+            var result = builder.Build();
+
+            result.ConstantValue.Should().Be("style-src-elem 'self' 'report-sample' blob: data: http://testUrl.com");
         }
 
         [Fact]
