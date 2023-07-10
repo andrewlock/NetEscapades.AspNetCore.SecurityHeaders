@@ -1,15 +1,14 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
+
+/// <summary>
+/// The font-src directive specifies valid sources for fonts loaded using @font-face.
+/// </summary>
+public class FontSourceDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>
-    /// The font-src directive specifies valid sources for fonts loaded using @font-face.
+    /// Initializes a new instance of the <see cref="FontSourceDirectiveBuilder"/> class.
     /// </summary>
-    public class FontSourceDirectiveBuilder : CspDirectiveBuilder
+    public FontSourceDirectiveBuilder() : base("font-src")
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FontSourceDirectiveBuilder"/> class.
-        /// </summary>
-        public FontSourceDirectiveBuilder() : base("font-src")
-        {
-        }
     }
 }

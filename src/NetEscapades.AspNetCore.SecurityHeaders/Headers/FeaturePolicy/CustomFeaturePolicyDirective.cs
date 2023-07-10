@@ -1,42 +1,41 @@
 ﻿using System;
 
-namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy;
+
+/// <summary>
+/// Create a custom Feature Policy directive for an un-implemented directive.
+/// </summary>
+public class CustomFeaturePolicyDirective : FeaturePolicyDirectiveBuilderBase
 {
     /// <summary>
+    /// Initializes a new instance of the <see cref="CustomFeaturePolicyDirective"/> class.
     /// Create a custom Feature Policy directive for an un-implemented directive.
     /// </summary>
-    public class CustomFeaturePolicyDirective : FeaturePolicyDirectiveBuilderBase
+    /// <param name="directive">The feature policy name, e.g. push, or vibrate</param>
+    /// <param name="value">The feature value, e.g. 'self', *, 'none'</param>
+    public CustomFeaturePolicyDirective(string directive, string value) : base(directive)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CustomFeaturePolicyDirective"/> class.
-        /// Create a custom Feature Policy directive for an un-implemented directive.
-        /// </summary>
-        /// <param name="directive">The feature policy name, e.g. push, or vibrate</param>
-        /// <param name="value">The feature value, e.g. 'self', *, 'none'</param>
-        public CustomFeaturePolicyDirective(string directive, string value) : base(directive)
+        if (string.IsNullOrEmpty(directive))
         {
-            if (string.IsNullOrEmpty(directive))
-            {
-                throw new ArgumentException($"{nameof(directive)} must not be null or empty", nameof(directive));
-            }
-
-            Value = value;
+            throw new ArgumentException($"{nameof(directive)} must not be null or empty", nameof(directive));
         }
 
-        /// <summary>
-        /// The directive value
-        /// </summary>
-        public string Value { get; }
+        Value = value;
+    }
 
-        /// <inheritdoc />
-        internal override string Build()
+    /// <summary>
+    /// The directive value
+    /// </summary>
+    public string Value { get; }
+
+    /// <inheritdoc />
+    internal override string Build()
+    {
+        if (string.IsNullOrEmpty(Value))
         {
-            if (string.IsNullOrEmpty(Value))
-            {
-                return Directive;
-            }
-
-            return $"{Directive} {Value}";
+            return Directive;
         }
+
+        return $"{Directive} {Value}";
     }
 }

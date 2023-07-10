@@ -1,41 +1,40 @@
-﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
+
+/// <summary>
+/// The script-src directive specifies valid sources for sources for JavaScript.
+/// This includes not only URLs loaded directly into &lt;script&gt; elements, but also things
+/// like inline script event handlers (onclick) and XSLT stylesheets which can trigger script execution.
+/// </summary>
+public class ScriptSourceDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>
-    /// The script-src directive specifies valid sources for sources for JavaScript.
-    /// This includes not only URLs loaded directly into &lt;script&gt; elements, but also things
-    /// like inline script event handlers (onclick) and XSLT stylesheets which can trigger script execution.
+    /// Initializes a new instance of the <see cref="ScriptSourceDirectiveBuilder"/> class.
     /// </summary>
-    public class ScriptSourceDirectiveBuilder : CspDirectiveBuilder
+    public ScriptSourceDirectiveBuilder() : base("script-src")
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ScriptSourceDirectiveBuilder"/> class.
-        /// </summary>
-        public ScriptSourceDirectiveBuilder() : base("script-src")
-        {
-        }
+    }
 
-        /// <summary>
-        /// Requires a sample of the violating code to be included in the violation report
-        /// </summary>
-        /// <returns>The CSP builder for method chaining</returns>
-        public ScriptSourceDirectiveBuilder ReportSample()
-        {
-            Sources.Add("'report-sample'");
-            return this;
-        }
+    /// <summary>
+    /// Requires a sample of the violating code to be included in the violation report
+    /// </summary>
+    /// <returns>The CSP builder for method chaining</returns>
+    public ScriptSourceDirectiveBuilder ReportSample()
+    {
+        Sources.Add("'report-sample'");
+        return this;
+    }
 
-        /// <summary>
-        /// Allow sources for content generated using the the HashTagHelper.
-        /// </summary>
-        /// <returns>The CSP builder for method chaining</returns>
-        public ScriptSourceDirectiveBuilder WithHashTagHelper()
+    /// <summary>
+    /// Allow sources for content generated using the the HashTagHelper.
+    /// </summary>
+    /// <returns>The CSP builder for method chaining</returns>
+    public ScriptSourceDirectiveBuilder WithHashTagHelper()
+    {
+        // TODO: check hash algorithm is one of expected values
+        SourceBuilders.Add(ctx =>
         {
-            // TODO: check hash algorithm is one of expected values
-            SourceBuilders.Add(ctx =>
-            {
-                return string.Join(" ", ctx.GetScriptCSPHashes());
-            });
-            return this;
-        }
+            return string.Join(" ", ctx.GetScriptCSPHashes());
+        });
+        return this;
     }
 }
