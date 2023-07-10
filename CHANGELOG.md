@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.20.0]
+
+Features:
+
+* Add support for `script-src-attr`, `script-src-elem`, `style-src-attr`, `style-src-elem` #139 
+
 ## [v0.19.0]
 
 Features:
