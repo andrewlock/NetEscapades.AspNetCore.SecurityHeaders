@@ -64,10 +64,35 @@ namespace Microsoft.AspNetCore.Builder
         public ScriptSourceDirectiveBuilder AddScriptSrc() => AddDirective(new ScriptSourceDirectiveBuilder());
 
         /// <summary>
+        /// The script-src-attr directive specifies valid sources for JavaScript inline event handlers.
+        /// </summary>
+        /// <returns>A configured <see cref="ScriptSourceAttrDirectiveBuilder"/></returns>
+        public ScriptSourceAttrDirectiveBuilder AddScriptSrcAttr() => AddDirective(new ScriptSourceAttrDirectiveBuilder());
+
+        /// <summary>
+        /// The script-src-elem directive specifies valid sources for JavaScript &lt;script&gt; elements.
+        /// </summary>
+        /// <returns>A configured <see cref="ScriptSourceAttrDirectiveBuilder"/></returns>
+        public ScriptSourceElemDirectiveBuilder AddScriptSrcElem() => AddDirective(new ScriptSourceElemDirectiveBuilder());
+
+        /// <summary>
         /// The style-src directive specifies valid sources for sources for stylesheets.
         /// </summary>
         /// <returns>A configured <see cref="StyleSourceDirectiveBuilder"/></returns>
         public StyleSourceDirectiveBuilder AddStyleSrc() => AddDirective(new StyleSourceDirectiveBuilder());
+
+        /// <summary>
+        /// The style-src-attr directive specifies valid sources for stylesheet &lt;style&gt; elements
+        /// and &lt;link&gt; elements with rel="stylesheet".
+        /// </summary>
+        /// <returns>A configured <see cref="StyleSourceAttrDirectiveBuilder"/></returns>
+        public StyleSourceAttrDirectiveBuilder AddStyleSrcAttr() => AddDirective(new StyleSourceAttrDirectiveBuilder());
+
+        /// <summary>
+        /// The style-src-elem directive specifies valid sources for inline styles applied to individual DOM elements.
+        /// </summary>
+        /// <returns>A configured <see cref="StyleSourceAttrDirectiveBuilder"/></returns>
+        public StyleSourceElemDirectiveBuilder AddStyleSrcElem() => AddDirective(new StyleSourceElemDirectiveBuilder());
 
         /// <summary>
         /// The media-src directive specifies valid sources for loading media using the &lt;audio&gt; and &lt;video&gt; elements
