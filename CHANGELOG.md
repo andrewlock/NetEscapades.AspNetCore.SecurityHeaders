@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.21.0]
+
+Features:
+
+* Add support for using both `'none'` and `'report-sample'` in directives
+
 ## [v0.20.0]
 
 Features:
