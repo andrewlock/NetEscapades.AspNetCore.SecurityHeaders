@@ -21,6 +21,7 @@ public class StyleSourceElemDirectiveBuilder : CspDirectiveBuilder
     /// <returns>The CSP builder for method chaining</returns>
     public StyleSourceElemDirectiveBuilder ReportSample()
     {
+        MustReportSample = true;
         Sources.Add("'report-sample'");
         return this;
     }

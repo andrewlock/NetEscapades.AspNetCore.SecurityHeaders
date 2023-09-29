@@ -22,6 +22,7 @@ public class StyleSourceAttrDirectiveBuilder : CspDirectiveBuilder
     /// <returns>The CSP builder for method chaining</returns>
     public StyleSourceAttrDirectiveBuilder ReportSample()
     {
+        MustReportSample = true;
         Sources.Add("'report-sample'");
         return this;
     }

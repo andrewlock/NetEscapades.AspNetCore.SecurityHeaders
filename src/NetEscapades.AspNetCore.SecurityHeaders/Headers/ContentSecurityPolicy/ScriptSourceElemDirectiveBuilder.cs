@@ -24,6 +24,7 @@ public class ScriptSourceElemDirectiveBuilder : CspDirectiveBuilder
     /// <returns>The CSP builder for method chaining</returns>
     public ScriptSourceElemDirectiveBuilder ReportSample()
     {
+        MustReportSample = true;
         Sources.Add("'report-sample'");
         return this;
     }

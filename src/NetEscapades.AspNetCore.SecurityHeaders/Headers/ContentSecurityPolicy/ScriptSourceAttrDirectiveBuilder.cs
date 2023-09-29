@@ -24,6 +24,7 @@ public class ScriptSourceAttrDirectiveBuilder : CspDirectiveBuilder
     /// <returns>The CSP builder for method chaining</returns>
     public ScriptSourceAttrDirectiveBuilder ReportSample()
     {
+        MustReportSample = true;
         Sources.Add("'report-sample'");
         return this;
     }

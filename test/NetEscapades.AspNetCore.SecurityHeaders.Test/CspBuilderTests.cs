@@ -215,6 +215,36 @@ public class CspBuilderTests
             })
             .ShouldThrow<InvalidOperationException>();
     }
+    [Theory]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    [InlineData(true, true)]
+    public void Build_AddSrciptSrc_ReportSampleAndNone_ShouldAllowBoth(bool reportSample, bool none)
+    {
+        var builder = new CspBuilder();
+        var src = builder.AddScriptSrc();
+        if (reportSample)
+        {
+            src.ReportSample();
+        }
+
+        if (none)
+        {
+            src.None();
+        }
+
+        var expected = (reportSample, none) switch
+        {
+            (true, false) => "script-src 'report-sample'",
+            (false, true) => "script-src 'none'",
+            (true, true) => "script-src 'report-sample' 'none'",
+            _ => throw new InvalidOperationException(),
+        };
+
+        var result = builder.Build();
+
+        result.ConstantValue.Should().Be(expected);
+    }
 
     [Fact]
     public void Build_AddSrciptSrc_WhenDoesntAddNonce_BuilderThrowsInvalidOperation()

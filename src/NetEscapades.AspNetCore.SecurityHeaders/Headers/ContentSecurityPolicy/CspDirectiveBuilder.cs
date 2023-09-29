@@ -42,12 +42,19 @@ public class CspDirectiveBuilder : CspDirectiveBuilderBase
     /// </summary>
     public bool BlockResources { get; set; } = false;
 
+    /// <summary>
+    /// If true, adds the 'report-sample' to the directive.
+    /// </summary>
+    internal bool MustReportSample { get; set; }
+
     /// <inheritdoc />
     internal override Func<HttpContext, string> CreateBuilder()
     {
         if (BlockResources)
         {
-            return ctx => GetPolicy("'none'");
+            return MustReportSample
+                ? ctx => GetPolicy("'report-sample' 'none'")
+                : ctx => GetPolicy("'none'");
         }
 
         var sources = string.Join(Separator, Sources);
