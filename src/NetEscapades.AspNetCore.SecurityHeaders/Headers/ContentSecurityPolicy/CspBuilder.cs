@@ -82,14 +82,14 @@ public class CspBuilder
     public StyleSourceDirectiveBuilder AddStyleSrc() => AddDirective(new StyleSourceDirectiveBuilder());
 
     /// <summary>
-    /// The style-src-attr directive specifies valid sources for stylesheet &lt;style&gt; elements
-    /// and &lt;link&gt; elements with rel="stylesheet".
+    /// The style-src-attr directive specifies valid sources for inline styles applied to individual DOM elements.
     /// </summary>
     /// <returns>A configured <see cref="StyleSourceAttrDirectiveBuilder"/></returns>
     public StyleSourceAttrDirectiveBuilder AddStyleSrcAttr() => AddDirective(new StyleSourceAttrDirectiveBuilder());
 
     /// <summary>
-    /// The style-src-elem directive specifies valid sources for inline styles applied to individual DOM elements.
+    /// The style-src-elem directive specifies valid sources for stylesheet &lt;style&gt; elements
+    /// and &lt;link&gt; elements with rel="stylesheet".
     /// </summary>
     /// <returns>A configured <see cref="StyleSourceAttrDirectiveBuilder"/></returns>
     public StyleSourceElemDirectiveBuilder AddStyleSrcElem() => AddDirective(new StyleSourceElemDirectiveBuilder());
