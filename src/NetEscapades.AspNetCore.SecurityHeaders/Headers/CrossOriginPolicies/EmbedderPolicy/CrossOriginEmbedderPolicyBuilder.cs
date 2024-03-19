@@ -25,4 +25,14 @@ public class CrossOriginEmbedderPolicyBuilder : CrossOriginPolicyBuilder
     /// </summary>
     /// <returns>A configured <see cref="RequireCorpDirectiveBuilder"/></returns>
     public RequireCorpDirectiveBuilder RequireCorp() => AddDirective(new RequireCorpDirectiveBuilder());
+
+    /// <summary>
+    /// no-cors cross-origin requests are sent without credentials.
+    /// In particular, it means Cookies are omitted from the request, and ignored from the response.
+    /// The responses are allowed without an explicit permission via the Cross-Origin-Resource-Policy header.
+    /// Navigate responses behave similarly as the require-corp mode: They require Cross-Origin-Resource-Policy response header.
+    /// From: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Embedder-Policy#directives
+    /// </summary>
+    /// <returns>A configured <see cref="CredentiallessDirectiveBuilder"/></returns>
+    public CredentiallessDirectiveBuilder Credentialless() => AddDirective(new CredentiallessDirectiveBuilder());
 }

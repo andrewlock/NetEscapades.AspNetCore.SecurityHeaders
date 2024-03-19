@@ -63,4 +63,27 @@ public class CrossOriginEmbedderPolicyBuilderTests
 
         result.ConstantValue.Should().Be("require-corp; report-to=\"default\"");
     }
+
+    [Fact]
+    public void Build_AddCredentialless_AddsValue()
+    {
+        var builder = new CrossOriginEmbedderPolicyBuilder();
+        builder.Credentialless();
+
+        var result = builder.Build();
+
+        result.ConstantValue.Should().Be("credentialless");
+    }
+
+    [Fact]
+    public void Build_AddCredentialless_WithReportEndpoint_AddsValue()
+    {
+        var builder = new CrossOriginEmbedderPolicyBuilder();
+        builder.Credentialless();
+        builder.AddReport().To("default");
+
+        var result = builder.Build();
+
+        result.ConstantValue.Should().Be("credentialless; report-to=\"default\"");
+    }
 }
