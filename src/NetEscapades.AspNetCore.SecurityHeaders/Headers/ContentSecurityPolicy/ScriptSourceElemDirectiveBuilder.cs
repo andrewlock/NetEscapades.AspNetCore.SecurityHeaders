@@ -30,7 +30,7 @@ public class ScriptSourceElemDirectiveBuilder : CspDirectiveBuilder
     }
 
     /// <summary>
-    /// Allow sources for content generated using the the HashTagHelper.
+    /// Allow sources for content generated using the HashTagHelper.
     /// </summary>
     /// <returns>The CSP builder for method chaining</returns>
     public ScriptSourceElemDirectiveBuilder WithHashTagHelper()
