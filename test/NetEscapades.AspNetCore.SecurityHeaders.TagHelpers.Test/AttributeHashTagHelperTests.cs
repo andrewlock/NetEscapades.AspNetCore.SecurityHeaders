@@ -34,7 +34,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             var styleAttribute = new TagHelperAttribute("style", inlineStyleSnippet);
             var cspAttribute = new TagHelperAttribute("asp-add-style-attribute-to-csp");
             var tagHelperContext = GetTagHelperContext(id, tagName, new([styleAttribute, cspAttribute]));
-            var tagHelper = new HashTagHelper()
+            var tagHelper = new AttributeHashTagHelper()
             {
                 CSPHashType = CSPHashType.SHA256,
                 ViewContext = GetViewContext(),
@@ -70,7 +70,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             var styleAttribute = new TagHelperAttribute("style", inlineStyleSnippet);
             var cspAttribute = new TagHelperAttribute("asp-add-style-attribute-to-csp");
             var tagHelperContext = GetTagHelperContext(id, tagName, new([styleAttribute, cspAttribute]));
-            var tagHelper = new HashTagHelper()
+            var tagHelper = new AttributeHashTagHelper()
             {
                 CSPHashType = CSPHashType.SHA256,
                 ViewContext = GetViewContext(),
