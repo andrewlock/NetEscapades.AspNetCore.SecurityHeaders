@@ -10,7 +10,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers;
 /// <summary>
 /// Generates an hash of style, or inline script attributes
 /// </summary>
-[HtmlTargetElement("style", Attributes = AttributeName)]
+[HtmlTargetElement("*", Attributes = AttributeName)]
 public class AttributeHashTagHelper : TagHelper
 {
     private const string AttributeName = "asp-add-style-attribute-to-csp";
