@@ -28,7 +28,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             var id = Guid.NewGuid().ToString();
             var tagName = "div";
             var styleAttribute = new TagHelperAttribute("style", inlineStyleSnippet);
-            var cspAttribute = new TagHelperAttribute("asp-add-style-attribute-to-csp");
+            var cspAttribute = new TagHelperAttribute("asp-add-attribute-to-csp", "style");
             var fixture = CreateFixture(id, tagName, new([styleAttribute, cspAttribute]));
             var tagHelper = new AttributeHashTagHelper()
             {
@@ -52,7 +52,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             var id = Guid.NewGuid().ToString();
             var tagName = "div";
             var styleAttribute = new TagHelperAttribute("style", inlineStyleSnippet);
-            var cspAttribute = new TagHelperAttribute("asp-add-style-attribute-to-csp");
+            var cspAttribute = new TagHelperAttribute("asp-add-attribute-to-csp", "style");
             var fixture = CreateFixture(id, tagName, new([styleAttribute, cspAttribute]));
             var tagHelper = new AttributeHashTagHelper()
             {

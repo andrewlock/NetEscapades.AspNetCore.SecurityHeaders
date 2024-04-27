@@ -13,8 +13,14 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers;
 [HtmlTargetElement("*", Attributes = AttributeName)]
 public class AttributeHashTagHelper : TagHelper
 {
-    private const string AttributeName = "asp-add-style-attribute-to-csp";
+    private const string AttributeName = "asp-add-attribute-to-csp";
     private const string CspHashTypeAttributeName = "csp-hash-type";
+
+    /// <summary>
+    /// Add a <code>asp-add-attribute-to-csp</code> attribute to the element
+    /// </summary>
+    [HtmlAttributeName(AttributeName)]
+    public string TargetAttributeName { get; set; } = default!;
 
     /// <summary>
     /// Add a <code>csp-hash-type</code> attribute to the element
