@@ -87,7 +87,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
 
             // Assert
             var hash = Assert.Single(tagHelper.ViewContext.HttpContext.GetStyleCSPHashes());
-            var expected = "'sha256-Wz9o8J/ijdXtAzs95rmQ8OtBacYk6JfYTXQlM8yxIjg='";
+            var expected = "'sha256-NerDAUWfwD31YdZHveMrq0GLjsNFMwxLpZl0dPUeCcw='";
             Assert.Equal(expected, hash);
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -34,6 +35,20 @@ public class AttributeHashTagHelper : TagHelper
         {
             throw new InvalidOperationException("ViewContext was null");
         }
+
+        using var sha = CryptographyAlgorithms.Create(CSPHashType);
+
+        var styleAttributeValue = context.AllAttributes["style"];
+
+        // TODO: properly handle Value as object (just ToString?)
+        // properly handle null results from ToString()
+        var content = styleAttributeValue.Value.ToString();
+
+        var contentBytes = Encoding.UTF8.GetBytes(content!);
+        var hashedBytes = sha.ComputeHash(contentBytes);
+        var hash = Convert.ToBase64String(hashedBytes);
+
+        ViewContext.HttpContext.SetStylesCSPHash(CSPHashType, hash);
 
         output.Attributes.RemoveAll(AttributeName);
         output.Attributes.RemoveAll(CspHashTypeAttributeName);
