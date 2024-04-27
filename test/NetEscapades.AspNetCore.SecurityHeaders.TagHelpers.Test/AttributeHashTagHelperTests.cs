@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -7,16 +11,8 @@ using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.Routing;
-
 using Moq;
-
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
-
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-
 using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
@@ -57,7 +53,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
 
             // Assert
             Assert.Equal(tagName, output.TagName);
-            Assert.Empty(output.Attributes);
+            Assert.Equal([styleAttribute], output.Attributes);
             Assert.Empty(output.Content.GetContent());
         }
 

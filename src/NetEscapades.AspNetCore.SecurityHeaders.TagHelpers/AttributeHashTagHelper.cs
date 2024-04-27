@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using System;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers;
@@ -9,8 +9,10 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers;
 /// <summary>
 /// Generates an hash of style, or inline script attributes
 /// </summary>
+[HtmlTargetElement("style", Attributes = AttributeName)]
 public class AttributeHashTagHelper : TagHelper
 {
+    private const string AttributeName = "asp-add-style-attribute-to-csp";
     private const string CspHashTypeAttributeName = "csp-hash-type";
 
     /// <summary>
@@ -28,6 +30,12 @@ public class AttributeHashTagHelper : TagHelper
     /// <inheritdoc />
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
-        base.Process(context, output);
+        if (ViewContext is null)
+        {
+            throw new InvalidOperationException("ViewContext was null");
+        }
+
+        output.Attributes.RemoveAll(AttributeName);
+        output.Attributes.RemoveAll(CspHashTypeAttributeName);
     }
 }
