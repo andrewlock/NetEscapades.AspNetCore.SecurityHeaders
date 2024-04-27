@@ -44,17 +44,24 @@ public class AttributeHashTagHelper : TagHelper
 
         using var sha = CryptographyAlgorithms.Create(CSPHashType);
 
-        var styleAttributeValue = context.AllAttributes["style"];
+        var targetAttributeValue = context.AllAttributes[TargetAttributeName];
 
         // TODO: properly handle Value as object (just ToString?)
         // properly handle null results from ToString()
-        var content = styleAttributeValue.Value.ToString();
+        var content = targetAttributeValue.Value.ToString();
 
         var contentBytes = Encoding.UTF8.GetBytes(content!);
         var hashedBytes = sha.ComputeHash(contentBytes);
         var hash = Convert.ToBase64String(hashedBytes);
 
-        ViewContext.HttpContext.SetStylesCSPHash(CSPHashType, hash);
+        if (TargetAttributeName == "style")
+        {
+            ViewContext.HttpContext.SetStylesCSPHash(CSPHashType, hash);
+        }
+        else
+        {
+            ViewContext.HttpContext.SetScriptCSPHash(CSPHashType, hash);
+        }
 
         output.Attributes.RemoveAll(AttributeName);
         output.Attributes.RemoveAll(CspHashTypeAttributeName);

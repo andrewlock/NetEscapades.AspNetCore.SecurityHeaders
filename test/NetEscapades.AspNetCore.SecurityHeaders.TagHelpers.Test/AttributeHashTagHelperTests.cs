@@ -20,6 +20,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
     public class AttributeHashTagHelperTests
     {
         const string inlineStyleSnippet = "color: red";
+        const string inlineScriptSnippet = "myScript()";
 
         [Fact]
         public async Task ProcessAsync_StyleAttribute_GeneratesExpectedOutput()
@@ -32,6 +33,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             var fixture = CreateFixture(id, tagName, new([styleAttribute, cspAttribute]));
             var tagHelper = new AttributeHashTagHelper()
             {
+                TargetAttributeName = "style",
                 CSPHashType = CSPHashType.SHA256,
                 ViewContext = GetViewContext(),
             };
@@ -56,6 +58,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             var fixture = CreateFixture(id, tagName, new([styleAttribute, cspAttribute]));
             var tagHelper = new AttributeHashTagHelper()
             {
+                TargetAttributeName = "style",
                 CSPHashType = CSPHashType.SHA256,
                 ViewContext = GetViewContext(),
             };
@@ -66,6 +69,56 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             // Assert
             var hash = Assert.Single(tagHelper.ViewContext.HttpContext.GetStyleCSPHashes());
             var expected = "'sha256-NerDAUWfwD31YdZHveMrq0GLjsNFMwxLpZl0dPUeCcw='";
+            Assert.Equal(expected, hash);
+        }
+
+        [Fact]
+        public async Task ProcessAsync_InlineScriptAttribute_GeneratesExpectedOutput()
+        {
+            // Arrange
+            var id = Guid.NewGuid().ToString();
+            var tagName = "div";
+            var inlineScriptAttribute = new TagHelperAttribute("onclick", inlineScriptSnippet);
+            var cspAttribute = new TagHelperAttribute("asp-add-attribute-to-csp", "onclick");
+            var fixture = CreateFixture(id, tagName, new([inlineScriptAttribute, cspAttribute]));
+            var tagHelper = new AttributeHashTagHelper()
+            {
+                TargetAttributeName = "onclick",
+                CSPHashType = CSPHashType.SHA256,
+                ViewContext = GetViewContext(),
+            };
+
+            // Act
+            await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
+
+            // Assert
+            Assert.Equal(tagName, fixture.Output.TagName);
+            Assert.Equal([inlineScriptAttribute], fixture.Output.Attributes);
+            Assert.Empty(fixture.Output.Content.GetContent());
+        }
+
+        [Fact]
+        public async Task ProcessAsync_InlineScriptAttribute_AddsHashToHttpContext()
+        {
+            // Arrange
+            var id = Guid.NewGuid().ToString();
+            var tagName = "div";
+            var inlineScriptAttribute = new TagHelperAttribute("onclick", inlineScriptSnippet);
+            var cspAttribute = new TagHelperAttribute("asp-add-attribute-to-csp", "onclick");
+            var fixture = CreateFixture(id, tagName, new([inlineScriptAttribute, cspAttribute]));
+            var tagHelper = new AttributeHashTagHelper()
+            {
+                TargetAttributeName = "onclick",
+                CSPHashType = CSPHashType.SHA256,
+                ViewContext = GetViewContext(),
+            };
+
+            // Act
+            await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
+
+            // Assert
+            var hash = Assert.Single(tagHelper.ViewContext.HttpContext.GetScriptCSPHashes());
+            var expected = "'sha256-1lzfyKjJuCLGsHTaOB3al0SElf3ats68l7XOAdrWd+E='";
             Assert.Equal(expected, hash);
         }
 
