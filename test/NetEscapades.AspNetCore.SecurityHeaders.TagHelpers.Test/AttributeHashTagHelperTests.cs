@@ -29,32 +29,20 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             var tagName = "div";
             var styleAttribute = new TagHelperAttribute("style", inlineStyleSnippet);
             var cspAttribute = new TagHelperAttribute("asp-add-style-attribute-to-csp");
-            var tagHelperContext = GetTagHelperContext(id, tagName, new([styleAttribute, cspAttribute]));
+            var fixture = CreateFixture(id, tagName, new([styleAttribute, cspAttribute]));
             var tagHelper = new AttributeHashTagHelper()
             {
                 CSPHashType = CSPHashType.SHA256,
                 ViewContext = GetViewContext(),
             };
 
-            var output = new TagHelperOutput(
-               tagName,
-               attributes: new([styleAttribute, cspAttribute]),
-               getChildContentAsync: (useCachedResult, encoder) =>
-               {
-                   var tagHelperContent = new DefaultTagHelperContent();
-                   //tagHelperContent.SetHtmlContent(scriptSnippet);
-                   return Task.FromResult<TagHelperContent>(tagHelperContent);
-               });
-
-            //output.Content.SetHtmlContent(styleSnippet);
-
             // Act
-            await tagHelper.ProcessAsync(tagHelperContext, output);
+            await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
 
             // Assert
-            Assert.Equal(tagName, output.TagName);
-            Assert.Equal([styleAttribute], output.Attributes);
-            Assert.Empty(output.Content.GetContent());
+            Assert.Equal(tagName, fixture.Output.TagName);
+            Assert.Equal([styleAttribute], fixture.Output.Attributes);
+            Assert.Empty(fixture.Output.Content.GetContent());
         }
 
         [Fact]
@@ -62,33 +50,32 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
         {
             // Arrange
             var id = Guid.NewGuid().ToString();
-            var tagName = "style";
+            var tagName = "div";
             var styleAttribute = new TagHelperAttribute("style", inlineStyleSnippet);
             var cspAttribute = new TagHelperAttribute("asp-add-style-attribute-to-csp");
-            var tagHelperContext = GetTagHelperContext(id, tagName, new([styleAttribute, cspAttribute]));
+            var fixture = CreateFixture(id, tagName, new([styleAttribute, cspAttribute]));
             var tagHelper = new AttributeHashTagHelper()
             {
                 CSPHashType = CSPHashType.SHA256,
                 ViewContext = GetViewContext(),
             };
 
-            var output = new TagHelperOutput(
-               tagName,
-               attributes: new([styleAttribute, cspAttribute]),
-               getChildContentAsync: (useCachedResult, encoder) =>
-               {
-                   var tagHelperContent = new DefaultTagHelperContent();
-                   //tagHelperContent.SetHtmlContent(styleSnippet);
-                   return Task.FromResult<TagHelperContent>(tagHelperContent);
-               });
-
             // Act
-            await tagHelper.ProcessAsync(tagHelperContext, output);
+            await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
 
             // Assert
             var hash = Assert.Single(tagHelper.ViewContext.HttpContext.GetStyleCSPHashes());
             var expected = "'sha256-NerDAUWfwD31YdZHveMrq0GLjsNFMwxLpZl0dPUeCcw='";
             Assert.Equal(expected, hash);
+        }
+
+        private static Fixture CreateFixture(string id, string tagName, TagHelperAttributeList attributes)
+        {
+            return new Fixture
+            {
+                Context = GetTagHelperContext(id, tagName, attributes),
+                Output = GetTagHelperOutput(id, tagName, attributes)
+            };
         }
 
         private static ViewContext GetViewContext()
@@ -109,6 +96,24 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
                 allAttributes: attributes,
                 items: new Dictionary<object, object>(),
                 uniqueId: id);
+        }
+
+        private static TagHelperOutput GetTagHelperOutput(string id, string tagName, TagHelperAttributeList attributes)
+        {
+            return new TagHelperOutput(
+               tagName,
+               attributes: attributes,
+               getChildContentAsync: (useCachedResult, encoder) =>
+               {
+                   var tagHelperContent = new DefaultTagHelperContent();
+                   return Task.FromResult<TagHelperContent>(tagHelperContent);
+               });
+        }
+
+        private class Fixture
+        {
+            public TagHelperContext Context { get; set; } = default!;
+            public TagHelperOutput Output { get; set; } = default!;
         }
     }
 }
