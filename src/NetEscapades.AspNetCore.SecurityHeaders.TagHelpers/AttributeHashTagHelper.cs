@@ -50,7 +50,10 @@ public class AttributeHashTagHelper : TagHelper
         // properly handle null results from ToString()
         var content = targetAttributeValue.Value.ToString();
 
-        var contentBytes = Encoding.UTF8.GetBytes(content!);
+        // the hash is calculated based on unix line endings, not windows endings, so account for that
+        var unixContent = content!.Replace("\r\n", "\n");
+
+        var contentBytes = Encoding.UTF8.GetBytes(unixContent);
         var hashedBytes = sha.ComputeHash(contentBytes);
         var hash = Convert.ToBase64String(hashedBytes);
 
