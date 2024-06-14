@@ -4,7 +4,11 @@
       <![CDATA[
 Features:
 
-* Add support for using both `'none'` and `'report-sample'` in directives
+* Add support for `Cross-Origin-Embedder-Policy: credentialless` #153 (Thanks [RaceProUK](https://github.com/RaceProUK)!)
+
+Bugfix:
+
+* Fix documentation errors in `StyleSourceAttr` and `StyleSourceElem` directives #152 (Thanks [ThomasBjallas](https://github.com/ThomasBjallas)!)
 
 ]]>
     </PackageReleaseNotes>

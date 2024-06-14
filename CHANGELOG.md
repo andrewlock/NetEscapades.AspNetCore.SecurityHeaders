@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.22.0]
+
+Features:
+
+* Add support for `Cross-Origin-Embedder-Policy: credentialless` #153 (Thanks [RaceProUK](https://github.com/RaceProUK)!)
+
+Bugfix:
+
+* Fix documentation errors in `StyleSourceAttr` and `StyleSourceElem` directives #152 (Thanks [ThomasBjallas](https://github.com/ThomasBjallas)!)
+
 ## [v0.21.0]
 
 Features:
