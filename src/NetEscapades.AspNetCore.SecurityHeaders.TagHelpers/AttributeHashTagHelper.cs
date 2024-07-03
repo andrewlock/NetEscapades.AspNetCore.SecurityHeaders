@@ -45,25 +45,25 @@ public class AttributeHashTagHelper : TagHelper
         using var sha = CryptographyAlgorithms.Create(CSPHashType);
 
         var targetAttributeValue = context.AllAttributes[TargetAttributeName];
-
-        // TODO: properly handle Value as object (just ToString?)
-        // properly handle null results from ToString()
-        var content = targetAttributeValue.Value.ToString();
-
-        // the hash is calculated based on unix line endings, not windows endings, so account for that
-        var unixContent = content!.Replace("\r\n", "\n");
-
-        var contentBytes = Encoding.UTF8.GetBytes(unixContent);
-        var hashedBytes = sha.ComputeHash(contentBytes);
-        var hash = Convert.ToBase64String(hashedBytes);
-
-        if (TargetAttributeName == "style")
+        if (targetAttributeValue is not null)
         {
-            ViewContext.HttpContext.SetStylesCSPHash(CSPHashType, hash);
-        }
-        else
-        {
-            ViewContext.HttpContext.SetScriptCSPHash(CSPHashType, hash);
+            var content = targetAttributeValue.Value.ToString();
+
+            // the hash is calculated based on unix line endings, not windows endings, so account for that
+            var unixContent = content!.Replace("\r\n", "\n");
+
+            var contentBytes = Encoding.UTF8.GetBytes(unixContent);
+            var hashedBytes = sha.ComputeHash(contentBytes);
+            var hash = Convert.ToBase64String(hashedBytes);
+
+            if (TargetAttributeName == "style")
+            {
+                ViewContext.HttpContext.SetStylesCSPHash(CSPHashType, hash);
+            }
+            else
+            {
+                ViewContext.HttpContext.SetScriptCSPHash(CSPHashType, hash);
+            }
         }
 
         output.Attributes.RemoveAll(AttributeName);

@@ -103,6 +103,30 @@ background: blue;
         }
 
         [Fact]
+        public async Task ProcessAsync_StyleAttributeTargetingNonExistingAttribute_DoesntAddAndCleansUp()
+        {
+            // Arrange
+            var id = Guid.NewGuid().ToString();
+            var tagName = "div";
+            var cspAttribute = new TagHelperAttribute("asp-add-attribute-to-csp", "style");
+            var fixture = CreateFixture(id, tagName, new([cspAttribute]));
+            var tagHelper = new AttributeHashTagHelper()
+            {
+                TargetAttributeName = "style",
+                CSPHashType = CSPHashType.SHA256,
+                ViewContext = GetViewContext(),
+            };
+
+            // Act
+            await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
+
+            // Assert
+            Assert.Equal(tagName, fixture.Output.TagName);
+            Assert.Empty(fixture.Output.Attributes);
+            Assert.Empty(fixture.Output.Content.GetContent());
+        }
+
+        [Fact]
         public async Task ProcessAsync_InlineScriptAttribute_GeneratesExpectedOutput()
         {
             // Arrange
