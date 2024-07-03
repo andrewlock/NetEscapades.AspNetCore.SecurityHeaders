@@ -38,8 +38,8 @@ public class Startup
                 builder.AddMediaSrc().From("*");
                 builder.AddImgSrc().From("*").Data();
                 builder.AddObjectSrc().From("*");
-                builder.AddScriptSrc().From("*").WithHashTagHelper().WithNonce();
-                builder.AddStyleSrc().From("*").WithHashTagHelper();
+                builder.AddScriptSrc().From("*").WithHashTagHelper().WithNonce().UnsafeHashes();
+                builder.AddStyleSrc().From("*").WithHashTagHelper().UnsafeHashes();
             })
             .RemoveServerHeader();
 
