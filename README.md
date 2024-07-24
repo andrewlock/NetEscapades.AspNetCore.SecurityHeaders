@@ -481,10 +481,16 @@ At runtime, these attributes are removed, but the hash values of the contents ar
 
 ### 5. Whitelist attributes using the TagHelpers
 
-Inline styles, and event handlers don't support nonces, but there is a dedicated tag helper that supports hashing attributes: `AttributeHashTagHelper`. This works the same as the tag helper for elements, but add the `asp-add-attribute-to-csp` attribute with the name of the attribute to hash, like this:
+Inline styles, and event handlers don't support nonces, but there is a dedicated tag helper that supports hashing attributes: `AttributeHashTagHelper`. This works similar as the tag helper for elements, but add the `asp-add-*-to-csp` attribute where `*` is the name of the attribute to hash, like this:
 
 ```html
-<h3 asp-add-attribute-to-csp="style" style="color: red">I will be styled red</h3>
+<h3 asp-add-style-to-csp style="color: red">I will be styled red</h3>
+```
+
+Multiple occurrences of this attribute is supported using different values for `*` in case you need to hash multiple attributes. You can still set the hash type by setting that on the attribute `asp-add-*-to-csp` directly (SHA256, SHA384, and SHA512 are still the valid options here):
+
+```html
+<button asp-add-style-to-csp style="color: red" asp-add-onclick-to-csp="SHA384" onclick="alert('Hello!')">Click me!</button>
 ```
 
 ### Using the generated nonce without a TagHelpers
