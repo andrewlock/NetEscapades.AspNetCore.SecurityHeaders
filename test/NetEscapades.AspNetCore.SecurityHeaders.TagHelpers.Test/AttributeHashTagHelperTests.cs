@@ -34,12 +34,10 @@ background: blue;
             var id = Guid.NewGuid().ToString();
             var tagName = "div";
             var styleAttribute = new TagHelperAttribute("style", inlineStyleSnippet);
-            var cspAttribute = new TagHelperAttribute("asp-add-attribute-to-csp", "style");
+            var cspAttribute = new TagHelperAttribute("asp-add-style-to-csp");
             var fixture = CreateFixture(id, tagName, new([styleAttribute, cspAttribute]));
             var tagHelper = new AttributeHashTagHelper()
             {
-                TargetAttributeName = "style",
-                CSPHashType = CSPHashType.SHA256,
                 ViewContext = GetViewContext(),
             };
 
@@ -59,12 +57,10 @@ background: blue;
             var id = Guid.NewGuid().ToString();
             var tagName = "div";
             var styleAttribute = new TagHelperAttribute("style", inlineStyleSnippet);
-            var cspAttribute = new TagHelperAttribute("asp-add-attribute-to-csp", "style");
+            var cspAttribute = new TagHelperAttribute("asp-add-style-to-csp");
             var fixture = CreateFixture(id, tagName, new([styleAttribute, cspAttribute]));
             var tagHelper = new AttributeHashTagHelper()
             {
-                TargetAttributeName = "style",
-                CSPHashType = CSPHashType.SHA256,
                 ViewContext = GetViewContext(),
             };
 
@@ -84,12 +80,10 @@ background: blue;
             var id = Guid.NewGuid().ToString();
             var tagName = "div";
             var styleAttribute = new TagHelperAttribute("style", inlineMultiLineStyleSnippet);
-            var cspAttribute = new TagHelperAttribute("asp-add-attribute-to-csp", "style");
+            var cspAttribute = new TagHelperAttribute("asp-add-style-to-csp");
             var fixture = CreateFixture(id, tagName, new([styleAttribute, cspAttribute]));
             var tagHelper = new AttributeHashTagHelper()
             {
-                TargetAttributeName = "style",
-                CSPHashType = CSPHashType.SHA256,
                 ViewContext = GetViewContext(),
             };
 
@@ -108,12 +102,10 @@ background: blue;
             // Arrange
             var id = Guid.NewGuid().ToString();
             var tagName = "div";
-            var cspAttribute = new TagHelperAttribute("asp-add-attribute-to-csp", "style");
+            var cspAttribute = new TagHelperAttribute("asp-add-style-to-csp");
             var fixture = CreateFixture(id, tagName, new([cspAttribute]));
             var tagHelper = new AttributeHashTagHelper()
             {
-                TargetAttributeName = "style",
-                CSPHashType = CSPHashType.SHA256,
                 ViewContext = GetViewContext(),
             };
 
@@ -133,12 +125,10 @@ background: blue;
             var id = Guid.NewGuid().ToString();
             var tagName = "div";
             var inlineScriptAttribute = new TagHelperAttribute("onclick", inlineScriptSnippet);
-            var cspAttribute = new TagHelperAttribute("asp-add-attribute-to-csp", "onclick");
+            var cspAttribute = new TagHelperAttribute("asp-add-onclick-to-csp");
             var fixture = CreateFixture(id, tagName, new([inlineScriptAttribute, cspAttribute]));
             var tagHelper = new AttributeHashTagHelper()
             {
-                TargetAttributeName = "onclick",
-                CSPHashType = CSPHashType.SHA256,
                 ViewContext = GetViewContext(),
             };
 
@@ -158,12 +148,10 @@ background: blue;
             var id = Guid.NewGuid().ToString();
             var tagName = "div";
             var inlineScriptAttribute = new TagHelperAttribute("onclick", inlineScriptSnippet);
-            var cspAttribute = new TagHelperAttribute("asp-add-attribute-to-csp", "onclick");
+            var cspAttribute = new TagHelperAttribute("asp-add-onclick-to-csp");
             var fixture = CreateFixture(id, tagName, new([inlineScriptAttribute, cspAttribute]));
             var tagHelper = new AttributeHashTagHelper()
             {
-                TargetAttributeName = "onclick",
-                CSPHashType = CSPHashType.SHA256,
                 ViewContext = GetViewContext(),
             };
 
