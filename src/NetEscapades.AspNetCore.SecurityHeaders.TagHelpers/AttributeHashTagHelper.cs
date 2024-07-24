@@ -35,7 +35,10 @@ public class AttributeHashTagHelper : TagHelper
 
         var cspAttributes = context
             .AllAttributes
-            .Where(a => a.Name.StartsWith(AttributePrefix) && a.Name.EndsWith(AttributeSuffix) && a.Name != "asp-add-content-to-csp")
+            .Where(a =>
+                a.Name.StartsWith(AttributePrefix)
+                && a.Name.EndsWith(AttributeSuffix)
+                && a.Name != HashTagHelper.AttributeName)
             .ToList();
 
         foreach (var cspAttribute in cspAttributes)
