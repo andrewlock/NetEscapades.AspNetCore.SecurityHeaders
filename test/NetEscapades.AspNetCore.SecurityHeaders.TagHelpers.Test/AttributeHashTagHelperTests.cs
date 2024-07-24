@@ -74,6 +74,29 @@ background: blue;
         }
 
         [Fact]
+        public async Task ProcessAsync_StyleAttributeWithExplicitHashType_AddsHashToHttpContext()
+        {
+            // Arrange
+            var id = Guid.NewGuid().ToString();
+            var tagName = "div";
+            var styleAttribute = new TagHelperAttribute("style", inlineStyleSnippet);
+            var cspAttribute = new TagHelperAttribute("asp-add-style-to-csp", "SHA384");
+            var fixture = CreateFixture(id, tagName, new([styleAttribute, cspAttribute]));
+            var tagHelper = new AttributeHashTagHelper()
+            {
+                ViewContext = GetViewContext(),
+            };
+
+            // Act
+            await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
+
+            // Assert
+            var hash = Assert.Single(tagHelper.ViewContext.HttpContext.GetStyleCSPHashes());
+            var expected = "'sha384-YoSV9pxydVBLyyDpluNe9tQWgtUWlnzHS/zCvuNc30tEu0YwLQPRgNAXk+h06DXU'";
+            Assert.Equal(expected, hash);
+        }
+
+        [Fact]
         public async Task ProcessAsync_StyleAttributeWithMultiLine_AddsHashToHttpContext()
         {
             // Arrange
@@ -162,6 +185,44 @@ background: blue;
             var hash = Assert.Single(tagHelper.ViewContext.HttpContext.GetScriptCSPHashes());
             var expected = "'sha256-1lzfyKjJuCLGsHTaOB3al0SElf3ats68l7XOAdrWd+E='";
             Assert.Equal(expected, hash);
+        }
+
+        [Fact]
+        public async Task ProcessAsync_MultipleAttributes_AddsAllHashesToHttpContext()
+        {
+            // Arrange
+            var id = Guid.NewGuid().ToString();
+            var tagName = "div";
+
+            var styleAttribute = new TagHelperAttribute("style", inlineStyleSnippet);
+            var inlineScriptAttribute = new TagHelperAttribute("onclick", inlineScriptSnippet);
+            var cspStyleAttribute = new TagHelperAttribute("asp-add-style-to-csp");
+            var cspScriptAttribute = new TagHelperAttribute("asp-add-onclick-to-csp");
+
+            var fixture = CreateFixture(id, tagName, new(
+            [
+                styleAttribute,
+                inlineScriptAttribute,
+                cspStyleAttribute,
+                cspScriptAttribute
+            ]));
+
+            var tagHelper = new AttributeHashTagHelper()
+            {
+                ViewContext = GetViewContext(),
+            };
+
+            // Act
+            await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
+
+            // Assert
+            var styleHash = Assert.Single(tagHelper.ViewContext.HttpContext.GetStyleCSPHashes());
+            var scriptHash = Assert.Single(tagHelper.ViewContext.HttpContext.GetScriptCSPHashes());
+            var expectedStyleHash = "'sha256-NerDAUWfwD31YdZHveMrq0GLjsNFMwxLpZl0dPUeCcw='";
+            var expectedScriptHash = "'sha256-1lzfyKjJuCLGsHTaOB3al0SElf3ats68l7XOAdrWd+E='";
+
+            Assert.Equal(expectedStyleHash, styleHash);
+            Assert.Equal(expectedScriptHash, scriptHash);
         }
 
         private static Fixture CreateFixture(string id, string tagName, TagHelperAttributeList attributes)
