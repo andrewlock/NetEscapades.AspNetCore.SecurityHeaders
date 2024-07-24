@@ -57,11 +57,10 @@ public class AttributeHashTagHelper : TagHelper
             ? ParseHashType(cspAttribute.Value.ToString())
             : DefaultHashType;
 
-        var sha = CryptographyAlgorithms.Create(cspHashType);
-
         var targetAttributeValue = context.AllAttributes[targetAttributeName];
         if (targetAttributeValue is not null)
         {
+            using var sha = CryptographyAlgorithms.Create(cspHashType);
             var content = targetAttributeValue.Value.ToString();
 
             // the hash is calculated based on unix line endings, not windows endings, so account for that
