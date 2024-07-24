@@ -38,8 +38,7 @@ public class AttributeHashTagHelper : TagHelper
             .Where(a =>
                 a.Name.StartsWith(AttributePrefix)
                 && a.Name.EndsWith(AttributeSuffix)
-                && a.Name != HashTagHelper.AttributeName)
-            .ToList();
+                && a.Name != HashTagHelper.AttributeName);
 
         foreach (var cspAttribute in cspAttributes)
         {

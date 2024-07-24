@@ -35,7 +35,7 @@ background: blue;
             var tagName = "div";
             var styleAttribute = new TagHelperAttribute("style", inlineStyleSnippet);
             var cspAttribute = new TagHelperAttribute("asp-add-style-to-csp");
-            var fixture = CreateFixture(id, tagName, new([styleAttribute, cspAttribute]));
+            var fixture = CreateFixture(id, tagName, styleAttribute, cspAttribute);
             var tagHelper = new AttributeHashTagHelper()
             {
                 ViewContext = GetViewContext(),
@@ -58,7 +58,7 @@ background: blue;
             var tagName = "div";
             var styleAttribute = new TagHelperAttribute("style", inlineStyleSnippet);
             var cspAttribute = new TagHelperAttribute("asp-add-style-to-csp");
-            var fixture = CreateFixture(id, tagName, new([styleAttribute, cspAttribute]));
+            var fixture = CreateFixture(id, tagName, styleAttribute, cspAttribute);
             var tagHelper = new AttributeHashTagHelper()
             {
                 ViewContext = GetViewContext(),
@@ -81,7 +81,7 @@ background: blue;
             var tagName = "div";
             var styleAttribute = new TagHelperAttribute("style", inlineStyleSnippet);
             var cspAttribute = new TagHelperAttribute("asp-add-style-to-csp", "SHA384");
-            var fixture = CreateFixture(id, tagName, new([styleAttribute, cspAttribute]));
+            var fixture = CreateFixture(id, tagName, styleAttribute, cspAttribute);
             var tagHelper = new AttributeHashTagHelper()
             {
                 ViewContext = GetViewContext(),
@@ -104,7 +104,7 @@ background: blue;
             var tagName = "div";
             var styleAttribute = new TagHelperAttribute("style", inlineMultiLineStyleSnippet);
             var cspAttribute = new TagHelperAttribute("asp-add-style-to-csp");
-            var fixture = CreateFixture(id, tagName, new([styleAttribute, cspAttribute]));
+            var fixture = CreateFixture(id, tagName, styleAttribute, cspAttribute);
             var tagHelper = new AttributeHashTagHelper()
             {
                 ViewContext = GetViewContext(),
@@ -126,7 +126,7 @@ background: blue;
             var id = Guid.NewGuid().ToString();
             var tagName = "div";
             var cspAttribute = new TagHelperAttribute("asp-add-style-to-csp");
-            var fixture = CreateFixture(id, tagName, new([cspAttribute]));
+            var fixture = CreateFixture(id, tagName, cspAttribute);
             var tagHelper = new AttributeHashTagHelper()
             {
                 ViewContext = GetViewContext(),
@@ -149,7 +149,7 @@ background: blue;
             var tagName = "div";
             var inlineScriptAttribute = new TagHelperAttribute("onclick", inlineScriptSnippet);
             var cspAttribute = new TagHelperAttribute("asp-add-onclick-to-csp");
-            var fixture = CreateFixture(id, tagName, new([inlineScriptAttribute, cspAttribute]));
+            var fixture = CreateFixture(id, tagName, inlineScriptAttribute, cspAttribute);
             var tagHelper = new AttributeHashTagHelper()
             {
                 ViewContext = GetViewContext(),
@@ -172,7 +172,7 @@ background: blue;
             var tagName = "div";
             var inlineScriptAttribute = new TagHelperAttribute("onclick", inlineScriptSnippet);
             var cspAttribute = new TagHelperAttribute("asp-add-onclick-to-csp");
-            var fixture = CreateFixture(id, tagName, new([inlineScriptAttribute, cspAttribute]));
+            var fixture = CreateFixture(id, tagName, inlineScriptAttribute, cspAttribute);
             var tagHelper = new AttributeHashTagHelper()
             {
                 ViewContext = GetViewContext(),
@@ -199,13 +199,12 @@ background: blue;
             var cspStyleAttribute = new TagHelperAttribute("asp-add-style-to-csp");
             var cspScriptAttribute = new TagHelperAttribute("asp-add-onclick-to-csp");
 
-            var fixture = CreateFixture(id, tagName, new(
-            [
+            var fixture = CreateFixture(id, tagName,
                 styleAttribute,
                 inlineScriptAttribute,
                 cspStyleAttribute,
                 cspScriptAttribute
-            ]));
+            );
 
             var tagHelper = new AttributeHashTagHelper()
             {
@@ -225,12 +224,12 @@ background: blue;
             Assert.Equal(expectedScriptHash, scriptHash);
         }
 
-        private static Fixture CreateFixture(string id, string tagName, TagHelperAttributeList attributes)
+        private static Fixture CreateFixture(string id, string tagName, params TagHelperAttribute[] attributes)
         {
             return new Fixture
             {
-                Context = GetTagHelperContext(id, tagName, attributes),
-                Output = GetTagHelperOutput(id, tagName, attributes)
+                Context = GetTagHelperContext(id, tagName, new(attributes)),
+                Output = GetTagHelperOutput(id, tagName, new(attributes))
             };
         }
 
