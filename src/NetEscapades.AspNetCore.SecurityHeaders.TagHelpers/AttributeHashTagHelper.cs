@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -10,23 +11,13 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers;
 /// <summary>
 /// Generates an hash of style, or inline script attributes
 /// </summary>
-[HtmlTargetElement("*", Attributes = AttributeName)]
+[HtmlTargetElement("*", Attributes = AttributePrefix + "*")]
 public class AttributeHashTagHelper : TagHelper
 {
-    private const string AttributeName = "asp-add-attribute-to-csp";
-    private const string CspHashTypeAttributeName = "csp-hash-type";
+    private const string AttributePrefix = "asp-add-";
+    private const string AttributeSuffix = "-to-csp";
 
-    /// <summary>
-    /// Add a <code>asp-add-attribute-to-csp</code> attribute to the element
-    /// </summary>
-    [HtmlAttributeName(AttributeName)]
-    public string TargetAttributeName { get; set; } = default!;
-
-    /// <summary>
-    /// Add a <code>csp-hash-type</code> attribute to the element
-    /// </summary>
-    [HtmlAttributeName(CspHashTypeAttributeName)]
-    public CSPHashType CSPHashType { get; set; } = CSPHashType.SHA256;
+    private const CSPHashType DefaultHashType = CSPHashType.SHA256;
 
     /// <summary>
     /// Provides access to the <see cref="ViewContext"/>
@@ -42,9 +33,31 @@ public class AttributeHashTagHelper : TagHelper
             throw new InvalidOperationException("ViewContext was null");
         }
 
-        using var sha = CryptographyAlgorithms.Create(CSPHashType);
+        var cspAttributes = context
+            .AllAttributes
+            .Where(a => a.Name.StartsWith(AttributePrefix) && a.Name.EndsWith(AttributeSuffix) && a.Name != "asp-add-content-to-csp")
+            .ToList();
 
-        var targetAttributeValue = context.AllAttributes[TargetAttributeName];
+        foreach (var cspAttribute in cspAttributes)
+        {
+            ProcessAttribute(ViewContext, context, output, cspAttribute);
+        }
+    }
+
+    private void ProcessAttribute(
+        ViewContext viewContext,
+        TagHelperContext context,
+        TagHelperOutput output,
+        TagHelperAttribute cspAttribute)
+    {
+        var targetAttributeName = ParseTargetAttributeName(cspAttribute.Name);
+        var cspHashType = cspAttribute.ValueStyle != HtmlAttributeValueStyle.Minimized
+            ? ParseHashType(cspAttribute.Value.ToString())
+            : DefaultHashType;
+
+        var sha = CryptographyAlgorithms.Create(cspHashType);
+
+        var targetAttributeValue = context.AllAttributes[targetAttributeName];
         if (targetAttributeValue is not null)
         {
             var content = targetAttributeValue.Value.ToString();
@@ -56,17 +69,26 @@ public class AttributeHashTagHelper : TagHelper
             var hashedBytes = sha.ComputeHash(contentBytes);
             var hash = Convert.ToBase64String(hashedBytes);
 
-            if (TargetAttributeName == "style")
+            if (targetAttributeName == "style")
             {
-                ViewContext.HttpContext.SetStylesCSPHash(CSPHashType, hash);
+                viewContext.HttpContext.SetStylesCSPHash(cspHashType, hash);
             }
             else
             {
-                ViewContext.HttpContext.SetScriptCSPHash(CSPHashType, hash);
+                viewContext.HttpContext.SetScriptCSPHash(cspHashType, hash);
             }
         }
 
-        output.Attributes.RemoveAll(AttributeName);
-        output.Attributes.RemoveAll(CspHashTypeAttributeName);
+        output.Attributes.RemoveAll(cspAttribute.Name);
     }
+
+    private string ParseTargetAttributeName(string cspAttributeName)
+        => cspAttributeName
+            .Replace(AttributePrefix, string.Empty)
+            .Replace(AttributeSuffix, string.Empty);
+
+    private CSPHashType ParseHashType(string? hashTypeText)
+        => Enum.TryParse<CSPHashType>(hashTypeText, out var hashType)
+            ? hashType
+            : DefaultHashType;
 }
