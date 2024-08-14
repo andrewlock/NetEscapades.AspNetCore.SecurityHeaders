@@ -64,16 +64,14 @@ public class SecurityHeadersMiddleware
             context.SetNonce(_nonceGenerator.GetNonce(Constants.DefaultBytesInNonce));
         }
 
-        context.Response.OnStarting(OnResponseStarting, Tuple.Create(this, context, _policy));
+        context.Response.OnStarting(() => OnResponseStarting(context));
         await _next(context);
     }
 
-    private static Task OnResponseStarting(object state)
+    private Task OnResponseStarting(HttpContext context)
     {
-        var (middleware, context, policy) = (Tuple<SecurityHeadersMiddleware, HttpContext, HeaderPolicyCollection>)state;
-
-        var result = middleware.CustomHeaderService.EvaluatePolicy(context, policy);
-        middleware.CustomHeaderService.ApplyResult(context.Response, result);
+        var result = CustomHeaderService.EvaluatePolicy(context, _policy);
+        CustomHeaderService.ApplyResult(context.Response, result);
 
 #if NET451
             return Task.FromResult(true);
