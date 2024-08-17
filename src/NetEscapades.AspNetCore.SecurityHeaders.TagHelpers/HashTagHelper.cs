@@ -15,11 +15,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers;
 [HtmlTargetElement("style", Attributes = AttributeName)]
 public class HashTagHelper : TagHelper
 {
-    /// <summary>
-    /// Target attribute for this tag helper
-    /// </summary>
-    internal const string AttributeName = "asp-add-content-to-csp";
-
+    private const string AttributeName = "asp-add-content-to-csp";
     private const string CspHashTypeAttributeName = "csp-hash-type";
 
     /// <summary>
