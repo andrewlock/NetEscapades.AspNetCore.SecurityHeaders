@@ -14,8 +14,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers;
 [HtmlTargetElement("*", Attributes = AttributePrefix + "*")]
 public class AttributeHashTagHelper : TagHelper
 {
-    private const string AttributePrefix = "asp-add-";
-    private const string AttributeSuffix = "-to-csp";
+    private const string AttributePrefix = "asp-add-csp-for-";
 
     private const CSPHashType DefaultHashType = CSPHashType.SHA256;
 
@@ -36,9 +35,7 @@ public class AttributeHashTagHelper : TagHelper
         var cspAttributes = context
             .AllAttributes
             .Where(a =>
-                a.Name.StartsWith(AttributePrefix)
-                && a.Name.EndsWith(AttributeSuffix)
-                && a.Name != "asp-add-content-to-csp");
+                a.Name.StartsWith(AttributePrefix));
 
         foreach (var cspAttribute in cspAttributes)
         {
@@ -84,9 +81,7 @@ public class AttributeHashTagHelper : TagHelper
     }
 
     private string ParseTargetAttributeName(string cspAttributeName)
-        => cspAttributeName
-            .Replace(AttributePrefix, string.Empty)
-            .Replace(AttributeSuffix, string.Empty);
+        => cspAttributeName.Replace(AttributePrefix, string.Empty);
 
     private CSPHashType ParseHashType(string? hashTypeText)
         => Enum.TryParse<CSPHashType>(hashTypeText, out var hashType)
