@@ -430,7 +430,7 @@ Add the following to the *_ViewImports.cshtml* file in your application. This ma
 @addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
 ```
 
-### 4. Whitelist elements, and attributes using the TagHelpers
+### 4. Whitelist elements using the TagHelpers
 
 Add the `NonceTagHelper` to an element by adding the `asp-add-nonce` attribute.
 
@@ -481,7 +481,7 @@ At runtime, these attributes are removed, but the hash values of the contents ar
 
 ### 5. Whitelist attributes using the TagHelpers
 
-Inline styles, and event handlers don't support nonces, but there is a dedicated tag helper that supports hashing attributes: `AttributeHashTagHelper`. This works similar as the tag helper for elements, but add the `asp-add-*-to-csp` attribute where `*` is the name of the attribute to hash, like this:
+Inline styles, and event handlers don't support nonces, but there is a dedicated tag helper that supports hashing attributes: `AttributeHashTagHelper`. This works similar to the tag helper for elements, but add the `asp-add-*-to-csp` attribute where `*` is the name of the attribute to hash, like this:
 
 ```html
 <h3 asp-add-style-to-csp style="color: red">I will be styled red</h3>
