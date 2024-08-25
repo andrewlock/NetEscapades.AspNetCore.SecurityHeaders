@@ -32,10 +32,9 @@ public class ScriptSourceDirectiveBuilder : CspDirectiveBuilder
     public ScriptSourceDirectiveBuilder WithHashTagHelper()
     {
         // TODO: check hash algorithm is one of expected values
-        SourceBuilders.Add(ctx =>
-        {
-            return string.Join(" ", ctx.GetScriptCSPHashes());
-        });
+        SourceBuilders.Add(
+            ctx => string.Join(" ", ctx.GetScriptCSPHashes()),
+            $"{nameof(ScriptSourceDirectiveBuilder)}.{nameof(WithHashTagHelper)}");
         return this;
     }
 }
