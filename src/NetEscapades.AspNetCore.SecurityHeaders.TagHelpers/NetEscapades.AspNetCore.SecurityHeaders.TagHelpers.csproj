@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <Description>Tag Helpers for the ASP.NET Core Security Headers middleware for adding Nonces for use with SecurityHeadersMiddleware</Description>
-        <TargetFrameworks>netstandard2.0;netcoreapp3.0;</TargetFrameworks>
+        <TargetFrameworks>netcoreapp2.1;netcoreapp3.0;</TargetFrameworks>
         <NoWarn>$(NoWarn)</NoWarn>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -23,14 +23,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-        <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="all">
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="all">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
         </PackageReference>
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0'">
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.1.0" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
