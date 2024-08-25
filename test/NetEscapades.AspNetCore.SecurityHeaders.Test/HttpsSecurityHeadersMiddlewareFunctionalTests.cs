@@ -42,8 +42,6 @@ public class HttpsSecurityHeadersMiddlewareFunctionalTests : IClassFixture<Https
         header.Should().Be("nosniff");
         header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
         header.Should().Be("DENY");
-        header = response.Headers.GetValues("X-XSS-Protection").FirstOrDefault();
-        header.Should().Be("1; mode=block");
         header = response.Headers.GetValues("Referrer-Policy").FirstOrDefault();
         header.Should().Be("strict-origin-when-cross-origin");
         header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();

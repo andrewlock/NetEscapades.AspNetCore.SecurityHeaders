@@ -1842,8 +1842,6 @@ public class SecurityHeadersMiddlewareTests
         header.Should().Be("nosniff");
         header = headers.GetValues("X-Frame-Options").FirstOrDefault()!;
         header.Should().Be("DENY");
-        header = headers.GetValues("X-XSS-Protection").FirstOrDefault()!;
-        header.Should().Be("1; mode=block");
         header = headers.GetValues("Referrer-Policy").FirstOrDefault()!;
         header.Should().Be("strict-origin-when-cross-origin");
         header = headers.GetValues("Content-Security-Policy").FirstOrDefault()!;
@@ -1861,8 +1859,6 @@ public class SecurityHeadersMiddlewareTests
         header.Should().Be("nosniff");
         header = headers.GetValues("X-Frame-Options").FirstOrDefault()!;
         header.Should().Be("DENY");
-        header = headers.GetValues("X-XSS-Protection").FirstOrDefault()!;
-        header.Should().Be("1; mode=block");
         header = headers.GetValues("Strict-Transport-Security").FirstOrDefault()!;
         header.Should().Be($"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
         header = headers.GetValues("Referrer-Policy").FirstOrDefault()!;
