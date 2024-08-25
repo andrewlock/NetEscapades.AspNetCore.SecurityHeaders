@@ -30,7 +30,6 @@ public static class HeaderPolicyCollectionExtensions
     public static HeaderPolicyCollection AddDefaultSecurityHeaders(this HeaderPolicyCollection policies)
     {
         policies.AddFrameOptionsDeny();
-        policies.AddXssProtectionBlock();
         policies.AddContentTypeOptionsNoSniff();
         policies.AddStrictTransportSecurityMaxAge();
         policies.AddReferrerPolicyStrictOriginWhenCrossOrigin();
