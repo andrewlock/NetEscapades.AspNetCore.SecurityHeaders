@@ -412,7 +412,7 @@ public void Configure(IApplicationBuilder app)
             builder.AddStyleSrc() // style-src 'self' 'strict-dynamic' 'sha256-<base64-value>'
                 .Self()
                 .StrictDynamic()
-                .WithHashTagHelper().UnsafeHashes(); // Allow whitelsited elements based on their SHA256 hash value
+                .WithHashTagHelper().UnsafeHashes(); // Allow allowlisted elements based on their SHA256 hash value
         })
         .AddCustomHeader("X-My-Test-Header", "Header value");
 
@@ -492,6 +492,8 @@ Multiple occurrences of this attribute is supported using different values for `
 ```html
 <button asp-add-csp-for-style style="color: red" asp-add-csp-for-onclick="SHA384" onclick="alert('Hello!')">Click me!</button>
 ```
+
+At runtime, these attributes are removed, but the hash values of the contents are added to the `Content-Security-Policy header`.
 
 ### Using the generated nonce without a TagHelpers
 

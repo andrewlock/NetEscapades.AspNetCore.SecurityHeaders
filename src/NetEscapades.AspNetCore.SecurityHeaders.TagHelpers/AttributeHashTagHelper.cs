@@ -32,14 +32,12 @@ public class AttributeHashTagHelper : TagHelper
             throw new InvalidOperationException("ViewContext was null");
         }
 
-        var cspAttributes = context
-            .AllAttributes
-            .Where(a =>
-                a.Name.StartsWith(AttributePrefix));
-
-        foreach (var cspAttribute in cspAttributes)
+        foreach (var cspAttribute in context.AllAttributes)
         {
-            ProcessAttribute(ViewContext, context, output, cspAttribute);
+            if (cspAttribute.Name.StartsWith(AttributePrefix))
+            {
+                ProcessAttribute(ViewContext, context, output, cspAttribute);
+            }
         }
     }
 
@@ -81,7 +79,7 @@ public class AttributeHashTagHelper : TagHelper
     }
 
     private string ParseTargetAttributeName(string cspAttributeName)
-        => cspAttributeName.Replace(AttributePrefix, string.Empty);
+        => cspAttributeName.Substring(AttributePrefix.Length);
 
     private CSPHashType ParseHashType(string? hashTypeText)
         => Enum.TryParse<CSPHashType>(hashTypeText, out var hashType)
