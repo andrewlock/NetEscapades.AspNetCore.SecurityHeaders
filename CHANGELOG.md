@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.23.0]
+
+Features:
+
+* Add support for `unsafe-hashes` on `style` attributes, and inline event handlers #162 (Thanks [@tiesmaster](https://github.com/tiesmaster)!)
+
 ## [v0.22.0]
 
 Features:

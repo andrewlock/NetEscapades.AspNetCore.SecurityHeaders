@@ -1,15 +1,10 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.21.0'">
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.23.0'">
       <![CDATA[
 Features:
 
-* Add support for `Cross-Origin-Embedder-Policy: credentialless` #153 (Thanks [RaceProUK](https://github.com/RaceProUK)!)
-
-Bugfix:
-
-* Fix documentation errors in `StyleSourceAttr` and `StyleSourceElem` directives #152 (Thanks [ThomasBjallas](https://github.com/ThomasBjallas)!)
-
+* Add support for `unsafe-hashes` on `style` attributes, and inline event handlers #162 (Thanks [@tiesmaster](https://github.com/tiesmaster)!)
 ]]>
     </PackageReleaseNotes>
      <PackageReleaseNotes>$(PackageReleaseNotes)
