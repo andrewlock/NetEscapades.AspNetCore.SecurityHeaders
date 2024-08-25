@@ -40,7 +40,7 @@ public static class HttpContextExtensions
     /// Adds a CSP hash to the collection of sources for script-src
     /// </summary>
     /// <param name="context">The <see cref="HttpContext"/> for the request</param>
-    /// <param name="algorithm">The algorithm used to calcualte the hash</param>
+    /// <param name="algorithm">The algorithm used to calculate the hash</param>
     /// <param name="hash">The hash generated from the content</param>
     public static void SetScriptCSPHash(this HttpContext context, CSPHashType algorithm, string hash)
     {
@@ -51,7 +51,7 @@ public static class HttpContextExtensions
     /// Adds a CSP hash to the collection of sources for style-src
     /// </summary>
     /// <param name="context">The <see cref="HttpContext"/> for the request</param>
-    /// <param name="algorithm">The algorithm used to calcualte the hash</param>
+    /// <param name="algorithm">The algorithm used to calculate the hash</param>
     /// <param name="hash">The hash generated from the content</param>
     public static void SetStylesCSPHash(this HttpContext context, CSPHashType algorithm, string hash)
     {

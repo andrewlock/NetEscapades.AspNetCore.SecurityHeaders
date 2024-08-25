@@ -362,7 +362,7 @@ public void Configure(IApplicationBuilder app)
 
 The use of a secure Content-Security-Policy can sometimes be problematic when you need to include inline-scripts, styles, or other objects that haven't been whitelisted. You can achieve this in two ways - using a "nonce" (or "number-used-once"), or specifying the hash of the content to include. 
 
-To help with this you can install the NetEscapades.AspNetCore.SecurityHeaders.TagHelpers package, which provides helpers for generating a nonce per request, which is attached to the HTML element, and included in the CSP header. A similar method helper exists for `<style>` and `<script>` tags, which will take a SHA256 hash of the contents of the HTML element and add it to the CSP whitelist.
+To help with this you can install the NetEscapades.AspNetCore.SecurityHeaders.TagHelpers package, which provides helpers for generating a nonce per request, which is attached to the HTML element, and included in the CSP header. A similar method helper exists for `<style>` and `<script>` tags, which will take a SHA256 hash of the contents of the HTML element and add it to the CSP whitelist. For _inline styles_, and inline event handlers, there is an helper that supports generating hashes for the contents of such attribute.
 
 To use a nonce or an auto-generated hash with your ASP.NET Core application, use the following steps.
 
@@ -412,7 +412,7 @@ public void Configure(IApplicationBuilder app)
             builder.AddStyleSrc() // style-src 'self' 'strict-dynamic' 'sha256-<base64-value>'
                 .Self()
                 .StrictDynamic()
-                .WithHashTagHelper(); // Allow whitelsited elements based on their SHA256 hash value
+                .WithHashTagHelper().UnsafeHashes(); // Allow allowlisted elements based on their SHA256 hash value
         })
         .AddCustomHeader("X-My-Test-Header", "Header value");
 
@@ -475,6 +475,22 @@ To use a whitelisted hash instead, use the `HashTagHelper`, by adding the `asp-a
     color: @color;
 }  
 </style>
+```
+
+At runtime, these attributes are removed, but the hash values of the contents are added to the `Content-Security-Policy header`.
+
+### 5. Whitelist attributes using the TagHelpers
+
+Inline styles, and event handlers don't support nonces, but there is a dedicated tag helper that supports hashing attributes: `AttributeHashTagHelper`. This works similar to the tag helper for elements, but add the `asp-add-csp-for-*` attribute where `*` is the name of the attribute to hash, like this:
+
+```html
+<h3 asp-add-csp-for-style style="color: red">I will be styled red</h3>
+```
+
+Multiple occurrences of this attribute is supported using different values for `*` in case you need to hash multiple attributes. You can still set the hash type by setting that on the attribute `asp-add-csp-for-*` directly (SHA256, SHA384, and SHA512 are still the valid options here):
+
+```html
+<button asp-add-csp-for-style style="color: red" asp-add-csp-for-onclick="SHA384" onclick="alert('Hello!')">Click me!</button>
 ```
 
 At runtime, these attributes are removed, but the hash values of the contents are added to the `Content-Security-Policy header`.

@@ -29,7 +29,7 @@ public class Startup
             .AddContentSecurityPolicy(builder =>
             {
                 builder.AddUpgradeInsecureRequests();
-                builder.AddDefaultSrc().Self(); 
+                builder.AddDefaultSrc().Self();
                 builder.AddConnectSrc().From("*");
                 builder.AddFontSrc().From("*");
                 builder.AddFrameAncestors().From("*");
@@ -38,8 +38,8 @@ public class Startup
                 builder.AddMediaSrc().From("*");
                 builder.AddImgSrc().From("*").Data();
                 builder.AddObjectSrc().From("*");
-                builder.AddScriptSrc().From("*").UnsafeInline().UnsafeEval();
-                builder.AddStyleSrc().From("*").UnsafeEval().UnsafeInline();
+                builder.AddScriptSrc().From("*").WithHashTagHelper().WithNonce().UnsafeHashes();
+                builder.AddStyleSrc().From("*").WithHashTagHelper().UnsafeHashes();
             })
             .RemoveServerHeader();
 

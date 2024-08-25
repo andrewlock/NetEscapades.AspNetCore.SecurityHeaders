@@ -27,7 +27,7 @@ public abstract class CrossOriginPolicyBuilder
     /// Adds a directive for the cross origin policy
     /// </summary>
     /// <typeparam name="T">The type of the directive</typeparam>
-    /// <param name="directive">The directive corresponding the the concrete implementation of the cross origin policy.</param>
+    /// <param name="directive">The directive corresponding the concrete implementation of the cross origin policy.</param>
     /// <returns>A configured <see cref="CrossOriginPolicyDirectiveBuilderBase"/> implementation.</returns>
     protected T AddDirective<T>(T directive) where T : CrossOriginPolicyDirectiveBuilderBase
     {

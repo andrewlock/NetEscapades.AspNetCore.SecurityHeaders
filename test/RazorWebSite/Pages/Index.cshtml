@@ -12,6 +12,10 @@
 
 <h3 id="message">Haha, malicious javascript blocked!</h3>
 
+<h3 asp-add-csp-for-style style="color: red">Red: inline style working; Black: inline style blocked!</h3>
+
+<button asp-add-csp-for-onclick="SHA384" onclick="alert('JS event handler is allowed by CSP unsafe-hashes')">Click me!</button>
+
 <script asp-add-content-to-csp>
     var msg = document.getElementById('message');
     msg.innerText = "@message";

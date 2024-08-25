@@ -19,7 +19,7 @@ public class HashTagHelper : TagHelper
     private const string CspHashTypeAttributeName = "csp-hash-type";
 
     /// <summary>
-    /// Add a <code>nonce</code> attribute to the element
+    /// Add a <code>csp-hash-type</code> attribute to the element
     /// </summary>
     [HtmlAttributeName(CspHashTypeAttributeName)]
     public CSPHashType CSPHashType { get; set; } = CSPHashType.SHA256;
