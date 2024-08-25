@@ -1838,15 +1838,15 @@ public class SecurityHeadersMiddlewareTests
 
     private static void AssertHttpRequestDefaultSecurityHeaders(HttpResponseHeaders headers)
     {
-        string header = headers.GetValues("X-Content-Type-Options").FirstOrDefault();
+        string header = headers.GetValues("X-Content-Type-Options").FirstOrDefault()!;
         header.Should().Be("nosniff");
-        header = headers.GetValues("X-Frame-Options").FirstOrDefault();
+        header = headers.GetValues("X-Frame-Options").FirstOrDefault()!;
         header.Should().Be("DENY");
-        header = headers.GetValues("X-XSS-Protection").FirstOrDefault();
+        header = headers.GetValues("X-XSS-Protection").FirstOrDefault()!;
         header.Should().Be("1; mode=block");
-        header = headers.GetValues("Referrer-Policy").FirstOrDefault();
+        header = headers.GetValues("Referrer-Policy").FirstOrDefault()!;
         header.Should().Be("strict-origin-when-cross-origin");
-        header = headers.GetValues("Content-Security-Policy").FirstOrDefault();
+        header = headers.GetValues("Content-Security-Policy").FirstOrDefault()!;
         header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
 
         Assert.False(headers.Contains("Server"),
@@ -1857,17 +1857,17 @@ public class SecurityHeadersMiddlewareTests
 
     private static void AssertSecureRequestDefaultSecurityHeaders(HttpResponseHeaders headers)
     {
-        string header = headers.GetValues("X-Content-Type-Options").FirstOrDefault();
+        string header = headers.GetValues("X-Content-Type-Options").FirstOrDefault()!;
         header.Should().Be("nosniff");
-        header = headers.GetValues("X-Frame-Options").FirstOrDefault();
+        header = headers.GetValues("X-Frame-Options").FirstOrDefault()!;
         header.Should().Be("DENY");
-        header = headers.GetValues("X-XSS-Protection").FirstOrDefault();
+        header = headers.GetValues("X-XSS-Protection").FirstOrDefault()!;
         header.Should().Be("1; mode=block");
-        header = headers.GetValues("Strict-Transport-Security").FirstOrDefault();
+        header = headers.GetValues("Strict-Transport-Security").FirstOrDefault()!;
         header.Should().Be($"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
-        header = headers.GetValues("Referrer-Policy").FirstOrDefault();
+        header = headers.GetValues("Referrer-Policy").FirstOrDefault()!;
         header.Should().Be("strict-origin-when-cross-origin");
-        header = headers.GetValues("Content-Security-Policy").FirstOrDefault();
+        header = headers.GetValues("Content-Security-Policy").FirstOrDefault()!;
         header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
 
         Assert.False(headers.Contains("Server"),

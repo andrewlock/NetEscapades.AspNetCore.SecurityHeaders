@@ -39,8 +39,9 @@ jobs:
           dotnet-version: | 
             2.1.x
             3.0.x
+            3.1.x
             6.0.x
-            8.0.303
+            8.0.401
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v2
         with:
@@ -68,8 +69,9 @@ jobs:
           dotnet-version: | 
             2.1.x
             3.0.x
+            3.1.x
             6.0.x
-            8.0.303
+            8.0.401
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v2
         with:
@@ -97,8 +99,9 @@ jobs:
           dotnet-version: | 
             2.1.x
             3.0.x
+            3.1.x
             6.0.x
-            8.0.303
+            8.0.401
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v2
         with:
