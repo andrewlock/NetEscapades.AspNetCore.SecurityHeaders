@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.1;netcoreapp3.0;netcoreapp3.1;net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net6.0;net8.0</TargetFrameworks>
     <AssemblyName>SecurityHeadersMiddlewareWebSite</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>SecurityHeadersMiddlewareWebSite</PackageId>
@@ -9,13 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\NetEscapades.AspNetCore.SecurityHeaders\NetEscapades.AspNetCore.SecurityHeaders.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.1.0" />
   </ItemGroup>
 
 </Project>
