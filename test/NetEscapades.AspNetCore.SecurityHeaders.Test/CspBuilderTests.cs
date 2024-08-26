@@ -19,6 +19,18 @@ public class CspBuilderTests
     }
 
     [Fact]
+    public void Build_WhenAddingTheSameValue_DoesntAddTheSecondValue()
+    {
+        var builder = new CspBuilder();
+
+        builder.AddDefaultSrc().Self().Self().Self();
+        
+        var result = builder.Build();
+
+        result.ConstantValue.Should().Be("default-src 'self'");
+    }
+
+    [Fact]
     public void Build_WhenNoValues_HasPerRequestValuesReturnsFalse()
     {
         var builder = new CspBuilder();
@@ -572,5 +584,40 @@ public class CspBuilderTests
         var csp = result.Builder(httpContext);
 
         csp.Should().Be($"script-src 'nonce-{nonce}'; style-src 'nonce-{nonce}'; test-directive 'nonce-{nonce}'");
+    }
+
+    [Fact]
+    public void Builder_WhenCallingWithNonceTwice_OnlyAddsNonceToCSPOnce()
+    {
+        var builder = new CspBuilder();
+        builder.AddScriptSrc().WithNonce().WithNonce();
+
+        var result = builder.Build();
+
+        var httpContext = new DefaultHttpContext();
+        var nonce = "ABC123";
+        httpContext.SetNonce(nonce);
+
+        var csp = result.Builder(httpContext);
+
+        csp.Should().Be($"script-src 'nonce-{nonce}'");
+    }
+
+    [Fact]
+    public void Builder_WhenCallingWithNonceOnDifferentDirectives_AddsNoneForBoth()
+    {
+        var builder = new CspBuilder();
+        builder.AddScriptSrc().WithNonce().WithNonce();
+        builder.AddStyleSrc().WithNonce().WithNonce();
+
+        var result = builder.Build();
+
+        var httpContext = new DefaultHttpContext();
+        var nonce = "ABC123";
+        httpContext.SetNonce(nonce);
+
+        var csp = result.Builder(httpContext);
+
+        csp.Should().Be($"script-src 'nonce-{nonce}'; style-src 'nonce-{nonce}'");
     }
 }

@@ -21,7 +21,7 @@ public class FrameAncestorsDirectiveBuilder : CspDirectiveBuilderBase
     /// <summary>
     /// The sources from which the directive is allowed.
     /// </summary>
-    public List<string> Sources { get; } = new List<string>();
+    public SourceCollection Sources { get; } = new();
 
     /// <summary>
     /// If true, no sources are allowed.

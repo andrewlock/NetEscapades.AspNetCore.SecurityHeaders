@@ -251,7 +251,9 @@ public static class CspDirectiveBuilderExtensions
     public static T WithNonce<T>(this T builder) where T : CspDirectiveBuilder
     {
         // The format parameter will be replaced with the nonce for each request
-        builder.SourceBuilders.Add(ctx => $"'nonce-{ctx.GetNonce()}'");
+        builder.SourceBuilders.Add(
+            ctx => $"'nonce-{ctx.GetNonce()}'",
+            $"{typeof(T).FullName}.{nameof(WithNonce)}");
         return builder;
     }
 }
