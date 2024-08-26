@@ -22,10 +22,9 @@ public class SecurityHeadersMiddleware
     /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.
     /// </summary>
     /// <param name="next">The next middleware in the pipeline.</param>
-    /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
     /// <param name="policies">A <see cref="HeaderPolicyCollection"/> containing the policies to be applied.</param>
-    public SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policies)
-        : this(next, service, policies, new NonceGenerator())
+    public SecurityHeadersMiddleware(RequestDelegate next, HeaderPolicyCollection policies)
+        : this(next, policies, new NonceGenerator())
     {
         _mustGenerateNonce = MustGenerateNonce(_policy);
     }
@@ -34,18 +33,14 @@ public class SecurityHeadersMiddleware
     /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.
     /// </summary>
     /// <param name="next">The next middleware in the pipeline.</param>
-    /// <param name="service">An instance of <see cref="ICustomHeaderService"/>.</param>
     /// <param name="policies">A <see cref="HeaderPolicyCollection"/> containing the policies to be applied.</param>
     /// <param name="nonceGenerator">Used to generate nonce (number used once) values for headers</param>
-    internal SecurityHeadersMiddleware(RequestDelegate next, ICustomHeaderService service, HeaderPolicyCollection policies, NonceGenerator nonceGenerator)
+    internal SecurityHeadersMiddleware(RequestDelegate next, HeaderPolicyCollection policies, NonceGenerator nonceGenerator)
     {
         _next = next ?? throw new ArgumentNullException(nameof(next));
-        CustomHeaderService = service ?? throw new ArgumentNullException(nameof(service));
         _policy = policies ?? throw new ArgumentNullException(nameof(policies));
         _nonceGenerator = nonceGenerator ?? throw new ArgumentException(nameof(nonceGenerator));
     }
-
-    private ICustomHeaderService CustomHeaderService { get; }
 
     /// <summary>
     /// Invoke the middleware
@@ -64,16 +59,16 @@ public class SecurityHeadersMiddleware
             context.SetNonce(_nonceGenerator.GetNonce(Constants.DefaultBytesInNonce));
         }
 
-        context.Response.OnStarting(OnResponseStarting, Tuple.Create(this, context, _policy));
+        context.Response.OnStarting(OnResponseStarting, Tuple.Create(context, _policy));
         await _next(context);
     }
 
     private static Task OnResponseStarting(object state)
     {
-        var (middleware, context, policy) = (Tuple<SecurityHeadersMiddleware, HttpContext, HeaderPolicyCollection>)state;
+        var (context, policy) = (Tuple<HttpContext, HeaderPolicyCollection>)state;
 
-        var result = middleware.CustomHeaderService.EvaluatePolicy(context, policy);
-        middleware.CustomHeaderService.ApplyResult(context.Response, result);
+        var result = CustomHeaderService.EvaluatePolicy(context, policy);
+        CustomHeaderService.ApplyResult(context.Response, result);
 
         return Task.CompletedTask;
     }

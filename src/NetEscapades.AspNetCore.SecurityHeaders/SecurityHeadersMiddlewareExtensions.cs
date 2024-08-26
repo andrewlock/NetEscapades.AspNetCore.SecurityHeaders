@@ -28,9 +28,7 @@ public static class SecurityHeadersMiddlewareExtensions
             throw new ArgumentNullException(nameof(policies));
         }
 
-        var service = app.ApplicationServices.GetService(typeof(ICustomHeaderService)) ?? new CustomHeaderService();
-
-        return app.UseMiddleware<SecurityHeadersMiddleware>(service, policies);
+        return app.UseMiddleware<SecurityHeadersMiddleware>(policies);
     }
 
     /// <summary>
