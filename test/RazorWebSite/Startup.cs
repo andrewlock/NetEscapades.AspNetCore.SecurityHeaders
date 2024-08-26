@@ -38,7 +38,12 @@ public class Startup
                 builder.AddMediaSrc().From("*");
                 builder.AddImgSrc().From("*").Data();
                 builder.AddObjectSrc().From("*");
-                builder.AddScriptSrc().From("*").WithHashTagHelper().WithNonce().UnsafeHashes();
+                builder.AddScriptSrc().From("*")
+                    .WithHashTagHelper()
+                    .WithNonce()
+                    .UnsafeHashes()
+                    .WithHash256("j/kWZ/y+DZQOTLHQxWwAAu/hg+GGWVXxmPixUq26wnc=") // Allow the jquery asp-fallback-test script element
+                    .WithHash256("WuuOVwpUdf7Fb0r2WZxkqiv5V457zV2zpgSjN0Jy63Q="); // Allow the bootstrap asp-fallback-test script element
                 builder.AddStyleSrc().From("*").WithHashTagHelper().UnsafeHashes();
             })
             .RemoveServerHeader();
