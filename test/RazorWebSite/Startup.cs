@@ -10,11 +10,7 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-#pragma warning disable 618 // Version_2_1 is obsolete
-#pragma warning disable ASP5001
-        services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-#pragma warning restore ASP5001
-#pragma warning restore 618
+        services.AddMvc();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,11 +50,7 @@ public class Startup
         app.UseSecurityHeaders(policyCollection);
 
         app.UseStaticFiles();
-#if NETCOREAPP3_0_OR_GREATER
-            app.UseRouting();
-            app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
-#else
-        app.UseMvc();
-#endif
+        app.UseRouting();
+        app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
     }
 }

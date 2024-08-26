@@ -1,13 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.1;netcoreapp3.0;netcoreapp3.1;net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net6.0;net8.0</TargetFrameworks>
   </PropertyGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.1'">
-    <PackageReference Include="Microsoft.AspNetCore.App"  />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\NetEscapades.AspNetCore.SecurityHeaders.TagHelpers\NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.csproj" />

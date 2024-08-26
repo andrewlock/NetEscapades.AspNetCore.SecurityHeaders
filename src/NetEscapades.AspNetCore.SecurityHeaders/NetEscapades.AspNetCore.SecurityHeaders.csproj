@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>Middleware for ASP.NET Core to automatically add security headers to requests.</Description>
-    <TargetFrameworks>netcoreapp2.1;netcoreapp3.0;</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;</TargetFrameworks>
     <NoWarn>$(NoWarn)</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
