@@ -34,10 +34,9 @@ public class StyleSourceElemDirectiveBuilder : CspDirectiveBuilder
     public StyleSourceElemDirectiveBuilder WithHashTagHelper()
     {
         // TODO: check hash algorithm is one of expected values
-        SourceBuilders.Add(ctx =>
-        {
-            return string.Join(" ", ctx.GetStyleCSPHashes());
-        });
+        SourceBuilders.Add(
+            ctx => string.Join(" ", ctx.GetStyleCSPHashes()),
+            $"{nameof(StyleSourceElemDirectiveBuilder)}.{nameof(WithHashTagHelper)}");
         return this;
     }
 }

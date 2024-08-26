@@ -23,13 +23,13 @@ public class CspDirectiveBuilder : CspDirectiveBuilderBase
     /// <summary>
     /// The sources from which the directive is allowed.
     /// </summary>
-    public List<string> Sources { get; } = new List<string>();
+    public SourceCollection Sources { get; } = new();
 
     /// <summary>
     /// A collection of functions which is used to generate the sources for which a directive is
     /// allowed for a given request
     /// </summary>
-    internal List<Func<HttpContext, string>> SourceBuilders { get; } = new List<Func<HttpContext, string>>();
+    internal SourceBuilderCollection SourceBuilders { get; } = new();
 
     /// <summary>
     /// If true, the header directives are unique per request, and require
@@ -53,8 +53,8 @@ public class CspDirectiveBuilder : CspDirectiveBuilderBase
         if (BlockResources)
         {
             return MustReportSample
-                ? ctx => GetPolicy("'report-sample' 'none'")
-                : ctx => GetPolicy("'none'");
+                ? _ => GetPolicy("'report-sample' 'none'")
+                : _ => GetPolicy("'none'");
         }
 
         var sources = string.Join(Separator, Sources);
@@ -62,16 +62,14 @@ public class CspDirectiveBuilder : CspDirectiveBuilderBase
         if (!HasPerRequestValues)
         {
             var directive = GetPolicy(sources);
-            return ctx => directive;
+            return _ => directive;
         }
 
-        var builders = SourceBuilders;
+        // Copy, so calls to CreateBuilder are idempotent
+        var builders = SourceBuilders.ToList();
 
         if (!string.IsNullOrEmpty(sources))
         {
-            // Copy, so calls to CreateBuilder are idempotent
-            builders = SourceBuilders.ToList();
-
             // insert the constant sources first, just for aesthetics
             builders.Insert(0, ctx => sources);
         }
