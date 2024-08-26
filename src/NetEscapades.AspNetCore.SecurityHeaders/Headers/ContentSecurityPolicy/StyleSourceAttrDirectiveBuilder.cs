@@ -33,10 +33,9 @@ public class StyleSourceAttrDirectiveBuilder : CspDirectiveBuilder
     public StyleSourceAttrDirectiveBuilder WithHashTagHelper()
     {
         // TODO: check hash algorithm is one of expected values
-        SourceBuilders.Add(ctx =>
-        {
-            return string.Join(" ", ctx.GetStyleCSPHashes());
-        });
+        SourceBuilders.Add(
+            ctx => string.Join(" ", ctx.GetStyleCSPHashes()),
+            $"{nameof(StyleSourceAttrDirectiveBuilder)}.{nameof(WithHashTagHelper)}");
         return this;
     }
 }
