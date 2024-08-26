@@ -75,11 +75,7 @@ public class SecurityHeadersMiddleware
         var result = middleware.CustomHeaderService.EvaluatePolicy(context, policy);
         middleware.CustomHeaderService.ApplyResult(context.Response, result);
 
-#if NET451
-            return Task.FromResult(true);
-#else
         return Task.CompletedTask;
-#endif
     }
 
     private static bool MustGenerateNonce(HeaderPolicyCollection policy)
