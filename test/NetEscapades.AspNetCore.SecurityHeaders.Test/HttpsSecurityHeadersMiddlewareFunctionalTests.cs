@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
+using NetEscapades.AspNetCore.SecurityHeaders.Test;
 using Xunit;
 
 
@@ -38,17 +39,7 @@ public class HttpsSecurityHeadersMiddlewareFunctionalTests : IClassFixture<Https
         Assert.Equal(path, content);
         var responseHeaders = response.Headers;
 
-        var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
-        header.Should().Be("nosniff");
-        header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
-        header.Should().Be("DENY");
-        header = response.Headers.GetValues("Referrer-Policy").FirstOrDefault();
-        header.Should().Be("strict-origin-when-cross-origin");
-        header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
-        header.Should().Be($"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
-        header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
-        header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
-
+        responseHeaders.AssertSecureRequestDefaultSecurityHeaders();
         responseHeaders.Should().NotContain(x => x.Key == "Server");
     }
 }

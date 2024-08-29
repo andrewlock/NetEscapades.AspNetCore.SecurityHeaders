@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
-using NetEscapades.AspNetCore.SecurityHeaders.Headers;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Test;
@@ -42,7 +41,7 @@ public class SecurityHeadersMiddlewareTests
             response.EnsureSuccessStatusCode();
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            AssertHttpRequestDefaultSecurityHeaders(response.Headers);
+            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
         }
     }
 
@@ -72,10 +71,104 @@ public class SecurityHeadersMiddlewareTests
             response.EnsureSuccessStatusCode();
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            AssertHttpRequestDefaultSecurityHeaders(response.Headers);
+            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
         }
     }
 
+    [Fact]
+    public async Task HttpRequest_WithDefaultSecurityHeaders_WithNoExtraConfiguration_SetsSecurityHeaders()
+    {
+        // Arrange
+        var hostBuilder = new WebHostBuilder()
+            .Configure(app =>
+            {
+                app.UseSecurityHeaders();
+                app.Run(async context =>
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync("Test response");
+                });
+            });
+
+        using (var server = new TestServer(hostBuilder))
+        {
+            // Act
+            // Actual request.
+            var response = await server.CreateRequest("/")
+                .SendAsync("PUT");
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+
+            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
+        }
+    }
+    
+    [Fact]
+    public async Task HttpRequest_WithDefaultSecurityHeaders_WithNamedPolicy_SetsSecurityHeaders()
+    {
+        var policyName = "default";
+
+        // Arrange
+        var hostBuilder = new WebHostBuilder()
+            .ConfigureServices(s => s.AddSecurityHeaderPolicies()
+                .AddPolicy(policyName, p => p.AddDefaultSecurityHeaders()))
+            .Configure(app =>
+            {
+                app.UseSecurityHeaders(policyName);
+                app.Run(async context =>
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync("Test response");
+                });
+            });
+
+        using (var server = new TestServer(hostBuilder))
+        {
+            // Act
+            // Actual request.
+            var response = await server.CreateRequest("/")
+                .SendAsync("PUT");
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+
+            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
+        }
+    }
+    
+    [Fact]
+    public async Task HttpRequest_WithDefaultSecurityHeaders_WithUnknownNamedPolicy_DoesNotSetHeaders()
+    {
+        // Arrange
+        var hostBuilder = new WebHostBuilder()
+            .Configure(app =>
+            {
+                app.UseSecurityHeaders("Unknown name");
+                app.Run(async context =>
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync("Test response");
+                });
+            });
+
+        using (var server = new TestServer(hostBuilder))
+        {
+            // Act
+            // Actual request.
+            var response = await server.CreateRequest("/")
+                .SendAsync("PUT");
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+
+            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+            response.Headers.Should().NotContain("X-Frame-Options");
+        }
+    }
+    
     [Fact]
     public async Task SecureRequest_WithDefaultSecurityHeaders_WhenNotOnLocalhost_SetsSecurityHeadersIncludingStrictTransport()
     {
@@ -106,7 +199,7 @@ public class SecurityHeadersMiddlewareTests
             response.EnsureSuccessStatusCode();
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            AssertSecureRequestDefaultSecurityHeaders(response.Headers);
+            response.Headers.AssertSecureRequestDefaultSecurityHeaders();
         }
     }
 
@@ -1834,39 +1927,5 @@ public class SecurityHeadersMiddlewareTests
             header.Should().NotBeNull();
             header.Should().Be("default=\"https://localhost:5000/default\", endpoint-1=\"http://localhost/endpoint-1\"");
         }
-    }
-
-    private static void AssertHttpRequestDefaultSecurityHeaders(HttpResponseHeaders headers)
-    {
-        string header = headers.GetValues("X-Content-Type-Options").FirstOrDefault()!;
-        header.Should().Be("nosniff");
-        header = headers.GetValues("X-Frame-Options").FirstOrDefault()!;
-        header.Should().Be("DENY");
-        header = headers.GetValues("Referrer-Policy").FirstOrDefault()!;
-        header.Should().Be("strict-origin-when-cross-origin");
-        header = headers.GetValues("Content-Security-Policy").FirstOrDefault()!;
-        header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
-
-        Assert.False(headers.Contains("Server"),
-            "Should not contain server header");
-        Assert.False(headers.Contains("Strict-Transport-Security"),
-            "Should not contain Strict-Transport-Security header over http");
-    }
-
-    private static void AssertSecureRequestDefaultSecurityHeaders(HttpResponseHeaders headers)
-    {
-        string header = headers.GetValues("X-Content-Type-Options").FirstOrDefault()!;
-        header.Should().Be("nosniff");
-        header = headers.GetValues("X-Frame-Options").FirstOrDefault()!;
-        header.Should().Be("DENY");
-        header = headers.GetValues("Strict-Transport-Security").FirstOrDefault()!;
-        header.Should().Be($"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
-        header = headers.GetValues("Referrer-Policy").FirstOrDefault()!;
-        header.Should().Be("strict-origin-when-cross-origin");
-        header = headers.GetValues("Content-Security-Policy").FirstOrDefault()!;
-        header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
-
-        Assert.False(headers.Contains("Server"),
-            "Should not contain server header");
     }
 }

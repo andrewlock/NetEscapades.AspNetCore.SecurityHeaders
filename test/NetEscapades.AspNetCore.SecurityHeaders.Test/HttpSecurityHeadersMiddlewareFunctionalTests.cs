@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
+using NetEscapades.AspNetCore.SecurityHeaders.Test;
 using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
@@ -34,18 +35,10 @@ public class HttpSecurityHeadersMiddlewareFunctionalTests : IClassFixture<HttpSe
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await response.Content.ReadAsStringAsync();
         content.Should().Be(path);
-        var responseHeaders = response.Headers;
-        var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
-        header.Should().Be("nosniff");
-        header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
-        header.Should().Be("DENY");
-        header = response.Headers.GetValues("Referrer-Policy").FirstOrDefault();
-        header.Should().Be("strict-origin-when-cross-origin");
-        header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
-        header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
+        response.Headers.AssertHttpRequestDefaultSecurityHeaders();
 
         //http so no Strict transport
-        responseHeaders.Should().NotContain(x => x.Key == "Strict-Transport-Security");
-        responseHeaders.Should().NotContain(x => x.Key == "Server");
+        response.Headers.Should().NotContain(x => x.Key == "Strict-Transport-Security");
+        response.Headers.Should().NotContain(x => x.Key == "Server");
     }
 }

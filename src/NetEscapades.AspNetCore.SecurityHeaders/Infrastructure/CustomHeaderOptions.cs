@@ -7,27 +7,13 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 /// <summary>
 /// Provides programmatic configuration for Security Headers.
 /// </summary>
-[Obsolete("This class is unused since v0.5.0, and will be removed in a future version of the package")]
-public class CustomHeaderOptions
+internal class CustomHeaderOptions
 {
-    private string _defaultPolicyName = "__DefaultSecurityHeadersPolicy";
-
     /// <summary>
     /// The collections of policies to apply
     /// </summary>
     /// <returns>The collection of policies, indexed by header name</returns>
-    public Dictionary<string, HeaderPolicyCollection> PolicyCollections { get; } =
-        new Dictionary<string, HeaderPolicyCollection>();
-
-    /// <summary>
-    /// Gets or sets the name of the default policy
-    /// </summary>
-    /// <returns>The name of the default policy</returns>
-    public string DefaultPolicyName
-    {
-        get => _defaultPolicyName;
-        set => _defaultPolicyName = value ?? throw new ArgumentNullException(nameof(value));
-    }
+    public Dictionary<string, HeaderPolicyCollection> NamedPolicyCollections { get; } = new();
 
     /// <summary>
     /// Gets the policy based on the <paramref name="name"/>
@@ -41,6 +27,6 @@ public class CustomHeaderOptions
             throw new ArgumentNullException(nameof(name));
         }
 
-        return PolicyCollections.ContainsKey(name) ? PolicyCollections[name] : null;
+        return NamedPolicyCollections.GetValueOrDefault(name);
     }
 }
