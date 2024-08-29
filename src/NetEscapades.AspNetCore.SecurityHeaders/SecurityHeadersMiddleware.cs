@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
@@ -11,35 +12,29 @@ namespace NetEscapades.AspNetCore.SecurityHeaders;
 /// <summary>
 /// An ASP.NET Core middleware for adding security headers.
 /// </summary>
-public class SecurityHeadersMiddleware
+internal class SecurityHeadersMiddleware
 {
+    private const string HttpContextKey = "__NetEscapades.AspNetCore.SecurityHeaders";
     private readonly RequestDelegate _next;
-    private readonly HeaderPolicyCollection _policy;
-    private readonly NonceGenerator _nonceGenerator;
-    private readonly bool _mustGenerateNonce;
+    private readonly ILogger<SecurityHeadersMiddleware> _logger;
+    private readonly CustomHeaderOptions? _options;
+    private readonly HeaderPolicyCollection _defaultPolicy;
+    private readonly NonceGenerator? _nonceGenerator;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.
     /// </summary>
     /// <param name="next">The next middleware in the pipeline.</param>
-    /// <param name="policies">A <see cref="HeaderPolicyCollection"/> containing the policies to be applied.</param>
-    public SecurityHeadersMiddleware(RequestDelegate next, HeaderPolicyCollection policies)
-        : this(next, policies, new NonceGenerator())
-    {
-        _mustGenerateNonce = MustGenerateNonce(_policy);
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.
-    /// </summary>
-    /// <param name="next">The next middleware in the pipeline.</param>
-    /// <param name="policies">A <see cref="HeaderPolicyCollection"/> containing the policies to be applied.</param>
-    /// <param name="nonceGenerator">Used to generate nonce (number used once) values for headers</param>
-    internal SecurityHeadersMiddleware(RequestDelegate next, HeaderPolicyCollection policies, NonceGenerator nonceGenerator)
+    /// <param name="logger">A logger for recording errors.</param>
+    /// <param name="options">Options on how to control the settings that are applied</param>
+    /// <param name="defaultPolicy">A <see cref="HeaderPolicyCollection"/> containing the policies to be applied.</param>
+    public SecurityHeadersMiddleware(RequestDelegate next, ILogger<SecurityHeadersMiddleware> logger, CustomHeaderOptions? options, HeaderPolicyCollection defaultPolicy)
     {
         _next = next ?? throw new ArgumentNullException(nameof(next));
-        _policy = policies ?? throw new ArgumentNullException(nameof(policies));
-        _nonceGenerator = nonceGenerator ?? throw new ArgumentException(nameof(nonceGenerator));
+        _logger = logger;
+        _options = options;
+        _defaultPolicy = defaultPolicy ?? throw new ArgumentNullException(nameof(defaultPolicy));
+        _nonceGenerator = MustGenerateNonce(_defaultPolicy) ? new() : null;
     }
 
     /// <summary>
@@ -49,26 +44,56 @@ public class SecurityHeadersMiddleware
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task Invoke(HttpContext context)
     {
-        if (context == null)
+        // Policy resolution rules:
+        //
+        // 1. If there is an endpoint with a named policy, then fetch that policy
+        // 2. Use the provided default policy
+        var endpoint = context.GetEndpoint();
+        var metadata = endpoint?.Metadata.GetMetadata<ISecurityHeadersPolicyMetadata>();
+
+        HeaderPolicyCollection policy = _defaultPolicy;
+
+        if (!string.IsNullOrEmpty(metadata?.PolicyName))
         {
-            throw new ArgumentNullException(nameof(context));
+            if (_options?.GetPolicy(metadata.PolicyName) is { } namedPolicy)
+            {
+                policy = namedPolicy;
+            }
+            else
+            {
+                // log that we couldn't find the policy
+                _logger.LogWarning(
+                    "Error configuring security headers middleware: policy '{PolicyName}' could not be found. "
+                    + "Configure the policies for your application by calling AddSecurityHeaderPolicies() on IServiceCollection "
+                    + "and adding a policy with the required name. Using default policy for request",
+                    metadata.PolicyName);
+            }
         }
 
-        if (_mustGenerateNonce)
+        if (context.Items[HttpContextKey] is null)
         {
-            context.SetNonce(_nonceGenerator.GetNonce(Constants.DefaultBytesInNonce));
+            context.Response.OnStarting(OnResponseStarting, context);
+            if (_nonceGenerator is not null)
+            {
+                context.SetNonce(_nonceGenerator.GetNonce(Constants.DefaultBytesInNonce));
+            }
         }
 
-        context.Response.OnStarting(OnResponseStarting, Tuple.Create(context, _policy));
+        // Write into the context, so that subsequent requests can "overwrite" it
+        context.Items[HttpContextKey] = policy;
+
         await _next(context);
     }
 
     private static Task OnResponseStarting(object state)
     {
-        var (context, policy) = (Tuple<HttpContext, HeaderPolicyCollection>)state;
+        var context = (HttpContext)state;
 
-        var result = CustomHeaderService.EvaluatePolicy(context, policy);
-        CustomHeaderService.ApplyResult(context.Response, result);
+        if (context.Items[HttpContextKey] is HeaderPolicyCollection policy)
+        {
+            var result = CustomHeaderService.EvaluatePolicy(context, policy);
+            CustomHeaderService.ApplyResult(context.Response, result);
+        }
 
         return Task.CompletedTask;
     }

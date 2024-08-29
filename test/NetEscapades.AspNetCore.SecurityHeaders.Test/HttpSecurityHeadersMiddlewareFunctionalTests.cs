@@ -41,4 +41,22 @@ public class HttpSecurityHeadersMiddlewareFunctionalTests : IClassFixture<HttpSe
         response.Headers.Should().NotContain(x => x.Key == "Strict-Transport-Security");
         response.Headers.Should().NotContain(x => x.Key == "Server");
     }
+
+    [Fact]
+    public async Task WhenUsingEndpoint_Overrides_Default()
+    {
+        // Arrange
+        // Act
+        var response = await Client.GetAsync("/custom");
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var content = await response.Content.ReadAsStringAsync();
+        content.Should().Be("Hello World!");
+
+        // no security headers
+        response.Headers.Should().NotContain("X-Frame-Options");
+        response.Headers.TryGetValues("Custom-Header", out var customHeader).Should().BeTrue();
+        customHeader.Should().ContainSingle("MyValue");
+    }
 }
