@@ -165,10 +165,44 @@ public class SecurityHeadersMiddlewareTests
             response.EnsureSuccessStatusCode();
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().NotContain("X-Frame-Options");
+            response.Headers.TryGetValues("X-Frame-Options", out _).Should().BeFalse();
         }
     }
     
+    [Fact]
+    public async Task HttpRequest_WithDefaultSecurityHeaders_WithConfiguredDefaultPolicy_SetsCustomHeaders()
+    {
+        // Arrange
+        var hostBuilder = new WebHostBuilder()
+            .ConfigureServices(s => s.AddSecurityHeaderPolicies()
+                .SetDefaultPolicy(p => p.AddCustomHeader("Custom-Value", "MyValue")))
+            .Configure(app =>
+            {
+                app.UseSecurityHeaders();
+                app.Run(async context =>
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync("Test response");
+                });
+            });
+
+        using (var server = new TestServer(hostBuilder))
+        {
+            // Act
+            // Actual request.
+            var response = await server.CreateRequest("/")
+                .SendAsync("PUT");
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+
+            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+            response.Headers.TryGetValues("X-Frame-Options", out _).Should().BeFalse();
+            response.Headers.TryGetValues("Custom-Value", out var h).Should().BeTrue();
+            h.Should().ContainSingle("MyValue");
+        }
+    }
+
     [Fact]
     public async Task SecureRequest_WithDefaultSecurityHeaders_WhenNotOnLocalhost_SetsSecurityHeadersIncludingStrictTransport()
     {

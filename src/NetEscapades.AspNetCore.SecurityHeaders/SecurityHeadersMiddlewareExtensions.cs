@@ -30,8 +30,8 @@ public static class SecurityHeadersMiddlewareExtensions
             throw new ArgumentNullException(nameof(policies));
         }
 
-        var service = (CustomHeaderOptions)app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) ?? new CustomHeaderOptions();
-        return app.UseMiddleware<SecurityHeadersMiddleware>(service, policies);
+        var options = (CustomHeaderOptions)app.ApplicationServices.GetService(typeof(CustomHeaderOptions));
+        return app.UseSecurityHeaders(options, policies);
     }
 
     /// <summary>
@@ -62,7 +62,15 @@ public static class SecurityHeadersMiddlewareExtensions
     /// <returns>The original app parameter</returns>
     public static IApplicationBuilder UseSecurityHeaders(this IApplicationBuilder app)
     {
-        return app.UseSecurityHeaders(policies => policies.AddDefaultSecurityHeaders());
+        if (app == null)
+        {
+            throw new ArgumentNullException(nameof(app));
+        }
+
+        var options = app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) as CustomHeaderOptions;
+        var policy = options?.DefaultPolicy ?? new HeaderPolicyCollection().AddDefaultSecurityHeaders();
+
+        return app.UseSecurityHeaders(options, policy);
     }
 
     /// <summary>
@@ -73,8 +81,18 @@ public static class SecurityHeadersMiddlewareExtensions
     /// <returns>The original app parameter</returns>
     public static IApplicationBuilder UseSecurityHeaders(this IApplicationBuilder app, string policyName)
     {
-        var service = (CustomHeaderOptions)app.ApplicationServices.GetService(typeof(CustomHeaderOptions));
-        var policy = service?.GetPolicy(policyName);
+        if (app == null)
+        {
+            throw new ArgumentNullException(nameof(app));
+        }
+
+        if (string.IsNullOrEmpty(policyName))
+        {
+            throw new ArgumentNullException(nameof(policyName));
+        }
+
+        var options = app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) as CustomHeaderOptions;
+        var policy = options?.GetPolicy(policyName);
         if (policy is null)
         {
             var log = ((ILoggerFactory)app.ApplicationServices.GetRequiredService(typeof(ILoggerFactory))).CreateLogger(typeof(SecurityHeadersMiddlewareExtensions));
@@ -86,6 +104,11 @@ public static class SecurityHeadersMiddlewareExtensions
             return app;
         }
 
-        return app.UseSecurityHeaders(policy);
+        return app.UseSecurityHeaders(options, policy);
+    }
+
+    private static IApplicationBuilder UseSecurityHeaders(this IApplicationBuilder app, CustomHeaderOptions? options, HeaderPolicyCollection policies)
+    {
+        return app.UseMiddleware<SecurityHeadersMiddleware>(options ?? new CustomHeaderOptions(), policies);
     }
 }

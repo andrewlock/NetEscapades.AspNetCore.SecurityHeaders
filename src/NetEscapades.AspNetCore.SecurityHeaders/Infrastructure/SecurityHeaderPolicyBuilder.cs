@@ -45,4 +45,29 @@ public class SecurityHeaderPolicyBuilder
         _options.NamedPolicyCollections[name] = policyCollection;
         return this;
     }
+
+    /// <summary>
+    /// Sets the default security header policy to use when no other named policy is provided
+    /// This policy is used wherever a named policy does not apply
+    /// </summary>
+    /// <param name="configurePolicy">An <see cref="Action{T}"/>to configure the security headers for the policy</param>
+    /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> for chaining</returns>
+    public SecurityHeaderPolicyBuilder SetDefaultPolicy(Action<HeaderPolicyCollection> configurePolicy)
+    {
+        var policyCollection = new HeaderPolicyCollection();
+        configurePolicy(policyCollection);
+        return SetDefaultPolicy(policyCollection);
+    }
+
+    /// <summary>
+    /// Adds the default security header policy to the application.
+    /// This policy is used wherever a named policy does not apply
+    /// </summary>
+    /// <param name="policyCollection">The security headers for the policy</param>
+    /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> for chaining</returns>
+    public SecurityHeaderPolicyBuilder SetDefaultPolicy(HeaderPolicyCollection policyCollection)
+    {
+        _options.DefaultPolicy = policyCollection;
+        return this;
+    }
 }

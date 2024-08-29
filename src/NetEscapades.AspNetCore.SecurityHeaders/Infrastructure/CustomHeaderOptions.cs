@@ -16,6 +16,11 @@ internal class CustomHeaderOptions
     public Dictionary<string, HeaderPolicyCollection> NamedPolicyCollections { get; } = new();
 
     /// <summary>
+    /// The default policy to apply
+    /// </summary>
+    public HeaderPolicyCollection? DefaultPolicy { get; set; }
+
+    /// <summary>
     /// Gets the policy based on the <paramref name="name"/>
     /// </summary>
     /// <param name="name">The name of the policy to lookup.</param>
