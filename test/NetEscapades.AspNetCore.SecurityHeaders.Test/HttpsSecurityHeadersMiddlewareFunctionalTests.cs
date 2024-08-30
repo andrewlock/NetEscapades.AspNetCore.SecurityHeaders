@@ -12,6 +12,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 public class HttpsSecurityHeadersMiddlewareFunctionalTests : IClassFixture<HttpsSecurityHeadersTestFixture<SecurityHeadersMiddlewareWebSite.Startup>>
 {
+    private const string EchoPath = "/SecurityHeadersMiddleware/BG36A632-C4D2-4B71-B2BD-18625ADDA87F";
     public HttpsSecurityHeadersMiddlewareFunctionalTests(HttpsSecurityHeadersTestFixture<SecurityHeadersMiddlewareWebSite.Startup> fixture)
     {
         Client = fixture.Client;
@@ -20,14 +21,14 @@ public class HttpsSecurityHeadersMiddlewareFunctionalTests : IClassFixture<Https
     public HttpClient Client { get; }
 
     [Theory]
-    [InlineData("GET")]
-    [InlineData("HEAD")]
-    [InlineData("POST")]
-    [InlineData("PUT")]
-    public async Task AllMethods_AddSecurityHeaders_IncludingStrict(string method)
+    [InlineData("GET", EchoPath)]
+    [InlineData("HEAD", EchoPath)]
+    [InlineData("POST", EchoPath)]
+    [InlineData("PUT", EchoPath)]
+    [InlineData("GET", "/api/index")]
+    public async Task AllMethods_AddSecurityHeaders_IncludingStrict(string method, string path)
     {
         // Arrange
-        var path = "/SecurityHeadersMiddleware/BG36A632-C4D2-4B71-B2BD-18625ADDA87F";
         var request = new HttpRequestMessage(new HttpMethod(method), path);
 
         // Act
@@ -43,17 +44,19 @@ public class HttpsSecurityHeadersMiddlewareFunctionalTests : IClassFixture<Https
         responseHeaders.Should().NotContain(x => x.Key == "Server");
     }
 
-    [Fact]
-    public async Task WhenUsingEndpoint_Overrides_Default()
+    [Theory]
+    [InlineData("/custom", "Hello World!")]
+    [InlineData("/api/custom", "Hello Controller!")]
+    public async Task WhenUsingEndpoint_Overrides_Default(string path, string expected)
     {
         // Arrange
         // Act
-        var response = await Client.GetAsync("/custom");
+        var response = await Client.GetAsync(path);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await response.Content.ReadAsStringAsync();
-        content.Should().Be("Hello World!");
+        content.Should().Be(expected);
 
         // no security headers
         response.Headers.Should().NotContain("X-Frame-Options");

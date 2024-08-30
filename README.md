@@ -230,6 +230,19 @@ app.MapGet("/", () => "Hello world")
 app.Run();
 ```
 
+If you're using MVC controllers or Razor Pages, you can apply the `[SecurityHeadersPolicy(policyName)]` attribute to your endpoints:
+
+```csharp
+public class HomeController : ControllerBase
+{
+    [SecurityHeadersPolicy("CustomHeader")] // 👈 Apply a custom header to the endpoint
+    public IActionResult Index()
+    {
+        return View();
+    }
+}
+```
+
 Each call to `UseSecurityHeaders()` will re-evaluate the applicable policies; the headers are applied just before the response is sent. The policy to apply is determined as follows, with the first applicable policy selected.
 
 1. If an endpoint has been selected, and a named policy is applied, use that.

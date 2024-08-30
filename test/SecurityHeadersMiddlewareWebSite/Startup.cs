@@ -11,7 +11,7 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddRouting();
+        services.AddControllers();
         services.AddSecurityHeaderPolicies()
             .AddPolicy("CustomHeader", policy =>
             {
@@ -21,6 +21,7 @@ public class Startup
 
     public void Configure(IApplicationBuilder app)
     {
+        app.UseSecurityHeaders();
         app.UseRouting();
         app.UseSecurityHeaders();
         app.UseEndpoints(endpoints =>
@@ -34,6 +35,8 @@ public class Startup
                 var path = context.Request.PathBase + context.Request.Path + context.Request.QueryString;
                 return context.Response.WriteAsync(path, Encoding.UTF8);
             });
+
+            endpoints.MapControllers();
         });
     }
 
