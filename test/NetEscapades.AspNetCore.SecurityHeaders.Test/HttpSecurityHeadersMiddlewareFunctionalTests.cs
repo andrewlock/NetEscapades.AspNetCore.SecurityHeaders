@@ -58,7 +58,7 @@ public class HttpSecurityHeadersMiddlewareFunctionalTests : IClassFixture<HttpSe
         content.Should().Be(expected);
 
         // no security headers
-        response.Headers.Should().NotContain("X-Frame-Options");
+        response.Headers.Should().NotContainKey("X-Frame-Options");
         response.Headers.TryGetValues("Custom-Header", out var customHeader).Should().BeTrue();
         customHeader.Should().ContainSingle("MyValue");
     }
