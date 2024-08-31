@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
+using NetEscapades.AspNetCore.SecurityHeaders.Test;
 using Xunit;
 
 
@@ -11,6 +12,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 public class HttpsSecurityHeadersMiddlewareFunctionalTests : IClassFixture<HttpsSecurityHeadersTestFixture<SecurityHeadersMiddlewareWebSite.Startup>>
 {
+    private const string EchoPath = "/SecurityHeadersMiddleware/BG36A632-C4D2-4B71-B2BD-18625ADDA87F";
     public HttpsSecurityHeadersMiddlewareFunctionalTests(HttpsSecurityHeadersTestFixture<SecurityHeadersMiddlewareWebSite.Startup> fixture)
     {
         Client = fixture.Client;
@@ -19,14 +21,14 @@ public class HttpsSecurityHeadersMiddlewareFunctionalTests : IClassFixture<Https
     public HttpClient Client { get; }
 
     [Theory]
-    [InlineData("GET")]
-    [InlineData("HEAD")]
-    [InlineData("POST")]
-    [InlineData("PUT")]
-    public async Task AllMethods_AddSecurityHeaders_IncludingStrict(string method)
+    [InlineData("GET", EchoPath)]
+    [InlineData("HEAD", EchoPath)]
+    [InlineData("POST", EchoPath)]
+    [InlineData("PUT", EchoPath)]
+    [InlineData("GET", "/api/index")]
+    public async Task AllMethods_AddSecurityHeaders_IncludingStrict(string method, string path)
     {
         // Arrange
-        var path = "/SecurityHeadersMiddleware/BG36A632-C4D2-4B71-B2BD-18625ADDA87F";
         var request = new HttpRequestMessage(new HttpMethod(method), path);
 
         // Act
@@ -38,17 +40,27 @@ public class HttpsSecurityHeadersMiddlewareFunctionalTests : IClassFixture<Https
         Assert.Equal(path, content);
         var responseHeaders = response.Headers;
 
-        var header = response.Headers.GetValues("X-Content-Type-Options").FirstOrDefault();
-        header.Should().Be("nosniff");
-        header = response.Headers.GetValues("X-Frame-Options").FirstOrDefault();
-        header.Should().Be("DENY");
-        header = response.Headers.GetValues("Referrer-Policy").FirstOrDefault();
-        header.Should().Be("strict-origin-when-cross-origin");
-        header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
-        header.Should().Be($"max-age={StrictTransportSecurityHeader.OneYearInSeconds}");
-        header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
-        header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
-
+        responseHeaders.AssertSecureRequestDefaultSecurityHeaders();
         responseHeaders.Should().NotContain(x => x.Key == "Server");
+    }
+
+    [Theory]
+    [InlineData("/custom", "Hello World!")]
+    [InlineData("/api/custom", "Hello Controller!")]
+    public async Task WhenUsingEndpoint_Overrides_Default(string path, string expected)
+    {
+        // Arrange
+        // Act
+        var response = await Client.GetAsync(path);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var content = await response.Content.ReadAsStringAsync();
+        content.Should().Be(expected);
+
+        // no security headers
+        response.Headers.Should().NotContain("X-Frame-Options");
+        response.Headers.TryGetValues("Custom-Header", out var customHeader).Should().BeTrue();
+        customHeader.Should().ContainSingle("MyValue");
     }
 }
