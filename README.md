@@ -39,7 +39,9 @@ When you install the package, it should be added to your `.csproj`. Alternativel
 </Project>
 ```
 
-Simply add the middleware to your ASP.NET Core application by configuring it as part of your normal `Startup` pipeline. Note that the order of middleware matters, so to apply the headers to all requests it should be configured first in your pipeline.
+There are various ways to configure the headers for your application. 
+
+In the simplest scenario, add the middleware to your ASP.NET Core application by configuring it as part of your normal `Startup` pipeline (or `WebApplication` in .NET 6+). Note that the order of middleware matters, so to apply the headers to all requests it should be configured first in your pipeline.
 
 To use the default security headers for your application, add the middleware using:
 
@@ -151,6 +153,103 @@ public void Configure(IApplicationBuilder app)
     // other middleware e.g. static files, MVC etc  
 }
 ```
+
+## Applying different headers to different endpoints
+
+In some situations, you may need to apply different security headers to different endpoints. For example, you may want to have a very restrictive Content-Security-Policy by default, but then have a more relaxed on specific endpoints that require it. This is supported, but requires more configuration.
+
+### 1. Configure your policies using `AddSecurityHeaderPolicies()`
+
+You can configure named and default policies by calling `AddSecurityHeaderPolicies()` on `IServiceCollection`. You can configure the default policy to use, as well as any named policies. For example, the following configures the default policy (used when `UseSecurityHeaders()` is called without any arguments), and a named policy:
+
+```csharp
+var builder = WebApplication.CreateBuilder();
+
+// 👇 Call AddSecurityHeaderPolicies()
+builder.Services.AddSecurityHeaderPolicies()
+    .SetDefaultPolicy(policy => policy.AddDefaultSecurityHeaders()) // 👈 Configure the default policy
+    .AddPolicy("CustomPolicy", policy => policy.AddCustomHeader("X-Custom", "SomeValue")); // 👈 Configure named policies
+
+```
+
+### 2. Add the default middleware early to the pipeline
+
+The security headers middleware can only add headers to _all_ requests if it is early in the middleware pipeline, so it's important to add the headders middleware at the start of your middleware pipeline. However, if you want to have endpoint-specific policies, then you _also_ need to place the middleware after the call to `UseRouting()`, as that is the point at which the endpoint that will be executed is selected.
+
+```csharp
+var builder = WebApplication.CreateBuilder();
+
+// 👇 Configure policies as shown previously
+builder.Services.AddSecurityHeaderPolicies()
+    .SetDefaultPolicy(policy => policy.AddDefaultSecurityHeaders())
+    .AddPolicy("CustomPolicy", policy => policy.AddCustomHeader("X-Custom", "SomeValue"));
+
+var app = builder.Build();
+
+// Set the default headers for requests that
+// 👇 don't make it to the routing middleware
+app.UseSecurityHeaders();
+
+app.UseStaticFiles(); // other middleware
+app.UseAuthentication();
+app.UseRouting(); 
+
+app.UseSecurityHeaders(); // 👈 Add after the routing middleware 
+app.UseAuthorization();
+
+app.MapGet("/", () => "Hello world");
+app.Run();
+```
+
+Note that if you pass a policy to any call to `UseSecurityHeaders()` it will override the "default" policy used at that point.
+
+### 3. Apply custom policies to endpoints
+
+To apply a non-default policy to an endpoint, use the `WithSecurityHeadersPolicy(policy)` endpoint extension method, and pass in the name of the policy to apply:
+
+```csharp
+var builder = WebApplication.CreateBuilder();
+
+builder.Services.AddSecurityHeaderPolicies()
+    .SetDefaultPolicy(policy => policy.AddDefaultSecurityHeaders())
+    .AddPolicy("CustomPolicy", policy => policy.AddCustomHeader("X-Custom", "SomeValue"));
+
+var app = builder.Build();
+
+app.UseSecurityHeaders();
+
+app.UseStaticFiles();
+app.UseAuthentication();
+app.UseRouting(); 
+
+app.UseSecurityHeaders(); 
+app.UseAuthorization();
+
+app.MapGet("/", () => "Hello world")
+    .WithSecurityHeadersPolicy("CustomPolicy"); // 👈 Apply a named policy to the endpoint 
+app.Run();
+```
+
+If you're using MVC controllers or Razor Pages, you can apply the `[SecurityHeadersPolicy(policyName)]` attribute to your endpoints:
+
+```csharp
+public class HomeController : ControllerBase
+{
+    [SecurityHeadersPolicy("CustomHeader")] // 👈 Apply a custom header to the endpoint
+    public IActionResult Index()
+    {
+        return View();
+    }
+}
+```
+
+Each call to `UseSecurityHeaders()` will re-evaluate the applicable policies; the headers are applied just before the response is sent. The policy to apply is determined as follows, with the first applicable policy selected.
+
+1. If an endpoint has been selected, and a named policy is applied, use that.
+2. If a named or policy instance is passed to the `SecurityHeadersMiddleware`, use that.
+3. If the default policy has been set using `SetDefaultPolicy()`, use that.
+4. Otherwise, apply the default headers (those added by `AddDefaultSecurityHeaders()`)
+
 
 ## RemoveServerHeader
 
