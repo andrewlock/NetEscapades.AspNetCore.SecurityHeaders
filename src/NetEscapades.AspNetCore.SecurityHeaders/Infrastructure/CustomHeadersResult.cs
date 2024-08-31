@@ -3,7 +3,7 @@
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 /// <summary>
-/// Results returned by <see cref="ICustomHeaderService"/>
+/// Results returned by <see cref="CustomHeaderService"/>
 /// </summary>
 public class CustomHeadersResult
 {

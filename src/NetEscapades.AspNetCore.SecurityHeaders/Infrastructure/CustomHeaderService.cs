@@ -6,9 +6,9 @@ using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 /// <summary>
-/// Default implementation of <see cref="ICustomHeaderService"/>.
+/// Handles processing of headers
 /// </summary>
-public class CustomHeaderService : ICustomHeaderService
+internal static class CustomHeaderService
 {
     /// <summary>
     /// Evaluates the given <paramref name="policies"/> using the passed in <paramref name="context"/>.
@@ -17,7 +17,7 @@ public class CustomHeaderService : ICustomHeaderService
     /// <param name="policies">The <see cref="HeaderPolicyCollection"/> containing policies to be evaluated.</param>
     /// <returns>A <see cref="CustomHeadersResult"/> which contains the result of policy evaluation and can be
     /// used by the caller to set appropriate response headers.</returns>
-    public virtual CustomHeadersResult EvaluatePolicy(HttpContext context, HeaderPolicyCollection policies)
+    public static CustomHeadersResult EvaluatePolicy(HttpContext context, HeaderPolicyCollection policies)
     {
         if (context == null)
         {
@@ -50,7 +50,7 @@ public class CustomHeaderService : ICustomHeaderService
     /// </summary>
     /// <param name="response">The <see cref="HttpResponse"/> associated with the current call.</param>
     /// <param name="result">The <see cref="CustomHeadersResult"/> used to read the allowed values.</param>
-    public virtual void ApplyResult(HttpResponse response, CustomHeadersResult result)
+    public static void ApplyResult(HttpResponse response, CustomHeadersResult result)
     {
         if (response == null)
         {
