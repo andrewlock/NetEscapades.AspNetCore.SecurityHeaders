@@ -30,7 +30,8 @@ public static class SecurityHeadersMiddlewareExtensions
             throw new ArgumentNullException(nameof(policies));
         }
 
-        return app.UseMiddleware<SecurityHeadersMiddleware>(policies);
+        var opts = app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) as CustomHeaderOptions;
+        return app.UseMiddleware(policies, opts);
     }
 
     /// <summary>
@@ -69,7 +70,7 @@ public static class SecurityHeadersMiddlewareExtensions
         var options = app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) as CustomHeaderOptions;
         var policy = options?.DefaultPolicy ?? new HeaderPolicyCollection().AddDefaultSecurityHeaders();
 
-        return app.UseSecurityHeaders(policy);
+        return app.UseMiddleware(policy, options);
     }
 
     /// <summary>
@@ -100,7 +101,7 @@ public static class SecurityHeadersMiddlewareExtensions
                 + $"in your application startup code and add a namedpolicy called '{policyName}'");
         }
 
-        return app.UseSecurityHeaders(policy);
+        return app.UseMiddleware(policy, options);
     }
 
     /// <summary>
@@ -128,5 +129,14 @@ public static class SecurityHeadersMiddlewareExtensions
         }
 
         return app.UseMiddleware<EndpointSecurityHeadersMiddleware>(options);
+    }
+
+    private static IApplicationBuilder UseMiddleware(
+        this IApplicationBuilder app,
+        HeaderPolicyCollection policies,
+        CustomHeaderOptions? options)
+    {
+        var policySelector = options?.DefaultPolicySelector ?? (ctx => ctx.DefaultPolicy);
+        return app.UseMiddleware<SecurityHeadersMiddleware>(policySelector, policies);
     }
 }

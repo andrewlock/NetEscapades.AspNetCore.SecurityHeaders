@@ -11,6 +11,20 @@ namespace Microsoft.AspNetCore.Builder;
 public class HeaderPolicyCollection : Dictionary<string, IHeaderPolicy>
 {
     /// <summary>
+    /// Initializes a new instance of the <see cref="HeaderPolicyCollection"/> class.
+    /// </summary>
+    public HeaderPolicyCollection()
+    {
+    }
+
+    private HeaderPolicyCollection(HeaderPolicyCollection other)
+        : base(other)
+    {
+        DocumentHeaderContentTypePrefixes =
+            other.DocumentHeaderContentTypePrefixes is { } prefixes ? [..prefixes] : null;
+    }
+
+    /// <summary>
     /// The content types that document-based headers such as Content-Security-Policy should apply to
     /// </summary>
     internal string[]? DocumentHeaderContentTypePrefixes { get; set; } = { "text/html", "application/javascript", "text/javascript" };
@@ -50,4 +64,11 @@ public class HeaderPolicyCollection : Dictionary<string, IHeaderPolicy>
 
         return this;
     }
+
+    /// <summary>
+    /// Creates a copy of the header collection
+    /// </summary>
+    /// <returns>A shallow copy of the header policy</returns>
+    public HeaderPolicyCollection Copy()
+        => new(this);
 }
