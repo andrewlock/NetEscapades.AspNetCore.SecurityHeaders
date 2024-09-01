@@ -16,7 +16,7 @@
   <ItemGroup>
     <PackageReference Include="PublicApiGenerator" Version="11.1.0" />
     <PackageReference Include="Verify.Xunit" Version="18.4.0" />
-    <PackageReference Include="FluentAssertions" Version="4.19.4" />
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />

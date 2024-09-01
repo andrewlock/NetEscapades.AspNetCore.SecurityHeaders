@@ -23,7 +23,7 @@ public class Startup
     {
         app.UseSecurityHeaders();
         app.UseRouting();
-        app.UseSecurityHeaders();
+        app.UseEndpointSecurityHeaders();
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapGet("/custom", context => context.Response.WriteAsync("Hello World!"))

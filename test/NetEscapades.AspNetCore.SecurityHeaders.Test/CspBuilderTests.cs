@@ -221,11 +221,9 @@ public class CspBuilderTests
 
         var result = builder.Build();
 
-        result.Invoking(x =>
-            {
-                var val = x.ConstantValue;
-            })
-            .ShouldThrow<InvalidOperationException>();
+        result.Invoking(x=>x.ConstantValue)
+            .Should()
+            .Throw<InvalidOperationException>();
     }
     [Theory]
     [InlineData(true, false)]
@@ -272,11 +270,9 @@ public class CspBuilderTests
 
         var result = builder.Build();
 
-        result.Invoking(x =>
-            {
-                var val = x.Builder;
-            })
-            .ShouldThrow<InvalidOperationException>();
+        result.Invoking(x=>x.Builder)
+            .Should()
+            .Throw<InvalidOperationException>();
     }
 
     [Fact]
