@@ -14,10 +14,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders;
 /// </summary>
 internal class SecurityHeadersMiddleware
 {
-    private const string HttpContextKey = "__NetEscapades.AspNetCore.SecurityHeaders";
+    /// <summary>
+    /// The HttpContext key that tracks the policy to apply
+    /// </summary>
+    internal const string HttpContextKey = "__NetEscapades.AspNetCore.SecurityHeaders";
+
     private readonly RequestDelegate _next;
-    private readonly ILogger<SecurityHeadersMiddleware> _logger;
-    private readonly CustomHeaderOptions? _options;
     private readonly HeaderPolicyCollection _defaultPolicy;
     private readonly NonceGenerator? _nonceGenerator;
 
@@ -25,14 +27,10 @@ internal class SecurityHeadersMiddleware
     /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.
     /// </summary>
     /// <param name="next">The next middleware in the pipeline.</param>
-    /// <param name="logger">A logger for recording errors.</param>
-    /// <param name="options">Options on how to control the settings that are applied</param>
-    /// <param name="defaultPolicy">A <see cref="HeaderPolicyCollection"/> containing the policies to be applied.</param>
-    public SecurityHeadersMiddleware(RequestDelegate next, ILogger<SecurityHeadersMiddleware> logger, CustomHeaderOptions? options, HeaderPolicyCollection defaultPolicy)
+    /// <param name="defaultPolicy">A <see cref="HeaderPolicyCollection"/> containing the policy to apply by default.</param>
+    public SecurityHeadersMiddleware(RequestDelegate next, HeaderPolicyCollection defaultPolicy)
     {
         _next = next ?? throw new ArgumentNullException(nameof(next));
-        _logger = logger;
-        _options = options;
         _defaultPolicy = defaultPolicy ?? throw new ArgumentNullException(nameof(defaultPolicy));
         _nonceGenerator = MustGenerateNonce(_defaultPolicy) ? new() : null;
     }
@@ -42,47 +40,17 @@ internal class SecurityHeadersMiddleware
     /// </summary>
     /// <param name="context">The current context</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public async Task Invoke(HttpContext context)
+    public Task Invoke(HttpContext context)
     {
-        // Policy resolution rules:
-        //
-        // 1. If there is an endpoint with a named policy, then fetch that policy
-        // 2. Use the provided default policy
-        var endpoint = context.GetEndpoint();
-        var metadata = endpoint?.Metadata.GetMetadata<ISecurityHeadersPolicyMetadata>();
-
-        HeaderPolicyCollection policy = _defaultPolicy;
-
-        if (!string.IsNullOrEmpty(metadata?.PolicyName))
-        {
-            if (_options?.GetPolicy(metadata.PolicyName) is { } namedPolicy)
-            {
-                policy = namedPolicy;
-            }
-            else
-            {
-                // log that we couldn't find the policy
-                _logger.LogWarning(
-                    "Error configuring security headers middleware: policy '{PolicyName}' could not be found. "
-                    + "Configure the policies for your application by calling AddSecurityHeaderPolicies() on IServiceCollection "
-                    + "and adding a policy with the required name. Using default policy for request",
-                    metadata.PolicyName);
-            }
-        }
-
-        if (context.Items[HttpContextKey] is null)
-        {
-            context.Response.OnStarting(OnResponseStarting, context);
-            if (_nonceGenerator is not null)
-            {
-                context.SetNonce(_nonceGenerator.GetNonce(Constants.DefaultBytesInNonce));
-            }
-        }
-
         // Write into the context, so that subsequent requests can "overwrite" it
-        context.Items[HttpContextKey] = policy;
+        context.Items[HttpContextKey] = _defaultPolicy;
+        context.Response.OnStarting(OnResponseStarting, context);
+        if (_nonceGenerator is not null)
+        {
+            context.SetNonce(_nonceGenerator.GetNonce(Constants.DefaultBytesInNonce));
+        }
 
-        await _next(context);
+        return _next(context);
     }
 
     private static Task OnResponseStarting(object state)
