@@ -30,8 +30,7 @@ public static class SecurityHeadersMiddlewareExtensions
             throw new ArgumentNullException(nameof(policies));
         }
 
-        var options = (CustomHeaderOptions)app.ApplicationServices.GetService(typeof(CustomHeaderOptions));
-        return app.UseSecurityHeaders(options, policies);
+        return app.UseMiddleware<SecurityHeadersMiddleware>(policies);
     }
 
     /// <summary>
@@ -70,7 +69,7 @@ public static class SecurityHeadersMiddlewareExtensions
         var options = app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) as CustomHeaderOptions;
         var policy = options?.DefaultPolicy ?? new HeaderPolicyCollection().AddDefaultSecurityHeaders();
 
-        return app.UseSecurityHeaders(options, policy);
+        return app.UseSecurityHeaders(policy);
     }
 
     /// <summary>
@@ -95,20 +94,39 @@ public static class SecurityHeadersMiddlewareExtensions
         var policy = options?.GetPolicy(policyName);
         if (policy is null)
         {
-            var log = ((ILoggerFactory)app.ApplicationServices.GetRequiredService(typeof(ILoggerFactory))).CreateLogger(typeof(SecurityHeadersMiddlewareExtensions));
-            log.LogWarning(
-                "Error configuring security headers middleware: policy '{PolicyName}' could not be found. "
-                + "Configure the policies for your application by calling AddSecurityHeaderPolicies() on IServiceCollection "
-                + "and adding a policy with the required name.",
-                policyName);
-            return app;
+            throw new InvalidOperationException(
+                $"Error configuring security headers middleware: policy '{policyName}' could not be found. "
+                + "Configure the policies for your application by calling IServiceCollection.AddSecurityHeaderPolicies() "
+                + $"in your application startup code and add a namedpolicy called '{policyName}'");
         }
 
-        return app.UseSecurityHeaders(options, policy);
+        return app.UseSecurityHeaders(policy);
     }
 
-    private static IApplicationBuilder UseSecurityHeaders(this IApplicationBuilder app, CustomHeaderOptions? options, HeaderPolicyCollection policies)
+    /// <summary>
+    /// Adds middleware to your web application pipeline which sets security headers on responses
+    /// based on the specific endpoint invoked.
+    ///
+    /// To apply policies to a specific endpoint, use <see cref="EndpointConventionBuilderExtensions.WithSecurityHeadersPolicy{TBuilder}"/>
+    /// or apply <see cref="SecurityHeadersPolicyAttribute"/> to your MVC or Razor Page endpoints.
+    /// </summary>
+    /// <param name="app">The IApplicationBuilder passed to your Configure method.</param>
+    /// <returns>The original app parameter</returns>
+    public static IApplicationBuilder UseEndpointSecurityHeaders(this IApplicationBuilder app)
     {
-        return app.UseMiddleware<SecurityHeadersMiddleware>(options ?? new CustomHeaderOptions(), policies);
+        if (app == null)
+        {
+            throw new ArgumentNullException(nameof(app));
+        }
+
+        if (app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) is not CustomHeaderOptions options)
+        {
+            throw new InvalidOperationException(
+                "Error configuring security headers middleware: Unable to find required services. "
+                + "Configure the policies for your application by calling IServiceCollection.AddSecurityHeaderPolicies() "
+                + "in your application startup code");
+        }
+
+        return app.UseMiddleware<EndpointSecurityHeadersMiddleware>(options);
     }
 }

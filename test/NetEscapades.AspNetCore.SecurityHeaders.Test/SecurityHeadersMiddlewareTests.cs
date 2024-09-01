@@ -113,7 +113,7 @@ public class SecurityHeadersMiddlewareTests
         // Arrange
         var hostBuilder = new WebHostBuilder()
             .ConfigureServices(s => s.AddSecurityHeaderPolicies()
-                .AddPolicy(policyName, p => p.AddDefaultSecurityHeaders()))
+                .AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue")))
             .Configure(app =>
             {
                 app.UseSecurityHeaders(policyName);
@@ -135,18 +135,48 @@ public class SecurityHeadersMiddlewareTests
             response.EnsureSuccessStatusCode();
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
+            response.Headers.Should().NotContainKey("X-Frame-Options");
+            response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().ContainSingle("MyValue");
         }
     }
     
     [Fact]
-    public async Task HttpRequest_WithDefaultSecurityHeaders_WithUnknownNamedPolicy_DoesNotSetHeaders()
+    public void HttpRequest_WithDefaultSecurityHeaders_WithUnknownNamedPolicy_ThrowsException()
     {
         // Arrange
         var hostBuilder = new WebHostBuilder()
             .Configure(app =>
             {
                 app.UseSecurityHeaders("Unknown name");
+                app.Run(async context =>
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync("Test response");
+                });
+            });
+
+        Func<TestServer> act = () => new TestServer(hostBuilder); 
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public async Task HttpRequest_WithEndpointSecurityHeaders_WhenNoEndpoints_SetsDefaultHeaders()
+    {
+        var policyName = "custom";
+
+        // Arrange
+        var hostBuilder = new WebHostBuilder()
+            .ConfigureServices(s =>
+            {
+                s.AddRouting();
+                s.AddSecurityHeaderPolicies()
+                    .AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"));
+            })
+            .Configure(app =>
+            {
+                app.UseSecurityHeaders();
+                app.UseRouting();
+                app.UseEndpointSecurityHeaders();
                 app.Run(async context =>
                 {
                     context.Response.ContentType = "text/html";
@@ -165,10 +195,97 @@ public class SecurityHeadersMiddlewareTests
             response.EnsureSuccessStatusCode();
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.TryGetValues("X-Frame-Options", out _).Should().BeFalse();
+            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
         }
     }
-    
+
+    [Fact]
+    public async Task HttpRequest_WithEndpointSecurityHeaders_WhenEndpointsHasNoMetadata_SetsDefaultHeaders()
+    {
+        var policyName = "custom";
+
+        // Arrange
+        var hostBuilder = new WebHostBuilder()
+            .ConfigureServices(s =>
+            {
+                s.AddRouting();
+                s.AddSecurityHeaderPolicies()
+                    .AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"));
+            })
+            .Configure(app =>
+            {
+                app.UseSecurityHeaders();
+                app.UseRouting();
+                app.UseEndpointSecurityHeaders();
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapPut("/", async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                });
+            });
+
+        using (var server = new TestServer(hostBuilder))
+        {
+            // Act
+            // Actual request.
+            var response = await server.CreateRequest("/")
+                .SendAsync("PUT");
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+
+            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
+        }
+    }
+
+    [Fact]
+    public async Task HttpRequest_WithEndpointSecurityHeaders_WhenEndpointsHasMetadata_SetsCustomHeaders()
+    {
+        var policyName = "custom";
+
+        // Arrange
+        var hostBuilder = new WebHostBuilder()
+            .ConfigureServices(s =>
+            {
+                s.AddRouting();
+                s.AddSecurityHeaderPolicies()
+                    .AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"));
+            })
+            .Configure(app =>
+            {
+                app.UseSecurityHeaders();
+                app.UseRouting();
+                app.UseEndpointSecurityHeaders();
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapPut("/", async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    }).WithSecurityHeadersPolicy(policyName);
+                });
+            });
+
+        using (var server = new TestServer(hostBuilder))
+        {
+            // Act
+            // Actual request.
+            var response = await server.CreateRequest("/")
+                .SendAsync("PUT");
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+
+            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+            response.Headers.Should().NotContainKey("X-Frame-Options");
+            response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().ContainSingle("MyValue");
+        }
+    }
+
     [Fact]
     public async Task HttpRequest_WithDefaultSecurityHeaders_WithConfiguredDefaultPolicy_SetsCustomHeaders()
     {

@@ -160,7 +160,7 @@ In some situations, you may need to apply different security headers to differen
 
 ### 1. Configure your policies using `AddSecurityHeaderPolicies()`
 
-You can configure named and default policies by calling `AddSecurityHeaderPolicies()` on `IServiceCollection`. You can configure the default policy to use, as well as any named policies. For example, the following configures the default policy (used when `UseSecurityHeaders()` is called without any arguments), and a named policy:
+You can configure named and default policies by calling `AddSecurityHeaderPolicies()` on `IServiceCollection`. You can configure the default policy to use, as well as any named policies. For example, the following configures the default policy (used for all requests that are not customised for an endpoint), and a named policy:
 
 ```csharp
 var builder = WebApplication.CreateBuilder();
@@ -172,9 +172,9 @@ builder.Services.AddSecurityHeaderPolicies()
 
 ```
 
-### 2. Add the default middleware early to the pipeline
+### 2. Call `UseSecurityHeaders()` early in the middleware pipeline
 
-The security headers middleware can only add headers to _all_ requests if it is early in the middleware pipeline, so it's important to add the headders middleware at the start of your middleware pipeline. However, if you want to have endpoint-specific policies, then you _also_ need to place the middleware after the call to `UseRouting()`, as that is the point at which the endpoint that will be executed is selected.
+The security headers middleware can only add headers to _all_ requests if it is early in the middleware pipeline, so it's important to add the headers middleware at the start of your middleware pipeline by calling `UseSecurityHeaders()`. However, if you want to have endpoint-specific policies, then you also need to call `UseEndpointSecurityHeaders()` _after_ the call to `UseRouting()`. For example:
 
 ```csharp
 var builder = WebApplication.CreateBuilder();
@@ -194,14 +194,12 @@ app.UseStaticFiles(); // other middleware
 app.UseAuthentication();
 app.UseRouting(); 
 
-app.UseSecurityHeaders(); // 👈 Add after the routing middleware 
+app.UseEndpointSecurityHeaders(); // 👈 Add after the routing middleware 
 app.UseAuthorization();
 
 app.MapGet("/", () => "Hello world");
 app.Run();
 ```
-
-Note that if you pass a policy to any call to `UseSecurityHeaders()` it will override the "default" policy used at that point.
 
 ### 3. Apply custom policies to endpoints
 
@@ -243,13 +241,12 @@ public class HomeController : ControllerBase
 }
 ```
 
-Each call to `UseSecurityHeaders()` will re-evaluate the applicable policies; the headers are applied just before the response is sent. The policy to apply is determined as follows, with the first applicable policy selected.
+Security headers are applied just before the response is sent. If you use the configuration described above, then the policy to apply is determined as follows, with the first applicable policy selected:
 
 1. If an endpoint has been selected, and a named policy is applied, use that.
-2. If a named or policy instance is passed to the `SecurityHeadersMiddleware`, use that.
+2. If a named or policy instance is passed to the `SecurityHeadersMiddleware()`, use that.
 3. If the default policy has been set using `SetDefaultPolicy()`, use that.
 4. Otherwise, apply the default headers (those added by `AddDefaultSecurityHeaders()`)
-
 
 ## RemoveServerHeader
 
