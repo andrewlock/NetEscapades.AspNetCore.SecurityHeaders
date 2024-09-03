@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using NetEscapades.AspNetCore.SecurityHeaders;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.AspNetCore.Builder;
@@ -8,7 +10,7 @@ namespace Microsoft.AspNetCore.Builder;
 /// <summary>
 /// Defines the policies to use for customising security headers for a request.
 /// </summary>
-public class HeaderPolicyCollection : Dictionary<string, IHeaderPolicy>
+public class HeaderPolicyCollection : Dictionary<string, IHeaderPolicy>, IReadOnlyHeaderPolicyCollection
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="HeaderPolicyCollection"/> class.
@@ -17,7 +19,11 @@ public class HeaderPolicyCollection : Dictionary<string, IHeaderPolicy>
     {
     }
 
-    private HeaderPolicyCollection(HeaderPolicyCollection other)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="HeaderPolicyCollection"/> class.
+    /// </summary>
+    /// <param name="other">The <see cref="IReadOnlyHeaderPolicyCollection"/> policies to copy</param>
+    internal HeaderPolicyCollection(IReadOnlyHeaderPolicyCollection other)
         : base(other)
     {
         DocumentHeaderContentTypePrefixes =
@@ -28,6 +34,9 @@ public class HeaderPolicyCollection : Dictionary<string, IHeaderPolicy>
     /// The content types that document-based headers such as Content-Security-Policy should apply to
     /// </summary>
     internal string[]? DocumentHeaderContentTypePrefixes { get; set; } = { "text/html", "application/javascript", "text/javascript" };
+
+    /// <inheritdoc/>
+    ICollection<string>? IReadOnlyHeaderPolicyCollection.DocumentHeaderContentTypePrefixes => DocumentHeaderContentTypePrefixes;
 
     /// <summary>
     /// Apply document-based headers such as Content-Security-Policy to all responses serving the provided
@@ -64,11 +73,4 @@ public class HeaderPolicyCollection : Dictionary<string, IHeaderPolicy>
 
         return this;
     }
-
-    /// <summary>
-    /// Creates a copy of the header collection
-    /// </summary>
-    /// <returns>A shallow copy of the header policy</returns>
-    public HeaderPolicyCollection Copy()
-        => new(this);
 }

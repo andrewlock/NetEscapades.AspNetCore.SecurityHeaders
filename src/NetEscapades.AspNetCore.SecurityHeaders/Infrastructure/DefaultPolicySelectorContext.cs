@@ -25,7 +25,7 @@ public readonly struct DefaultPolicySelectorContext
     public HttpContext HttpContext { get; }
 
     /// <summary>
-    /// The default policy that will applied to the request
+    /// The default policy that will be applied to the request
     /// </summary>
-    public HeaderPolicyCollection DefaultPolicy { get; }
+    public IReadOnlyHeaderPolicyCollection DefaultPolicy { get; }
 }

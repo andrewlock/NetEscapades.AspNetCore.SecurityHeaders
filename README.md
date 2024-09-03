@@ -259,7 +259,7 @@ To customize the final `HeaderPolicyCollection` used for a request, you can use 
 - `SetDefaultPolicySelector(policySelector)`&mdash;used to choose the `HeaderPolicyCollection` applied for default requests.
 - `SetEndpointPolicySelector(policySelector)`&mdash;used to choose the `HeaderPolicyCollection` applied when an endpoint-specific named policy is selected. 
 
-Both methods take a `Func<>` argument which is passed a context object, and must return a `HeaderPolicyCollection`. The `SetDefaultPolicySelector()` argument is invoked for every request, when the default policy is applied, and allows you to change the `HeaderPolicyCollection` to apply.  The `SetEndpointPolicySelector()` argument is only invoked when an endpoint-specific named policy is selected.
+Both methods take a `Func<>` argument which is passed a context object, and must return an `IReadOnlyHeaderPolicyCollection`. The `SetDefaultPolicySelector()` argument is invoked for every request, when the default policy is applied, and allows you to change the `IReadOnlyHeaderPolicyCollection` to apply.  The `SetEndpointPolicySelector()` argument is only invoked when an endpoint-specific named policy is selected.
 
 The following code shows how to use services inside the `SetDefaultPolicySelector()` method. This isn't necessary, but rather shows that you can completely customise the applied headers in any way you need to.
 
@@ -279,6 +279,8 @@ builder.Services.AddSecurityHeaderPolicies()
         return selector.GetPolicy(tenant);
     };
 ```
+
+Note that you should avoid creating a `HeaderPolicyCollection` from scratch on each request. Instead, cache policies for multiple requests where possible. However, if you need to build a new policy based on the policy passed in the context object, you can create a mutable copy by calling `IReadOnlyHeaderPolicyCollection.Copy()`, adding/updating policies as required, and returning the `HeaderPolicyCollection`. 
 
 ## RemoveServerHeader
 

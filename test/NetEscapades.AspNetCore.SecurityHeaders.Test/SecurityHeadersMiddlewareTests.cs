@@ -503,7 +503,7 @@ public class SecurityHeadersMiddlewareTests
                     .SetDefaultPolicySelector(ctx =>
                     {
                         var httpContext = ctx.HttpContext;
-                        var service = httpContext.RequestServices.GetService<HeaderPolicyCollectionFactory>();
+                        var service = httpContext.RequestServices.GetRequiredService<HeaderPolicyCollectionFactory>();
                         var tenantId = httpContext.Request.Headers["Tenant-ID"];
                         return service.GetPolicy(tenantId);
                     });
@@ -2301,7 +2301,7 @@ public class SecurityHeadersMiddlewareTests
         private readonly HeaderPolicyCollection _default = new HeaderPolicyCollection().AddCustomHeader("Custom-Header", "Default");
         private readonly HeaderPolicyCollection _custom = new HeaderPolicyCollection().AddCustomHeader("Custom-Header", "Custom");
         
-        public HeaderPolicyCollection GetPolicy(string tenantId)
+        public HeaderPolicyCollection GetPolicy(string? tenantId)
             => tenantId == "1234" ? _custom : _default;
     }
 }

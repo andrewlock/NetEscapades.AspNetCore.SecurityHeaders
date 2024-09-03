@@ -80,7 +80,7 @@ public class SecurityHeaderPolicyBuilder
     /// to select the policy to use. The final policy to execute should be returned from the function.</param>
     /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> for chaining</returns>
     public SecurityHeaderPolicyBuilder SetDefaultPolicySelector(
-        Func<DefaultPolicySelectorContext, HeaderPolicyCollection> policySelector)
+        Func<DefaultPolicySelectorContext, IReadOnlyHeaderPolicyCollection> policySelector)
     {
         _options.DefaultPolicySelector = policySelector;
         return this;
@@ -94,7 +94,7 @@ public class SecurityHeaderPolicyBuilder
     /// to select the policy to use. The final policy to execute should be returned from the function.</param>
     /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> for chaining</returns>
     public SecurityHeaderPolicyBuilder SetEndpointPolicySelector(
-        Func<EndpointPolicySelectorContext, HeaderPolicyCollection> policySelector)
+        Func<EndpointPolicySelectorContext, IReadOnlyHeaderPolicyCollection> policySelector)
     {
         _options.EndpointPolicySelector = policySelector;
         return this;

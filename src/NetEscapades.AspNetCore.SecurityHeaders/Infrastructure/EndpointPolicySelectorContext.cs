@@ -14,7 +14,7 @@ public readonly struct EndpointPolicySelectorContext
     /// <param name="httpContext">The current <see cref="HttpContext"/> for the request</param>
     /// <param name="selectedPolicyName">The name of the selected policy for the endpoint</param>
     /// <param name="selectedPolicy">The selected policy for the endpoint</param>
-    internal EndpointPolicySelectorContext(HttpContext httpContext, string selectedPolicyName, HeaderPolicyCollection selectedPolicy)
+    internal EndpointPolicySelectorContext(HttpContext httpContext, string selectedPolicyName, IReadOnlyHeaderPolicyCollection selectedPolicy)
     {
         HttpContext = httpContext;
         SelectedPolicyName = selectedPolicyName;
@@ -34,5 +34,5 @@ public readonly struct EndpointPolicySelectorContext
     /// <summary>
     /// The selected policy for the endpoint
     /// </summary>
-    public HeaderPolicyCollection SelectedPolicy { get; }
+    public IReadOnlyHeaderPolicyCollection SelectedPolicy { get; }
 }

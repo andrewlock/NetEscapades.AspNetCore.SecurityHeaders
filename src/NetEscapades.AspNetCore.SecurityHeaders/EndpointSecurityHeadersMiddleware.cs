@@ -17,7 +17,7 @@ internal class EndpointSecurityHeadersMiddleware
     private readonly RequestDelegate _next;
     private readonly ILogger<EndpointSecurityHeadersMiddleware> _logger;
     private readonly CustomHeaderOptions _options;
-    private readonly Func<EndpointPolicySelectorContext, HeaderPolicyCollection>? _policySelector;
+    private readonly Func<EndpointPolicySelectorContext, IReadOnlyHeaderPolicyCollection>? _policySelector;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EndpointSecurityHeadersMiddleware"/> class.
@@ -50,7 +50,7 @@ internal class EndpointSecurityHeadersMiddleware
 
         if (!string.IsNullOrEmpty(policyName))
         {
-            if (_options.GetPolicy(policyName) is { } policyToApply)
+            if (_options.GetPolicy(policyName) is IReadOnlyHeaderPolicyCollection policyToApply)
             {
                 if (_policySelector is not null)
                 {

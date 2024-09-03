@@ -22,7 +22,7 @@ internal class SecurityHeadersMiddleware
     private readonly RequestDelegate _next;
     private readonly HeaderPolicyCollection _defaultPolicy;
     private readonly NonceGenerator? _nonceGenerator;
-    private readonly Func<DefaultPolicySelectorContext, HeaderPolicyCollection> _policySelector;
+    private readonly Func<DefaultPolicySelectorContext, IReadOnlyHeaderPolicyCollection> _policySelector;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.
@@ -32,7 +32,7 @@ internal class SecurityHeadersMiddleware
     /// <param name="defaultPolicy">A <see cref="HeaderPolicyCollection"/> containing the policy to apply by default.</param>
     public SecurityHeadersMiddleware(
         RequestDelegate next,
-        Func<DefaultPolicySelectorContext, HeaderPolicyCollection> policySelector,
+        Func<DefaultPolicySelectorContext, IReadOnlyHeaderPolicyCollection> policySelector,
         HeaderPolicyCollection defaultPolicy)
     {
         _next = next ?? throw new ArgumentNullException(nameof(next));
@@ -74,7 +74,7 @@ internal class SecurityHeadersMiddleware
     {
         var context = (HttpContext)state;
 
-        if (context.Items[HttpContextKey] is HeaderPolicyCollection policy)
+        if (context.Items[HttpContextKey] is IReadOnlyHeaderPolicyCollection policy)
         {
             var result = CustomHeaderService.EvaluatePolicy(context, policy);
             CustomHeaderService.ApplyResult(context.Response, result);
