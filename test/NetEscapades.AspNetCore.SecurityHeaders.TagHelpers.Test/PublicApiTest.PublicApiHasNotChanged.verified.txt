@@ -1,0 +1,45 @@
+﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders")]
+[assembly: System.Resources.NeutralResourcesLanguage("en-GB")]
+namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
+{
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("*", Attributes="asp-add-csp-for-*")]
+    public class AttributeHashTagHelper : Microsoft.AspNetCore.Razor.TagHelpers.TagHelper
+    {
+        public AttributeHashTagHelper() { }
+        [Microsoft.AspNetCore.Mvc.ViewFeatures.ViewContext]
+        public Microsoft.AspNetCore.Mvc.Rendering.ViewContext? ViewContext { get; set; }
+        public override void Process(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext context, Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput output) { }
+    }
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("script", Attributes="asp-add-content-to-csp")]
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("style", Attributes="asp-add-content-to-csp")]
+    public class HashTagHelper : Microsoft.AspNetCore.Razor.TagHelpers.TagHelper
+    {
+        public HashTagHelper() { }
+        [Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeName("csp-hash-type")]
+        public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CSPHashType CSPHashType { get; set; }
+        [Microsoft.AspNetCore.Mvc.ViewFeatures.ViewContext]
+        public Microsoft.AspNetCore.Mvc.Rendering.ViewContext? ViewContext { get; set; }
+        public override System.Threading.Tasks.Task ProcessAsync(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext context, Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput output) { }
+    }
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("applet", Attributes="asp-add-nonce")]
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("audio", Attributes="asp-add-nonce")]
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("base", Attributes="asp-add-nonce")]
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("embed", Attributes="asp-add-nonce")]
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("frame", Attributes="asp-add-nonce")]
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("iframe", Attributes="asp-add-nonce")]
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("img", Attributes="asp-add-nonce")]
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("link", Attributes="asp-add-nonce")]
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("object", Attributes="asp-add-nonce")]
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("script", Attributes="asp-add-nonce")]
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("style", Attributes="asp-add-nonce")]
+    [Microsoft.AspNetCore.Razor.TagHelpers.HtmlTargetElement("video", Attributes="asp-add-nonce")]
+    public class NonceTagHelper : Microsoft.AspNetCore.Razor.TagHelpers.TagHelper
+    {
+        public NonceTagHelper() { }
+        [Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeName("asp-add-nonce")]
+        public bool AddNonce { get; set; }
+        [Microsoft.AspNetCore.Mvc.ViewFeatures.ViewContext]
+        public Microsoft.AspNetCore.Mvc.Rendering.ViewContext? ViewContext { get; set; }
+        public override void Process(Microsoft.AspNetCore.Razor.TagHelpers.TagHelperContext context, Microsoft.AspNetCore.Razor.TagHelpers.TagHelperOutput output) { }
+    }
+}
