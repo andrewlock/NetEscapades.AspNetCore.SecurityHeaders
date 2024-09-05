@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
 
@@ -22,6 +23,16 @@ public class PermissionsPolicyBuilder
     public AccelerometerPermissionsPolicyDirectiveBuilder AddAccelerometer() => AddDirective(new AccelerometerPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
+    /// Controls whether the current document is allowed to use the attribution reporting API.
+    /// If disabled then attributionsrc requests won't be made. Calling XMLHttpRequest.setAttributionReporting() will
+    /// throw an <code>Exception</code>. Including the attributionReporting option on a fetch() call will throw an <code>Exception</code>.
+    /// Registration headers "Attribution-Reporting-Register-Source" and "Attribution-Reporting-Register-Trigger" in
+    /// HTTP responses on associated documents will be ignored.
+    /// </summary>
+    /// <returns>A configured <see cref="AttributionReportingPermissionsPolicyDirectiveBuilder"/></returns>
+    public AttributionReportingPermissionsPolicyDirectiveBuilder AddAttributionReporting() => AddDirective(new AttributionReportingPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
     /// Controls whether the current document is allowed to use the ambient light sensor sensor.
     /// If disabled then constructing of a Sensor-based interface object will throw a
     /// <code>SecurityError</code>. The events are not fired. If an interface (or an
@@ -42,6 +53,26 @@ public class PermissionsPolicyBuilder
     public AutoplayPermissionsPolicyDirectiveBuilder AddAutoplay() => AddDirective(new AutoplayPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
+    /// Controls whether the current document is allowed to use the Web Bluetooth API.
+    /// If disabled then methods of the Bluetooth object returned by Navigator.bluetooth
+    /// will block access. Bluetooth.getAvailability() will always fulfill its returned
+    /// promise with a value of false. Bluetooth.getDevices() will reject its returned
+    /// promise with a <code>SecurityError</code>. Bluetooth.requestDevice() will reject
+    /// its returned promise with a <code>SecurityError</code>
+    /// </summary>
+    /// <returns>A configured <see cref="BluetoothPermissionsPolicyDirectiveBuilder"/></returns>
+    public BluetoothPermissionsPolicyDirectiveBuilder AddBluetooth() => AddDirective(new BluetoothPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
+    /// Controls whether the current document is allowed to use the Topics API.
+    /// If disabled then calling the <code>Document.browsingTopics()</code> method or
+    /// sending a request with a <code>Sec-Browsing-Topics</code> header will fail with a
+    /// <code>NotAllowedError</code>.
+    /// </summary>
+    /// <returns>A configured <see cref="BrowsingTopicsPermissionsPolicyDirectiveBuilder"/></returns>
+    public BrowsingTopicsPermissionsPolicyDirectiveBuilder AddBrowsingTopics() => AddDirective(new BrowsingTopicsPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
     /// Controls access to video input devices requested through the
     /// NavigatorUserMedia interface. If disabled in a document, then calls
     /// to <code>getUserMedia()</code> will not grant access to video input
@@ -49,6 +80,16 @@ public class PermissionsPolicyBuilder
     /// </summary>
     /// <returns>A configured <see cref="CameraPermissionsPolicyDirectiveBuilder"/></returns>
     public CameraPermissionsPolicyDirectiveBuilder AddCamera() => AddDirective(new CameraPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
+    /// Controls whether or not the current document is permitted to
+    /// use the <code>getDisplayMedia()</code> method to capture screen contents.
+    /// When this policy is disabled, the promise returned by <code>getDisplayMedia()</code>
+    /// will reject with a <code>NotAllowedError</code> DOMException if permission is not
+    /// obtained to capture the display's contents.
+    /// </summary>
+    /// <returns>A configured <see cref="DisplayCapturePermissionsPolicyDirectiveBuilder"/></returns>
+    public DisplayCapturePermissionsPolicyDirectiveBuilder AddDisplayCapture() => AddDirective(new DisplayCapturePermissionsPolicyDirectiveBuilder());
 
     /// <summary>
     /// Controls whether encrypted media extensions are available. If disabled
