@@ -1,0 +1,882 @@
+﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders")]
+[assembly: System.Resources.NeutralResourcesLanguage("en-GB")]
+namespace Microsoft.AspNetCore.Builder
+{
+    public static class ContentSecurityPolicyHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddContentSecurityPolicy(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, System.Action<Microsoft.AspNetCore.Builder.CspBuilder> configure, bool asReportOnly = false) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddContentSecurityPolicyReportOnly(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, System.Action<Microsoft.AspNetCore.Builder.CspBuilder> configure) { }
+    }
+    public class CrossOriginEmbedderPolicyBuilder : Microsoft.AspNetCore.Builder.CrossOriginPolicyBuilder
+    {
+        public CrossOriginEmbedderPolicyBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.EmbedderPolicy.CredentiallessDirectiveBuilder Credentialless() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.EmbedderPolicy.RequireCorpDirectiveBuilder RequireCorp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.EmbedderPolicy.UnsafeNoneDirectiveBuilder UnsafeNone() { }
+    }
+    public static class CrossOriginEmbedderPolicyHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddCrossOriginEmbedderPolicy(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, System.Action<Microsoft.AspNetCore.Builder.CrossOriginEmbedderPolicyBuilder> configure, bool asReportOnly = false) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddCrossOriginEmbedderPolicyReportOnly(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, System.Action<Microsoft.AspNetCore.Builder.CrossOriginEmbedderPolicyBuilder> configure) { }
+    }
+    public class CrossOriginOpenerPolicyBuilder : Microsoft.AspNetCore.Builder.CrossOriginPolicyBuilder
+    {
+        public CrossOriginOpenerPolicyBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.OpenerPolicy.SameOriginDirectiveBuilder SameOrigin() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.OpenerPolicy.SameOriginAllowPopupsDirectiveBuilder SameOriginAllowPopups() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.OpenerPolicy.UnsafeNoneDirectiveBuilder UnsafeNone() { }
+    }
+    public static class CrossOriginOpenerPolicyHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddCrossOriginOpenerPolicy(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, System.Action<Microsoft.AspNetCore.Builder.CrossOriginOpenerPolicyBuilder> configure, bool asReportOnly = false) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddCrossOriginOpenerPolicyReportOnly(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, System.Action<Microsoft.AspNetCore.Builder.CrossOriginOpenerPolicyBuilder> configure) { }
+    }
+    public abstract class CrossOriginPolicyBuilder
+    {
+        protected CrossOriginPolicyBuilder() { }
+        protected T AddDirective<T>(T directive)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.CrossOriginPolicyDirectiveBuilderBase { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.ReportDirectiveBuilder AddReport() { }
+    }
+    public class CrossOriginResourcePolicyBuilder : Microsoft.AspNetCore.Builder.CrossOriginPolicyBuilder
+    {
+        public CrossOriginResourcePolicyBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.ResourcePolicy.CrossOriginDirectiveBuilder CrossOrigin() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.ResourcePolicy.SameOriginDirectiveBuilder SameOrigin() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.ResourcePolicy.SameSiteDirectiveBuilder SameSite() { }
+    }
+    public static class CrossOriginResourcePolicyHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddCrossOriginResourcePolicy(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, System.Action<Microsoft.AspNetCore.Builder.CrossOriginResourcePolicyBuilder> configure) { }
+    }
+    public class CspBuilder
+    {
+        public CspBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.BaseUriDirectiveBuilder AddBaseUri() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.BlockAllMixedContentDirectiveBuilder AddBlockAllMixedContent() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ConnectSourceDirectiveBuilder AddConnectSrc() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirective AddCustomDirective(string directive) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirective AddCustomDirective(string directive, string value) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder AddCustomDirectiveBuilder(string directive) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder AddDefaultSrc() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FontSourceDirectiveBuilder AddFontSrc() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FormActionDirectiveBuilder AddFormAction() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder AddFrameAncestors() { }
+        [System.Obsolete("Use AddFrameSrc method instead. This method will be removed in a future version o" +
+            "f the library.")]
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameSourceDirectiveBuilder AddFrameSource() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameSourceDirectiveBuilder AddFrameSrc() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ImageSourceDirectiveBuilder AddImgSrc() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ManifestSourceDirectiveBuilder AddManifestSrc() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.MediaSourceDirectiveBuilder AddMediaSrc() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ObjectSourceDirectiveBuilder AddObjectSrc() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ReportToDirectiveBuilder AddReportTo(string groupName) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ReportUriDirectiveBuilder AddReportUri() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AddSandbox() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceDirectiveBuilder AddScriptSrc() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceAttrDirectiveBuilder AddScriptSrcAttr() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceElemDirectiveBuilder AddScriptSrcElem() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceDirectiveBuilder AddStyleSrc() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceAttrDirectiveBuilder AddStyleSrcAttr() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder AddStyleSrcElem() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.UpgradeInsecureRequestsDirectiveBuilder AddUpgradeInsecureRequests() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.WorkerSourceDirectiveBuilder AddWorkerSrc() { }
+    }
+    public static class CspDirectiveBuilderExtensions
+    {
+        public static T Blob<T>(this T builder)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T Data<T>(this T builder)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T From<T>(this T builder, System.Collections.Generic.IEnumerable<string> uris)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T From<T>(this T builder, string uri)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T None<T>(this T builder)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T OverHttps<T>(this T builder)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T Self<T>(this T builder)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T StrictDynamic<T>(this T builder)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T UnsafeEval<T>(this T builder)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T UnsafeHashes<T>(this T builder)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T UnsafeInline<T>(this T builder)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T WasmUnsafeEval<T>(this T builder)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T WithHash<T>(this T builder, string algorithm, string hash)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T WithHash256<T>(this T builder, string hash)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T WithHashSha384<T>(this T builder, string hash)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T WithHashSha512<T>(this T builder, string hash)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+        public static T WithNonce<T>(this T builder)
+            where T : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder { }
+    }
+    public static class CustomHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddCustomHeader(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, string header, string value) { }
+    }
+    public static class ExpectCTHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddExpectCT(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, int maxAgeInSeconds, string reportUri, bool enforce, params string[] excludedHosts) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddExpectCTEnforceAndReport(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, int maxAgeInSeconds, string reportUri) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddExpectCTEnforceOnly(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, int maxAgeInSeconds) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddExpectCTNoEnforceOrReport(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, int maxAgeInSeconds) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddExpectCTReportOnly(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, int maxAgeInSeconds, string reportUri) { }
+    }
+    public class FeaturePolicyBuilder
+    {
+        public FeaturePolicyBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.AccelerometerFeaturePolicyDirectiveBuilder AddAccelerometer() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.AmbientLightSensorFeaturePolicyDirectiveBuilder AddAmbientLightSensor() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.AutoplayFeaturePolicyDirectiveBuilder AddAutoplay() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.CameraFeaturePolicyDirectiveBuilder AddCamera() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.CustomFeaturePolicyDirectiveBuilder AddCustomFeature(string directive) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.CustomFeaturePolicyDirective AddCustomFeature(string directive, string value) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.EncryptedMediaFeaturePolicyDirectiveBuilder AddEncryptedMedia() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FullscreenFeaturePolicyDirectiveBuilder AddFullscreen() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.GeolocationFeaturePolicyDirectiveBuilder AddGeolocation() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.GyroscopeFeaturePolicyDirectiveBuilder AddGyroscope() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.MagnetometerFeaturePolicyDirectiveBuilder AddMagnetometer() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.MicrophoneFeaturePolicyDirectiveBuilder AddMicrophone() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.MidiFeaturePolicyDirectiveBuilder AddMidi() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.PaymentFeaturePolicyDirectiveBuilder AddPayment() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.PictureInPictureFeaturePolicyDirectiveBuilder AddPictureInPicture() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.SpeakerFeaturePolicyDirectiveBuilder AddSpeaker() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.SynchronousXhrFeaturePolicyDirectiveBuilder AddSyncXHR() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.UsbFeaturePolicyDirectiveBuilder AddUsb() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.VRFeaturePolicyDirectiveBuilder AddVR() { }
+    }
+    public static class FeaturePolicyHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddFeaturePolicy(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, System.Action<Microsoft.AspNetCore.Builder.FeaturePolicyBuilder> configure) { }
+    }
+    public class HeaderPolicyCollection : System.Collections.Generic.Dictionary<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>
+    {
+        public HeaderPolicyCollection() { }
+        public Microsoft.AspNetCore.Builder.HeaderPolicyCollection ApplyDocumentHeadersToAllResponses() { }
+        public Microsoft.AspNetCore.Builder.HeaderPolicyCollection ApplyDocumentHeadersToContentTypes(string[] contentTypes) { }
+    }
+    public static class HeaderPolicyCollectionExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddDefaultSecurityHeaders(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+    }
+    public class PermissionsPolicyBuilder
+    {
+        public PermissionsPolicyBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.AccelerometerPermissionsPolicyDirectiveBuilder AddAccelerometer() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.AmbientLightSensorPermissionsPolicyDirectiveBuilder AddAmbientLightSensor() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.AutoplayPermissionsPolicyDirectiveBuilder AddAutoplay() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.CameraPermissionsPolicyDirectiveBuilder AddCamera() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.CustomPermissionsPolicyDirectiveBuilder AddCustomFeature(string directive) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.CustomPermissionsPolicyDirective AddCustomFeature(string directive, string value) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.EncryptedMediaPermissionsPolicyDirectiveBuilder AddEncryptedMedia() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.FederatedLearningOfCohortsCalculationPermissionsPolicyDirectiveBuilder AddFederatedLearningOfCohortsCalculation() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.FullscreenPermissionsPolicyDirectiveBuilder AddFullscreen() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.GeolocationPermissionsPolicyDirectiveBuilder AddGeolocation() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.GyroscopePermissionsPolicyDirectiveBuilder AddGyroscope() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.MagnetometerPermissionsPolicyDirectiveBuilder AddMagnetometer() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.MicrophonePermissionsPolicyDirectiveBuilder AddMicrophone() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.MidiPermissionsPolicyDirectiveBuilder AddMidi() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PaymentPermissionsPolicyDirectiveBuilder AddPayment() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PictureInPicturePermissionsPolicyDirectiveBuilder AddPictureInPicture() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.SpeakerPermissionsPolicyDirectiveBuilder AddSpeaker() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.SynchronousXhrPermissionsPolicyDirectiveBuilder AddSyncXHR() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.UsbPermissionsPolicyDirectiveBuilder AddUsb() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.VRPermissionsPolicyDirectiveBuilder AddVR() { }
+    }
+    public static class PermissionsPolicyHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddPermissionsPolicy(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, System.Action<Microsoft.AspNetCore.Builder.PermissionsPolicyBuilder> configure) { }
+    }
+    public static class ReferrerPolicyHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddReferrerPolicyNoReferrer(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddReferrerPolicyNoReferrerWhenDowngrade(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddReferrerPolicyNone(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddReferrerPolicyOrigin(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddReferrerPolicyOriginWhenCrossOrigin(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddReferrerPolicySameOrigin(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddReferrerPolicyStrictOrigin(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddReferrerPolicyStrictOriginWhenCrossOrigin(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddReferrerPolicyUnsafeUrl(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+    }
+    public static class RemoveCustomHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection RemoveCustomHeader(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, string header) { }
+    }
+    public static class ReportingEndpointsHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddReportingEndpoints(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, System.Action<NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder> configure) { }
+    }
+    public static class SecurityHeadersMiddlewareExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseSecurityHeaders(this Microsoft.AspNetCore.Builder.IApplicationBuilder app) { }
+        public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseSecurityHeaders(this Microsoft.AspNetCore.Builder.IApplicationBuilder app, Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseSecurityHeaders(this Microsoft.AspNetCore.Builder.IApplicationBuilder app, System.Action<Microsoft.AspNetCore.Builder.HeaderPolicyCollection> configure) { }
+    }
+    public static class ServerHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection RemoveServerHeader(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+    }
+    public static class StrictTransportSecurityHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddStrictTransportSecurity(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, int maxAgeInSeconds, bool includeSubdomains, bool preload, params string[] excludedHosts) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddStrictTransportSecurityMaxAge(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, int maxAgeInSeconds = 31536000) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddStrictTransportSecurityMaxAgeIncludeSubDomains(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, int maxAgeInSeconds = 31536000) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddStrictTransportSecurityMaxAgeIncludeSubDomainsAndPreload(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, int maxAgeInSeconds = 31536000) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddStrictTransportSecurityNoCache(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+    }
+    public static class XContentTypeOptionsHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddContentTypeOptionsNoSniff(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+    }
+    public static class XFrameOptionsHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddFrameOptionsDeny(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddFrameOptionsSameOrigin(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddFrameOptionsSameOrigin(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, string uri) { }
+    }
+    public static class XssProtectionHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddXssProtectionBlock(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddXssProtectionDisabled(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddXssProtectionEnabled(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddXssProtectionReport(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, string reportUrl) { }
+    }
+}
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
+{
+    public class BaseUriDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public BaseUriDirectiveBuilder() { }
+    }
+    public class BlockAllMixedContentDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase
+    {
+        public BlockAllMixedContentDirectiveBuilder() { }
+    }
+    public class ConnectSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public ConnectSourceDirectiveBuilder() { }
+    }
+    public class CspDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase
+    {
+        public CspDirectiveBuilder(string directive) { }
+        public bool BlockResources { get; set; }
+        public System.Collections.Generic.List<string> Sources { get; }
+    }
+    public abstract class CspDirectiveBuilderBase
+    {
+        public CspDirectiveBuilderBase(string directive) { }
+    }
+    public class CustomDirective : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase
+    {
+        public CustomDirective(string directive) { }
+        public CustomDirective(string directive, string value) { }
+        public string Value { get; }
+    }
+    public class DefaultSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public DefaultSourceDirectiveBuilder() { }
+    }
+    public class FontSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public FontSourceDirectiveBuilder() { }
+    }
+    public class FormActionDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public FormActionDirectiveBuilder() { }
+    }
+    public class FrameAncestorsDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase
+    {
+        public FrameAncestorsDirectiveBuilder() { }
+        public bool BlockResources { get; set; }
+        public System.Collections.Generic.List<string> Sources { get; }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder Blob() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder Data() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder From(string uri) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder None() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder Self() { }
+    }
+    public class FrameSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public FrameSourceDirectiveBuilder() { }
+    }
+    public class ImageSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public ImageSourceDirectiveBuilder() { }
+    }
+    public class ManifestSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public ManifestSourceDirectiveBuilder() { }
+    }
+    public class MediaSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public MediaSourceDirectiveBuilder() { }
+    }
+    public class ObjectSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public ObjectSourceDirectiveBuilder() { }
+    }
+    public class ReportToDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase
+    {
+        public ReportToDirectiveBuilder(string groupName) { }
+    }
+    public class ReportUriDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase
+    {
+        public ReportUriDirectiveBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase To(string uri) { }
+    }
+    public class SandboxDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase
+    {
+        public SandboxDirectiveBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AddCustomToken(string token) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AllowDownloads() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AllowForms() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AllowModals() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AllowOrientationLock() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AllowPointerLock() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AllowPopups() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AllowPopupsToEscapeSandbox() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AllowPresentation() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AllowSameOrigin() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AllowScripts() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AllowTopNavigation() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AllowTopNavigationByUserActivation() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AllowTopNavigationToCustomProtocols() { }
+    }
+    public class ScriptSourceAttrDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public ScriptSourceAttrDirectiveBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceAttrDirectiveBuilder ReportSample() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceAttrDirectiveBuilder WithHashTagHelper() { }
+    }
+    public class ScriptSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public ScriptSourceDirectiveBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceDirectiveBuilder ReportSample() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceDirectiveBuilder WithHashTagHelper() { }
+    }
+    public class ScriptSourceElemDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public ScriptSourceElemDirectiveBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceElemDirectiveBuilder ReportSample() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceElemDirectiveBuilder WithHashTagHelper() { }
+    }
+    public class StyleSourceAttrDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public StyleSourceAttrDirectiveBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceAttrDirectiveBuilder ReportSample() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceAttrDirectiveBuilder WithHashTagHelper() { }
+    }
+    public class StyleSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public StyleSourceDirectiveBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceDirectiveBuilder ReportSample() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceDirectiveBuilder WithHashTagHelper() { }
+    }
+    public class StyleSourceElemDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public StyleSourceElemDirectiveBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder ReportSample() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder WithHashTagHelper() { }
+    }
+    public class UpgradeInsecureRequestsDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase
+    {
+        public UpgradeInsecureRequestsDirectiveBuilder() { }
+    }
+    public class WorkerSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public WorkerSourceDirectiveBuilder() { }
+    }
+}
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
+{
+    public abstract class ContentSecurityPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.DocumentHeaderPolicyBase
+    {
+        protected ContentSecurityPolicyHeader(bool reportOnly, bool hasPerRequestValues) { }
+        public override string Header { get; }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.CspBuilder> configure, bool asReportOnly) { }
+        public class DynamicContentSecurityPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicyHeader
+        {
+            public DynamicContentSecurityPolicyHeader(System.Func<Microsoft.AspNetCore.Http.HttpContext, string> builder, bool asReportOnly) { }
+            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        }
+        public class StaticContentSecurityPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicyHeader
+        {
+            public StaticContentSecurityPolicyHeader(string value, bool asReportOnly) { }
+            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        }
+    }
+    public abstract class CrossOriginEmbedderPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        protected CrossOriginEmbedderPolicyHeader(bool reportOnly) { }
+        public override string Header { get; }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginEmbedderPolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.CrossOriginEmbedderPolicyBuilder> configure, bool asReportOnly) { }
+        public class StaticCrossOriginEmbedderPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginEmbedderPolicyHeader
+        {
+            public StaticCrossOriginEmbedderPolicyHeader(string value, bool asReportOnly) { }
+            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        }
+    }
+    public abstract class CrossOriginOpenerPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.DocumentHeaderPolicyBase
+    {
+        protected CrossOriginOpenerPolicyHeader(bool reportOnly) { }
+        public override string Header { get; }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginOpenerPolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.CrossOriginOpenerPolicyBuilder> configure, bool asReportOnly) { }
+        public class StaticCrossOriginOpenerPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginOpenerPolicyHeader
+        {
+            public StaticCrossOriginOpenerPolicyHeader(string value, bool asReportOnly) { }
+            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        }
+    }
+    public abstract class CrossOriginResourcePolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        protected CrossOriginResourcePolicyHeader() { }
+        public override string Header { get; }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginResourcePolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.CrossOriginResourcePolicyBuilder> configure) { }
+        public class StaticCrossOriginResourcePolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginResourcePolicyHeader
+        {
+            public StaticCrossOriginResourcePolicyHeader(string value) { }
+            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        }
+    }
+    public class CustomHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public CustomHeader(string header, string value) { }
+        public override string Header { get; }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    public abstract class DocumentHeaderPolicyBase : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy
+    {
+        protected DocumentHeaderPolicyBase() { }
+        public override void Apply(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        public void Apply(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result, Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+    }
+    public class ExpectCTHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public ExpectCTHeader(string value, System.Collections.Generic.IReadOnlyList<string> excludedHosts) { }
+        public override string Header { get; }
+        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    public class FeaturePolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.DocumentHeaderPolicyBase
+    {
+        public FeaturePolicyHeader(string value) { }
+        public override string Header { get; }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.FeaturePolicyBuilder> configure) { }
+    }
+    public abstract class HeaderPolicyBase : NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy
+    {
+        protected HeaderPolicyBase() { }
+        public abstract string Header { get; }
+        public virtual void Apply(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected virtual void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected virtual void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected abstract string GetValue(Microsoft.AspNetCore.Http.HttpContext context);
+    }
+    public abstract class HtmlOnlyHeaderPolicyBase : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        protected HtmlOnlyHeaderPolicyBase() { }
+        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+    }
+    public interface IHeaderPolicy
+    {
+        string Header { get; }
+        void Apply(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result);
+    }
+    public class PermissionsPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.DocumentHeaderPolicyBase
+    {
+        public PermissionsPolicyHeader(string value) { }
+        public override string Header { get; }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.PermissionsPolicyBuilder> configure) { }
+    }
+    public class ReferrerPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.DocumentHeaderPolicyBase
+    {
+        public ReferrerPolicyHeader(string value) { }
+        public override string Header { get; }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    public class RemoveCustomHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public RemoveCustomHeader(string header) { }
+        public override string Header { get; }
+        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    public abstract class ReportingEndpointsHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        protected ReportingEndpointsHeader() { }
+        public override string Header { get; }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeader Build(System.Action<NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder> configure) { }
+        public class StaticReportingEndpointsHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeader
+        {
+            public StaticReportingEndpointsHeader(string value) { }
+            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        }
+    }
+    public class ReportingEndpointsHeaderBuilder
+    {
+        public ReportingEndpointsHeaderBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder AddDefaultEndpoint(string url) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder AddDefaultEndpoint(System.Uri url) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder AddEndpoint(string name, string url) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder AddEndpoint(string name, System.Uri url) { }
+    }
+    public class ServerHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public ServerHeader(string value) { }
+        public override string Header { get; }
+        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    public class StrictTransportSecurityHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public const int OneYearInSeconds = 31536000;
+        public StrictTransportSecurityHeader(string value, System.Collections.Generic.IReadOnlyList<string> excludedHosts) { }
+        public override string Header { get; }
+        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    public class XContentTypeOptionsHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public XContentTypeOptionsHeader(string value) { }
+        public override string Header { get; }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    public class XFrameOptionsHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.DocumentHeaderPolicyBase
+    {
+        public XFrameOptionsHeader(string value) { }
+        public override string Header { get; }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    public class XssProtectionHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.DocumentHeaderPolicyBase
+    {
+        public XssProtectionHeader(string value) { }
+        public override string Header { get; }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+}
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies
+{
+    public abstract class CrossOriginPolicyDirectiveBuilderBase
+    {
+        protected CrossOriginPolicyDirectiveBuilderBase(string directive) { }
+    }
+    public class ReportDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.CrossOriginPolicyDirectiveBuilderBase
+    {
+        public ReportDirectiveBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.CrossOriginPolicyDirectiveBuilderBase To(string endpoint) { }
+    }
+}
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.EmbedderPolicy
+{
+    public class CredentiallessDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.EmbedderPolicy.CrossOriginEmbedderPolicyDirectiveBuilderBase
+    {
+        public CredentiallessDirectiveBuilder() { }
+    }
+    public abstract class CrossOriginEmbedderPolicyDirectiveBuilderBase : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.CrossOriginPolicyDirectiveBuilderBase
+    {
+        protected CrossOriginEmbedderPolicyDirectiveBuilderBase(string directive) { }
+    }
+    public class RequireCorpDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.EmbedderPolicy.CrossOriginEmbedderPolicyDirectiveBuilderBase
+    {
+        public RequireCorpDirectiveBuilder() { }
+    }
+    public class UnsafeNoneDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.EmbedderPolicy.CrossOriginEmbedderPolicyDirectiveBuilderBase
+    {
+        public UnsafeNoneDirectiveBuilder() { }
+    }
+}
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.OpenerPolicy
+{
+    public abstract class CrossOriginOpenerPolicyDirectiveBuilderBase : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.CrossOriginPolicyDirectiveBuilderBase
+    {
+        protected CrossOriginOpenerPolicyDirectiveBuilderBase(string directive) { }
+    }
+    public class SameOriginAllowPopupsDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.OpenerPolicy.CrossOriginOpenerPolicyDirectiveBuilderBase
+    {
+        public SameOriginAllowPopupsDirectiveBuilder() { }
+    }
+    public class SameOriginDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.OpenerPolicy.CrossOriginOpenerPolicyDirectiveBuilderBase
+    {
+        public SameOriginDirectiveBuilder() { }
+    }
+    public class UnsafeNoneDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.OpenerPolicy.CrossOriginOpenerPolicyDirectiveBuilderBase
+    {
+        public UnsafeNoneDirectiveBuilder() { }
+    }
+}
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.ResourcePolicy
+{
+    public class CrossOriginDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.ResourcePolicy.CrossOriginResourcePolicyDirectiveBuilderBase
+    {
+        public CrossOriginDirectiveBuilder() { }
+    }
+    public abstract class CrossOriginResourcePolicyDirectiveBuilderBase : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.CrossOriginPolicyDirectiveBuilderBase
+    {
+        protected CrossOriginResourcePolicyDirectiveBuilderBase(string directive) { }
+    }
+    public class SameOriginDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.ResourcePolicy.CrossOriginResourcePolicyDirectiveBuilderBase
+    {
+        public SameOriginDirectiveBuilder() { }
+    }
+    public class SameSiteDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies.ResourcePolicy.CrossOriginResourcePolicyDirectiveBuilderBase
+    {
+        public SameSiteDirectiveBuilder() { }
+    }
+}
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy
+{
+    public class AccelerometerFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public AccelerometerFeaturePolicyDirectiveBuilder() { }
+    }
+    public class AmbientLightSensorFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public AmbientLightSensorFeaturePolicyDirectiveBuilder() { }
+    }
+    public class AutoplayFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public AutoplayFeaturePolicyDirectiveBuilder() { }
+    }
+    public class CameraFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public CameraFeaturePolicyDirectiveBuilder() { }
+    }
+    public class CustomFeaturePolicyDirective : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilderBase
+    {
+        public CustomFeaturePolicyDirective(string directive, string value) { }
+        public string Value { get; }
+    }
+    public class CustomFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public CustomFeaturePolicyDirectiveBuilder(string directive) { }
+    }
+    public class EncryptedMediaFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public EncryptedMediaFeaturePolicyDirectiveBuilder() { }
+    }
+    public class FeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilderBase
+    {
+        public FeaturePolicyDirectiveBuilder(string directive) { }
+        public System.Collections.Generic.List<string> Sources { get; }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder All() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder For(string uri) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder None() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder Self() { }
+    }
+    public abstract class FeaturePolicyDirectiveBuilderBase
+    {
+        public FeaturePolicyDirectiveBuilderBase(string directive) { }
+    }
+    public class FullscreenFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public FullscreenFeaturePolicyDirectiveBuilder() { }
+    }
+    public class GeolocationFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public GeolocationFeaturePolicyDirectiveBuilder() { }
+    }
+    public class GyroscopeFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public GyroscopeFeaturePolicyDirectiveBuilder() { }
+    }
+    public class MagnetometerFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public MagnetometerFeaturePolicyDirectiveBuilder() { }
+    }
+    public class MicrophoneFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public MicrophoneFeaturePolicyDirectiveBuilder() { }
+    }
+    public class MidiFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public MidiFeaturePolicyDirectiveBuilder() { }
+    }
+    public class PaymentFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public PaymentFeaturePolicyDirectiveBuilder() { }
+    }
+    public class PictureInPictureFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public PictureInPictureFeaturePolicyDirectiveBuilder() { }
+    }
+    public class SpeakerFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public SpeakerFeaturePolicyDirectiveBuilder() { }
+    }
+    public class SynchronousXhrFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public SynchronousXhrFeaturePolicyDirectiveBuilder() { }
+    }
+    public class UsbFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public UsbFeaturePolicyDirectiveBuilder() { }
+    }
+    public class VRFeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder
+    {
+        public VRFeaturePolicyDirectiveBuilder() { }
+    }
+}
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy
+{
+    public class AccelerometerPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public AccelerometerPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class AmbientLightSensorPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public AmbientLightSensorPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class AutoplayPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public AutoplayPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class CameraPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public CameraPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class CustomPermissionsPolicyDirective : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilderBase
+    {
+        public CustomPermissionsPolicyDirective(string directive, string value) { }
+        public string Value { get; }
+    }
+    public class CustomPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public CustomPermissionsPolicyDirectiveBuilder(string directive) { }
+    }
+    public class EncryptedMediaPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public EncryptedMediaPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class FederatedLearningOfCohortsCalculationPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public FederatedLearningOfCohortsCalculationPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class FullscreenPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public FullscreenPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class GeolocationPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public GeolocationPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class GyroscopePermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public GyroscopePermissionsPolicyDirectiveBuilder() { }
+    }
+    public class MagnetometerPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public MagnetometerPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class MicrophonePermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public MicrophonePermissionsPolicyDirectiveBuilder() { }
+    }
+    public class MidiPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public MidiPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class PaymentPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public PaymentPermissionsPolicyDirectiveBuilder() { }
+    }
+    public abstract class PermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilderBase
+    {
+        public PermissionsPolicyDirectiveBuilder(string directive) { }
+        public System.Collections.Generic.List<string> Sources { get; }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder All() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder For(string uri) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder None() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder Self() { }
+    }
+    public abstract class PermissionsPolicyDirectiveBuilderBase
+    {
+        public PermissionsPolicyDirectiveBuilderBase(string directive) { }
+    }
+    public class PictureInPicturePermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public PictureInPicturePermissionsPolicyDirectiveBuilder() { }
+    }
+    public class SpeakerPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public SpeakerPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class SynchronousXhrPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public SynchronousXhrPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class UsbPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public UsbPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class VRPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public VRPermissionsPolicyDirectiveBuilder() { }
+    }
+}
+namespace NetEscapades.AspNetCore.SecurityHeaders
+{
+    public static class HttpContextExtensions
+    {
+        public static string GetNonce(this Microsoft.AspNetCore.Http.HttpContext context) { }
+        public static void SetScriptCSPHash(this Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CSPHashType algorithm, string hash) { }
+        public static void SetStylesCSPHash(this Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CSPHashType algorithm, string hash) { }
+    }
+    public class SecurityHeadersMiddleware
+    {
+        public SecurityHeadersMiddleware(Microsoft.AspNetCore.Http.RequestDelegate next, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService service, Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public System.Threading.Tasks.Task Invoke(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+}
+namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
+{
+    public enum CSPHashType
+    {
+        SHA256 = 0,
+        SHA384 = 1,
+        SHA512 = 2,
+    }
+    [System.Obsolete("This class is unused since v0.5.0, and will be removed in a future version of the" +
+        " package")]
+    public class CustomHeaderOptions
+    {
+        public CustomHeaderOptions() { }
+        public string DefaultPolicyName { get; set; }
+        public System.Collections.Generic.Dictionary<string, Microsoft.AspNetCore.Builder.HeaderPolicyCollection> PolicyCollections { get; }
+        public Microsoft.AspNetCore.Builder.HeaderPolicyCollection? GetPolicy(string name) { }
+    }
+    public class CustomHeaderService : NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService
+    {
+        public CustomHeaderService() { }
+        public virtual void ApplyResult(Microsoft.AspNetCore.Http.HttpResponse response, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        public virtual NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult EvaluatePolicy(Microsoft.AspNetCore.Http.HttpContext context, Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+    }
+    public class CustomHeadersResult
+    {
+        public CustomHeadersResult() { }
+        public System.Collections.Generic.ISet<string> RemoveHeaders { get; }
+        public System.Collections.Generic.IDictionary<string, string> SetHeaders { get; }
+    }
+    public interface ICustomHeaderService
+    {
+        void ApplyResult(Microsoft.AspNetCore.Http.HttpResponse response, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result);
+        NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult EvaluatePolicy(Microsoft.AspNetCore.Http.HttpContext context, Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies);
+    }
+}
