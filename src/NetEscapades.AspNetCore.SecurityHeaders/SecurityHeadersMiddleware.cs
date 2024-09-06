@@ -22,15 +22,21 @@ internal class SecurityHeadersMiddleware
     private readonly RequestDelegate _next;
     private readonly HeaderPolicyCollection _defaultPolicy;
     private readonly NonceGenerator? _nonceGenerator;
+    private readonly Func<DefaultPolicySelectorContext, IReadOnlyHeaderPolicyCollection> _policySelector;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.
     /// </summary>
     /// <param name="next">The next middleware in the pipeline.</param>
+    /// <param name="policySelector">An optional function to execute to change the policy prior to applying</param>
     /// <param name="defaultPolicy">A <see cref="HeaderPolicyCollection"/> containing the policy to apply by default.</param>
-    public SecurityHeadersMiddleware(RequestDelegate next, HeaderPolicyCollection defaultPolicy)
+    public SecurityHeadersMiddleware(
+        RequestDelegate next,
+        Func<DefaultPolicySelectorContext, IReadOnlyHeaderPolicyCollection> policySelector,
+        HeaderPolicyCollection defaultPolicy)
     {
         _next = next ?? throw new ArgumentNullException(nameof(next));
+        _policySelector = policySelector;
         _defaultPolicy = defaultPolicy ?? throw new ArgumentNullException(nameof(defaultPolicy));
         _nonceGenerator = MustGenerateNonce(_defaultPolicy) ? new() : null;
     }
@@ -43,7 +49,13 @@ internal class SecurityHeadersMiddleware
     public Task Invoke(HttpContext context)
     {
         // Write into the context, so that subsequent requests can "overwrite" it
-        context.Items[HttpContextKey] = _defaultPolicy;
+        var policyToApply = _policySelector(new(context, _defaultPolicy));
+        if (policyToApply is null)
+        {
+            ThrowNull();
+        }
+
+        context.Items[HttpContextKey] = _policySelector(new(context, _defaultPolicy));
         context.Response.OnStarting(OnResponseStarting, context);
         if (_nonceGenerator is not null)
         {
@@ -53,11 +65,16 @@ internal class SecurityHeadersMiddleware
         return _next(context);
     }
 
+    private static void ThrowNull()
+    {
+        throw new InvalidOperationException($"{nameof(SecurityHeaderPolicyBuilder.SetDefaultPolicySelector)} must not return null.");
+    }
+
     private static Task OnResponseStarting(object state)
     {
         var context = (HttpContext)state;
 
-        if (context.Items[HttpContextKey] is HeaderPolicyCollection policy)
+        if (context.Items[HttpContextKey] is IReadOnlyHeaderPolicyCollection policy)
         {
             var result = CustomHeaderService.EvaluatePolicy(context, policy);
             CustomHeaderService.ApplyResult(context.Response, result);
