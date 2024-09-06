@@ -137,6 +137,43 @@ public class PermissionsPolicyBuilder
     public FederatedLearningOfCohortsCalculationPermissionsPolicyDirectiveBuilder AddFederatedLearningOfCohortsCalculation() => AddDirective(new FederatedLearningOfCohortsCalculationPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
+    /// The HTTP Permissions-Policy header hid directive controls whether the current document
+    /// is allowed to use the <code>WebHID API</code> to connect to uncommon or exotic human interface devices
+    /// such as alternative keyboards or gamepads. Specifically, where a defined policy blocks WebHID usage,
+    /// the <code>Navigator.hid</code> property will not be available.
+    /// </summary>
+    /// <returns>A configured <see cref="HidPermissionsPolicyDirectiveBuilder"/></returns>
+    public HidPermissionsPolicyDirectiveBuilder AddHid() => AddDirective(new HidPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
+    /// The HTTP Permissions-Policy header identity-credentials-get directive controls whether
+    /// the current document is allowed to use the <code>Federated Credential Management API (FedCM)</code>
+    /// and more specifically the <code>navigator.credentials.get()</code> method with an identity option.
+    /// Where this policy forbids use of the API, the Promise returned by the <code>get()</code> call
+    /// will reject with a <code>NotAllowedError DOMException</code>
+    /// </summary>
+    /// <returns>A configured <see cref="IdentityCredentialsGetPermissionsPolicyDirectiveBuilder"/></returns>
+    public IdentityCredentialsGetPermissionsPolicyDirectiveBuilder AddIdentityCredentialsGet() => AddDirective(new IdentityCredentialsGetPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
+    /// The HTTP Permissions-Policy header idle-detection directive controls whether the current document is
+    /// allowed to use the Idle Detection API to detect when users are interacting with their devices, for
+    /// example to report "available"/"away" status in chat applications. Specifically, where a defined
+    /// policy blocks use of this feature, <code>IdleDetector.start()</code> calls will return a Promise that rejects
+    /// with a <code>DOMException</code> of type <code>NotAllowedError</code>
+    /// </summary>
+    /// <returns>A configured <see cref="IdleDetectionPermissionsPolicyDirectiveBuilder"/></returns>
+    public IdleDetectionPermissionsPolicyDirectiveBuilder AddIdleDetection() => AddDirective(new IdleDetectionPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
+    /// The HTTP Permissions-Policy header local-fonts directive controls whether the current
+    /// document is allowed to gather data on the user's locally-installed fonts via the
+    /// <code>Window.queryLocalFonts()</code> method.
+    /// </summary>
+    /// <returns>A configured <see cref="LocalFontsPermissionsPolicyDirectiveBuilder"/></returns>
+    public LocalFontsPermissionsPolicyDirectiveBuilder AddLocalFonts() => AddDirective(new LocalFontsPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
     /// Controls whether the current document is allowed to use the magnetometer sensor.
     /// If disabled then constructing of a Sensor-based interface object will throw a
     /// <code>SecurityError</code>. The events are not fired. If an interface (or an
@@ -164,6 +201,17 @@ public class PermissionsPolicyBuilder
     public MidiPermissionsPolicyDirectiveBuilder AddMidi() => AddDirective(new MidiPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
+    /// The HTTP Permissions-Policy header otp-credentials directive controls whether
+    /// the current document is allowed to use the <code>WebOTP API</code> to request a one-time
+    /// password (OTP) from a specially-formatted SMS message sent by the app's server,
+    /// i.e., via <code>navigator.credentials.get({otp: ..., ...})</code> Specifically, where a defined
+    /// policy blocks the use of this feature, the Promise returned by <code>navigator.credentials.get({otp})</code>
+    /// will reject with a <code>SecurityError DOMException</code>
+    /// </summary>
+    /// <returns>A configured <see cref="OtpCredentialsPermissionsPolicyDirectiveBuilder"/></returns>
+    public OtpCredentialsPermissionsPolicyDirectiveBuilder AddOtpCredentials() => AddDirective(new OtpCredentialsPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
     /// Controls  whether the current document is allowed to use the
     /// PaymentRequest interface. If disabled then calls to the
     /// <code>PaymentRequest</code> constuctor will throw a <code>SecurityError</code>.
@@ -181,6 +229,44 @@ public class PermissionsPolicyBuilder
     public PictureInPicturePermissionsPolicyDirectiveBuilder AddPictureInPicture() => AddDirective(new PictureInPicturePermissionsPolicyDirectiveBuilder());
 
     /// <summary>
+    /// The HTTP Permissions-Policy header publickey-credentials-create directive controls
+    /// whether the current document is allowed to use the <code>Web Authentication API</code> to create
+    /// new WebAuthn credentials, i.e., via <code>navigator.credentials.create({publicKey})</code>
+    /// Specifically, where a defined policy blocks use of this feature, the Promise returned
+    /// by <code>navigator.credentials.create({publicKey})</code> will reject with a <code>NotAllowedError DOMException</code>
+    /// If the method is called cross-origin. the Promise will also reject with a <code>NotAllowedError</code>
+    /// if the feature is granted by allow= on an iframe and the frame does not also have Transient activation.
+    /// </summary>
+    /// <returns>A configured <see cref="PublickeyCredentialsCreatePermissionsPolicyDirectiveBuilder"/></returns>
+    public PublickeyCredentialsCreatePermissionsPolicyDirectiveBuilder AddPublickeyCredentialsCreate() => AddDirective(new PublickeyCredentialsCreatePermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
+    /// The HTTP Permissions-Policy header publickey-credentials-get directive controls whether the current document is
+    /// allowed to access the Web Authentication API to retrieve public-key credentials, i.e., via <code>navigator.credentials.get({publicKey})</code>
+    /// Specifically, where a defined policy blocks the use of this feature, the Promise returned by <code>navigator.credentials.get({publicKey})</code>
+    /// will reject with a <code>NotAllowedError DOMException</code>
+    /// </summary>
+    /// <returns>A configured <see cref="PublickeyCredentialsGetPermissionsPolicyDirectiveBuilder"/></returns>
+    public PublickeyCredentialsGetPermissionsPolicyDirectiveBuilder AddPublickeyCredentialsGet() => AddDirective(new PublickeyCredentialsGetPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
+    /// The HTTP Permissions-Policy header screen-wake-lock directive controls whether the current document is allowed to use
+    /// <code>Screen Wake Lock API</code> to indicate that the device should not dim or turn off the screen. Specifically, where a defined
+    /// policy blocks use of this feature, <code>WakeLock.request()</code> calls will return a Promise that rejects with a <code>DOMException</code> of type <code>NotAllowedError</code>
+    /// </summary>
+    /// <returns>A configured <see cref="ScreenWakeLockPermissionsPolicyDirectiveBuilder"/></returns>
+    public ScreenWakeLockPermissionsPolicyDirectiveBuilder AddScreenWakeLockPermissionsPolicyDirectiveBuilder() => AddDirective(new ScreenWakeLockPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
+    /// The HTTP Permissions-Policy header serial directive controls whether the current document is allowed to use
+    /// the <code>Web Serial API</code> to communicate with serial devices, either directly connected via a serial port, or via USB
+    /// or Bluetooth devices emulating a serial port. Specifically, where a defined policy blocks use of this feature,
+    /// <code>Serial.requestPort()</code> and <code>Serial.getPorts()</code> calls will return a Promise that rejects with a <code>DOMException</code> of type <code>SecurityError</code>
+    /// </summary>
+    /// <returns>A configured <see cref="SerialPermissionsPolicyDirectiveBuilder"/></returns>
+    public SerialPermissionsPolicyDirectiveBuilder AddSerialPermissionsPolicyDirectiveBuilder() => AddDirective(new SerialPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
     /// Controls access to audio output devices requested through
     /// the NavigatorUserMedia interface. If disabled then calls to
     /// <code>getUserMedia()</code> will not grant access to audio
@@ -188,6 +274,26 @@ public class PermissionsPolicyBuilder
     /// </summary>
     /// <returns>A configured <see cref="SpeakerPermissionsPolicyDirectiveBuilder"/></returns>
     public SpeakerPermissionsPolicyDirectiveBuilder AddSpeaker() => AddDirective(new SpeakerPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
+    /// The HTTP Permissions-Policy header speaker-selection directive controls whether the current document is allowed to enumerate and select audio output devices
+    /// (speakers, headphones, and so on). Specifically, where a defined policy blocks use of this feature: <code>MediaDevices.enumerateDevices()</code> won't return devices of
+    /// type audio output. <code>MediaDevices.selectAudioOutput()</code> won't display the popup for selecting an audio output, and the returned Promise will reject with a <code>DOMException</code>
+    /// of type <code>NotAllowedError</code>. <code>HTMLMediaElement.setSinkId()</code> and <code>AudioContext.setSinkId()</code> will throw a <code>NotAllowedError</code> if called for an audio output.
+    /// </summary>
+    /// <returns>A configured <see cref="SpeakerSelectionPermissionsPolicyDirectiveBuilder"/></returns>
+    public SpeakerSelectionPermissionsPolicyDirectiveBuilder AddSpeakerSelection() => AddDirective(new SpeakerSelectionPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
+    /// The HTTP Permissions-Policy header storage-access directive controls whether a document loaded in a third-party
+    /// context (i.e. embedded in an iframe) is allowed to use the <code>Storage Access API</code> to request access to unpartitioned
+    /// cookies. This is relevant to user agents that by default block access to unpartitioned cookies by sites loaded
+    /// in a third-party context to improve privacy (for example, to prevent tracking). Specifically, where a defined
+    /// policy blocks use of this feature, <code>Document.requestStorageAccess()</code> calls will return a Promise that rejects
+    /// with a <code>DOMException</code> of type <code>NotAllowedError</code>
+    /// </summary>
+    /// <returns>A configured <see cref="StorageAccessPermissionsPolicyDirectiveBuilder"/></returns>
+    public StorageAccessPermissionsPolicyDirectiveBuilder AddStorageAccess() => AddDirective(new StorageAccessPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
     /// Controls whether the current document is allowed to use synchronous XMLHttpRequest transfers.
@@ -212,6 +318,34 @@ public class PermissionsPolicyBuilder
     /// </summary>
     /// <returns>A configured <see cref="VRPermissionsPolicyDirectiveBuilder"/></returns>
     public VRPermissionsPolicyDirectiveBuilder AddVR() => AddDirective(new VRPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
+    /// The HTTP Permissions-Policy header web-share directive controls whether the
+    /// current document is allowed to use the <code>Navigator.share()</code> method of the Web Share API
+    /// to share text, links, images, and other content to arbitrary destinations of the user's
+    /// choice. Specifically, where a defined policy blocks usage of this feature, <code>Navigator.share()</code>
+    /// calls will return a Promise that rejects with a <code>DOMException</code> of type <code>NotAllowedError</code>
+    /// </summary>
+    /// <returns>A configured <see cref="WebSharePermissionsPolicyDirectiveBuilder"/></returns>
+    public WebSharePermissionsPolicyDirectiveBuilder AddWebShare() => AddDirective(new WebSharePermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
+    /// The HTTP Permissions-Policy header window-management directive controls whether or not the current
+    /// document is allowed to use the <code>Window Management API</code> to manage windows on multiple displays. Where
+    /// this policy forbids use of the API: The Promise returned by the <code>Window.getScreenDetails()</code> method
+    /// will reject with a <code>NotAllowedError</code> exception. The <code>Window.screen.isExtended</code> property will always return false.
+    /// </summary>
+    /// <returns>A configured <see cref="WindowManagementPermissionsPolicyDirectiveBuilder"/></returns>
+    public WindowManagementPermissionsPolicyDirectiveBuilder AddWindowManagement() => AddDirective(new WindowManagementPermissionsPolicyDirectiveBuilder());
+
+    /// <summary>
+    /// The HTTP Permissions-Policy header xr-spatial-tracking directive controls whether the current document
+    /// is allowed to use the <code>WebXR Device API</code> Specifically, where a defined policy blocks usage of this feature:
+    /// <code>navigator.xr.isSessionSupported()</code> and <code>navigator.xr.requestSession()</code> calls will return a Promise that rejects
+    /// with a <code>DOMException</code> of type <code>SecurityError</code> devicechange events are not fired on the navigator.xr object.
+    /// </summary>
+    /// <returns>A configured <see cref="XrSpatialTrackingPermissionsPolicyDirectiveBuilder"/></returns>
+    public XrSpatialTrackingPermissionsPolicyDirectiveBuilder AddXrSpatialTracking() => AddDirective(new XrSpatialTrackingPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
     /// Create a custom Feature-Policy directive for an un-implemented directive.
