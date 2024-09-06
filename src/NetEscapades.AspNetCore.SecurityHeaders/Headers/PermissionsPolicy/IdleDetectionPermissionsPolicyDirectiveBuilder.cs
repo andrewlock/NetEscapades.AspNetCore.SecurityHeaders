@@ -2,7 +2,7 @@
 
 /// <summary>
 /// The HTTP Permissions-Policy header idle-detection directive controls whether the current document is
-/// allowed to use the Idle Detection API to detect when users are interacting with their devices, for
+/// allowed to use the <code>Idle Detection API</code> to detect when users are interacting with their devices, for
 /// example to report "available"/"away" status in chat applications. Specifically, where a defined
 /// policy blocks use of this feature, <code>IdleDetector.start()</code> calls will return a Promise that rejects
 /// with a <code>DOMException</code> of type <code>NotAllowedError</code>

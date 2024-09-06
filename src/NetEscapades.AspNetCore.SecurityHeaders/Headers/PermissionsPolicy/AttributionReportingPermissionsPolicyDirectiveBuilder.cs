@@ -1,10 +1,10 @@
 ﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
 
 /// <summary>
-/// Controls whether the current document is allowed to use the attribution reporting API.
+/// Controls whether the current document is allowed to use the <code>Attribution Reporting API</code>
 /// If disabled then attributionsrc requests won't be made. Calling XMLHttpRequest.setAttributionReporting() will
 /// throw an <code>Exception</code>. Including the attributionReporting option on a fetch() call will throw an <code>Exception</code>.
-/// Registration headers "Attribution-Reporting-Register-Source" and "Attribution-Reporting-Register-Trigger" in 
+/// Registration headers "Attribution-Reporting-Register-Source" and "Attribution-Reporting-Register-Trigger" in
 /// HTTP responses on associated documents will be ignored.
 /// </summary>
 public class AttributionReportingPermissionsPolicyDirectiveBuilder : PermissionsPolicyDirectiveBuilder

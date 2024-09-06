@@ -23,9 +23,9 @@ public class PermissionsPolicyBuilder
     public AccelerometerPermissionsPolicyDirectiveBuilder AddAccelerometer() => AddDirective(new AccelerometerPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
-    /// Controls whether the current document is allowed to use the attribution reporting API.
-    /// If disabled then attributionsrc requests won't be made. Calling <code>XMLHttpRequest.setAttributionReporting()</code> will
-    /// throw an <code>Exception</code>. Including the attributionReporting option on a <code>fetch()</code> call will throw an <code>Exception</code>.
+    /// Controls whether the current document is allowed to use the <code>Attribution Reporting API</code>
+    /// If disabled then attributionsrc requests won't be made. Calling XMLHttpRequest.setAttributionReporting() will
+    /// throw an <code>Exception</code>. Including the attributionReporting option on a fetch() call will throw an <code>Exception</code>.
     /// Registration headers "Attribution-Reporting-Register-Source" and "Attribution-Reporting-Register-Trigger" in
     /// HTTP responses on associated documents will be ignored.
     /// </summary>
@@ -53,7 +53,7 @@ public class PermissionsPolicyBuilder
     public AutoplayPermissionsPolicyDirectiveBuilder AddAutoplay() => AddDirective(new AutoplayPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
-    /// Controls whether the current document is allowed to use the Web Bluetooth API.
+    /// Controls whether the current document is allowed to use the <code>Web Bluetooth API</code>
     /// If disabled then methods of the Bluetooth object returned by <code>Navigator.bluetooth</code>
     /// will block access. <code>Bluetooth.getAvailability()</code> will always fulfill its returned
     /// promise with a value of false. Bluetooth.getDevices() will reject its returned
@@ -64,7 +64,7 @@ public class PermissionsPolicyBuilder
     public BluetoothPermissionsPolicyDirectiveBuilder AddBluetooth() => AddDirective(new BluetoothPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
-    /// Controls whether the current document is allowed to use the Topics API.
+    /// Controls whether the current document is allowed to use the <code>Topics API</code>
     /// If disabled then calling the <code>Document.browsingTopics()</code> method or
     /// sending a request with a <code>Sec-Browsing-Topics</code> header will fail with a
     /// <code>NotAllowedError</code>.
@@ -157,7 +157,7 @@ public class PermissionsPolicyBuilder
 
     /// <summary>
     /// The HTTP Permissions-Policy header idle-detection directive controls whether the current document is
-    /// allowed to use the Idle Detection API to detect when users are interacting with their devices, for
+    /// allowed to use the <code>Idle Detection API</code> to detect when users are interacting with their devices, for
     /// example to report "available"/"away" status in chat applications. Specifically, where a defined
     /// policy blocks use of this feature, <code>IdleDetector.start()</code> calls will return a Promise that rejects
     /// with a <code>DOMException</code> of type <code>NotAllowedError</code>
@@ -242,7 +242,7 @@ public class PermissionsPolicyBuilder
 
     /// <summary>
     /// The HTTP Permissions-Policy header publickey-credentials-get directive controls whether the current document is
-    /// allowed to access the Web Authentication API to retrieve public-key credentials, i.e., via <code>navigator.credentials.get({publicKey})</code>
+    /// allowed to access the <code>Web Authentication API</code> to retrieve public-key credentials, i.e., via <code>navigator.credentials.get({publicKey})</code>
     /// Specifically, where a defined policy blocks the use of this feature, the Promise returned by <code>navigator.credentials.get({publicKey})</code>
     /// will reject with a <code>NotAllowedError DOMException</code>
     /// </summary>
