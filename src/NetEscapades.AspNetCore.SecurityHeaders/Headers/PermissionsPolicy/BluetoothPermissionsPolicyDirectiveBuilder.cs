@@ -2,12 +2,11 @@
 
 /// <summary>
 /// Controls whether the current document is allowed to use the Web Bluetooth API.
-/// If disabled then methods of the Bluetooth object returned by Navigator.bluetooth
-/// will block access.
-/// Bluetooth.getAvailability() will always fulfill its returned
-/// Promise with a value of false.
-/// Bluetooth.getDevices() will reject its returned Promise with a <code>SecurityError</code>.
-/// Bluetooth.requestDevice() will reject its returned Promise with a <code>SecurityError</code>
+/// If disabled then methods of the Bluetooth object returned by <code>Navigator.bluetooth</code>
+/// will block access. <code>Bluetooth.getAvailability()</code> will always fulfill its returned
+/// promise with a value of false. Bluetooth.getDevices() will reject its returned
+/// promise with a <code>SecurityError</code><code>Bluetooth.requestDevice()</code> will reject
+/// its returned promise with a <code>SecurityError</code>
 /// </summary>
 public class BluetoothPermissionsPolicyDirectiveBuilder : PermissionsPolicyDirectiveBuilder
 {

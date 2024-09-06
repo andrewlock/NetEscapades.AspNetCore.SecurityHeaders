@@ -24,8 +24,8 @@ public class PermissionsPolicyBuilder
 
     /// <summary>
     /// Controls whether the current document is allowed to use the attribution reporting API.
-    /// If disabled then attributionsrc requests won't be made. Calling XMLHttpRequest.setAttributionReporting() will
-    /// throw an <code>Exception</code>. Including the attributionReporting option on a fetch() call will throw an <code>Exception</code>.
+    /// If disabled then attributionsrc requests won't be made. Calling <code>XMLHttpRequest.setAttributionReporting()</code> will
+    /// throw an <code>Exception</code>. Including the attributionReporting option on a <code>fetch()</code> call will throw an <code>Exception</code>.
     /// Registration headers "Attribution-Reporting-Register-Source" and "Attribution-Reporting-Register-Trigger" in
     /// HTTP responses on associated documents will be ignored.
     /// </summary>
@@ -54,10 +54,10 @@ public class PermissionsPolicyBuilder
 
     /// <summary>
     /// Controls whether the current document is allowed to use the Web Bluetooth API.
-    /// If disabled then methods of the Bluetooth object returned by Navigator.bluetooth
-    /// will block access. Bluetooth.getAvailability() will always fulfill its returned
+    /// If disabled then methods of the Bluetooth object returned by <code>Navigator.bluetooth</code>
+    /// will block access. <code>Bluetooth.getAvailability()</code> will always fulfill its returned
     /// promise with a value of false. Bluetooth.getDevices() will reject its returned
-    /// promise with a <code>SecurityError</code>. Bluetooth.requestDevice() will reject
+    /// promise with a <code>SecurityError</code><code>Bluetooth.requestDevice()</code> will reject
     /// its returned promise with a <code>SecurityError</code>
     /// </summary>
     /// <returns>A configured <see cref="BluetoothPermissionsPolicyDirectiveBuilder"/></returns>
@@ -85,7 +85,7 @@ public class PermissionsPolicyBuilder
     /// Controls whether or not the current document is permitted to
     /// use the <code>getDisplayMedia()</code> method to capture screen contents.
     /// When this policy is disabled, the promise returned by <code>getDisplayMedia()</code>
-    /// will reject with a <code>NotAllowedError</code> DOMException if permission is not
+    /// will reject with a <code>NotAllowedError DOMException</code>  if permission is not
     /// obtained to capture the display's contents.
     /// </summary>
     /// <returns>A configured <see cref="DisplayCapturePermissionsPolicyDirectiveBuilder"/></returns>
