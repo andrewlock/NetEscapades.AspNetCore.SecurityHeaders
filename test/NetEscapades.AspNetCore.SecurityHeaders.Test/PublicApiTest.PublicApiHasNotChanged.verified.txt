@@ -123,6 +123,11 @@ namespace Microsoft.AspNetCore.Builder
     {
         public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddCustomHeader(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, string header, string value) { }
     }
+    public static class EndpointConventionBuilderExtensions
+    {
+        public static TBuilder WithSecurityHeadersPolicy<TBuilder>(this TBuilder builder, string policyName)
+            where TBuilder : Microsoft.AspNetCore.Builder.IEndpointConventionBuilder { }
+    }
     public static class ExpectCTHeaderExtensions
     {
         public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddExpectCT(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, int maxAgeInSeconds, string reportUri, bool enforce, params string[] excludedHosts) { }
@@ -235,9 +240,11 @@ namespace Microsoft.AspNetCore.Builder
     }
     public static class SecurityHeadersMiddlewareExtensions
     {
+        public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseEndpointSecurityHeaders(this Microsoft.AspNetCore.Builder.IApplicationBuilder app) { }
         public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseSecurityHeaders(this Microsoft.AspNetCore.Builder.IApplicationBuilder app) { }
         public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseSecurityHeaders(this Microsoft.AspNetCore.Builder.IApplicationBuilder app, Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
         public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseSecurityHeaders(this Microsoft.AspNetCore.Builder.IApplicationBuilder app, System.Action<Microsoft.AspNetCore.Builder.HeaderPolicyCollection> configure) { }
+        public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseSecurityHeaders(this Microsoft.AspNetCore.Builder.IApplicationBuilder app, string policyName) { }
     }
     public static class ServerHeaderExtensions
     {
@@ -269,6 +276,13 @@ namespace Microsoft.AspNetCore.Builder
         public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddXssProtectionReport(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, string reportUrl) { }
     }
 }
+namespace Microsoft.Extensions.DependencyInjection
+{
+    public static class ServiceCollectionExtensions
+    {
+        public static NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder AddSecurityHeaderPolicies(this Microsoft.Extensions.DependencyInjection.IServiceCollection services) { }
+    }
+}
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
 {
     public class BaseUriDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
@@ -287,7 +301,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
     {
         public CspDirectiveBuilder(string directive) { }
         public bool BlockResources { get; set; }
-        public System.Collections.Generic.List<string> Sources { get; }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.SourceCollection Sources { get; }
     }
     public abstract class CspDirectiveBuilderBase
     {
@@ -315,7 +329,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
     {
         public FrameAncestorsDirectiveBuilder() { }
         public bool BlockResources { get; set; }
-        public System.Collections.Generic.List<string> Sources { get; }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.SourceCollection Sources { get; }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder Blob() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder Data() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder From(System.Collections.Generic.IEnumerable<string> uris) { }
@@ -562,6 +576,14 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
         protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
         protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
     }
+    public class SourceCollection : System.Collections.Generic.IEnumerable<string>, System.Collections.IEnumerable
+    {
+        public SourceCollection() { }
+        public int Count { get; }
+        public void Add(string source) { }
+        public System.Collections.Generic.IEnumerator<string> GetEnumerator() { }
+        public bool Remove(string source) { }
+    }
     public class StrictTransportSecurityHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
     {
         public const int OneYearInSeconds = 31536000;
@@ -693,7 +715,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy
     public class FeaturePolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilderBase
     {
         public FeaturePolicyDirectiveBuilder(string directive) { }
-        public System.Collections.Generic.List<string> Sources { get; }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.SourceCollection Sources { get; }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder All() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder For(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy.FeaturePolicyDirectiveBuilder None() { }
@@ -850,7 +872,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy
     public abstract class PermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilderBase
     {
         public PermissionsPolicyDirectiveBuilder(string directive) { }
-        public System.Collections.Generic.List<string> Sources { get; }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.SourceCollection Sources { get; }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder All() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder For(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder None() { }
@@ -925,10 +947,10 @@ namespace NetEscapades.AspNetCore.SecurityHeaders
         public static void SetScriptCSPHash(this Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CSPHashType algorithm, string hash) { }
         public static void SetStylesCSPHash(this Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CSPHashType algorithm, string hash) { }
     }
-    public class SecurityHeadersMiddleware
+    public class SecurityHeadersPolicyAttribute : System.Attribute
     {
-        public SecurityHeadersMiddleware(Microsoft.AspNetCore.Http.RequestDelegate next, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService service, Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
-        public System.Threading.Tasks.Task Invoke(Microsoft.AspNetCore.Http.HttpContext context) { }
+        public SecurityHeadersPolicyAttribute(string policyName) { }
+        public string PolicyName { get; }
     }
 }
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
@@ -939,30 +961,17 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         SHA384 = 1,
         SHA512 = 2,
     }
-    [System.Obsolete("This class is unused since v0.5.0, and will be removed in a future version of the" +
-        " package")]
-    public class CustomHeaderOptions
-    {
-        public CustomHeaderOptions() { }
-        public string DefaultPolicyName { get; set; }
-        public System.Collections.Generic.Dictionary<string, Microsoft.AspNetCore.Builder.HeaderPolicyCollection> PolicyCollections { get; }
-        public Microsoft.AspNetCore.Builder.HeaderPolicyCollection? GetPolicy(string name) { }
-    }
-    public class CustomHeaderService : NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService
-    {
-        public CustomHeaderService() { }
-        public virtual void ApplyResult(Microsoft.AspNetCore.Http.HttpResponse response, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-        public virtual NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult EvaluatePolicy(Microsoft.AspNetCore.Http.HttpContext context, Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
-    }
     public class CustomHeadersResult
     {
         public CustomHeadersResult() { }
         public System.Collections.Generic.ISet<string> RemoveHeaders { get; }
         public System.Collections.Generic.IDictionary<string, string> SetHeaders { get; }
     }
-    public interface ICustomHeaderService
+    public class SecurityHeaderPolicyBuilder
     {
-        void ApplyResult(Microsoft.AspNetCore.Http.HttpResponse response, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result);
-        NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult EvaluatePolicy(Microsoft.AspNetCore.Http.HttpContext context, Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies);
+        public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder AddPolicy(string name, Microsoft.AspNetCore.Builder.HeaderPolicyCollection policyCollection) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder AddPolicy(string name, System.Action<Microsoft.AspNetCore.Builder.HeaderPolicyCollection> configurePolicy) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder SetDefaultPolicy(Microsoft.AspNetCore.Builder.HeaderPolicyCollection policyCollection) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder SetDefaultPolicy(System.Action<Microsoft.AspNetCore.Builder.HeaderPolicyCollection> configurePolicy) { }
     }
 }
