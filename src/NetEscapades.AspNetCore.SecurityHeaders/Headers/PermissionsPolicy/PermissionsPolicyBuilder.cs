@@ -255,7 +255,7 @@ public class PermissionsPolicyBuilder
     /// policy blocks use of this feature, <code>WakeLock.request()</code> calls will return a Promise that rejects with a <code>DOMException</code> of type <code>NotAllowedError</code>
     /// </summary>
     /// <returns>A configured <see cref="ScreenWakeLockPermissionsPolicyDirectiveBuilder"/></returns>
-    public ScreenWakeLockPermissionsPolicyDirectiveBuilder AddScreenWakeLockPermissionsPolicyDirectiveBuilder() => AddDirective(new ScreenWakeLockPermissionsPolicyDirectiveBuilder());
+    public ScreenWakeLockPermissionsPolicyDirectiveBuilder AddScreenWakeLock() => AddDirective(new ScreenWakeLockPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
     /// The HTTP Permissions-Policy header serial directive controls whether the current document is allowed to use
@@ -264,7 +264,7 @@ public class PermissionsPolicyBuilder
     /// <code>Serial.requestPort()</code> and <code>Serial.getPorts()</code> calls will return a Promise that rejects with a <code>DOMException</code> of type <code>SecurityError</code>
     /// </summary>
     /// <returns>A configured <see cref="SerialPermissionsPolicyDirectiveBuilder"/></returns>
-    public SerialPermissionsPolicyDirectiveBuilder AddSerialPermissionsPolicyDirectiveBuilder() => AddDirective(new SerialPermissionsPolicyDirectiveBuilder());
+    public SerialPermissionsPolicyDirectiveBuilder AddSerialPermissions() => AddDirective(new SerialPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
     /// Controls access to audio output devices requested through
