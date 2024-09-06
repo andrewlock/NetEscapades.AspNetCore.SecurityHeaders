@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Authors>Andrew Lock</Authors>
-    <TargetFrameworks>net461;netcoreapp2.0;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net462;netcoreapp2.0;netcoreapp3.0</TargetFrameworks>
     <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">netcoreapp2.0;netcoreapp3.0</TargetFrameworks>
     <AssemblyName>NetEscapades.AspNetCore.SecurityHeaders.Test</AssemblyName>
     <PackageId>NetEscapades.AspNetCore.SecurityHeaders.Test</PackageId>
@@ -15,9 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="PublicApiGenerator" Version="11.1.0" />
+    <PackageReference Include="Verify.Xunit" Version="18.4.0" />
     <PackageReference Include="FluentAssertions" Version="4.19.4" />
-    <PackageReference Include="xunit" Version="2.3.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
     <PackageReference Include="System.Diagnostics.TraceSource" Version="4.3.0" />
