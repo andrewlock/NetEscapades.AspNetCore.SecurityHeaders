@@ -17,7 +17,7 @@ internal static class CustomHeaderService
     /// <param name="policies">The <see cref="HeaderPolicyCollection"/> containing policies to be evaluated.</param>
     /// <returns>A <see cref="CustomHeadersResult"/> which contains the result of policy evaluation and can be
     /// used by the caller to set appropriate response headers.</returns>
-    public static CustomHeadersResult EvaluatePolicy(HttpContext context, HeaderPolicyCollection policies)
+    public static CustomHeadersResult EvaluatePolicy(HttpContext context, IReadOnlyHeaderPolicyCollection policies)
     {
         if (context == null)
         {

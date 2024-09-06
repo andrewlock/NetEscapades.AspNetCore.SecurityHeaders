@@ -1,4 +1,6 @@
+using NetEscapades.AspNetCore.SecurityHeaders;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.AspNetCore.Builder;
@@ -21,6 +23,14 @@ public static class HeaderPolicyCollectionExtensions
         policies[policy.Header] = policy;
         return policies;
     }
+
+    /// <summary>
+    /// Creates a copy of the header collection
+    /// </summary>
+    /// <param name="policies">The <see cref="IReadOnlyHeaderPolicyCollection" /> to copy</param>
+    /// <returns>A new <see cref="HeaderPolicyCollection"/> that is a shallow copy of the header policy</returns>
+    public static HeaderPolicyCollection Copy(this IReadOnlyHeaderPolicyCollection policies)
+        => new(policies);
 
     /// <summary>
     /// Add default headers in accordance with the most secure approach

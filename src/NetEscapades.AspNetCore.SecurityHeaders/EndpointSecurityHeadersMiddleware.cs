@@ -17,6 +17,7 @@ internal class EndpointSecurityHeadersMiddleware
     private readonly RequestDelegate _next;
     private readonly ILogger<EndpointSecurityHeadersMiddleware> _logger;
     private readonly CustomHeaderOptions _options;
+    private readonly Func<EndpointPolicySelectorContext, IReadOnlyHeaderPolicyCollection>? _policySelector;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EndpointSecurityHeadersMiddleware"/> class.
@@ -29,6 +30,7 @@ internal class EndpointSecurityHeadersMiddleware
         _next = next ?? throw new ArgumentNullException(nameof(next));
         _logger = logger;
         _options = options;
+        _policySelector = _options.EndpointPolicySelector;
     }
 
     /// <summary>
@@ -44,12 +46,18 @@ internal class EndpointSecurityHeadersMiddleware
         // 2. Use the provided default policy
         var endpoint = context.GetEndpoint();
         var metadata = endpoint?.Metadata.GetMetadata<ISecurityHeadersPolicyMetadata>();
+        var policyName = metadata?.PolicyName;
 
-        if (!string.IsNullOrEmpty(metadata?.PolicyName))
+        if (!string.IsNullOrEmpty(policyName))
         {
-            if (_options.GetPolicy(metadata.PolicyName) is { } namedPolicy)
+            if (_options.GetPolicy(policyName) is IReadOnlyHeaderPolicyCollection policyToApply)
             {
-                context.Items[SecurityHeadersMiddleware.HttpContextKey] = namedPolicy;
+                if (_policySelector is not null)
+                {
+                    policyToApply = _policySelector(new(context, policyName, policyToApply));
+                }
+
+                context.Items[SecurityHeadersMiddleware.HttpContextKey] = policyToApply;
             }
             else
             {
@@ -58,7 +66,7 @@ internal class EndpointSecurityHeadersMiddleware
                     "Error configuring security headers middleware: policy '{PolicyName}' could not be found. "
                     + "Configure the policies for your application by calling AddSecurityHeaderPolicies() on IServiceCollection "
                     + "and adding a policy with the required name.",
-                    metadata.PolicyName);
+                    policyName);
             }
         }
 

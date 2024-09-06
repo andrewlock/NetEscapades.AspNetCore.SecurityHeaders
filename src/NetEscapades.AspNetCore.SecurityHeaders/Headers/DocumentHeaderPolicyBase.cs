@@ -1,5 +1,5 @@
 using System;
-using Microsoft.AspNetCore.Builder;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
@@ -19,7 +19,7 @@ public abstract class DocumentHeaderPolicyBase : HeaderPolicyBase, IDocumentHead
     }
 
     /// <inheritdoc />
-    public void Apply(HttpContext context, CustomHeadersResult result, HeaderPolicyCollection policies)
+    public void Apply(HttpContext context, CustomHeadersResult result, IReadOnlyHeaderPolicyCollection policies)
     {
         if (context == null)
         {
@@ -41,7 +41,7 @@ public abstract class DocumentHeaderPolicyBase : HeaderPolicyBase, IDocumentHead
         }
     }
 
-    private static bool IsMatch(HttpContext context, string[] contentTypes)
+    private static bool IsMatch(HttpContext context, ICollection<string> contentTypes)
     {
         foreach (var contentTypePrefix in contentTypes)
         {
