@@ -174,7 +174,7 @@ builder.Services.AddSecurityHeaderPolicies()
 
 ### 2. Call `UseSecurityHeaders()` early in the middleware pipeline
 
-The security headers middleware can only add headers to _all_ requests if it is early in the middleware pipeline, so it's important to add the headers middleware at the start of your middleware pipeline by calling `UseSecurityHeaders()`. However, if you want to have endpoint-specific policies, then you also need to call `UseEndpointSecurityHeaders()` _after_ the call to `UseRouting()`. For example:
+The security headers middleware can only add headers to _all_ requests if it is early in the middleware pipeline, so it's important to add the headers middleware at the start of your middleware pipeline by calling `UseSecurityHeaders()`. For example:
 
 ```csharp
 var builder = WebApplication.CreateBuilder();
@@ -186,15 +186,14 @@ builder.Services.AddSecurityHeaderPolicies()
 
 var app = builder.Build();
 
-// Set the default headers for requests that
-// 👇 don't make it to the routing middleware
+// Add the middleware to the start of your pipeline
+// 👇
 app.UseSecurityHeaders();
 
 app.UseStaticFiles(); // other middleware
 app.UseAuthentication();
 app.UseRouting(); 
 
-app.UseEndpointSecurityHeaders(); // 👈 Add after the routing middleware 
 app.UseAuthorization();
 
 app.MapGet("/", () => "Hello world");
@@ -250,18 +249,13 @@ Security headers are applied just before the response is sent. If you use the co
 
 ## Customizing the headers per request
 
-If you need to use a different set of security headers for certain endpoints in your application, then configuring named policies and calling `UseEndpointSecurityHeaders()` as (described)[#pplying-different-headers-to-different-endpoints] above is the best approach.
+If you need to use a different set of security headers for certain endpoints in your application, then configuring named policies  (as described)[#pplying-different-headers-to-different-endpoints] above is the best approach.
 
-However, sometimes you need even more customization on a per-request basis. For example, perhaps you have a multi-tenant application, and you need to apply different headers based on a header in the request that identifies the tenant. In this situation, you don't know at application startup which set of headers to apply. 
+However, sometimes you need even more customization on a per-request basis. For example, perhaps you have a multi-tenant application, and you need to apply different headers based on a header in the request (or the response) that identifies the tenant. In this situation, you don't know at application startup which set of headers to apply. 
 
-To customize the final `HeaderPolicyCollection` used for a request, you can use two methods available on `IServiceCollection.s.AddSecurityHeaderPolicies()`:
+To customize the final `HeaderPolicyCollection` used for a request, you can use the `SetPolicySelector()` method available on `IServiceCollection.AddSecurityHeaderPolicies()`. This method take a `Func<>` argument which is passed a context object, and must return an `IReadOnlyHeaderPolicyCollection`. The `SetPolicySelector()` argument is invoked for every request, just before the final selected policy is applied, and allows you to change the `IReadOnlyHeaderPolicyCollection` to apply.
 
-- `SetDefaultPolicySelector(policySelector)`&mdash;used to choose the `HeaderPolicyCollection` applied for default requests.
-- `SetEndpointPolicySelector(policySelector)`&mdash;used to choose the `HeaderPolicyCollection` applied when an endpoint-specific named policy is selected. 
-
-Both methods take a `Func<>` argument which is passed a context object, and must return an `IReadOnlyHeaderPolicyCollection`. The `SetDefaultPolicySelector()` argument is invoked for every request, when the default policy is applied, and allows you to change the `IReadOnlyHeaderPolicyCollection` to apply.  The `SetEndpointPolicySelector()` argument is only invoked when an endpoint-specific named policy is selected.
-
-The following code shows how to use services inside the `SetDefaultPolicySelector()` method. This isn't necessary, but rather shows that you can completely customise the applied headers in any way you need to.
+The following code shows how to use services in combination with the `SetPolicySelector()` method. This isn't necessary, but rather shows that you can completely customise the applied headers in any way you need.
 
 ```csharp
 var builder = WebApplication.CreateBuilder();
@@ -270,7 +264,7 @@ var builder = WebApplication.CreateBuilder();
 builder.Services.AddScoped<TenantHeaderPolicyCollectionSelector>(); 
 builder.Services.AddSecurityHeaderPolicies()
     .AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"))
-    .SetDefaultPolicySelector((DefaultPolicySelectorContext ctx) =>
+    .SetPolicySelector((PolicySelectorContext ctx) =>
     {
         // Use services from the DI container (if you need to)
         IServiceProvider services = ctx.HttpContext.RequestServices; 

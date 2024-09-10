@@ -1,6 +1,4 @@
 ﻿using System;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using NetEscapades.AspNetCore.SecurityHeaders;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
@@ -104,39 +102,11 @@ public static class SecurityHeadersMiddlewareExtensions
         return app.UseMiddleware(policy, options);
     }
 
-    /// <summary>
-    /// Adds middleware to your web application pipeline which sets security headers on responses
-    /// based on the specific endpoint invoked.
-    ///
-    /// To apply policies to a specific endpoint, use <see cref="EndpointConventionBuilderExtensions.WithSecurityHeadersPolicy{TBuilder}"/>
-    /// or apply <see cref="SecurityHeadersPolicyAttribute"/> to your MVC or Razor Page endpoints.
-    /// </summary>
-    /// <param name="app">The IApplicationBuilder passed to your Configure method.</param>
-    /// <returns>The original app parameter</returns>
-    public static IApplicationBuilder UseEndpointSecurityHeaders(this IApplicationBuilder app)
-    {
-        if (app == null)
-        {
-            throw new ArgumentNullException(nameof(app));
-        }
-
-        if (app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) is not CustomHeaderOptions options)
-        {
-            throw new InvalidOperationException(
-                "Error configuring security headers middleware: Unable to find required services. "
-                + "Configure the policies for your application by calling IServiceCollection.AddSecurityHeaderPolicies() "
-                + "in your application startup code");
-        }
-
-        return app.UseMiddleware<EndpointSecurityHeadersMiddleware>(options);
-    }
-
     private static IApplicationBuilder UseMiddleware(
         this IApplicationBuilder app,
         HeaderPolicyCollection policies,
         CustomHeaderOptions? options)
     {
-        var policySelector = options?.DefaultPolicySelector ?? (ctx => ctx.DefaultPolicy);
-        return app.UseMiddleware<SecurityHeadersMiddleware>(policySelector, policies);
+        return app.UseMiddleware<SecurityHeadersMiddleware>(options ?? new(), policies);
     }
 }

@@ -244,7 +244,6 @@ namespace Microsoft.AspNetCore.Builder
     }
     public static class SecurityHeadersMiddlewareExtensions
     {
-        public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseEndpointSecurityHeaders(this Microsoft.AspNetCore.Builder.IApplicationBuilder app) { }
         public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseSecurityHeaders(this Microsoft.AspNetCore.Builder.IApplicationBuilder app) { }
         public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseSecurityHeaders(this Microsoft.AspNetCore.Builder.IApplicationBuilder app, Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
         public static Microsoft.AspNetCore.Builder.IApplicationBuilder UseSecurityHeaders(this Microsoft.AspNetCore.Builder.IApplicationBuilder app, System.Action<Microsoft.AspNetCore.Builder.HeaderPolicyCollection> configure) { }
@@ -971,25 +970,21 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
         public System.Collections.Generic.ISet<string> RemoveHeaders { get; }
         public System.Collections.Generic.IDictionary<string, string> SetHeaders { get; }
     }
-    public readonly struct DefaultPolicySelectorContext
+    public interface IReadOnlyHeaderPolicyCollection : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>>, System.Collections.Generic.IReadOnlyCollection<System.Collections.Generic.KeyValuePair<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>>, System.Collections.Generic.IReadOnlyDictionary<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>, System.Collections.IEnumerable { }
+    public readonly struct PolicySelectorContext
     {
         public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IReadOnlyHeaderPolicyCollection DefaultPolicy { get; }
-        public Microsoft.AspNetCore.Http.HttpContext HttpContext { get; }
-    }
-    public readonly struct EndpointPolicySelectorContext
-    {
+        public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IReadOnlyHeaderPolicyCollection? EndpointPolicy { get; }
+        public string? EndpointPolicyName { get; }
         public Microsoft.AspNetCore.Http.HttpContext HttpContext { get; }
         public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IReadOnlyHeaderPolicyCollection SelectedPolicy { get; }
-        public string SelectedPolicyName { get; }
     }
-    public interface IReadOnlyHeaderPolicyCollection : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>>, System.Collections.Generic.IReadOnlyCollection<System.Collections.Generic.KeyValuePair<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>>, System.Collections.Generic.IReadOnlyDictionary<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>, System.Collections.IEnumerable { }
     public class SecurityHeaderPolicyBuilder
     {
         public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder AddPolicy(string name, Microsoft.AspNetCore.Builder.HeaderPolicyCollection policyCollection) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder AddPolicy(string name, System.Action<Microsoft.AspNetCore.Builder.HeaderPolicyCollection> configurePolicy) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder SetDefaultPolicy(Microsoft.AspNetCore.Builder.HeaderPolicyCollection policyCollection) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder SetDefaultPolicy(System.Action<Microsoft.AspNetCore.Builder.HeaderPolicyCollection> configurePolicy) { }
-        public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder SetDefaultPolicySelector(System.Func<NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.DefaultPolicySelectorContext, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IReadOnlyHeaderPolicyCollection> policySelector) { }
-        public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder SetEndpointPolicySelector(System.Func<NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.EndpointPolicySelectorContext, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IReadOnlyHeaderPolicyCollection> policySelector) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder SetPolicySelector(System.Func<NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.PolicySelectorContext, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IReadOnlyHeaderPolicyCollection> policySelector) { }
     }
 }
