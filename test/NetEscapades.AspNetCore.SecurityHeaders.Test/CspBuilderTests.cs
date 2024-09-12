@@ -356,11 +356,11 @@ public class CspBuilderTests
             .Self()
             .Blob()
             .Data()
-            .From("http://testUrl.com");
+            .From(["http://testUrl.com", "https://testUrl.com"]);
 
         var result = builder.Build();
 
-        result.ConstantValue.Should().Be("frame-ancestors 'self' blob: data: http://testUrl.com");
+        result.ConstantValue.Should().Be("frame-ancestors 'self' blob: data: http://testUrl.com https://testUrl.com");
     }
 
     [Fact]

@@ -301,6 +301,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public System.Collections.Generic.List<string> Sources { get; }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder Blob() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder Data() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder From(System.Collections.Generic.IEnumerable<string> uris) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder OverHttps() { }

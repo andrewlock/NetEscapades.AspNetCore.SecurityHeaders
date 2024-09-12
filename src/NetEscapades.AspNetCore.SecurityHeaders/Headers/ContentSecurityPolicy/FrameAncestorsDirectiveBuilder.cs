@@ -107,6 +107,26 @@ public class FrameAncestorsDirectiveBuilder : CspDirectiveBuilderBase
     }
 
     /// <summary>
+    /// Allow resources from the given <paramref name="uris"/>. May be any non-empty value.
+    /// </summary>
+    /// <param name="uris">The URIs to allow.</param>
+    /// <returns>The CSP builder for method chaining</returns>
+    public FrameAncestorsDirectiveBuilder From(IEnumerable<string> uris)
+    {
+        foreach (var uri in uris)
+        {
+            if (string.IsNullOrWhiteSpace(uri))
+            {
+                throw new System.ArgumentException("Uri may not be null or empty", nameof(uri));
+            }
+
+            Sources.Add(uri);
+        }
+
+        return this;
+    }
+
+    /// <summary>
     /// Allow resources served over https
     /// </summary>
     /// <returns>The CSP builder for method chaining</returns>
