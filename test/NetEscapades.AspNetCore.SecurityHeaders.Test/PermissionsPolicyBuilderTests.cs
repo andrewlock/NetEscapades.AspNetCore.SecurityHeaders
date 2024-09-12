@@ -118,7 +118,6 @@ public class PermissionsPolicyBuilderTests
         builder.AddAttributionReporting().None();
         builder.AddAutoplay().None();
         builder.AddBluetooth().None();
-        builder.AddBrowsingTopics().None();
         builder.AddCamera().None();
         builder.AddDisplayCapture().None();
         builder.AddEncryptedMedia().None();
@@ -152,7 +151,7 @@ public class PermissionsPolicyBuilderTests
 
         var result = builder.Build();
 
-        result.Should().Be("accelerometer=(), ambient-light-sensor=(), attribution-reporting=(), autoplay=(), bluetooth=(), browsing-topics=()," +
+        result.Should().Be("accelerometer=(), ambient-light-sensor=(), attribution-reporting=(), autoplay=(), bluetooth=()," +
             " camera=(), display-capture=(), encrypted-media=(), interest-cohort=(), fullscreen=(), geolocation=(), gyroscope=(), hid=()," +
             " identity-credentials-get=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), otp-credentials=()," +
             " payment=(), picture-in-picture=(), publickey-credentials-create=(), publickey-credentials-get=(), screen-wake-lock=()," +

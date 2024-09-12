@@ -23,11 +23,14 @@ public class PermissionsPolicyBuilder
     public AccelerometerPermissionsPolicyDirectiveBuilder AddAccelerometer() => AddDirective(new AccelerometerPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
-    /// Controls whether the current document is allowed to use the <code>Attribution Reporting API</code>
-    /// If disabled then attributionsrc requests won't be made. Calling XMLHttpRequest.setAttributionReporting() will
-    /// throw an <code>Exception</code>. Including the attributionReporting option on a fetch() call will throw an <code>Exception</code>.
-    /// Registration headers "Attribution-Reporting-Register-Source" and "Attribution-Reporting-Register-Trigger" in
-    /// HTTP responses on associated documents will be ignored.
+    /// The HTTP <c>Permissions-Policy</c> header <c>attribution-reporting</c> directive controls whether the current document is allowed to use the <c>Attribution Reporting API</c>.
+    /// Specifically, where a defined policy blocks the use of this feature:
+    /// <list type="bullet">
+    /// <item><description>Background <c>attributionsrc</c> requests won't be made.</description></item>
+    /// <item><description>The <c>XMLHttpRequest.setAttributionReporting()</c> method will throw an exception when called.</description></item>
+    /// <item><description>The <c>attributionReporting</c> option, when included on a <c>fetch()</c> call, will cause it to throw an exception.</description></item>
+    /// <item><description>Registration headers (<c>Attribution-Reporting-Register-Source</c> and <c>Attribution-Reporting-Register-Trigger</c>) in HTTP responses on associated documents will be ignored.</description></item>
+    /// </list>
     /// </summary>
     /// <returns>A configured <see cref="AttributionReportingPermissionsPolicyDirectiveBuilder"/></returns>
     public AttributionReportingPermissionsPolicyDirectiveBuilder AddAttributionReporting() => AddDirective(new AttributionReportingPermissionsPolicyDirectiveBuilder());
@@ -53,24 +56,16 @@ public class PermissionsPolicyBuilder
     public AutoplayPermissionsPolicyDirectiveBuilder AddAutoplay() => AddDirective(new AutoplayPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
-    /// Controls whether the current document is allowed to use the <code>Web Bluetooth API</code>
-    /// If disabled then methods of the Bluetooth object returned by <code>Navigator.bluetooth</code>
-    /// will block access. <code>Bluetooth.getAvailability()</code> will always fulfill its returned
-    /// promise with a value of false. Bluetooth.getDevices() will reject its returned
-    /// promise with a <code>SecurityError</code><code>Bluetooth.requestDevice()</code> will reject
-    /// its returned promise with a <code>SecurityError</code>
+    /// The HTTP <c>Permissions-Policy</c> header <c>bluetooth</c> directive controls whether the current document is allowed to use the <c>Web Bluetooth API</c>.
+    /// Specifically, where a defined policy disallows use of this feature, the methods of the <c>Bluetooth</c> object returned by <c>Navigator.bluetooth</c>, will block access:
+    /// <list type="bullet">
+    /// <item><description><c>Bluetooth.getAvailability()</c> will always fulfill its returned <c>Promise</c> with a value of false.</description></item>
+    /// <item><description><c>Bluetooth.getDevices()</c> will reject its returned <c>Promise</c> with a <c>SecurityError</c> <c>DOMException</c>.</description></item>
+    /// <item><description><c>Bluetooth.requestDevice()</c> will reject its returned <c>Promise</c> with a <c>SecurityError</c> <c>DOMException</c>.</description></item>
+    /// </list>
     /// </summary>
     /// <returns>A configured <see cref="BluetoothPermissionsPolicyDirectiveBuilder"/></returns>
     public BluetoothPermissionsPolicyDirectiveBuilder AddBluetooth() => AddDirective(new BluetoothPermissionsPolicyDirectiveBuilder());
-
-    /// <summary>
-    /// Controls whether the current document is allowed to use the <code>Topics API</code>
-    /// If disabled then calling the <code>Document.browsingTopics()</code> method or
-    /// sending a request with a <code>Sec-Browsing-Topics</code> header will fail with a
-    /// <code>NotAllowedError</code>.
-    /// </summary>
-    /// <returns>A configured <see cref="BrowsingTopicsPermissionsPolicyDirectiveBuilder"/></returns>
-    public BrowsingTopicsPermissionsPolicyDirectiveBuilder AddBrowsingTopics() => AddDirective(new BrowsingTopicsPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
     /// Controls access to video input devices requested through the
@@ -82,11 +77,8 @@ public class PermissionsPolicyBuilder
     public CameraPermissionsPolicyDirectiveBuilder AddCamera() => AddDirective(new CameraPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
-    /// Controls whether or not the current document is permitted to
-    /// use the <code>getDisplayMedia()</code> method to capture screen contents.
-    /// When this policy is disabled, the promise returned by <code>getDisplayMedia()</code>
-    /// will reject with a <code>NotAllowedError DOMException</code>  if permission is not
-    /// obtained to capture the display's contents.
+    /// The HTTP <c>Permissions-Policy</c> header <c>display-capture</c> directive controls whether or not the document is permitted to use <c>Screen Capture API</c>, that is, <c>getDisplayMedia()</c> to capture the screen's contents.
+    /// If <c>display-capture</c> is disabled in a document, the document will not be able to initiate screen capture via <c>getDisplayMedia()</c> and will throw a <c>NotAllowedError</c> exception.
     /// </summary>
     /// <returns>A configured <see cref="DisplayCapturePermissionsPolicyDirectiveBuilder"/></returns>
     public DisplayCapturePermissionsPolicyDirectiveBuilder AddDisplayCapture() => AddDirective(new DisplayCapturePermissionsPolicyDirectiveBuilder());
@@ -137,10 +129,8 @@ public class PermissionsPolicyBuilder
     public FederatedLearningOfCohortsCalculationPermissionsPolicyDirectiveBuilder AddFederatedLearningOfCohortsCalculation() => AddDirective(new FederatedLearningOfCohortsCalculationPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
-    /// The HTTP Permissions-Policy header hid directive controls whether the current document
-    /// is allowed to use the <code>WebHID API</code> to connect to uncommon or exotic human interface devices
-    /// such as alternative keyboards or gamepads. Specifically, where a defined policy blocks WebHID usage,
-    /// the <code>Navigator.hid</code> property will not be available.
+    /// The HTTP <c>Permissions-Policy</c> header <c>hid</c> directive controls whether the current document is allowed to use the <c>WebHID API</c> to connect to uncommon or exotic human interface devices such as alternative keyboards or gamepads.
+    /// Specifically, where a defined policy blocks WebHID usage, the <c>Navigator.hid</c> property will not be available.
     /// </summary>
     /// <returns>A configured <see cref="HidPermissionsPolicyDirectiveBuilder"/></returns>
     public HidPermissionsPolicyDirectiveBuilder AddHid() => AddDirective(new HidPermissionsPolicyDirectiveBuilder());

@@ -1,12 +1,13 @@
 ﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
 
 /// <summary>
-/// Controls whether the current document is allowed to use the <code>Web Bluetooth API</code>
-/// If disabled then methods of the Bluetooth object returned by <code>Navigator.bluetooth</code>
-/// will block access. <code>Bluetooth.getAvailability()</code> will always fulfill its returned
-/// promise with a value of false. Bluetooth.getDevices() will reject its returned
-/// promise with a <code>SecurityError</code><code>Bluetooth.requestDevice()</code> will reject
-/// its returned promise with a <code>SecurityError</code>
+/// The HTTP <c>Permissions-Policy</c> header <c>bluetooth</c> directive controls whether the current document is allowed to use the <c>Web Bluetooth API</c>.
+/// Specifically, where a defined policy disallows use of this feature, the methods of the <c>Bluetooth</c> object returned by <c>Navigator.bluetooth</c>, will block access:
+/// <list type="bullet">
+/// <item><description><c>Bluetooth.getAvailability()</c> will always fulfill its returned <c>Promise</c> with a value of false.</description></item>
+/// <item><description><c>Bluetooth.getDevices()</c> will reject its returned <c>Promise</c> with a <c>SecurityError</c> <c>DOMException</c>.</description></item>
+/// <item><description><c>Bluetooth.requestDevice()</c> will reject its returned <c>Promise</c> with a <c>SecurityError</c> <c>DOMException</c>.</description></item>
+/// </list>
 /// </summary>
 public class BluetoothPermissionsPolicyDirectiveBuilder : PermissionsPolicyDirectiveBuilder
 {

@@ -1,11 +1,8 @@
 ﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
 
 /// <summary>
-/// Controls whether or not the current document is permitted to
-/// use the <code>getDisplayMedia()</code> method to capture screen contents.
-/// When this policy is disabled, the promise returned by <code>getDisplayMedia()</code>
-/// will reject with a <code>NotAllowedError DOMException</code>  if permission is not
-/// obtained to capture the display's contents.
+/// The HTTP <c>Permissions-Policy</c> header <c>display-capture</c> directive controls whether or not the document is permitted to use <c>Screen Capture API</c>, that is, <c>getDisplayMedia()</c> to capture the screen's contents.
+/// If <c>display-capture</c> is disabled in a document, the document will not be able to initiate screen capture via <c>getDisplayMedia()</c> and will throw a <c>NotAllowedError</c> exception.
 /// </summary>
 public class DisplayCapturePermissionsPolicyDirectiveBuilder : PermissionsPolicyDirectiveBuilder
 {
