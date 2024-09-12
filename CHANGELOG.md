@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.24.0]
+
+Features:
+
+* Allow adding multiple uris to CSP builder `AddFrameAncestors()` #179
+* Add support for additional directives on `Permissions-Policy` header #177 (Thanks [@Registeel](https://github.com/Registeel)!)
+
 ## [v0.23.0]
 
 Features:
