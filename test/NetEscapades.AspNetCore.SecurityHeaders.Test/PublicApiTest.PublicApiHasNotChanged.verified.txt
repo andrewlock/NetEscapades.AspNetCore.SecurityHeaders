@@ -173,24 +173,41 @@ namespace Microsoft.AspNetCore.Builder
         public PermissionsPolicyBuilder() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.AccelerometerPermissionsPolicyDirectiveBuilder AddAccelerometer() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.AmbientLightSensorPermissionsPolicyDirectiveBuilder AddAmbientLightSensor() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.AttributionReportingPermissionsPolicyDirectiveBuilder AddAttributionReporting() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.AutoplayPermissionsPolicyDirectiveBuilder AddAutoplay() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.BluetoothPermissionsPolicyDirectiveBuilder AddBluetooth() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.CameraPermissionsPolicyDirectiveBuilder AddCamera() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.CustomPermissionsPolicyDirectiveBuilder AddCustomFeature(string directive) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.CustomPermissionsPolicyDirective AddCustomFeature(string directive, string value) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.DisplayCapturePermissionsPolicyDirectiveBuilder AddDisplayCapture() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.EncryptedMediaPermissionsPolicyDirectiveBuilder AddEncryptedMedia() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.FederatedLearningOfCohortsCalculationPermissionsPolicyDirectiveBuilder AddFederatedLearningOfCohortsCalculation() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.FullscreenPermissionsPolicyDirectiveBuilder AddFullscreen() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.GeolocationPermissionsPolicyDirectiveBuilder AddGeolocation() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.GyroscopePermissionsPolicyDirectiveBuilder AddGyroscope() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.HidPermissionsPolicyDirectiveBuilder AddHid() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.IdentityCredentialsGetPermissionsPolicyDirectiveBuilder AddIdentityCredentialsGet() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.IdleDetectionPermissionsPolicyDirectiveBuilder AddIdleDetection() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.LocalFontsPermissionsPolicyDirectiveBuilder AddLocalFonts() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.MagnetometerPermissionsPolicyDirectiveBuilder AddMagnetometer() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.MicrophonePermissionsPolicyDirectiveBuilder AddMicrophone() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.MidiPermissionsPolicyDirectiveBuilder AddMidi() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.OtpCredentialsPermissionsPolicyDirectiveBuilder AddOtpCredentials() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PaymentPermissionsPolicyDirectiveBuilder AddPayment() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PictureInPicturePermissionsPolicyDirectiveBuilder AddPictureInPicture() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PublickeyCredentialsCreatePermissionsPolicyDirectiveBuilder AddPublickeyCredentialsCreate() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PublickeyCredentialsGetPermissionsPolicyDirectiveBuilder AddPublickeyCredentialsGet() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.ScreenWakeLockPermissionsPolicyDirectiveBuilder AddScreenWakeLock() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.SerialPermissionsPolicyDirectiveBuilder AddSerialPermissions() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.SpeakerPermissionsPolicyDirectiveBuilder AddSpeaker() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.SpeakerSelectionPermissionsPolicyDirectiveBuilder AddSpeakerSelection() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.StorageAccessPermissionsPolicyDirectiveBuilder AddStorageAccess() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.SynchronousXhrPermissionsPolicyDirectiveBuilder AddSyncXHR() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.UsbPermissionsPolicyDirectiveBuilder AddUsb() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.VRPermissionsPolicyDirectiveBuilder AddVR() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.WebSharePermissionsPolicyDirectiveBuilder AddWebShare() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.WindowManagementPermissionsPolicyDirectiveBuilder AddWindowManagement() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.XrSpatialTrackingPermissionsPolicyDirectiveBuilder AddXrSpatialTracking() { }
     }
     public static class PermissionsPolicyHeaderExtensions
     {
@@ -745,9 +762,17 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy
     {
         public AmbientLightSensorPermissionsPolicyDirectiveBuilder() { }
     }
+    public class AttributionReportingPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public AttributionReportingPermissionsPolicyDirectiveBuilder() { }
+    }
     public class AutoplayPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
     {
         public AutoplayPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class BluetoothPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public BluetoothPermissionsPolicyDirectiveBuilder() { }
     }
     public class CameraPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
     {
@@ -761,6 +786,10 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy
     public class CustomPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
     {
         public CustomPermissionsPolicyDirectiveBuilder(string directive) { }
+    }
+    public class DisplayCapturePermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public DisplayCapturePermissionsPolicyDirectiveBuilder() { }
     }
     public class EncryptedMediaPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
     {
@@ -782,6 +811,22 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy
     {
         public GyroscopePermissionsPolicyDirectiveBuilder() { }
     }
+    public class HidPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public HidPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class IdentityCredentialsGetPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public IdentityCredentialsGetPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class IdleDetectionPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public IdleDetectionPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class LocalFontsPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public LocalFontsPermissionsPolicyDirectiveBuilder() { }
+    }
     public class MagnetometerPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
     {
         public MagnetometerPermissionsPolicyDirectiveBuilder() { }
@@ -793,6 +838,10 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy
     public class MidiPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
     {
         public MidiPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class OtpCredentialsPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public OtpCredentialsPermissionsPolicyDirectiveBuilder() { }
     }
     public class PaymentPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
     {
@@ -815,9 +864,33 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy
     {
         public PictureInPicturePermissionsPolicyDirectiveBuilder() { }
     }
+    public class PublickeyCredentialsCreatePermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public PublickeyCredentialsCreatePermissionsPolicyDirectiveBuilder() { }
+    }
+    public class PublickeyCredentialsGetPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public PublickeyCredentialsGetPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class ScreenWakeLockPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public ScreenWakeLockPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class SerialPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public SerialPermissionsPolicyDirectiveBuilder() { }
+    }
     public class SpeakerPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
     {
         public SpeakerPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class SpeakerSelectionPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public SpeakerSelectionPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class StorageAccessPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public StorageAccessPermissionsPolicyDirectiveBuilder() { }
     }
     public class SynchronousXhrPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
     {
@@ -830,6 +903,18 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy
     public class VRPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
     {
         public VRPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class WebSharePermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public WebSharePermissionsPolicyDirectiveBuilder() { }
+    }
+    public class WindowManagementPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public WindowManagementPermissionsPolicyDirectiveBuilder() { }
+    }
+    public class XrSpatialTrackingPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
+    {
+        public XrSpatialTrackingPermissionsPolicyDirectiveBuilder() { }
     }
 }
 namespace NetEscapades.AspNetCore.SecurityHeaders
