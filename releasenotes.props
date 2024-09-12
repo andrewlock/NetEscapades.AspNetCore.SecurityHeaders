@@ -1,10 +1,11 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.23.0'">
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.24.0'">
       <![CDATA[
 Features:
 
-* Add support for `unsafe-hashes` on `style` attributes, and inline event handlers #162 (Thanks [@tiesmaster](https://github.com/tiesmaster)!)
+* Allow adding multiple uris to CSP builder `AddFrameAncestors()` #179
+* Add support for additional directives on `Permissions-Policy` header #177 (Thanks [@Registeel](https://github.com/Registeel)!)
 ]]>
     </PackageReleaseNotes>
      <PackageReleaseNotes>$(PackageReleaseNotes)
