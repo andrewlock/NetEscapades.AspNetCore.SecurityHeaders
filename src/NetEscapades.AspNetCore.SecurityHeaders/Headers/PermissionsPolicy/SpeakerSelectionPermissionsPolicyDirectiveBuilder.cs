@@ -1,10 +1,16 @@
 ﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
 
 /// <summary>
-/// The HTTP Permissions-Policy header speaker-selection directive controls whether the current document is allowed to enumerate and select audio output devices
-/// (speakers, headphones, and so on). Specifically, where a defined policy blocks use of this feature: <code>MediaDevices.enumerateDevices()</code> won't return devices of
-/// type audio output. <code>MediaDevices.selectAudioOutput()</code> won't display the popup for selecting an audio output, and the returned Promise will reject with a <code>DOMException</code>
-/// of type <code>NotAllowedError</code>. <code>HTMLMediaElement.setSinkId()</code> and <code>AudioContext.setSinkId()</code> will throw a <code>NotAllowedError</code> if called for an audio output.
+/// The HTTP <c>Permissions-Policy</c> header <c>speaker-selection</c> directive controls whether the current
+/// document is allowed to enumerate and select audio output devices (speakers, headphones, and so on).
+/// Specifically, where a defined policy blocks use of this feature:
+/// <list type="bullet">
+/// <item><description><c>MediaDevices.enumerateDevices()</c> won't return devices of type audio output.</description></item>
+/// <item><description><c>MediaDevices.selectAudioOutput()</c> won't display the popup for
+/// selecting an audio output, and the returned <c>Promise</c> will reject with a <c>DOMException</c>
+/// of type <c>NotAllowedError</c>.</description></item>
+/// <item><description><c>HTMLMediaElement.setSinkId()</c> and <c>AudioContext.setSinkId()</c> will throw a <c>NotAllowedError</c> if called for an audio output.</description></item>
+/// </list>
 /// </summary>
 public class SpeakerSelectionPermissionsPolicyDirectiveBuilder : PermissionsPolicyDirectiveBuilder
 {

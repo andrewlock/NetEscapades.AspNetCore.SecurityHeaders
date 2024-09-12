@@ -1,13 +1,14 @@
 ﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
 
 /// <summary>
-/// The HTTP Permissions-Policy header publickey-credentials-create directive controls
-/// whether the current document is allowed to use the <code>Web Authentication API</code> to create
-/// new WebAuthn credentials, i.e., via <code>navigator.credentials.create({publicKey})</code>
-/// Specifically, where a defined policy blocks use of this feature, the Promise returned
-/// by <code>navigator.credentials.create({publicKey})</code> will reject with a <code>NotAllowedError DOMException</code>
-/// If the method is called cross-origin. the Promise will also reject with a <code>NotAllowedError</code>
-/// if the feature is granted by allow= on an iframe and the frame does not also have Transient activation.
+/// The HTTP <c>Permissions-Policy</c> header <c>publickey-credentials-create</c> directive
+/// controls whether the current document is allowed to use the <c>Web Authentication API</c>
+/// to create new WebAuthn credentials, i.e., via <c>navigator.credentials.create({publicKey})</c>.
+/// Specifically, where a defined policy blocks use of this feature, the <c>Promise</c> returned
+/// by <c>navigator.credentials.create({publicKey})</c> will reject with a <c>NotAllowedError DOMException</c>.
+/// If the method is called cross-origin. the <c>Promise</c> will also reject with a
+/// <c>NotAllowedError</c> if the feature is granted by <c>allow= on an iframe</c> and the frame
+/// does not also have <c>Transient activation</c>.
 /// </summary>
 public class PublickeyCredentialsCreatePermissionsPolicyDirectiveBuilder : PermissionsPolicyDirectiveBuilder
 {

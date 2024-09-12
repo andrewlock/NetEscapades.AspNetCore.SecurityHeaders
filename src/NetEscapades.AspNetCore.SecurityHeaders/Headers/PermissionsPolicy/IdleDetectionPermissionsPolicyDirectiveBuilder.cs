@@ -1,11 +1,11 @@
 ﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
 
 /// <summary>
-/// The HTTP Permissions-Policy header idle-detection directive controls whether the current document is
-/// allowed to use the <code>Idle Detection API</code> to detect when users are interacting with their devices, for
-/// example to report "available"/"away" status in chat applications. Specifically, where a defined
-/// policy blocks use of this feature, <code>IdleDetector.start()</code> calls will return a Promise that rejects
-/// with a <code>DOMException</code> of type <code>NotAllowedError</code>
+/// The HTTP <c>Permissions-Policy</c> header <c>idle-detection</c> directive controls whether the current document is
+/// allowed to use the <c>Idle Detection API</c> to detect when users are interacting with their devices, for example
+/// to report "available"/"away" status in chat applications. Specifically, where a defined policy blocks use
+/// of this feature, <c>IdleDetector.start()</c> calls will return a <c>Promise</c> that rejects with a <c>DOMException</c> of
+/// type <c>NotAllowedError</c>.
 /// </summary>
 public class IdleDetectionPermissionsPolicyDirectiveBuilder : PermissionsPolicyDirectiveBuilder
 {

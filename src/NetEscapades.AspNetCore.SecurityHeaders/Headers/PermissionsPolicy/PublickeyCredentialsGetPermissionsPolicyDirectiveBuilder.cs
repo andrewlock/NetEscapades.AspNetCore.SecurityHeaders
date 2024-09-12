@@ -1,10 +1,11 @@
 ﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
 
 /// <summary>
-/// The HTTP Permissions-Policy header publickey-credentials-get directive controls whether the current document is
-/// allowed to access the <code>Web Authentication API</code> to retrieve public-key credentials, i.e., via <code>navigator.credentials.get({publicKey})</code>
-/// Specifically, where a defined policy blocks the use of this feature, the Promise returned by <code>navigator.credentials.get({publicKey})</code>
-/// will reject with a <code>NotAllowedError DOMException</code>
+/// The HTTP <c>Permissions-Policy</c> header <c>publickey-credentials-get</c> directive controls whether the
+/// current document is allowed to access the <c>Web Authentication API</c> to retrieve public-key
+/// credentials, i.e., via <c>navigator.credentials.get({publicKey})</c>. Specifically, where a defined
+/// policy blocks the use of this feature, the <c>Promise</c> returned by <c>navigator.credentials.get({publicKey})</c>
+/// will reject with a <c>NotAllowedError DOMException</c>.
 /// </summary>
 public class PublickeyCredentialsGetPermissionsPolicyDirectiveBuilder : PermissionsPolicyDirectiveBuilder
 {

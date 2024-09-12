@@ -1,10 +1,14 @@
 ﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy;
 
 /// <summary>
-/// The HTTP Permissions-Policy header xr-spatial-tracking directive controls whether the current document
-/// is allowed to use the <code>WebXR Device API</code> Specifically, where a defined policy blocks usage of this feature:
-/// <code>navigator.xr.isSessionSupported()</code> and <code>navigator.xr.requestSession()</code> calls will return a Promise that rejects
-/// with a <code>DOMException</code> of type <code>SecurityError</code> devicechange events are not fired on the navigator.xr object.
+/// The HTTP <c>Permissions-Policy</c> header <c>xr-spatial-tracking</c> directive controls whether
+/// the current document is allowed to use the <c>WebXR Device API</c>.
+/// Specifically, where a defined policy blocks usage of this feature:
+/// <list type="bullet">
+/// <item><description><c>navigator.xr.isSessionSupported()</c> and <c>navigator.xr.requestSession()</c>
+/// calls will return a <c>Promise</c> that rejects with a <c>DOMException</c> of type <c>SecurityError</c>.</description></item>
+/// <item><description><c>devicechange</c> events are not fired on the <c>navigator.xr</c> object.</description></item>
+/// </list>
 /// </summary>
 public class XrSpatialTrackingPermissionsPolicyDirectiveBuilder : PermissionsPolicyDirectiveBuilder
 {
