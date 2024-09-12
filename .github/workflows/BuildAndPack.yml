@@ -55,7 +55,7 @@ jobs:
           NuGetToken: ${{ secrets.NUGET_TOKEN }}
       - uses: actions/upload-artifact@v4
         with:
-          name: artifacts
+          name: artifacts-linux
           path: artifacts
   windows-latest:
     name: windows-latest
@@ -84,7 +84,7 @@ jobs:
           NuGetToken: ${{ secrets.NUGET_TOKEN }}
       - uses: actions/upload-artifact@v4
         with:
-          name: artifacts
+          name: artifacts-win
           path: artifacts
   macOS-latest:
     name: macos-13 # latest is arm64, and it breaks a bunch of stuff
@@ -113,5 +113,5 @@ jobs:
           NuGetToken: ${{ secrets.NUGET_TOKEN }}
       - uses: actions/upload-artifact@v4
         with:
-          name: artifacts
+          name: artifacts-macos
           path: artifacts
