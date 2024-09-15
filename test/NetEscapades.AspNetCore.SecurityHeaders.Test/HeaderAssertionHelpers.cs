@@ -17,7 +17,7 @@ public static class HeaderAssertionHelpers
         header = headers.GetValues("Referrer-Policy").FirstOrDefault()!;
         header.Should().Be("strict-origin-when-cross-origin");
         header = headers.GetValues("Content-Security-Policy").FirstOrDefault()!;
-        header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
+        header.Should().Be("default-src 'none'; form-action 'self'; frame-ancestors 'none'");
 
         Assert.False(headers.Contains("Server"),
             "Should not contain server header");
@@ -36,7 +36,7 @@ public static class HeaderAssertionHelpers
         header = headers.GetValues("Referrer-Policy").FirstOrDefault()!;
         header.Should().Be("strict-origin-when-cross-origin");
         header = headers.GetValues("Content-Security-Policy").FirstOrDefault()!;
-        header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
+        header.Should().Be("default-src 'none'; form-action 'self'; frame-ancestors 'none'");
 
         Assert.False(headers.Contains("Server"),
             "Should not contain server header");
