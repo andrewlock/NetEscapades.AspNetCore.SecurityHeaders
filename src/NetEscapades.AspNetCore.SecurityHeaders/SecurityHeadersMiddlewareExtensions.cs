@@ -104,7 +104,7 @@ public static class SecurityHeadersMiddlewareExtensions
 
     private static IApplicationBuilder UseMiddleware(
         this IApplicationBuilder app,
-        HeaderPolicyCollection policies,
+        IReadOnlyHeaderPolicyCollection policies,
         CustomHeaderOptions? options)
     {
         return app.UseMiddleware<SecurityHeadersMiddleware>(options ?? new(), policies);

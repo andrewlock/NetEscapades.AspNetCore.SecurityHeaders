@@ -2296,6 +2296,64 @@ public class SecurityHeadersMiddlewareTests
         }
     }
 
+    [Fact]
+    public async Task HttpRequest_CanApplyDifferentPolicyBasedOnResponseContentType()
+    {
+        // Arrange
+        var hostBuilder = new WebHostBuilder()
+            .ConfigureServices(services =>
+            {
+                services.AddRouting();
+                services
+                    .AddSecurityHeaderPolicies()
+                    .AddPolicy("text/html", x => x.AddDefaultSecurityHeaders())
+                    .SetDefaultPolicy(x => x.AddDefaultApiSecurityHeaders())
+                    .SetPolicySelector(ctx =>
+                        ctx.HttpContext.Response.ContentType == "text/html"
+                        && ctx.ConfiguredPolicies.TryGetValue("text/html", out var htmlPolicy)
+                            ? htmlPolicy
+                            : ctx.SelectedPolicy);
+            })
+            .Configure(app =>
+            {
+                app.UseSecurityHeaders();
+                app.UseRouting();
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapGet("/api", context =>
+                    {
+                        context.Response.ContentType = "text/plain";
+                        return context.Response.WriteAsync("Test response");
+                    });
+                    endpoints.MapGet("/html", context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        return context.Response.WriteAsync("Test response");
+                    });
+                });
+            });
+
+        using var server = new TestServer(hostBuilder);
+        
+        // API request.
+        var response = await server.CreateRequest("/api")
+            .SendAsync("GET");
+
+        response.EnsureSuccessStatusCode();
+
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultApiSecurityHeaders();
+        
+        // HTML request.
+        response = await server.CreateRequest("/html")
+            .SendAsync("GET");
+
+        response.EnsureSuccessStatusCode();
+
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultSecurityHeaders();
+    }
+
     private class HeaderPolicyCollectionFactory
     {
         private readonly HeaderPolicyCollection _default = new HeaderPolicyCollection().AddCustomHeader("Custom-Header", "Default");
