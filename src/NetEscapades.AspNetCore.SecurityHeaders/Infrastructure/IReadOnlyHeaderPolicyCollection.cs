@@ -9,8 +9,4 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 /// </summary>
 public interface IReadOnlyHeaderPolicyCollection : IReadOnlyDictionary<string, IHeaderPolicy>
 {
-    /// <summary>
-    /// The content types that document-based headers such as Content-Security-Policy should apply to
-    /// </summary>
-    internal ICollection<string>? DocumentHeaderContentTypePrefixes { get; }
 }

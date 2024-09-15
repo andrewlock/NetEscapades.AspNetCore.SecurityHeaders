@@ -7,7 +7,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers;
 /// <summary>
 /// The header value to use for Content-Security-Policy
 /// </summary>
-public abstract class ContentSecurityPolicyHeader : DocumentHeaderPolicyBase
+public abstract class ContentSecurityPolicyHeader : HeaderPolicyBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ContentSecurityPolicyHeader"/> class.

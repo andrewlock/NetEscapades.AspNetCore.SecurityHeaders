@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using NetEscapades.AspNetCore.SecurityHeaders;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
@@ -26,17 +25,7 @@ public class HeaderPolicyCollection : Dictionary<string, IHeaderPolicy>, IReadOn
     internal HeaderPolicyCollection(IReadOnlyHeaderPolicyCollection other)
         : base(other)
     {
-        DocumentHeaderContentTypePrefixes =
-            other.DocumentHeaderContentTypePrefixes is { } prefixes ? [..prefixes] : null;
     }
-
-    /// <summary>
-    /// The content types that document-based headers such as Content-Security-Policy should apply to
-    /// </summary>
-    internal string[]? DocumentHeaderContentTypePrefixes { get; set; } = { "text/html", "application/javascript", "text/javascript" };
-
-    /// <inheritdoc/>
-    ICollection<string>? IReadOnlyHeaderPolicyCollection.DocumentHeaderContentTypePrefixes => DocumentHeaderContentTypePrefixes;
 
     /// <summary>
     /// Apply document-based headers such as Content-Security-Policy to all responses serving the provided
@@ -51,10 +40,9 @@ public class HeaderPolicyCollection : Dictionary<string, IHeaderPolicy>, IReadOn
     /// for details). However, in some cases, you may want to apply your document headers to additional
     /// content-types.</remarks>
     /// <returns>The <see cref="HeaderPolicyCollection"/> for chaining</returns>
+    [Obsolete("This method no longer has any effect - all headers are applied to all responses by default.")]
     public HeaderPolicyCollection ApplyDocumentHeadersToContentTypes(string[] contentTypes)
     {
-        DocumentHeaderContentTypePrefixes = contentTypes ?? throw new ArgumentNullException(nameof(contentTypes));
-
         return this;
     }
 
@@ -67,10 +55,9 @@ public class HeaderPolicyCollection : Dictionary<string, IHeaderPolicy>, IReadOn
     /// for details). However, in some cases, you may want to apply your document headers to additional
     /// content-types.</remarks>
     /// <returns>The <see cref="HeaderPolicyCollection"/> for chaining</returns>
+    [Obsolete("This method no longer has any effect - all headers are applied to all responses by default.")]
     public HeaderPolicyCollection ApplyDocumentHeadersToAllResponses()
     {
-        DocumentHeaderContentTypePrefixes = null;
-
         return this;
     }
 }

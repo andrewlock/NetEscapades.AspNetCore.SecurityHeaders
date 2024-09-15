@@ -166,7 +166,11 @@ namespace Microsoft.AspNetCore.Builder
     public class HeaderPolicyCollection : System.Collections.Generic.Dictionary<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IReadOnlyHeaderPolicyCollection, System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>>, System.Collections.Generic.IReadOnlyCollection<System.Collections.Generic.KeyValuePair<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>>, System.Collections.Generic.IReadOnlyDictionary<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>, System.Collections.IEnumerable
     {
         public HeaderPolicyCollection() { }
+        [System.Obsolete("This method no longer has any effect - all headers are applied to all responses b" +
+            "y default.")]
         public Microsoft.AspNetCore.Builder.HeaderPolicyCollection ApplyDocumentHeadersToAllResponses() { }
+        [System.Obsolete("This method no longer has any effect - all headers are applied to all responses b" +
+            "y default.")]
         public Microsoft.AspNetCore.Builder.HeaderPolicyCollection ApplyDocumentHeadersToContentTypes(string[] contentTypes) { }
     }
     public static class HeaderPolicyCollectionExtensions
@@ -435,7 +439,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
 }
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
 {
-    public abstract class ContentSecurityPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.DocumentHeaderPolicyBase
+    public abstract class ContentSecurityPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
     {
         protected ContentSecurityPolicyHeader(bool reportOnly, bool hasPerRequestValues) { }
         public override string Header { get; }
@@ -462,7 +466,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
             protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
         }
     }
-    public abstract class CrossOriginOpenerPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.DocumentHeaderPolicyBase
+    public abstract class CrossOriginOpenerPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
     {
         protected CrossOriginOpenerPolicyHeader(bool reportOnly) { }
         public override string Header { get; }
@@ -490,12 +494,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
         public override string Header { get; }
         protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
     }
-    public abstract class DocumentHeaderPolicyBase : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy
-    {
-        protected DocumentHeaderPolicyBase() { }
-        public override void Apply(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-        public void Apply(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IReadOnlyHeaderPolicyCollection policies) { }
-    }
     public class ExpectCTHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
     {
         public ExpectCTHeader(string value, System.Collections.Generic.IReadOnlyList<string> excludedHosts) { }
@@ -504,7 +502,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
         protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
         protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
     }
-    public class FeaturePolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.DocumentHeaderPolicyBase
+    public class FeaturePolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
     {
         public FeaturePolicyHeader(string value) { }
         public override string Header { get; }
@@ -531,14 +529,14 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
         string Header { get; }
         void Apply(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result);
     }
-    public class PermissionsPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.DocumentHeaderPolicyBase
+    public class PermissionsPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
     {
         public PermissionsPolicyHeader(string value) { }
         public override string Header { get; }
         protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
         public static NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.PermissionsPolicyBuilder> configure) { }
     }
-    public class ReferrerPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.DocumentHeaderPolicyBase
+    public class ReferrerPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
     {
         public ReferrerPolicyHeader(string value) { }
         public override string Header { get; }
@@ -602,13 +600,13 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
         public override string Header { get; }
         protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
     }
-    public class XFrameOptionsHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.DocumentHeaderPolicyBase
+    public class XFrameOptionsHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
     {
         public XFrameOptionsHeader(string value) { }
         public override string Header { get; }
         protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
     }
-    public class XssProtectionHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.DocumentHeaderPolicyBase
+    public class XssProtectionHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
     {
         public XssProtectionHeader(string value) { }
         public override string Header { get; }
@@ -973,6 +971,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     public interface IReadOnlyHeaderPolicyCollection : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>>, System.Collections.Generic.IReadOnlyCollection<System.Collections.Generic.KeyValuePair<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>>, System.Collections.Generic.IReadOnlyDictionary<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>, System.Collections.IEnumerable { }
     public readonly struct PolicySelectorContext
     {
+        public System.Collections.Generic.IReadOnlyDictionary<string, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IReadOnlyHeaderPolicyCollection> ConfiguredPolicies { get; }
         public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IReadOnlyHeaderPolicyCollection DefaultPolicy { get; }
         public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IReadOnlyHeaderPolicyCollection? EndpointPolicy { get; }
         public string? EndpointPolicyName { get; }
