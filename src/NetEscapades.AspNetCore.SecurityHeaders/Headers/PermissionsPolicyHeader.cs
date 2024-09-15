@@ -7,7 +7,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers;
 /// <summary>
 /// The header value to use for Permissions-Policy.
 /// </summary>
-public class PermissionsPolicyHeader : DocumentHeaderPolicyBase
+public class PermissionsPolicyHeader : HeaderPolicyBase
 {
     private readonly string _value;
 

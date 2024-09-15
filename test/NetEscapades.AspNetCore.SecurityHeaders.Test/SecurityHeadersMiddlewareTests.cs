@@ -895,9 +895,9 @@ public class SecurityHeadersMiddlewareTests
     [InlineData("text/html", "text/html", true)]
     [InlineData("text/html", "text/", true)]
     [InlineData("application/json", "application/json", true)]
-    [InlineData("application/json", "text/html", false)]
-    [InlineData("text/html", "application/json", false)]
-    public async Task HttpRequest_WithCspHeader_SetsHeaderBasedOnContentType(string requestContentType, string appliesTo, bool shouldApply)
+    [InlineData("application/json", "text/html", true)]
+    [InlineData("text/html", "application/json", true)]
+    public async Task HttpRequest_WithCspHeader_SetsHeader_RegardlessOfContentType(string requestContentType, string appliesTo, bool shouldApply)
     {
         // Arrange
         var hostBuilder = new WebHostBuilder()
@@ -1118,14 +1118,14 @@ public class SecurityHeadersMiddlewareTests
             response.EnsureSuccessStatusCode();
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Feature-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("fullscreen 'self'; geolocation 'none'");
+            response.Headers
+                .Should().ContainKey("Feature-Policy")
+                .WhoseValue.Should().ContainSingle("fullscreen 'self'; geolocation 'none'");
         }
     }
 
     [Fact]
-    public async Task HttpRequest_WithFeaturePolicyHeaderAndNotHtml_DoesNotSetFeaturePolicy()
+    public async Task HttpRequest_WithFeaturePolicyHeaderAndNotHtml_SetsFeaturePolicy()
     {
         // Arrange
         var hostBuilder = new WebHostBuilder()
@@ -1156,7 +1156,9 @@ public class SecurityHeadersMiddlewareTests
             response.EnsureSuccessStatusCode();
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Contains("Feature-Policy").Should().BeFalse();
+            response.Headers
+                .Should().ContainKey("Feature-Policy")
+                .WhoseValue.Should().ContainSingle("fullscreen 'self'; geolocation 'none'");
         }
     }
 
@@ -1191,9 +1193,9 @@ public class SecurityHeadersMiddlewareTests
             response.EnsureSuccessStatusCode();
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Feature-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("fullscreen 'self'; geolocation 'none'");
+            response.Headers
+                .Should().ContainKey("Feature-Policy")
+                .WhoseValue.Should().ContainSingle("fullscreen 'self'; geolocation 'none'");
         }
     }
 
@@ -1232,14 +1234,14 @@ public class SecurityHeadersMiddlewareTests
             response.EnsureSuccessStatusCode();
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Permissions-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=self, ambient-light-sensor=\"https://testurl.com\", geolocation=(), camera=*");
+            response.Headers
+                .Should().ContainKey("Permissions-Policy")
+                .WhoseValue.Should().ContainSingle("accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=self, ambient-light-sensor=\"https://testurl.com\", geolocation=(), camera=*\"");
         }
     }
 
     [Fact]
-    public async Task HttpRequest_WithPermissionsPolicyHeaderAndNotHtml_DoesNotSetPermissionsPolicy()
+    public async Task HttpRequest_WithPermissionsPolicyHeaderAndNotHtml_SetsPermissionsPolicy()
     {
         // Arrange
         var hostBuilder = new WebHostBuilder()
@@ -1270,7 +1272,9 @@ public class SecurityHeadersMiddlewareTests
             response.EnsureSuccessStatusCode();
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Contains("Permissions-Policy").Should().BeFalse();
+            response.Headers
+                .Should().ContainKey("Permissions-Policy")
+                .WhoseValue.Should().ContainSingle("accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=self, ambient-light-sensor=\"https://testurl.com\", geolocation=(), camera=*\"");
         }
     }
 
@@ -2290,6 +2294,64 @@ public class SecurityHeadersMiddlewareTests
             header.Should().NotBeNull();
             header.Should().Be("default=\"https://localhost:5000/default\", endpoint-1=\"http://localhost/endpoint-1\"");
         }
+    }
+
+    [Fact]
+    public async Task HttpRequest_CanApplyDifferentPolicyBasedOnResponseContentType()
+    {
+        // Arrange
+        var hostBuilder = new WebHostBuilder()
+            .ConfigureServices(services =>
+            {
+                services.AddRouting();
+                services
+                    .AddSecurityHeaderPolicies()
+                    .AddPolicy("text/html", x => x.AddDefaultSecurityHeaders())
+                    .SetDefaultPolicy(x => x.AddDefaultApiSecurityHeaders())
+                    .SetPolicySelector(ctx =>
+                        ctx.HttpContext.Response.ContentType == "text/html"
+                        && ctx.ConfiguredPolicies.TryGetValue("text/html", out var htmlPolicy)
+                            ? htmlPolicy
+                            : ctx.SelectedPolicy);
+            })
+            .Configure(app =>
+            {
+                app.UseSecurityHeaders();
+                app.UseRouting();
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapGet("/api", context =>
+                    {
+                        context.Response.ContentType = "text/plain";
+                        return context.Response.WriteAsync("Test response");
+                    });
+                    endpoints.MapGet("/html", context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        return context.Response.WriteAsync("Test response");
+                    });
+                });
+            });
+
+        using var server = new TestServer(hostBuilder);
+        
+        // API request.
+        var response = await server.CreateRequest("/api")
+            .SendAsync("GET");
+
+        response.EnsureSuccessStatusCode();
+
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultApiSecurityHeaders();
+        
+        // HTML request.
+        response = await server.CreateRequest("/html")
+            .SendAsync("GET");
+
+        response.EnsureSuccessStatusCode();
+
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultSecurityHeaders();
     }
 
     private class HeaderPolicyCollectionFactory

@@ -17,7 +17,7 @@ internal class SecurityHeadersMiddleware
 {
     private readonly ILogger<SecurityHeadersMiddleware> _logger;
     private readonly RequestDelegate _next;
-    private readonly HeaderPolicyCollection _defaultPolicy;
+    private readonly IReadOnlyHeaderPolicyCollection _defaultPolicy;
     private readonly NonceGenerator? _nonceGenerator;
     private readonly CustomHeaderOptions _options;
 
@@ -30,7 +30,7 @@ internal class SecurityHeadersMiddleware
     /// <param name="logger">A logger for recording errors.</param>
     public SecurityHeadersMiddleware(
         RequestDelegate next,
-        HeaderPolicyCollection defaultPolicy,
+        IReadOnlyHeaderPolicyCollection defaultPolicy,
         ILogger<SecurityHeadersMiddleware> logger,
         CustomHeaderOptions options)
     {
@@ -82,7 +82,7 @@ internal class SecurityHeadersMiddleware
 
         if (!string.IsNullOrEmpty(policyName))
         {
-            if (options.GetPolicy(policyName) is IReadOnlyHeaderPolicyCollection policy)
+            if (options.GetPolicy(policyName) is { } policy)
             {
                 endpointPolicy = policy;
             }
@@ -102,7 +102,8 @@ internal class SecurityHeadersMiddleware
         IReadOnlyHeaderPolicyCollection? policyToApply = null;
         if (options.PolicySelector is not null)
         {
-            policyToApply = options.PolicySelector(new(context, middleware._defaultPolicy, policyName, endpointPolicy));
+            policyToApply = options.PolicySelector(
+                new(context, options.NamedPolicyCollections, middleware._defaultPolicy, policyName, endpointPolicy));
 
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             if (policyToApply is null)
@@ -119,7 +120,7 @@ internal class SecurityHeadersMiddleware
         return Task.CompletedTask;
     }
 
-    private static bool MustGenerateNonce(HeaderPolicyCollection policy)
+    private static bool MustGenerateNonce(IReadOnlyHeaderPolicyCollection policy)
     {
         // TODO: Yuk. Don't want to be generating a nonce every request if we don't have to though...
         // Could look at generalising this if we need it for other CSP headers

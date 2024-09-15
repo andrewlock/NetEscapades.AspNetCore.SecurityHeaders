@@ -13,7 +13,7 @@ internal class CustomHeaderOptions
     /// The collections of policies to apply
     /// </summary>
     /// <returns>The collection of policies, indexed by header name</returns>
-    public Dictionary<string, HeaderPolicyCollection> NamedPolicyCollections { get; } = new();
+    public Dictionary<string, IReadOnlyHeaderPolicyCollection> NamedPolicyCollections { get; } = new();
 
     /// <summary>
     /// The default policy to apply
@@ -30,7 +30,7 @@ internal class CustomHeaderOptions
     /// </summary>
     /// <param name="name">The name of the policy to lookup.</param>
     /// <returns>The <see cref="HeaderPolicyCollection"/> if the policy was added.<c>null</c> otherwise.</returns>
-    public HeaderPolicyCollection? GetPolicy(string name)
+    public IReadOnlyHeaderPolicyCollection? GetPolicy(string name)
     {
         if (name == null)
         {
