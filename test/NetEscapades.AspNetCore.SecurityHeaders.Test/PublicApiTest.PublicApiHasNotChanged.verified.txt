@@ -186,6 +186,7 @@ namespace Microsoft.AspNetCore.Builder
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.CameraPermissionsPolicyDirectiveBuilder AddCamera() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.CustomPermissionsPolicyDirectiveBuilder AddCustomFeature(string directive) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.CustomPermissionsPolicyDirective AddCustomFeature(string directive, string value) { }
+        public Microsoft.AspNetCore.Builder.PermissionsPolicyBuilder AddDefaultSecureDirectives() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.DisplayCapturePermissionsPolicyDirectiveBuilder AddDisplayCapture() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.EncryptedMediaPermissionsPolicyDirectiveBuilder AddEncryptedMedia() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.FederatedLearningOfCohortsCalculationPermissionsPolicyDirectiveBuilder AddFederatedLearningOfCohortsCalculation() { }
@@ -219,7 +220,7 @@ namespace Microsoft.AspNetCore.Builder
     public static class PermissionsPolicyHeaderExtensions
     {
         public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddPermissionsPolicy(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, System.Action<Microsoft.AspNetCore.Builder.PermissionsPolicyBuilder> configure) { }
-        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddPermissionsPolicyWithRecommendedDirectives(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddPermissionsPolicyWithDefaultSecureDirectives(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
     }
     public static class ReferrerPolicyHeaderExtensions
     {
