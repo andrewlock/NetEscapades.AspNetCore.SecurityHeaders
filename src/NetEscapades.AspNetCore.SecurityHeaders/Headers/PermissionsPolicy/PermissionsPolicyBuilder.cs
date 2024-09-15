@@ -381,6 +381,81 @@ public class PermissionsPolicyBuilder
     /// <returns>A configured <see cref="CustomPermissionsPolicyDirectiveBuilder"/></returns>
     public CustomPermissionsPolicyDirective AddCustomFeature(string directive, string value) => AddDirective(new CustomPermissionsPolicyDirective(directive, value));
 
+    /// <summary>
+    /// Add a Permissions-Policy with recommended "secure" directives based on
+    /// <see href="https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html#security-headers">OWASP recommendations</see>.
+    /// Note that this disables many features. If you need to enable some features, add additional directives, to override
+    /// the required policy.
+    /// </summary>
+    /// <returns>The <see cref="PermissionsPolicyBuilder"/> for method chaining</returns>
+    /// <remarks>The OWASP recommended policy includes directives that are either experimental,
+    /// not available by default, or not implemented. For consistency,
+    /// those directives are not included in the policy.
+    ///
+    /// The policy added is equivalent to
+    /// <code>
+    /// AddAccelerometer().None();
+    /// AddAmbientLightSensor().None();
+    /// AddAutoplay().None();
+    /// AddCamera().None();
+    /// AddDisplayCapture().None();
+    /// AddEncryptedMedia().None();
+    /// AddFullscreen().None();
+    /// AddGeolocation().None();
+    /// AddGyroscope().None();
+    /// AddMagnetometer().None();
+    /// AddMicrophone().None();
+    /// AddMidi().None();
+    /// AddPayment().None();
+    /// AddPictureInPicture().None();
+    /// AddPublickeyCredentialsGet().None();
+    /// AddScreenWakeLock().None();
+    /// AddSyncXHR().None();
+    /// AddUsb().None();
+    /// AddWebShare().None();
+    /// AddXrSpatialTracking().None();
+    /// </code>
+    /// </remarks>
+    public PermissionsPolicyBuilder AddDefaultSecureDirectives()
+    {
+        // https://github.com/w3c/webappsec-permissions-policy/blob/f15a4548691ea69a87227c0f67571da2cc0e08c1/features.md?plain=1#L19
+        AddAccelerometer().None();
+        AddAmbientLightSensor().None();
+        AddAutoplay().None();
+
+        // AddBattery().None(); // Request: https://issues.chromium.org/issues/40100229
+        AddCamera().None();
+
+        // AddCrossOriginIsolated().None(); // experimental in chrome 85
+        AddDisplayCapture().None();
+
+        // AddDocumentDomain().None(); // retired
+        AddEncryptedMedia().None();
+
+        // AddExecutionWhileNotRendered().None(); // Behind a flag in chrome
+
+        // AddExecutionWhileOutOfViewport().None();; // Behind a flag in chrome
+        AddFullscreen().None();
+        AddGeolocation().None();
+        AddGyroscope().None();
+
+        // AddKeyboardMap().None(); // Chrome only https://www.chromestatus.com/feature/5657965899022336
+        AddMagnetometer().None();
+        AddMicrophone().None();
+        AddMidi().None();
+
+        // AddNavigationOverride().None(); // No implementations
+        AddPayment().None();
+        AddPictureInPicture().None();
+        AddPublickeyCredentialsGet().None();
+        AddScreenWakeLock().None();
+        AddSyncXHR().None();
+        AddUsb().None();
+        AddWebShare().None();
+        AddXrSpatialTracking().None();
+        return this;
+    }
+
     private T AddDirective<T>(T directive) where T : PermissionsPolicyDirectiveBuilderBase
     {
         _directives[directive.Directive] = directive;
