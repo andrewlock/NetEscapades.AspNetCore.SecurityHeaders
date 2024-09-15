@@ -21,14 +21,9 @@ internal class CustomHeaderOptions
     public HeaderPolicyCollection? DefaultPolicy { get; set; }
 
     /// <summary>
-    /// The default policy selector function
+    /// The policy selector function
     /// </summary>
-    public Func<DefaultPolicySelectorContext, IReadOnlyHeaderPolicyCollection>? DefaultPolicySelector { get; set; }
-
-    /// <summary>
-    /// The endpoint policy selector function
-    /// </summary>
-    public Func<EndpointPolicySelectorContext, IReadOnlyHeaderPolicyCollection>? EndpointPolicySelector { get; set; }
+    public Func<PolicySelectorContext, IReadOnlyHeaderPolicyCollection>? PolicySelector { get; set; }
 
     /// <summary>
     /// Gets the policy based on the <paramref name="name"/>

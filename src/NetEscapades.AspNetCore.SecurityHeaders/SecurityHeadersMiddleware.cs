@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -14,30 +15,29 @@ namespace NetEscapades.AspNetCore.SecurityHeaders;
 /// </summary>
 internal class SecurityHeadersMiddleware
 {
-    /// <summary>
-    /// The HttpContext key that tracks the policy to apply
-    /// </summary>
-    internal const string HttpContextKey = "__NetEscapades.AspNetCore.SecurityHeaders";
-
+    private readonly ILogger<SecurityHeadersMiddleware> _logger;
     private readonly RequestDelegate _next;
     private readonly HeaderPolicyCollection _defaultPolicy;
     private readonly NonceGenerator? _nonceGenerator;
-    private readonly Func<DefaultPolicySelectorContext, IReadOnlyHeaderPolicyCollection> _policySelector;
+    private readonly CustomHeaderOptions _options;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SecurityHeadersMiddleware"/> class.
     /// </summary>
     /// <param name="next">The next middleware in the pipeline.</param>
-    /// <param name="policySelector">An optional function to execute to change the policy prior to applying</param>
+    /// <param name="options">Options on how to control the settings that are applied</param>
     /// <param name="defaultPolicy">A <see cref="HeaderPolicyCollection"/> containing the policy to apply by default.</param>
+    /// <param name="logger">A logger for recording errors.</param>
     public SecurityHeadersMiddleware(
         RequestDelegate next,
-        Func<DefaultPolicySelectorContext, IReadOnlyHeaderPolicyCollection> policySelector,
-        HeaderPolicyCollection defaultPolicy)
+        HeaderPolicyCollection defaultPolicy,
+        ILogger<SecurityHeadersMiddleware> logger,
+        CustomHeaderOptions options)
     {
         _next = next ?? throw new ArgumentNullException(nameof(next));
-        _policySelector = policySelector;
         _defaultPolicy = defaultPolicy ?? throw new ArgumentNullException(nameof(defaultPolicy));
+        _logger = logger;
+        _options = options ?? throw new ArgumentNullException(nameof(options));
         _nonceGenerator = MustGenerateNonce(_defaultPolicy) ? new() : null;
     }
 
@@ -49,14 +49,7 @@ internal class SecurityHeadersMiddleware
     public Task Invoke(HttpContext context)
     {
         // Write into the context, so that subsequent requests can "overwrite" it
-        var policyToApply = _policySelector(new(context, _defaultPolicy));
-        if (policyToApply is null)
-        {
-            ThrowNull();
-        }
-
-        context.Items[HttpContextKey] = _policySelector(new(context, _defaultPolicy));
-        context.Response.OnStarting(OnResponseStarting, context);
+        context.Response.OnStarting(OnResponseStarting, Tuple.Create(context, this));
         if (_nonceGenerator is not null)
         {
             context.SetNonce(_nonceGenerator.GetNonce(Constants.DefaultBytesInNonce));
@@ -65,20 +58,63 @@ internal class SecurityHeadersMiddleware
         return _next(context);
     }
 
+    [DoesNotReturn]
     private static void ThrowNull()
     {
-        throw new InvalidOperationException($"{nameof(SecurityHeaderPolicyBuilder.SetDefaultPolicySelector)} must not return null.");
+        throw new InvalidOperationException($"{nameof(SecurityHeaderPolicyBuilder.SetPolicySelector)} must not return null.");
     }
 
     private static Task OnResponseStarting(object state)
     {
-        var context = (HttpContext)state;
+        var (context, middleware) = (Tuple<HttpContext, SecurityHeadersMiddleware>)state;
+        var options = middleware._options;
 
-        if (context.Items[HttpContextKey] is IReadOnlyHeaderPolicyCollection policy)
+        // Policy resolution rules:
+        //
+        // 1. Use the policy returned by options.PolicySelector (if provided)
+        // 2. If there is an endpoint with a named policy, then fetch that policy
+        // 3. Use the provided default policy
+        var endpoint = context.GetEndpoint();
+        var metadata = endpoint?.Metadata.GetMetadata<ISecurityHeadersPolicyMetadata>();
+        var policyName = metadata?.PolicyName;
+
+        IReadOnlyHeaderPolicyCollection? endpointPolicy = null;
+
+        if (!string.IsNullOrEmpty(policyName))
         {
-            var result = CustomHeaderService.EvaluatePolicy(context, policy);
-            CustomHeaderService.ApplyResult(context.Response, result);
+            if (options.GetPolicy(policyName) is IReadOnlyHeaderPolicyCollection policy)
+            {
+                endpointPolicy = policy;
+            }
+            else
+            {
+                // log that we couldn't find the policy
+                // clear out policyName so that it matches
+                policyName = null;
+                middleware._logger.LogWarning(
+                    "Error configuring security headers middleware: policy '{PolicyName}' could not be found. "
+                    + "Configure the policies for your application by calling AddSecurityHeaderPolicies() on IServiceCollection "
+                    + "and adding a policy with the required name.",
+                    policyName);
+            }
         }
+
+        IReadOnlyHeaderPolicyCollection? policyToApply = null;
+        if (options.PolicySelector is not null)
+        {
+            policyToApply = options.PolicySelector(new(context, middleware._defaultPolicy, policyName, endpointPolicy));
+
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            if (policyToApply is null)
+            {
+                // This obviously kills the request, but it's better (from a security PoV)
+                // than accidentally not setting any policies
+                ThrowNull();
+            }
+        }
+
+        var result = CustomHeaderService.EvaluatePolicy(context, policyToApply ?? endpointPolicy ?? middleware._defaultPolicy);
+        CustomHeaderService.ApplyResult(context.Response, result);
 
         return Task.CompletedTask;
     }
