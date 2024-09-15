@@ -361,7 +361,7 @@ public class PermissionsPolicyBuilder
     public XrSpatialTrackingPermissionsPolicyDirectiveBuilder AddXrSpatialTracking() => AddDirective(new XrSpatialTrackingPermissionsPolicyDirectiveBuilder());
 
     /// <summary>
-    /// Create a custom Feature-Policy directive for an un-implemented directive.
+    /// Create a custom Permissions-Policy directive for an un-implemented directive.
     ///
     /// The directive can be built using standard methods such as <see cref="PermissionsPolicyDirectiveBuilder.Self"/>
     /// and <see cref="PermissionsPolicyDirectiveBuilder.None"/>
@@ -371,7 +371,7 @@ public class PermissionsPolicyBuilder
     public CustomPermissionsPolicyDirectiveBuilder AddCustomFeature(string directive) => AddDirective(new CustomPermissionsPolicyDirectiveBuilder(directive));
 
     /// <summary>
-    /// Create a custom Feature-Policy directive for an un-implemented directive.
+    /// Create a custom Permissions-Policy directive for an un-implemented directive.
     ///
     /// The directive can be built using standard methods such as <see cref="PermissionsPolicyDirectiveBuilder.Self"/>
     /// and <see cref="PermissionsPolicyDirectiveBuilder.None"/>
@@ -388,9 +388,9 @@ public class PermissionsPolicyBuilder
     }
 
     /// <summary>
-    /// Builds the Feature-Policy value.
+    /// Builds the Permissions-Policy value.
     /// </summary>
-    /// <returns>The string representing the complete Feature-Policy value.</returns>
+    /// <returns>The string representing the complete Permissions-Policy value.</returns>
     internal string Build()
     {
         return string.Join(", ", _directives.Values.Select(x => x.Build()).Where(x => !string.IsNullOrEmpty(x)));
