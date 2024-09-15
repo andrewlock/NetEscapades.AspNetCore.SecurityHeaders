@@ -73,30 +73,15 @@ public class SecurityHeaderPolicyBuilder
     }
 
     /// <summary>
-    /// Sets the policy selector. Use this to customise what is the default policy selected for a given request.
-    /// This is invoked for every request.
+    /// Sets the policy selector. Use this to customise a policy before it's applied to the request.
     /// </summary>
-    /// <param name="policySelector">A function to invoke when the <see cref="SecurityHeadersMiddleware"/> executes,
+    /// <param name="policySelector">A function to invoke just before applying policies to a response,
     /// to select the policy to use. The final policy to execute should be returned from the function.</param>
     /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> for chaining</returns>
-    public SecurityHeaderPolicyBuilder SetDefaultPolicySelector(
-        Func<DefaultPolicySelectorContext, IReadOnlyHeaderPolicyCollection> policySelector)
+    public SecurityHeaderPolicyBuilder SetPolicySelector(
+        Func<PolicySelectorContext, IReadOnlyHeaderPolicyCollection> policySelector)
     {
-        _options.DefaultPolicySelector = policySelector;
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the policy selector. Use this to customise which policy is selected for a given endpoint.
-    /// This is only called  when an endpoint-specific policy is selected.
-    /// </summary>
-    /// <param name="policySelector">A function to invoke when the <see cref="EndpointSecurityHeadersMiddleware"/> executes,
-    /// to select the policy to use. The final policy to execute should be returned from the function.</param>
-    /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> for chaining</returns>
-    public SecurityHeaderPolicyBuilder SetEndpointPolicySelector(
-        Func<EndpointPolicySelectorContext, IReadOnlyHeaderPolicyCollection> policySelector)
-    {
-        _options.EndpointPolicySelector = policySelector;
+        _options.PolicySelector = policySelector;
         return this;
     }
 }

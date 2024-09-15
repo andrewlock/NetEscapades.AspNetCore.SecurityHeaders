@@ -177,7 +177,6 @@ public class SecurityHeadersMiddlewareTests
             {
                 app.UseSecurityHeaders();
                 app.UseRouting();
-                app.UseEndpointSecurityHeaders();
                 app.Run(async context =>
                 {
                     context.Response.ContentType = "text/html";
@@ -217,7 +216,6 @@ public class SecurityHeadersMiddlewareTests
             {
                 app.UseSecurityHeaders();
                 app.UseRouting();
-                app.UseEndpointSecurityHeaders();
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapPut("/", async context =>
@@ -260,7 +258,6 @@ public class SecurityHeadersMiddlewareTests
             {
                 app.UseSecurityHeaders();
                 app.UseRouting();
-                app.UseEndpointSecurityHeaders();
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapPut("/", async context =>
@@ -327,7 +324,7 @@ public class SecurityHeadersMiddlewareTests
         // Arrange
         var hostBuilder = new WebHostBuilder()
             .ConfigureServices(s => s.AddSecurityHeaderPolicies()
-                .SetDefaultPolicySelector(ctx =>
+                .SetPolicySelector(ctx =>
                     ctx.HttpContext.Request.Headers.ContainsKey("AddTo-Default")
                         ? ctx.DefaultPolicy.Copy().AddCustomHeader("Added-Header", "MyValue")
                         : ctx.DefaultPolicy))
@@ -384,14 +381,13 @@ public class SecurityHeadersMiddlewareTests
                 s.AddRouting();
                 s.AddSecurityHeaderPolicies()
                     .AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"))
-                    .SetEndpointPolicySelector(ctx =>
+                    .SetPolicySelector(ctx =>
                         ctx.SelectedPolicy.Copy().AddCustomHeader("Added-Header", "MyValue"));
             })
             .Configure(app =>
             {
                 app.UseSecurityHeaders();
                 app.UseRouting();
-                app.UseEndpointSecurityHeaders();
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapPut("/", async context =>
@@ -420,7 +416,7 @@ public class SecurityHeadersMiddlewareTests
     }
 
     [Fact]
-    public async Task HttpRequest_WithCustomEndpointPolicy_WhenNoEndpointIsSelected_DoesNotUseCustomPolicy()
+    public async Task HttpRequest_WithCustomEndpointPolicy_WhenNoEndpointIsSelected_UsesCustomPolicyBasedOnDefault()
     {
         var policyName = "custom";
 
@@ -431,14 +427,13 @@ public class SecurityHeadersMiddlewareTests
                 s.AddRouting();
                 s.AddSecurityHeaderPolicies()
                     .AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"))
-                    .SetEndpointPolicySelector(ctx =>
+                    .SetPolicySelector(ctx =>
                         ctx.SelectedPolicy.Copy().AddCustomHeader("Added-Header", "MyValue"));
             })
             .Configure(app =>
             {
                 app.UseSecurityHeaders();
                 app.UseRouting();
-                app.UseEndpointSecurityHeaders();
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapPut("/", async context =>
@@ -461,7 +456,8 @@ public class SecurityHeadersMiddlewareTests
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
             response.Headers.AssertHttpRequestDefaultSecurityHeaders();
-            response.Headers.Should().NotContainKey("Added-Header");
+            response.Headers.Should().ContainKey("Added-Header");
+            response.Headers.Should().NotContainKey("Custom-Header");
         }
     }
 
@@ -471,7 +467,7 @@ public class SecurityHeadersMiddlewareTests
         // Arrange
         var hostBuilder = new WebHostBuilder()
             .ConfigureServices(s => s.AddSecurityHeaderPolicies()
-                .SetDefaultPolicySelector(ctx => null!))
+                .SetPolicySelector(ctx => null!))
             .Configure(app =>
             {
                 app.UseSecurityHeaders();
@@ -500,7 +496,7 @@ public class SecurityHeadersMiddlewareTests
             {
                 s.AddScoped<HeaderPolicyCollectionFactory>();
                 s.AddSecurityHeaderPolicies()
-                    .SetDefaultPolicySelector(ctx =>
+                    .SetPolicySelector(ctx =>
                     {
                         var httpContext = ctx.HttpContext;
                         var service = httpContext.RequestServices.GetRequiredService<HeaderPolicyCollectionFactory>();
