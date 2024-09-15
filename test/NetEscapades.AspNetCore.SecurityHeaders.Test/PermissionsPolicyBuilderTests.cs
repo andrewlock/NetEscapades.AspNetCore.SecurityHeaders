@@ -186,35 +186,8 @@ public class PermissionsPolicyBuilderTests
     [Fact]
     public void PermissionsPolicy_DefaultSecure_IsEquivalent()
     {
-        // https://github.com/w3c/webappsec-permissions-policy/blob/f15a4548691ea69a87227c0f67571da2cc0e08c1/features.md?plain=1#L19
-        var builder = new PermissionsPolicyBuilder();
-        builder.AddAccelerometer().None();
-        builder.AddAmbientLightSensor().None();
-        builder.AddAutoplay().None();
-        // builder.AddBattery().None(); // Request: https://issues.chromium.org/issues/40100229
-        builder.AddCamera().None();
-        // builder.AddCrossOriginIsolated().None(); // experimental in chrome 85
-        builder.AddDisplayCapture().None();
-        // builder.AddDocumentDomain().None(); // retired
-        builder.AddEncryptedMedia().None();
-        // builder.AddExecutionWhileNotRendered().None(); // Behind a flag in chrome
-        // builder.AddExecutionWhileOutOfViewport().None();; // Behind a flag in chrome
-        builder.AddFullscreen().None();
-        builder.AddGeolocation().None();
-        builder.AddGyroscope().None();
-        // builder.AddKeyboardMap().None(); // Chrome only https://www.chromestatus.com/feature/5657965899022336
-        builder.AddMagnetometer().None();
-        builder.AddMicrophone().None();
-        builder.AddMidi().None();
-        // builder.AddNavigationOverride().None(); // No implementations
-        builder.AddPayment().None();
-        builder.AddPictureInPicture().None();
-        builder.AddPublickeyCredentialsGet().None();
-        builder.AddScreenWakeLock().None();
-        builder.AddSyncXHR().None();
-        builder.AddUsb().None();
-        builder.AddWebShare().None();
-        builder.AddXrSpatialTracking().None();
+        var builder = new PermissionsPolicyBuilder()
+            .AddDefaultSecureDirectives();
 
         var expected = builder.Build();
         

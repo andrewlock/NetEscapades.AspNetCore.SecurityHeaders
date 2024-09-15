@@ -46,11 +46,11 @@ public static class HeaderPolicyCollectionExtensions
         policies.RemoveServerHeader();
         policies.AddContentSecurityPolicy(builder =>
         {
-            builder.AddDefaultSrc().None();
+            builder.AddObjectSrc().None();
             builder.AddFormAction().Self();
             builder.AddFrameAncestors().None();
         });
-        policies.AddPermissionsPolicyWithRecommendedDirectives();
+        policies.AddCrossOriginOpenerPolicy(x => x.SameOrigin());
         return policies;
     }
 
@@ -73,8 +73,13 @@ public static class HeaderPolicyCollectionExtensions
         policies.RemoveServerHeader();
         policies.AddContentSecurityPolicy(builder =>
         {
+            builder.AddDefaultSrc().None();
             builder.AddFrameAncestors().None();
         });
+
+        // The following are generally not applicable, but still worth applying for safety
+        policies.AddReferrerPolicyNoReferrer();
+        policies.AddPermissionsPolicyWithDefaultSecureDirectives();
         return policies;
     }
 }

@@ -10,7 +10,7 @@ namespace Microsoft.AspNetCore.Builder;
 public static class PermissionsPolicyHeaderExtensions
 {
     /// <summary>
-    /// The policy applied by <see cref="AddPermissionsPolicyWithRecommendedDirectives"/>
+    /// The policy applied by <see cref="AddPermissionsPolicyWithDefaultSecureDirectives"/>
     /// </summary>
     internal const string DefaultSecurePolicy =
         "accelerometer=(), ambient-light-sensor=(), autoplay=(), camera=(), display-capture=(), " +
@@ -31,7 +31,9 @@ public static class PermissionsPolicyHeaderExtensions
 
     /// <summary>
     /// Add a Permissions-Policy with recommended "secure" directives based on
-    /// <see href="https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html#security-headers">OWASP recommendations</see>
+    /// <see href="https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html#security-headers">OWASP recommendations</see>.
+    /// Note that this disables many features. If you need to enable some features, consider calling <see cref="AddPermissionsPolicy"/>
+    /// and <see cref="PermissionsPolicyBuilder.AddDefaultSecureDirectives"/>, and overriding one or more policies.
     /// </summary>
     /// <param name="policies">The collection of policies</param>
     /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
@@ -44,7 +46,7 @@ public static class PermissionsPolicyHeaderExtensions
     /// geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(),
     /// picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(),
     /// usb=(), web-share=(), xr-spatial-tracking=()</c></remarks>
-    public static HeaderPolicyCollection AddPermissionsPolicyWithRecommendedDirectives(this HeaderPolicyCollection policies)
+    public static HeaderPolicyCollection AddPermissionsPolicyWithDefaultSecureDirectives(this HeaderPolicyCollection policies)
     {
         return policies.ApplyPolicy(new PermissionsPolicyHeader(DefaultSecurePolicy));
     }
