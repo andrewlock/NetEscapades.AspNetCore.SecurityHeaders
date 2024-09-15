@@ -10,6 +10,15 @@ namespace Microsoft.AspNetCore.Builder;
 public static class PermissionsPolicyHeaderExtensions
 {
     /// <summary>
+    /// The policy applied by <see cref="AddPermissionsPolicyWithRecommendedDirectives"/>
+    /// </summary>
+    internal const string DefaultSecurePolicy =
+        "accelerometer=(), ambient-light-sensor=(), autoplay=(), camera=(), display-capture=(), " +
+        "encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), " +
+        "microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), " +
+        "screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()";
+
+    /// <summary>
     /// Add a Permissions-Policy header to all requests
     /// </summary>
     /// <param name="policies">The collection of policies</param>
@@ -18,5 +27,25 @@ public static class PermissionsPolicyHeaderExtensions
     public static HeaderPolicyCollection AddPermissionsPolicy(this HeaderPolicyCollection policies, Action<PermissionsPolicyBuilder> configure)
     {
         return policies.ApplyPolicy(PermissionsPolicyHeader.Build(configure));
+    }
+
+    /// <summary>
+    /// Add a Permissions-Policy with recommended "secure" directives based on
+    /// <see href="https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html#security-headers">OWASP recommendations</see>
+    /// </summary>
+    /// <param name="policies">The collection of policies</param>
+    /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
+    /// <remarks>The OWASP recommended policy includes directives that are either experimental,
+    /// not available by default, or not implemented. For consistency with <see cref="PermissionsPolicyBuilder"/>,
+    /// those directives are not included in the policy.
+    ///
+    /// The policy added is equivalent to <c>accelerometer=(), ambient-light-sensor=(),
+    /// autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(),
+    /// geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(),
+    /// picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(),
+    /// usb=(), web-share=(), xr-spatial-tracking=()</c></remarks>
+    public static HeaderPolicyCollection AddPermissionsPolicyWithRecommendedDirectives(this HeaderPolicyCollection policies)
+    {
+        return policies.ApplyPolicy(new PermissionsPolicyHeader(DefaultSecurePolicy));
     }
 }
