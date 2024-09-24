@@ -1,3 +1,4 @@
+using System;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 
 // ReSharper disable once CheckNamespace
@@ -6,6 +7,7 @@ namespace Microsoft.AspNetCore.Builder;
 /// <summary>
 /// Extension methods for adding a <see cref="XssProtectionHeader" /> to a <see cref="HeaderPolicyCollection" />
 /// </summary>
+[Obsolete(XssProtectionHeader.ObsoleteHeader)]
 public static class XssProtectionHeaderExtensions
 {
     /// <summary>

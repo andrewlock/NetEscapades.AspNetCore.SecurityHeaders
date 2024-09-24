@@ -12,6 +12,7 @@ using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Test;
 
+#pragma warning disable CS0618 // Type or member is obsolete
 public class SecurityHeadersMiddlewareTests
 {
     [Fact]

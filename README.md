@@ -86,29 +86,6 @@ public void Configure(IApplicationBuilder app)
             builder.AddFormAction().Self();
             builder.AddFrameAncestors().None();
         })
-        .AddPermissionsPolicy(builder => 
-        {
-            builder.AddAccelerometer().None();
-            builder.AddAmbientLightSensor().None();
-            builder.AddAutoplay().None();
-            builder.AddCamera().None();
-            builder.AddDisplayCapture().None();
-            builder.AddEncryptedMedia().None();
-            builder.AddFullscreen().None();
-            builder.AddGeolocation().None();
-            builder.AddGyroscope().None();
-            builder.AddMagnetometer().None();
-            builder.AddMicrophone().None();
-            builder.AddMidi().None();
-            builder.AddPayment().None();
-            builder.AddPictureInPicture().None();
-            builder.AddPublickeyCredentialsGet().None();
-            builder.AddScreenWakeLock().None();
-            builder.AddSyncXHR().None();
-            builder.AddUsb().None();
-            builder.AddWebShare().None();
-            builder.AddXrSpatialTracking().None();
-        })
         .AddCustomHeader("X-My-Test-Header", "Header value");
 
     app.UseSecurityHeaders(policyCollection);

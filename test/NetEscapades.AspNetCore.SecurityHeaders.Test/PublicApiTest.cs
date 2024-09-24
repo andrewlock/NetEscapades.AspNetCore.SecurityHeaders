@@ -19,9 +19,9 @@ public class PublicApiTest
         {
             ExcludeAttributes =
             [
-                typeof(InternalsVisibleToAttribute).FullName,
+                typeof(InternalsVisibleToAttribute).FullName!,
                 "System.Runtime.CompilerServices.IsByRefLike",
-                typeof(TargetFrameworkAttribute).FullName,
+                typeof(TargetFrameworkAttribute).FullName!,
             ],
             DenyNamespacePrefixes = []
         };

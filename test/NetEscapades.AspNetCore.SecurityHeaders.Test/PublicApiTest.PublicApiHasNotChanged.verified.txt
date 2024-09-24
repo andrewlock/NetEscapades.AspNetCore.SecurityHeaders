@@ -277,6 +277,9 @@ namespace Microsoft.AspNetCore.Builder
         public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddFrameOptionsSameOrigin(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
         public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddFrameOptionsSameOrigin(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, string uri) { }
     }
+    [System.Obsolete("The `X-XSS-Protection` header can create XSS vulnerabilities in otherwise safe we" +
+        "bsites. For more details, see https://developer.mozilla.org/en-US/docs/Web/HTTP/" +
+        "Headers/X-XSS-Protection")]
     public static class XssProtectionHeaderExtensions
     {
         public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddXssProtectionBlock(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
@@ -609,6 +612,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
         public override string Header { get; }
         protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
     }
+    [System.Obsolete("The `X-XSS-Protection` header can create XSS vulnerabilities in otherwise safe we" +
+        "bsites. For more details, see https://developer.mozilla.org/en-US/docs/Web/HTTP/" +
+        "Headers/X-XSS-Protection")]
     public class XssProtectionHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
     {
         public XssProtectionHeader(string value) { }
