@@ -86,6 +86,7 @@ public void Configure(IApplicationBuilder app)
             builder.AddFormAction().Self();
             builder.AddFrameAncestors().None();
         })
+        .AddCrossOriginOpenerPolicy(x => x.SameOrigin());
         .AddCustomHeader("X-My-Test-Header", "Header value");
 
     app.UseSecurityHeaders(policyCollection);
@@ -256,7 +257,7 @@ builder.Services.AddSecurityHeaderPolicies()
         var selector = services.GetService<TenantHeaderPolicyCollectionSelector>();
         var tenant = services.GetService<ITenant>();
         return selector.GetPolicy(tenant);
-    };
+    });
 ```
 
 Note that you should avoid creating a `HeaderPolicyCollection` from scratch on each request. Instead, cache policies for multiple requests where possible. However, if you need to build a new policy based on the policy passed in the context object, you can create a mutable copy by calling `IReadOnlyHeaderPolicyCollection.Copy()`, adding/updating policies as required, and returning the `HeaderPolicyCollection`. 
