@@ -1,11 +1,27 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.24.0'">
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.0.0'">
       <![CDATA[
+
 Features:
 
-* Allow adding multiple uris to CSP builder `AddFrameAncestors()` #179
-* Add support for additional directives on `Permissions-Policy` header #177 (Thanks [@Registeel](https://github.com/Registeel)!)
+* Allow configuring "named" policies, and applying different policies to different endpoints #172, #173, #185
+* Allow customizing the `HeaderPolicyCollection` just before it is applied, customizing per request #174, #185
+* Make adding directives to `Content-Security-Policy` idempotent to avoid duplicates #169
+* Add `AddDefaultApiSecurityHeaders()` for adding default headers to APIs #183, #184
+* Add `AddPermissionsPolicyWithRecommendedDirectives()` and `PermissionsPolicyBuilder.AddDefaultSecureDirectives()` for adding secure `Permissions-Policy` directives in bulk #183, #184
+* NetEscapades.AspNetCore.SecurityHeaders now has an icon, thanks @khalidabuhakmeh! #195
+
+Breaking Changes:
+
+* Drop support for .NET Standard 2.0, raises minimum framework to .NET Core 3.1 #167, #171
+* Removed "document header" functionality, in favour of always adding all headers #186
+* Remove `X-XSS-Protection` from default headers and mark obsolete #168
+* Add `cross-origin-opener-policy: same-origin` to default headers #184
+* Mark `Feature-Policy` as obsolete #187
+* Mark `Expect-CT` as obsolete #197
+* Make nonce generation lazy on call to `HttpContext.GetNonce()` #198
+
 ]]>
     </PackageReleaseNotes>
      <PackageReleaseNotes>$(PackageReleaseNotes)
