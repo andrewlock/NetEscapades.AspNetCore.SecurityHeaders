@@ -1,33 +1,15 @@
-using System;
-using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.Execution;
-using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Utilities.Collections;
 using static Nuke.Common.EnvironmentInfo;
-using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
-[CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
-[GitHubActions("BuildAndPack",
-    GitHubActionsImage.UbuntuLatest,
-    GitHubActionsImage.WindowsLatest,
-    GitHubActionsImage.MacOsLatest,
-    ImportGitHubTokenAs = nameof(GithubToken),
-    OnPushTags = new [] {"*"},
-    OnPushBranches = new[] {"master", "main"},
-    OnPullRequestBranches = new[] {"*"},
-    ImportSecrets = new[] {nameof(NuGetToken)},
-    InvokedTargets = new[] {nameof(Test), nameof(Pack), nameof(PushToNuGet)}
-)]
 class Build : NukeBuild
 {
     /// Support plugins are available for:
@@ -49,15 +31,15 @@ class Build : NukeBuild
     [Parameter] readonly string GithubToken;
     [Parameter] readonly string NuGetToken;
     const string NugetOrgUrl = "https://api.nuget.org/v3/index.json";
-    bool IsTag => GitHubActions.Instance?.GitHubRef?.StartsWith("refs/tags/") ?? false;
+    bool IsTag => GitHubActions.Instance?.Ref.StartsWith("refs/tags/") ?? false;
 
     Target Clean => _ => _
         .Before(Restore)
         .Executes(() =>
         {
-            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-            TestsDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
-            EnsureCleanDirectory(ArtifactsDirectory);
+            SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(d => d.DeleteDirectory());
+            TestsDirectory.GlobDirectories("**/bin", "**/obj").ForEach(d => d.DeleteDirectory());
+            ArtifactsDirectory.CreateOrCleanDirectory();
         });
 
     Target Restore => _ => _
@@ -96,6 +78,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             var projects = SourceDirectory.GlobFiles("**/*.csproj");
+
             DotNetPack(s => s
                 .SetConfiguration(Configuration)
                 .SetOutputDirectory(ArtifactsDirectory)
@@ -103,7 +86,8 @@ class Build : NukeBuild
                 .EnableNoBuild()
                 .EnableNoRestore()
                 .CombineWith(projects, (x, project) => x
-                    .SetProject(Solution.GetProject(project))));
+                    .SetProject(Solution.AllProjects.SingleOrError(x => x == project,
+                        $"Could not find project with name {project}"))));
         });
 
     Target PushToNuGet => _ => _
