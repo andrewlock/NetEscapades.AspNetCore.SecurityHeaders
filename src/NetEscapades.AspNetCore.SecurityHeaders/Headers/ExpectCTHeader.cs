@@ -8,8 +8,17 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers;
 /// <summary>
 /// The header value to use for Expect-CT
 /// </summary>
+[Obsolete(ObsoleteHeader)]
 public class ExpectCTHeader : HeaderPolicyBase
 {
+    /// <summary>
+    /// Obsolete header description
+    /// </summary>
+    internal const string ObsoleteHeader =
+        "This feature is no longer recommended. Only Chromium-based browsers implemented Expect-CT, " +
+        "and Chromium has deprecated the header from version 107, because Chromium now enforces CT " +
+        "by default. For more details see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT.";
+
     private readonly string _value;
     private readonly IReadOnlyList<string> _excludedHosts;
 

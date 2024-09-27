@@ -1,3 +1,4 @@
+using System;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 
 namespace Microsoft.AspNetCore.Builder;
@@ -5,6 +6,7 @@ namespace Microsoft.AspNetCore.Builder;
 /// <summary>
 /// Extension methods for adding a <see cref="ExpectCTHeader" /> to a <see cref="HeaderPolicyCollection" />
 /// </summary>
+[Obsolete(ExpectCTHeader.ObsoleteHeader)]
 public static class ExpectCTHeaderExtensions
 {
     private static readonly string[] _excludedHosts =
