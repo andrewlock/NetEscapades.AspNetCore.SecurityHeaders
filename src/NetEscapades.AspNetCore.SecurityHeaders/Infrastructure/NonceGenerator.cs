@@ -14,7 +14,7 @@ internal static class NonceGenerator
     /// <returns>The nonce as a string</returns>
     public static string CreateNonce()
     {
-        var bytes = new byte[Constants.DefaultBytesInNonce];
+        Span<byte> bytes = stackalloc byte[Constants.DefaultBytesInNonce];
         RandomNumberGenerator.Fill(bytes);
         return Convert.ToBase64String(bytes);
     }
