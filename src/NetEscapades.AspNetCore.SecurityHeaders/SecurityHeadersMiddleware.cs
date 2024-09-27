@@ -18,7 +18,6 @@ internal class SecurityHeadersMiddleware
     private readonly ILogger<SecurityHeadersMiddleware> _logger;
     private readonly RequestDelegate _next;
     private readonly IReadOnlyHeaderPolicyCollection _defaultPolicy;
-    private readonly NonceGenerator? _nonceGenerator;
     private readonly CustomHeaderOptions _options;
 
     /// <summary>
@@ -38,7 +37,6 @@ internal class SecurityHeadersMiddleware
         _defaultPolicy = defaultPolicy ?? throw new ArgumentNullException(nameof(defaultPolicy));
         _logger = logger;
         _options = options ?? throw new ArgumentNullException(nameof(options));
-        _nonceGenerator = MustGenerateNonce(_defaultPolicy) ? new() : null;
     }
 
     /// <summary>
@@ -50,10 +48,6 @@ internal class SecurityHeadersMiddleware
     {
         // Write into the context, so that subsequent requests can "overwrite" it
         context.Response.OnStarting(OnResponseStarting, Tuple.Create(context, this));
-        if (_nonceGenerator is not null)
-        {
-            context.SetNonce(_nonceGenerator.GetNonce(Constants.DefaultBytesInNonce));
-        }
 
         return _next(context);
     }
@@ -118,14 +112,5 @@ internal class SecurityHeadersMiddleware
         CustomHeaderService.ApplyResult(context.Response, result);
 
         return Task.CompletedTask;
-    }
-
-    private static bool MustGenerateNonce(IReadOnlyHeaderPolicyCollection policy)
-    {
-        // TODO: Yuk. Don't want to be generating a nonce every request if we don't have to though...
-        // Could look at generalising this if we need it for other CSP headers
-        return policy.Values
-            .OfType<ContentSecurityPolicyHeader>()
-            .Any(header => header.HasPerRequestValues);
     }
 }

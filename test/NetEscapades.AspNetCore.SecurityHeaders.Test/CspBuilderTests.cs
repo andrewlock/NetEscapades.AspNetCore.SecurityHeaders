@@ -575,7 +575,7 @@ public class CspBuilderTests
 
         var httpContext = new DefaultHttpContext();
         var nonce = "ABC123";
-        httpContext.SetNonce(nonce);
+        httpContext.Items[Infrastructure.Constants.DefaultNonceKey] = nonce;
 
         var csp = result.Builder(httpContext);
 
@@ -592,7 +592,7 @@ public class CspBuilderTests
 
         var httpContext = new DefaultHttpContext();
         var nonce = "ABC123";
-        httpContext.SetNonce(nonce);
+        httpContext.Items[Infrastructure.Constants.DefaultNonceKey] = nonce;
 
         var csp = result.Builder(httpContext);
 
@@ -610,7 +610,7 @@ public class CspBuilderTests
 
         var httpContext = new DefaultHttpContext();
         var nonce = "ABC123";
-        httpContext.SetNonce(nonce);
+        httpContext.Items[Infrastructure.Constants.DefaultNonceKey] = nonce;
 
         var csp = result.Builder(httpContext);
 

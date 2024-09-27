@@ -63,7 +63,7 @@ public class NonceTagHelperTests
         var id = Guid.NewGuid().ToString();
         var tagName = "script";
         var tagHelperContext = GetTagHelperContext(id, tagName);
-        string? nonceValue = null;
+        var nonceValue = string.Empty;
         var nonceTagHelper = new NonceTagHelper
         {
             AddNonce = true,
@@ -90,13 +90,10 @@ public class NonceTagHelperTests
         Assert.Equal("Something Else", output.Content.GetContent());
     }
 
-    private static ViewContext GetViewContext(string? nonce)
+    private static ViewContext GetViewContext(string nonce)
     {
         var actionContext = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
-        if (!string.IsNullOrEmpty(nonce))
-        {
-            actionContext.HttpContext.SetNonce(nonce!);
-        }
+        actionContext.HttpContext.Items[Infrastructure.Constants.DefaultNonceKey] = nonce;
 
         actionContext.HttpContext.RequestServices = new ServiceCollection()
             .AddTransient(_ => Mock.Of<ILogger<NonceTagHelper>>())
