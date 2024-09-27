@@ -128,6 +128,7 @@ namespace Microsoft.AspNetCore.Builder
         public static TBuilder WithSecurityHeadersPolicy<TBuilder>(this TBuilder builder, string policyName)
             where TBuilder : Microsoft.AspNetCore.Builder.IEndpointConventionBuilder { }
     }
+    [System.Obsolete(@"This feature is no longer recommended. Only Chromium-based browsers implemented Expect-CT, and Chromium has deprecated the header from version 107, because Chromium now enforces CT by default. For more details see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT.")]
     public static class ExpectCTHeaderExtensions
     {
         public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddExpectCT(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, int maxAgeInSeconds, string reportUri, bool enforce, params string[] excludedHosts) { }
@@ -499,6 +500,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
         public override string Header { get; }
         protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
     }
+    [System.Obsolete(@"This feature is no longer recommended. Only Chromium-based browsers implemented Expect-CT, and Chromium has deprecated the header from version 107, because Chromium now enforces CT by default. For more details see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT.")]
     public class ExpectCTHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
     {
         public ExpectCTHeader(string value, System.Collections.Generic.IReadOnlyList<string> excludedHosts) { }
