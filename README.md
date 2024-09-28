@@ -1,4 +1,4 @@
-# <img src='/icon.png' height='30px'> NetEscapades.AspNetCore.SecurityHeaders
+# ![](https://raw.githubusercontent.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/refs/heads/main/icon_32.png) NetEscapades.AspNetCore.SecurityHeaders
 
 ![GitHub branch check runs](https://img.shields.io/github/check-runs/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/main)
 [![NuGet](https://img.shields.io/nuget/v/NetEscapades.AspNetCore.SecurityHeaders.svg)](https://www.nuget.org/packages/NetEscapades.AspNetCore.SecurityHeaders/)
