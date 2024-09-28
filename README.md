@@ -18,7 +18,7 @@ PM> Install-Package NetEscapades.AspNetCore.SecurityHeaders
 Or using the `dotnet` CLI
 
 ```bash
-dotnet add package NetEscapades.AspNetCore.SecurityHeaders
+dotnet add package NetEscapades.AspNetCore.SecurityHeaders --version 1.0.0-preview.1
 ```
 
 ## Usage
@@ -33,7 +33,7 @@ When you install the package, it should be added to your `.csproj`. Alternativel
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.24.0" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.0.0-preview.1" />
   </ItemGroup>
   
 </Project>
@@ -218,7 +218,7 @@ If you're using MVC controllers or Razor Pages, you can apply the `[SecurityHead
 ```csharp
 public class HomeController : ControllerBase
 {
-    [SecurityHeadersPolicy("CustomHeader")] // 👈 Apply a custom header to the endpoint
+    [SecurityHeadersPolicy("CustomHeader")] // 👈 Apply a named policy to the endpoint
     public IActionResult Index()
     {
         return View();
@@ -542,19 +542,21 @@ var policyCollection = new HeaderPolicyCollection()
 
 ## Using Nonces and generated-hashes with Content-Security-Policy
 
-The use of a secure Content-Security-Policy can sometimes be problematic when you need to include inline-scripts, styles, or other objects that haven't been whitelisted. You can achieve this in two ways - using a "nonce" (or "number-used-once"), or specifying the hash of the content to include. 
+The use of a secure Content-Security-Policy can sometimes be problematic when you need to include inline-scripts, styles, or other objects that haven't been allow-listed. You can achieve this in two ways - using a "nonce" (or "number-used-once"), or specifying the hash of the content to include. 
 
-To help with this you can install the NetEscapades.AspNetCore.SecurityHeaders.TagHelpers package, which provides helpers for generating a nonce per request, which is attached to the HTML element, and included in the CSP header. A similar method helper exists for `<style>` and `<script>` tags, which will take a SHA256 hash of the contents of the HTML element and add it to the CSP whitelist. For _inline styles_, and inline event handlers, there is an helper that supports generating hashes for the contents of such attribute.
+To help with this you can install the NetEscapades.AspNetCore.SecurityHeaders.TagHelpers package, which provides helpers for generating a nonce per request, which is attached to the HTML element, and included in the CSP header. A similar method helper exists for `<style>` and `<script>` tags, which will take a SHA256 hash of the contents of the HTML element and add it to the CSP allow-list. For _inline styles_, and inline event handlers, there is an helper that supports generating hashes for the contents of such attribute.
 
 To use a nonce or an auto-generated hash with your ASP.NET Core application, use the following steps.
 
-### 1. Install the NetEscapades.AspNetCore.SecurityHeaders.TagHelpers NuGet package, e.g.
+### 1. Install the NetEscapades.AspNetCore.SecurityHeaders.TagHelpers NuGet package
+
+For example:
 
 ```bash
-dotnet package add Install-Package NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
+dotnet package add Install-Package NetEscapades.AspNetCore.SecurityHeaders.TagHelpers --version 1.0.0-preview.1
 ```
 
-This adds the package to your _.csproj_ file
+This adds the package to your _.csproj_ file:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Web">
@@ -564,8 +566,8 @@ This adds the package to your _.csproj_ file
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.24.0" />
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="0.24.0" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.0.0-preview.1" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="1.0.0-preview.1" />
   </ItemGroup>
   
 </Project>
@@ -573,7 +575,7 @@ This adds the package to your _.csproj_ file
 
 ### 2. Configure your CSP to use nonces and/or hashes
 
-Configure your security headers in the usual way. Use the `WithNonce()` extension method when configuring  `ContentSecurityPolicy` directives to allow whitelisting with a nonce. Use the `WithHashTagHelper()` extension methods on `script-src` and `style-src` directives to allow automatic generation of whitelisted inline-scripts
+Configure your security headers in the usual way. Use the `WithNonce()` extension method when configuring  `ContentSecurityPolicy` directives to enable allow-listing with a nonce. Use the `WithHashTagHelper()` extension methods on `script-src` and `style-src` directives to allow automatic generation of allow-listed inline-scripts
 
 ```csharp
 public void Configure(IApplicationBuilder app)
@@ -612,7 +614,7 @@ Add the following to the *_ViewImports.cshtml* file in your application. This ma
 @addTagHelper *, NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
 ```
 
-### 4. Whitelist elements using the TagHelpers
+### 4. Allow-list elements using the TagHelpers
 
 Add the `NonceTagHelper` to an element by adding the `asp-add-nonce` attribute.
 
@@ -644,7 +646,7 @@ While the CSP policy would look something like the following:
 Content-Security-Policy: script-src 'self' 'unsafe-inline' 'nonce-ryPzmoZScSR2xOwV0qTU9mFdFwGPN&#x2B;gy3S2E1/VK1vg='; style-src 'self' 'strict-dynamic'; default-src 'self' http://testUrl.com
 ```
 
-To use a whitelisted hash instead, use the `HashTagHelper`, by adding the `asp-add-content-to-csp` attribute to `<script>` or `<style>` tags. You can optionally add the `csp-hash-type` attribute to choose between SHA256, SHA384, and SHA512:
+To use an allow-listed hash instead, use the `HashTagHelper`, by adding the `asp-add-content-to-csp` attribute to `<script>` or `<style>` tags. You can optionally add the `csp-hash-type` attribute to choose between SHA256, SHA384, and SHA512:
 
 ```html
 <script asp-add-content-to-csp>
@@ -661,7 +663,7 @@ To use a whitelisted hash instead, use the `HashTagHelper`, by adding the `asp-a
 
 At runtime, these attributes are removed, but the hash values of the contents are added to the `Content-Security-Policy header`.
 
-### 5. Whitelist attributes using the TagHelpers
+### 5. Allow-list attributes using the TagHelpers
 
 Inline styles, and event handlers don't support nonces, but there is a dedicated tag helper that supports hashing attributes: `AttributeHashTagHelper`. This works similar to the tag helper for elements, but add the `asp-add-csp-for-*` attribute where `*` is the name of the attribute to hash, like this:
 
@@ -682,10 +684,8 @@ At runtime, these attributes are removed, but the hash values of the contents ar
 If you aren't using Razor, or don't want to use the TagHelpers library, you can access the Nonce for a request using an extension method on `HttpContext`:
 
 ```csharp
-var nonce = HttpContext.GetNonce();
+string nonce = HttpContext.GetNonce();
 ```
-
-> Note that you must have enabled nonce generation by using the `WithNonce()` method. `HttpContext.GetNonce()` will return an `string.Empty` if nonce generation has not been added to the middleware.
 
 ## Additional Resources
 
