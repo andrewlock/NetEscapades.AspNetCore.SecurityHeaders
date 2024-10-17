@@ -271,7 +271,7 @@ As described in the [OWASP guidance](https://cheatsheetseries.owasp.org/cheatshe
 * `X-Frame-Options: Deny`
 * `Content-Security-Policy: default-src: none; frame-ancestors 'none'`
 * `Referrer-Policy: no-referrer`
-* `Permissions-Policy: accelerometer=(), ambient-light-sensor=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()`
+* `Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()`
 
 Apply it in the same way to your header policy collection:
 
@@ -449,10 +449,6 @@ public void Configure(IApplicationBuilder app)
                 .Self()
                 .For("http://testUrl.com");
 
-            builder.AddAmbientLightSensor() // ambient-light-sensor 'self' http://testUrl.com
-                .Self()
-                .For("http://testUrl.com");
-
             builder.AddAutoplay() // autoplay 'self'
                 .Self();
 
@@ -523,7 +519,7 @@ var policyCollection = new HeaderPolicyCollection()
 This applies a "secure" policy based on the [suggested by OWASP for APIs](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html#security-headers):
 
 ```HTTP
-Permissions-Policy: accelerometer=(), ambient-light-sensor=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()
+Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()
 ```
 
 Alternatively, if you want to relax some of these directives, you can use the builder version:

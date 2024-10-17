@@ -13,7 +13,7 @@ public static class PermissionsPolicyHeaderExtensions
     /// The policy applied by <see cref="AddPermissionsPolicyWithDefaultSecureDirectives"/>
     /// </summary>
     internal const string DefaultSecurePolicy =
-        "accelerometer=(), ambient-light-sensor=(), autoplay=(), camera=(), display-capture=(), " +
+        "accelerometer=(), autoplay=(), camera=(), display-capture=(), " +
         "encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), " +
         "microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), " +
         "screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()";
@@ -41,7 +41,7 @@ public static class PermissionsPolicyHeaderExtensions
     /// not available by default, or not implemented. For consistency with <see cref="PermissionsPolicyBuilder"/>,
     /// those directives are not included in the policy.
     ///
-    /// The policy added is equivalent to <c>accelerometer=(), ambient-light-sensor=(),
+    /// The policy added is equivalent to <c>accelerometer=(),
     /// autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(),
     /// geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(),
     /// picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(),
