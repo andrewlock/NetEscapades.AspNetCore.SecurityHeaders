@@ -420,7 +420,6 @@ public class PermissionsPolicyBuilder
     {
         // https://github.com/w3c/webappsec-permissions-policy/blob/f15a4548691ea69a87227c0f67571da2cc0e08c1/features.md?plain=1#L19
         AddAccelerometer().None();
-        AddAmbientLightSensor().None();
         AddAutoplay().None();
 
         // AddBattery().None(); // Request: https://issues.chromium.org/issues/40100229
