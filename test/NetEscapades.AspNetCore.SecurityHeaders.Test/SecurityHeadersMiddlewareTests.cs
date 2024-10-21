@@ -2355,6 +2355,41 @@ public class SecurityHeadersMiddlewareTests
         response.Headers.AssertHttpRequestDefaultSecurityHeaders();
     }
 
+    [Fact]
+    public async Task HttpRequest_CanUseProviderToConfigurePolicies()
+    {
+        // Arrange
+        var hostBuilder = new WebHostBuilder()
+            .ConfigureServices(s =>
+            {
+                s.AddSingleton<HeaderPolicyCollectionFactory>();
+                s.AddSecurityHeaderPolicies((builder, provider) =>
+                    {
+                        var service = provider.GetRequiredService<HeaderPolicyCollectionFactory>();
+                        builder.SetDefaultPolicy(service.GetPolicy(null));
+                    });
+            })
+            .Configure(app =>
+            {
+                app.UseSecurityHeaders();
+                app.Run(async context =>
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync("Test response");
+                });
+            });
+
+        using (var server = new TestServer(hostBuilder))
+        {
+            // Act
+            // Add header
+            var response = await server.CreateRequest("/")
+                .SendAsync("PUT");
+            response.EnsureSuccessStatusCode();
+            response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().Contain("Default");
+        }
+    }
+
     private class HeaderPolicyCollectionFactory
     {
         private readonly HeaderPolicyCollection _default = new HeaderPolicyCollection().AddCustomHeader("Custom-Header", "Default");
