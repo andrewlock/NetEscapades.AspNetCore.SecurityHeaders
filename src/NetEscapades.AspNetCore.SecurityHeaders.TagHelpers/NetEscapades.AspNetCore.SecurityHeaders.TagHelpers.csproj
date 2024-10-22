@@ -28,11 +28,11 @@
         </PackageReference>
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0'">
+    <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.1'">
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.1.0" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 
