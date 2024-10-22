@@ -28,11 +28,7 @@
         </PackageReference>
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETCoreApp' Or $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '3.0'))">
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.1.0" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' And $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '3.0'))">
+    <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 
