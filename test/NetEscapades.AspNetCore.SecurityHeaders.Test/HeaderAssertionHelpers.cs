@@ -21,6 +21,8 @@ public static class HeaderAssertionHelpers
         header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
         headers.Should().ContainKey("Cross-Origin-Opener-Policy")
             .WhoseValue.Should().ContainSingle("same-origin");
+        headers.Should().ContainKey("Cross-Origin-Resource-Policy")
+            .WhoseValue.Should().ContainSingle("same-origin");
 
         Assert.False(headers.Contains("Server"),
             "Should not contain server header");
@@ -42,6 +44,8 @@ public static class HeaderAssertionHelpers
         header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
         headers.Should().ContainKey("Cross-Origin-Opener-Policy")
             .WhoseValue.Should().ContainSingle("same-origin");
+        headers.Should().ContainKey("Cross-Origin-Resource-Policy")
+            .WhoseValue.Should().ContainSingle("same-origin");
 
         Assert.False(headers.Contains("Server"),
             "Should not contain server header");
@@ -59,6 +63,12 @@ public static class HeaderAssertionHelpers
             .WhoseValue.Should().ContainSingle("no-referrer");
         headers.Should().ContainKey("Permissions-Policy")
             .WhoseValue.Should().ContainSingle(PermissionsPolicyHeaderExtensions.DefaultSecurePolicy);
+        headers.Should().ContainKey("Cross-Origin-Opener-Policy")
+           .WhoseValue.Should().ContainSingle("same-origin");
+        headers.Should().ContainKey("Cross-Origin-Embedder-Policy")
+           .WhoseValue.Should().ContainSingle("require-corp");
+        headers.Should().ContainKey("Cross-Origin-Resource-Policy")
+            .WhoseValue.Should().ContainSingle("same-site");
 
         Assert.False(headers.Contains("Server"),
             "Should not contain server header");
