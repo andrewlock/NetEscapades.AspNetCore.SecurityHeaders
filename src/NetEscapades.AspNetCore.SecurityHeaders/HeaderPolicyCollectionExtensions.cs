@@ -50,7 +50,6 @@ public static class HeaderPolicyCollectionExtensions
             builder.AddFormAction().Self();
             builder.AddFrameAncestors().None();
         });
-        policies.AddCrossOriginOpenerPolicy(x => x.SameOrigin());
         policies.AddCrossOriginEmbedderPolicy(builder => builder.RequireCorp());
         policies.AddCrossOriginResourcePolicy(builder => builder.SameOrigin());
 
@@ -84,10 +83,9 @@ public static class HeaderPolicyCollectionExtensions
         policies.AddReferrerPolicyNoReferrer();
         policies.AddPermissionsPolicyWithDefaultSecureDirectives();
 
-        policies.AddReferrerPolicyStrictOriginWhenCrossOrigin();
         policies.AddCrossOriginOpenerPolicy(builder => builder.SameOrigin());
         policies.AddCrossOriginEmbedderPolicy(builder => builder.RequireCorp());
-        policies.AddCrossOriginResourcePolicy(builder => builder.SameOrigin());
+        policies.AddCrossOriginResourcePolicy(builder => builder.SameSite());
 
         return policies;
     }
