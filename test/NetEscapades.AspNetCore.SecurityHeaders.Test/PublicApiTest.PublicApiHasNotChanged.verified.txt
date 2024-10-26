@@ -294,6 +294,7 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class ServiceCollectionExtensions
     {
         public static NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder AddSecurityHeaderPolicies(this Microsoft.Extensions.DependencyInjection.IServiceCollection services) { }
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddSecurityHeaderPolicies(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, System.Action<NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder, System.IServiceProvider> configure) { }
     }
 }
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
