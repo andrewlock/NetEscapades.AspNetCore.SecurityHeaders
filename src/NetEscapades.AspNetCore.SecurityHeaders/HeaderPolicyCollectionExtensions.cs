@@ -51,7 +51,8 @@ public static class HeaderPolicyCollectionExtensions
             builder.AddFrameAncestors().None();
         });
         policies.AddCrossOriginOpenerPolicy(x => x.SameOrigin());
-        policies.AddCrossOriginResourcePolicy(builder => builder.SameOrigin());
+        policies.AddCrossOriginEmbedderPolicy(builder => builder.Credentialless());
+        policies.AddCrossOriginResourcePolicy(builder => builder.SameSite());
 
         return policies;
     }
