@@ -1,5 +1,20 @@
 # Changelog
 
+## [v1.0.0-preview.2]
+
+Features:
+
+* Allow accessing an `IServiceProvider` when configuring a `SecurityHeaderPolicyBuilder` #200
+
+Fixes:
+
+* Fix incorrect dependency on obsolete Microsoft.AspNetCore.Mvc.Razor package #205 (Thanks [trejjam](https://github.com/trejjam))
+
+Breaking Changes:
+
+* Remove ambient-light-sensor=() from `DefaultSecureDirectives()` for permissions policy #203 (Thanks [damienbod](https://github.com/damienbod)!)
+* Update COOP, COEP, and CORP for `AddDefaultSecurityHeaders()` and `AddDefaultApiSecurityHeaders()` #204 (Thanks [damienbod](https://github.com/damienbod)!)
+
 ## [v1.0.0-preview.01]
 
 Features:
