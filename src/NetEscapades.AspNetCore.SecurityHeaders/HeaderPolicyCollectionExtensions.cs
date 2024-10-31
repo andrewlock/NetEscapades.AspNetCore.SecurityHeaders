@@ -35,7 +35,7 @@ public static class HeaderPolicyCollectionExtensions
     /// <summary>
     /// Add default headers in accordance with the most secure approach
     /// </summary>
-    /// <param name="policies">The <see cref="HeaderPolicyCollection" /> to add the deafult security header policies too</param>
+    /// <param name="policies">The <see cref="HeaderPolicyCollection" /> to add the default security header policies too</param>
     /// <returns>The <see cref="HeaderPolicyCollection" /> for method chaining</returns>
     public static HeaderPolicyCollection AddDefaultSecurityHeaders(this HeaderPolicyCollection policies)
     {
@@ -51,6 +51,9 @@ public static class HeaderPolicyCollectionExtensions
             builder.AddFrameAncestors().None();
         });
         policies.AddCrossOriginOpenerPolicy(x => x.SameOrigin());
+        policies.AddCrossOriginEmbedderPolicy(builder => builder.Credentialless());
+        policies.AddCrossOriginResourcePolicy(builder => builder.SameSite());
+
         return policies;
     }
 
@@ -80,6 +83,11 @@ public static class HeaderPolicyCollectionExtensions
         // The following are generally not applicable, but still worth applying for safety
         policies.AddReferrerPolicyNoReferrer();
         policies.AddPermissionsPolicyWithDefaultSecureDirectives();
+
+        policies.AddCrossOriginOpenerPolicy(builder => builder.SameOrigin());
+        policies.AddCrossOriginEmbedderPolicy(builder => builder.RequireCorp());
+        policies.AddCrossOriginResourcePolicy(builder => builder.SameSite());
+
         return policies;
     }
 }
