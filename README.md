@@ -18,7 +18,7 @@ PM> Install-Package NetEscapades.AspNetCore.SecurityHeaders
 Or using the `dotnet` CLI
 
 ```bash
-dotnet add package NetEscapades.AspNetCore.SecurityHeaders --version 1.0.0-preview.1
+dotnet add package NetEscapades.AspNetCore.SecurityHeaders --version 1.0.0-preview.2
 ```
 
 ## Usage
@@ -33,7 +33,7 @@ When you install the package, it should be added to your `.csproj`. Alternativel
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.0.0-preview.1" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.0.0-preview.2" />
   </ItemGroup>
   
 </Project>
@@ -549,7 +549,7 @@ To use a nonce or an auto-generated hash with your ASP.NET Core application, use
 For example:
 
 ```bash
-dotnet package add Install-Package NetEscapades.AspNetCore.SecurityHeaders.TagHelpers --version 1.0.0-preview.1
+dotnet package add Install-Package NetEscapades.AspNetCore.SecurityHeaders.TagHelpers --version 1.0.0-preview.2
 ```
 
 This adds the package to your _.csproj_ file:
@@ -562,8 +562,8 @@ This adds the package to your _.csproj_ file:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.0.0-preview.1" />
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="1.0.0-preview.1" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.0.0-preview.2" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="1.0.0-preview.2" />
   </ItemGroup>
   
 </Project>
