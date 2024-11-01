@@ -64,6 +64,8 @@ This adds the following headers to all responses that pass through the middlewar
 * `Referrer-Policy: strict-origin-when-cross-origin`
 * `Content-Security-Policy: object-src 'none'; form-action 'self'; frame-ancestors 'none'`
 * `Cross-Origin-Opener-Policy: same-origin`
+* `Cross-Origin-Embedder-Policy: credentialless`
+* `Cross-Origin-Resource-Policy: same-site`
 
 Note that these policies represent a "safe" set of minimum defaults that should be valid for most sites, but are not the most secure they could be. You are advised to think about what features you need, and to restrict them where possible. For example, a stronger [Content Security Policy](#addcontentsecuritypolicy) should be used where possible, as well as a [Permissions Policy](#addpermissionspolicy). 
 
@@ -267,11 +269,14 @@ Note that you should avoid creating a `HeaderPolicyCollection` from scratch on e
 As described in the [OWASP guidance](https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html#security-headers) about security headers, APIs that return only JSON do not require all the security headers added by `AddDefaultSecurityHeaders()`. If your API may return HTML or content other than JSON, it may be safest to use the default security headers nonetheless. If not, you can use  the `AddDefaultApiSecurityHeaders()` method to apply a subset of headers. This method sets the following headers:
 
 * `X-Content-Type-Options: nosniff`
-* `Strict-Transport-Security: max-age=31536000; includeSubDomains` - _only applied to HTTPS responses_
+* `Strict-Transport-Security: max-age=31536000;` - _only applied to HTTPS responses_
 * `X-Frame-Options: Deny`
 * `Content-Security-Policy: default-src: none; frame-ancestors 'none'`
 * `Referrer-Policy: no-referrer`
 * `Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()`
+* `Cross-Origin-Opener-Policy: same-origin`
+* `Cross-Origin-Embedder-Policy: require-corp`
+* `Cross-Origin-Resource-Policy: same-site`
 
 Apply it in the same way to your header policy collection:
 
