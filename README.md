@@ -59,7 +59,7 @@ public void Configure(IApplicationBuilder app)
 This adds the following headers to all responses that pass through the middleware:
 
 * `X-Content-Type-Options: nosniff`
-* `Strict-Transport-Security: max-age=31536000; includeSubDomains` - _only applied to HTTPS responses_
+* `Strict-Transport-Security: max-age=31536000;` - _only applied to HTTPS responses_
 * `X-Frame-Options: Deny`
 * `Referrer-Policy: strict-origin-when-cross-origin`
 * `Content-Security-Policy: object-src 'none'; form-action 'self'; frame-ancestors 'none'`
