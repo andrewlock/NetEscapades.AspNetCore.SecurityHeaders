@@ -7,7 +7,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers;
 /// <summary>
 /// Helpers for creating hashing algorithms
 /// </summary>
-internal class CryptographyAlgorithms
+internal static class CryptographyAlgorithms
 {
     /// <summary>
     /// Create an instance of the required hashing algorithm
@@ -45,7 +45,9 @@ internal class CryptographyAlgorithms
             // SHA256.Create is documented to throw this exception on FIPS compliant machines.
             // See: https://msdn.microsoft.com/en-us/library/z08hz7ad%28v=vs.110%29.aspx?f=255&MSPPError=-2147217396
             // Fallback to a FIPS compliant SHA256 algorithm.
+            #pragma warning disable SYSLIB0021 // Type or member is obsolete
             return new SHA256CryptoServiceProvider();
+            #pragma warning restore SYSLIB0021 // Type or member is obsolete
         }
     }
 
@@ -65,7 +67,9 @@ internal class CryptographyAlgorithms
             // SHA384.Create is documented to throw this exception on FIPS compliant machines.
             // See: https://msdn.microsoft.com/en-us/library/z08hz7ad%28v=vs.110%29.aspx?f=255&MSPPError=-2147217396
             // Fallback to a FIPS compliant SHA384 algorithm.
+            #pragma warning disable SYSLIB0021 // Type or member is obsolete
             return new SHA384CryptoServiceProvider();
+            #pragma warning restore SYSLIB0021 // Type or member is obsolete
         }
     }
 
@@ -85,7 +89,9 @@ internal class CryptographyAlgorithms
             // SHA512.Create is documented to throw this exception on FIPS compliant machines.
             // See: https://msdn.microsoft.com/en-us/library/z08hz7ad%28v=vs.110%29.aspx?f=255&MSPPError=-2147217396
             // Fallback to a FIPS compliant SHA512 algorithm.
+            #pragma warning disable SYSLIB0021 // Type or member is obsolete
             return new SHA512CryptoServiceProvider();
+            #pragma warning restore SYSLIB0021 // Type or member is obsolete
         }
     }
 }

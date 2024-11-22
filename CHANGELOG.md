@@ -1,5 +1,12 @@
 # Changelog
 
+## [v1.0.0-preview.3]
+
+Fixes:
+
+* Added net9.0 to target frameworks so package works with .NET 9 projects.
+
+
 ## [v1.0.0-preview.2]
 
 Features:
