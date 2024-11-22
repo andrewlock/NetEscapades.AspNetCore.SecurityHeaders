@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net6.0;net8.0;net9.0;</TargetFrameworks>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <RunSettingsFilePath>X:\github\NetEscapades.AspNetCore.SecurityHeaders\test\NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test\bin\Debug\netcoreapp3.1\fine-code-coverage\coverage-tool-output\NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test %28netcoreapp3.1%29-fcc-mscodecoverage-generated.runsettings</RunSettingsFilePath>
   </PropertyGroup>
 
   <ItemGroup>
