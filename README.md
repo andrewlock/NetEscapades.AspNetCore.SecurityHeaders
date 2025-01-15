@@ -284,7 +284,7 @@ Apply it in the same way to your header policy collection:
 public void Configure(IApplicationBuilder app)
 {
     var policyCollection = new HeaderPolicyCollection()
-        .AddApiDefaultSecurityHeaders();
+        .AddDefaultApiSecurityHeaders();
 
     app.UseSecurityHeaders(policyCollection);
 }
