@@ -54,6 +54,7 @@ jobs:
         env:
           GithubToken: ${{ secrets.GITHUB_TOKEN }}
           NuGetToken: ${{ secrets.NUGET_TOKEN }}
+          DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "true"
       - uses: actions/upload-artifact@v4
         with:
           name: artifacts-linux
