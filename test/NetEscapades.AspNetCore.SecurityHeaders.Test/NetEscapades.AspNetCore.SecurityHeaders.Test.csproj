@@ -2,7 +2,9 @@
 
   <PropertyGroup>
     <Authors>Andrew Lock</Authors>
-    <TargetFrameworks>netcoreapp3.1;net6.0;net8.0</TargetFrameworks>
+    <!-- .NET Core 3.1 won't run easily in github actions (due to missing libssl) so limit it to Windows-->
+    <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">netcoreapp3.1;$(TargetFrameworks)</TargetFrameworks>
     <AssemblyName>NetEscapades.AspNetCore.SecurityHeaders.Test</AssemblyName>
     <PackageId>NetEscapades.AspNetCore.SecurityHeaders.Test</PackageId>
     <Nullable>enable</Nullable>
