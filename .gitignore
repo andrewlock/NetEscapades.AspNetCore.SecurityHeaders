@@ -249,3 +249,6 @@ tools/*
 
 # Nuke
 !build
+
+# Verify
+**/*.received.txt
