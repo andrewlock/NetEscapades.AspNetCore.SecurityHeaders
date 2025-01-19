@@ -72,6 +72,7 @@ namespace Microsoft.AspNetCore.Builder
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ObjectSourceDirectiveBuilder AddObjectSrc() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ReportToDirectiveBuilder AddReportTo(string groupName) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ReportUriDirectiveBuilder AddReportUri() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.RequireTrustedTypesForDirectiveBuilder AddRequireTrustedTypesFor() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.SandboxDirectiveBuilder AddSandbox() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceDirectiveBuilder AddScriptSrc() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceAttrDirectiveBuilder AddScriptSrcAttr() { }
@@ -79,6 +80,7 @@ namespace Microsoft.AspNetCore.Builder
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceDirectiveBuilder AddStyleSrc() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceAttrDirectiveBuilder AddStyleSrcAttr() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder AddStyleSrcElem() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.TrustedTypesDirectiveBuilder AddTrustedTypes() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.UpgradeInsecureRequestsDirectiveBuilder AddUpgradeInsecureRequests() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.WorkerSourceDirectiveBuilder AddWorkerSrc() { }
     }
@@ -381,6 +383,12 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public ReportUriDirectiveBuilder() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase To(string uri) { }
     }
+    public class RequireTrustedTypesForDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase
+    {
+        public RequireTrustedTypesForDirectiveBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.RequireTrustedTypesForDirectiveBuilder CustomSinkGroup(string sinkGroup) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.RequireTrustedTypesForDirectiveBuilder Script() { }
+    }
     public class SandboxDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase
     {
         public SandboxDirectiveBuilder() { }
@@ -434,6 +442,14 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public StyleSourceElemDirectiveBuilder() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder ReportSample() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder WithHashTagHelper() { }
+    }
+    public class TrustedTypesDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase
+    {
+        public TrustedTypesDirectiveBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.TrustedTypesDirectiveBuilder AllowDuplicates() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.TrustedTypesDirectiveBuilder AllowPolicy(string policyName) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.TrustedTypesDirectiveBuilder Any() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.TrustedTypesDirectiveBuilder None() { }
     }
     public class UpgradeInsecureRequestsDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase
     {

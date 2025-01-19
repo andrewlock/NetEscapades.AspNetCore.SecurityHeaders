@@ -58,7 +58,7 @@ public class TrustedTypesDirectiveBuilder : CspDirectiveBuilderBase
     /// <returns>The CSP builder for method chaining</returns>
     public TrustedTypesDirectiveBuilder Any()
     {
-        Policies.Add("'none'");
+        Policies.Add("*");
         return this;
     }
 
@@ -68,7 +68,7 @@ public class TrustedTypesDirectiveBuilder : CspDirectiveBuilderBase
     /// </summary>
     /// <returns>The CSP builder for method chaining</returns>
     /// <param name="policyName">The policy name to add</param>
-    public TrustedTypesDirectiveBuilder AddPolicyName(string policyName)
+    public TrustedTypesDirectiveBuilder AllowPolicy(string policyName)
     {
         foreach (var c in policyName)
         {

@@ -501,8 +501,8 @@ public class CspBuilderTests
         var builder = new CspBuilder();
 
         builder.AddTrustedTypes()
-            .AddPolicyName("one")
-            .AddPolicyName("two")
+            .AllowPolicy("one")
+            .AllowPolicy("two")
             .AllowDuplicates();
         var result = builder.Build();
 
@@ -528,7 +528,7 @@ public class CspBuilderTests
         builder.AddTrustedTypes().Any();
         var result = builder.Build();
 
-        result.ConstantValue.Should().Be("trusted-types 'none'");
+        result.ConstantValue.Should().Be("trusted-types *");
     }
 
     [Theory]
@@ -539,7 +539,7 @@ public class CspBuilderTests
     {
         var builder = new CspBuilder();
 
-        var method = () => builder.AddTrustedTypes().AddPolicyName(policyName);
+        var method = () => builder.AddTrustedTypes().AllowPolicy(policyName);
 
         method.Should().Throw<ArgumentException>();
     }

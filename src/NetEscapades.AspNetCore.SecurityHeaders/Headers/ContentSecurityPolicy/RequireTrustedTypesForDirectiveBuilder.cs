@@ -48,7 +48,7 @@ public class RequireTrustedTypesForDirectiveBuilder : CspDirectiveBuilderBase
     /// </summary>
     /// <returns>The CSP builder for method chaining</returns>
     /// <param name="sinkGroup">The sink group to add</param>
-    public RequireTrustedTypesForDirectiveBuilder AddCustomSinkGroup(string sinkGroup)
+    public RequireTrustedTypesForDirectiveBuilder CustomSinkGroup(string sinkGroup)
     {
         SinkGroups.Add(sinkGroup);
         return this;
