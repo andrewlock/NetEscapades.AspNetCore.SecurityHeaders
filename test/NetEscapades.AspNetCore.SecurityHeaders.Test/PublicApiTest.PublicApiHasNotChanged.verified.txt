@@ -62,9 +62,6 @@ namespace Microsoft.AspNetCore.Builder
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FontSourceDirectiveBuilder AddFontSrc() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FormActionDirectiveBuilder AddFormAction() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder AddFrameAncestors() { }
-        [System.Obsolete("Use AddFrameSrc method instead. This method will be removed in a future version o" +
-            "f the library.")]
-        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameSourceDirectiveBuilder AddFrameSource() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameSourceDirectiveBuilder AddFrameSrc() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ImageSourceDirectiveBuilder AddImgSrc() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ManifestSourceDirectiveBuilder AddManifestSrc() { }
@@ -171,12 +168,6 @@ namespace Microsoft.AspNetCore.Builder
     public class HeaderPolicyCollection : System.Collections.Generic.Dictionary<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IReadOnlyHeaderPolicyCollection, System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>>, System.Collections.Generic.IReadOnlyCollection<System.Collections.Generic.KeyValuePair<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>>, System.Collections.Generic.IReadOnlyDictionary<string, NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy>, System.Collections.IEnumerable
     {
         public HeaderPolicyCollection() { }
-        [System.Obsolete("This method no longer has any effect - all headers are applied to all responses b" +
-            "y default.")]
-        public Microsoft.AspNetCore.Builder.HeaderPolicyCollection ApplyDocumentHeadersToAllResponses() { }
-        [System.Obsolete("This method no longer has any effect - all headers are applied to all responses b" +
-            "y default.")]
-        public Microsoft.AspNetCore.Builder.HeaderPolicyCollection ApplyDocumentHeadersToContentTypes(string[] contentTypes) { }
     }
     public static class HeaderPolicyCollectionExtensions
     {

@@ -122,14 +122,6 @@ public class CspBuilder
     public FrameSourceDirectiveBuilder AddFrameSrc() => AddDirective(new FrameSourceDirectiveBuilder());
 
     /// <summary>
-    /// The frame-src directive specifies valid sources for nested browsing contexts loading
-    /// using elements such as  &lt;frame&gt; and  &lt;iframe&gt;
-    /// </summary>
-    /// <returns>A configured <see cref="FrameSourceDirectiveBuilder"/></returns>
-    [Obsolete("Use AddFrameSrc method instead. This method will be removed in a future version of the library.")]
-    public FrameSourceDirectiveBuilder AddFrameSource() => AddDirective(new FrameSourceDirectiveBuilder());
-
-    /// <summary>
     /// The worker-src directive specifies valid sources for Worker, SharedWorker, or ServiceWorker scripts.
     /// </summary>
     /// <returns>A configured <see cref="WorkerSourceDirectiveBuilder"/></returns>
