@@ -893,12 +893,10 @@ public class SecurityHeadersMiddlewareTests
     }
 
     [Theory]
-    [InlineData("text/html", "text/html", true)]
-    [InlineData("text/html", "text/", true)]
-    [InlineData("application/json", "application/json", true)]
-    [InlineData("application/json", "text/html", true)]
-    [InlineData("text/html", "application/json", true)]
-    public async Task HttpRequest_WithCspHeader_SetsHeader_RegardlessOfContentType(string requestContentType, string appliesTo, bool shouldApply)
+    [InlineData("text/html")]
+    [InlineData("application/json")]
+    [InlineData("")]
+    public async Task HttpRequest_WithCspHeader_SetsHeader_RegardlessOfContentType(string requestContentType)
     {
         // Arrange
         var hostBuilder = new WebHostBuilder()
@@ -906,7 +904,6 @@ public class SecurityHeadersMiddlewareTests
             {
                 app.UseSecurityHeaders(
                     new HeaderPolicyCollection()
-                        .ApplyDocumentHeadersToContentTypes(new[] { appliesTo })
                         .AddContentSecurityPolicy(builder =>
                         {
                             builder.AddDefaultSrc().Self();
@@ -914,7 +911,11 @@ public class SecurityHeadersMiddlewareTests
                         }));
                 app.Run(async context =>
                 {
-                    context.Response.ContentType = requestContentType;
+                    if (!string.IsNullOrEmpty(requestContentType))
+                    {
+                        context.Response.ContentType = requestContentType;
+                    }
+
                     await context.Response.WriteAsync("Test response");
                 });
             });
@@ -930,7 +931,7 @@ public class SecurityHeadersMiddlewareTests
             response.EnsureSuccessStatusCode();
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Contains("Content-Security-Policy").Should().Be(shouldApply);
+            response.Headers.Contains("Content-Security-Policy").Should().BeTrue();
         }
     }
 
@@ -976,6 +977,8 @@ public class SecurityHeadersMiddlewareTests
     [InlineData("application/javascript")]
     [InlineData("")]
     [InlineData(null)]
+    [InlineData("application/json")]
+    [InlineData("foo/bar")]
     public async Task HttpRequest_WithCspHeaderAndDefaultContentTypes_SetsCspHeader(string requestContentType)
     {
         // Arrange
@@ -984,50 +987,6 @@ public class SecurityHeadersMiddlewareTests
             {
                 app.UseSecurityHeaders(
                     new HeaderPolicyCollection()
-                        .AddContentSecurityPolicy(builder =>
-                        {
-                            builder.AddDefaultSrc().Self();
-                            builder.AddObjectSrc().None();
-                        }));
-                app.Run(async context =>
-                {
-                    context.Response.ContentType = requestContentType;
-                    await context.Response.WriteAsync("Test response");
-                });
-            });
-
-        using (var server = new TestServer(hostBuilder))
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/")
-                .SendAsync("PUT");
-
-            // Assert
-            response.EnsureSuccessStatusCode();
-
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("default-src 'self'; object-src 'none'");
-        }
-    }
-
-    [Theory]
-    [InlineData("text/html")]
-    [InlineData("application/javascript")]
-    [InlineData("")]
-    [InlineData("application/json")]
-    [InlineData("foo/bar")]
-    public async Task HttpRequest_WithCspHeaderAndApplyToAllContentTypes_SetsCspHeader(string requestContentType)
-    {
-        // Arrange
-        var hostBuilder = new WebHostBuilder()
-            .Configure(app =>
-            {
-                app.UseSecurityHeaders(
-                    new HeaderPolicyCollection()
-                        .ApplyDocumentHeadersToAllResponses()
                         .AddContentSecurityPolicy(builder =>
                         {
                             builder.AddDefaultSrc().Self();
