@@ -198,6 +198,35 @@ public class CspBuilder
     public ReportToDirectiveBuilder AddReportTo(string groupName) => AddDirective(new ReportToDirectiveBuilder(groupName));
 
     /// <summary>
+    /// The <c>require-trusted-types-for</c> directive instructs user agents
+    /// to control the data passed to DOM XSS sink functions, like
+    /// <see href="https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML">Element.innerHTML</see>
+    /// setter.
+    ///
+    /// When used, those functions only accept non-spoofable, typed values created by Trusted Type
+    /// policies, and reject strings. Together with <see cref="AddTrustedTypes"/> which
+    /// guards creation of Trusted Type policies, this allows authors to define rules guarding
+    /// writing values to the DOM and thus reducing the DOM XSS attack surface to small,
+    /// isolated parts of the web application codebase, facilitating their monitoring and code review.
+    /// </summary>
+    /// <returns>A configured <see cref="RequireTrustedTypesForDirectiveBuilder"/></returns>
+    public RequireTrustedTypesForDirectiveBuilder AddRequireTrustedTypesFor() => AddDirective(new RequireTrustedTypesForDirectiveBuilder());
+
+    /// <summary>
+    /// The <c>trusted-types</c> directive instructs user agents
+    /// to restrict the creation of Trusted Types policies - functions that build non-spoofable,
+    /// typed values intended to be passed to DOM XSS sinks in place of strings.
+    ///
+    /// Together with <see cref="AddRequireTrustedTypesFor"/> this allows authors
+    /// to define rules guarding writing values to the DOM and thus reducing the DOM XSS attack
+    /// surface to small, isolated parts of the web application codebase, facilitating their
+    /// monitoring and code review. This directive declares an allowlist of trusted type policy names
+    /// created with <c>trustedTypes.createPolicy</c> from Trusted Types API.
+    /// </summary>
+    /// <returns>A configured <see cref="RequireTrustedTypesForDirectiveBuilder"/></returns>
+    public TrustedTypesDirectiveBuilder AddTrustedTypes() => AddDirective(new TrustedTypesDirectiveBuilder());
+
+    /// <summary>
     /// Create a custom CSP directive for an un-implemented directive
     /// </summary>
     /// <param name="directive">The directive name, e.g. default-src</param>

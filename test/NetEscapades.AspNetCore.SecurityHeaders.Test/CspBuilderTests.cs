@@ -485,6 +485,66 @@ public class CspBuilderTests
     }
 
     [Fact]
+    public void Build_RequireTrustedTypesFor_AddsValue()
+    {
+        var builder = new CspBuilder();
+        
+        builder.AddRequireTrustedTypesFor().Script();
+        var result = builder.Build();
+
+        result.ConstantValue.Should().Be("require-trusted-types-for 'script'");
+    }
+
+    [Fact]
+    public void Build_TrustedTypes_AddsValue()
+    {
+        var builder = new CspBuilder();
+
+        builder.AddTrustedTypes()
+            .AllowPolicy("one")
+            .AllowPolicy("two")
+            .AllowDuplicates();
+        var result = builder.Build();
+
+        result.ConstantValue.Should().Be("trusted-types one two 'allow-duplicates'");
+    }
+
+    [Fact]
+    public void Build_TrustedTypes_AddsNone()
+    {
+        var builder = new CspBuilder();
+
+        builder.AddTrustedTypes().None();
+        var result = builder.Build();
+
+        result.ConstantValue.Should().Be("trusted-types 'none'");
+    }
+
+    [Fact]
+    public void Build_TrustedTypes_AddsAny()
+    {
+        var builder = new CspBuilder();
+
+        builder.AddTrustedTypes().Any();
+        var result = builder.Build();
+
+        result.ConstantValue.Should().Be("trusted-types *");
+    }
+
+    [Theory]
+    [InlineData("*")]
+    [InlineData("Oops!")]
+    [InlineData(" ")]
+    public void Build_TrustedTypes_RejectsInvalidValues(string policyName)
+    {
+        var builder = new CspBuilder();
+
+        var method = () => builder.AddTrustedTypes().AllowPolicy(policyName);
+
+        method.Should().Throw<ArgumentException>();
+    }
+
+    [Fact]
     public void Build_CustomDirective_AddsValues()
     {
         var builder = new CspBuilder();
