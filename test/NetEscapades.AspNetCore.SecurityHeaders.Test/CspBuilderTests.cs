@@ -503,10 +503,11 @@ public class CspBuilderTests
         builder.AddTrustedTypes()
             .AllowPolicy("one")
             .AllowPolicy("two")
+            .Default()
             .AllowDuplicates();
         var result = builder.Build();
 
-        result.ConstantValue.Should().Be("trusted-types one two 'allow-duplicates'");
+        result.ConstantValue.Should().Be("trusted-types one two default 'allow-duplicates'");
     }
 
     [Fact]

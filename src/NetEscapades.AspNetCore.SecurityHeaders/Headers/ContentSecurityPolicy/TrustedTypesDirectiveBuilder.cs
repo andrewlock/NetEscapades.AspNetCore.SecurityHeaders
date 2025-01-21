@@ -44,11 +44,22 @@ public class TrustedTypesDirectiveBuilder : CspDirectiveBuilderBase
 
     /// <summary>
     /// Disallows creating any Trusted Type policy (same as not specifying any policyName).
+    /// Ignored if additional policies are provided.
     /// </summary>
     /// <returns>The CSP builder for method chaining</returns>
     public TrustedTypesDirectiveBuilder None()
     {
         Policies.Add("'none'");
+        return this;
+    }
+
+    /// <summary>
+    /// Allows creating the default policy
+    /// </summary>
+    /// <returns>The CSP builder for method chaining</returns>
+    public TrustedTypesDirectiveBuilder Default()
+    {
+        Policies.Add("default");
         return this;
     }
 
