@@ -440,6 +440,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.TrustedTypesDirectiveBuilder AllowDuplicates() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.TrustedTypesDirectiveBuilder AllowPolicy(string policyName) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.TrustedTypesDirectiveBuilder Any() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.TrustedTypesDirectiveBuilder Default() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.TrustedTypesDirectiveBuilder None() { }
     }
     public class UpgradeInsecureRequestsDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase
