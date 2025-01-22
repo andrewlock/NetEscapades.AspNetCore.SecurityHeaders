@@ -1,9 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net6.0;net8.0</TargetFrameworks>
-  </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\src\NetEscapades.AspNetCore.SecurityHeaders.TagHelpers\NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.csproj" />
   </ItemGroup>
