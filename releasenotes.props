@@ -5,16 +5,11 @@
 
 Features:
 
-* Allow accessing an `IServiceProvider` when configuring a `SecurityHeaderPolicyBuilder` #200
-
-Fixes:
-
-* Fix incorrect dependency on obsolete Microsoft.AspNetCore.Mvc.Razor package #205 (Thanks trejjam!)
+* Adds support for Trusted Types to Content-Security-Policy (#216, #218)
 
 Breaking Changes:
 
-* Remove ambient-light-sensor=() from `DefaultSecureDirectives()` for permissions policy #203 (Thanks damienbod!)
-* Update COOP, COEP, and CORP for `AddDefaultSecurityHeaders()` and `AddDefaultApiSecurityHeaders()` #204 (Thanks damienbod!)
+* Removes obsolete APIs (#217)
 
 ]]>
     </PackageReleaseNotes>
