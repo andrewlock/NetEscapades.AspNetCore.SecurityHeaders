@@ -50,15 +50,41 @@ jobs:
           NuGetToken: ${{ secrets.NUGET_TOKEN }}
           DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "true"
 
-      - uses: actions/upload-artifact@v4
+      # Generate an SBOM for each of the packages
+      - uses: anchore/sbom-action@v0
         with:
-          name: packages-${{ matrix.os}}
+          path: ./artifacts/bin/NetEscapades.AspNetCore.SecurityHeaders
+          output-file: ./artifacts/sboms/netescapades-aspnetcore-securityheaders.spdx.json
+
+      - uses: anchore/sbom-action@v0
+        with:
+          path: ./artifacts/bin/NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
+          output-file: ./artifacts/sboms/netescapades-aspnetcore-securityheaders-taghelpers.spdx.json
+
+      - uses: actions/upload-artifact@v4
+        if: '${{ matrix.os}}' == 'windows'
+        with:
+          name: packages
           path: artifacts/packages
 
       - uses: actions/upload-artifact@v4
         with:
           name: results-${{ matrix.os}}
           path: artifacts/results
+
+#  create-sbom:
+#    name: "Generate SBOM"
+#    needs: build-and-test
+#    runs-on: ubuntu-latest
+#    permissions:
+#      id-token: write
+#      attestations: write
+#    
+#    steps:
+#      - name: Download Artifacts
+#        uses: actions/download-artifact@v4
+#        with:
+#          path: artifacts/packages
   
   publish-test-results:
     name: "Publish Tests Results"
