@@ -50,6 +50,9 @@ jobs:
           NuGetToken: ${{ secrets.NUGET_TOKEN }}
           DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "true"
 
+      - name: Create required directory
+        run: mkdir -p ./artifacts/sboms
+
       # Generate an SBOM for each of the packages
       - uses: anchore/sbom-action@v0
         with:
