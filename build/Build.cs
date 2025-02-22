@@ -132,7 +132,7 @@ class Build : NukeBuild
             foreach (var project in projects)
             {
                 var projectName = project.Name;
-                DotNet($"""tool run dotnet-CycloneDX "{project}" --json --recursive --exclude-dev --disable-package-restore """ +
+                DotNet($"""tool run dotnet-CycloneDX "{project}" --json --recursive --disable-package-restore """ +
                        $"""--set-name {projectName} --set-version {Version} """ +
                        $"""--base-intermediate-output-path "{ArtifactsDirectory}" """ +
                        $"""--output "{SbomDirectory}" """ +
