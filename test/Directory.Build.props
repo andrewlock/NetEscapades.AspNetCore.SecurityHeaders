@@ -8,6 +8,7 @@
     <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">netcoreapp3.1;$(TargetFrameworks)</TargetFrameworks>
     
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
 
 </Project>
