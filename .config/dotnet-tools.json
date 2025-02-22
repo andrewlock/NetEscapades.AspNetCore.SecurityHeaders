@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "cyclonedx": {
+      "version": "5.0.1",
+      "commands": [
+        "dotnet-CycloneDX"
+      ],
+      "rollForward": false
+    }
+  }
+}

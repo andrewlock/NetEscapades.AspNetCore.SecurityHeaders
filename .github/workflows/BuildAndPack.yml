@@ -43,28 +43,12 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
 
-      - name: Run './build.cmd Test Pack PushToNuGet'
-        run: ./build.cmd Test Pack PushToNuGet
+      - name: Run './build.cmd Test Pack PushToNuGet GenerateSbom'
+        run: ./build.cmd Test Pack PushToNuGet GenerateSbom
         env:
           GithubToken: ${{ secrets.GITHUB_TOKEN }}
           NuGetToken: ${{ secrets.NUGET_TOKEN }}
           DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "true"
-
-      - name: Create required directory
-        run: mkdir -p ./artifacts/sboms
-
-      # Generate an SBOM for each of the packages
-      - uses: anchore/sbom-action@v0
-        with:
-          path: ./artifacts/bin/NetEscapades.AspNetCore.SecurityHeaders
-          output-file: ./artifacts/sboms/netescapades-aspnetcore-securityheaders.spdx.json
-          upload-artifact: false
-
-      - uses: anchore/sbom-action@v0
-        with:
-          path: ./artifacts/bin/NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
-          output-file: ./artifacts/sboms/netescapades-aspnetcore-securityheaders-taghelpers.spdx.json
-          upload-artifact: false
 
       - uses: actions/upload-artifact@v4
         if: ${{ matrix.os == 'windows' }}
@@ -83,20 +67,6 @@ jobs:
           name: results-${{ matrix.os}}
           path: artifacts/results
 
-#  create-sbom:
-#    name: "Generate SBOM"
-#    needs: build-and-test
-#    runs-on: ubuntu-latest
-#    permissions:
-#      id-token: write
-#      attestations: write
-#    
-#    steps:
-#      - name: Download Artifacts
-#        uses: actions/download-artifact@v4
-#        with:
-#          path: artifacts/packages
-  
   publish-test-results:
     name: "Publish Tests Results"
     needs: build-and-test

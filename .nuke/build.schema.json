@@ -46,6 +46,7 @@
       "enum": [
         "Clean",
         "Compile",
+        "GenerateSbom",
         "Pack",
         "PushToNuGet",
         "Restore",
