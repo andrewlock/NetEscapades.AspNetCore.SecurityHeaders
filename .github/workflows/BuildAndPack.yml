@@ -67,6 +67,39 @@ jobs:
           name: results-${{ matrix.os}}
           path: artifacts/results
 
+  generate-attestations:
+    name: "Generate attestations"
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      attestations: write
+
+    steps:
+      - name: Download Sboms
+        uses: actions/download-artifact@v4
+        with:
+          name: sboms
+          path: artifacts/sboms
+
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          name: packages
+          path: artifacts/packages
+
+      - name: Attest package
+        uses: actions/attest-sbom@v2
+        with:
+          subject-path: artifacts/packages/NetEscapades.AspNetCore.SecurityHeaders.?.?.*.nupkg
+          sbom-path: artifacts/sboms/netescapades-aspnetcore-securityheaders.bom.json
+
+      - name: Attest testhelpers
+        uses: actions/attest-sbom@v2
+        with:
+          subject-path: artifacts/packages/NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.*.nupkg
+          sbom-path: artifacts/sboms/netescapades-aspnetcore-securityheaders-taghelpers.bom.json
+
   publish-test-results:
     name: "Publish Tests Results"
     needs: build-and-test
