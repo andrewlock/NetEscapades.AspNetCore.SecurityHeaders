@@ -79,11 +79,13 @@ jobs:
       - name: Download Sboms
         uses: actions/download-artifact@v4
         with:
+          name: sboms
           path: artifacts/sboms
 
       - name: Download packages
         uses: actions/download-artifact@v4
         with:
+          name: packages
           path: artifacts/packages
 
       - name: Attest package
