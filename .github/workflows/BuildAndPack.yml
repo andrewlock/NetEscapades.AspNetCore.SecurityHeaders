@@ -91,7 +91,7 @@ jobs:
       - name: Attest package
         uses: actions/attest-sbom@v2
         with:
-          subject-path: artifacts/packages/NetEscapades.AspNetCore.SecurityHeaders.*.nupkg
+          subject-path: '[artifacts/packages/NetEscapades.AspNetCore.SecurityHeaders.*.nupkg, !artifacts/packages/NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.*.nupkg]'
           sbom-path: artifacts/sboms/netescapades-aspnetcore-securityheaders.bom.json
 
       - name: Attest testhelpers
