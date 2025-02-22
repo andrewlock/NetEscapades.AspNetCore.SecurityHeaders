@@ -58,17 +58,25 @@ jobs:
         with:
           path: ./artifacts/bin/NetEscapades.AspNetCore.SecurityHeaders
           output-file: ./artifacts/sboms/netescapades-aspnetcore-securityheaders.spdx.json
+          upload-artifact: false
 
       - uses: anchore/sbom-action@v0
         with:
           path: ./artifacts/bin/NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
           output-file: ./artifacts/sboms/netescapades-aspnetcore-securityheaders-taghelpers.spdx.json
+          upload-artifact: false
 
       - uses: actions/upload-artifact@v4
         if: ${{ matrix.os == 'windows' }}
         with:
           name: packages
           path: artifacts/packages
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ matrix.os == 'windows' }}
+        with:
+          name: sboms
+          path: artifacts/sboms
 
       - uses: actions/upload-artifact@v4
         with:
