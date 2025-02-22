@@ -18,6 +18,8 @@
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+    <ArtifactsPath>$(msbuildthisfiledirectory)artifacts</ArtifactsPath>
   </PropertyGroup>
 
   <Import Project="releasenotes.props" />
