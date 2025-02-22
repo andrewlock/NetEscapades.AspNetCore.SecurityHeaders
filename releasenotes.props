@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.0.0'">
+    <PackageReleaseNotes>
       <![CDATA[
 
 Features:
@@ -14,6 +14,6 @@ Breaking Changes:
 ]]>
     </PackageReleaseNotes>
      <PackageReleaseNotes>$(PackageReleaseNotes)
-See $(PackageProjectUrl)/blob/master/CHANGELOG.md#v$(VersionPrefix.Replace('.','')) for more details.</PackageReleaseNotes>
+See $(PackageProjectUrl)/blob/master/CHANGELOG.md#v$(Version.Replace('.','')) for more details.</PackageReleaseNotes>
   </PropertyGroup>
 </Project>
