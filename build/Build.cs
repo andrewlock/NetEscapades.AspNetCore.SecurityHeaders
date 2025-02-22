@@ -28,6 +28,7 @@ class Build : NukeBuild
     AbsolutePath TestsDirectory => RootDirectory / "test";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
     AbsolutePath OuptutPackagesDirectory => ArtifactsDirectory / "packages";
+    AbsolutePath TestResultsDirectory => ArtifactsDirectory / "results";
 
     [Parameter] readonly string GithubToken;
     [Parameter] readonly string NuGetToken;
@@ -68,6 +69,9 @@ class Build : NukeBuild
             DotNetTest(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
+                .When(IsServerBuild, x => x
+                    .SetLoggers("trx")
+                    .SetResultsDirectory(TestResultsDirectory))
                 .EnableNoBuild()
                 .EnableNoRestore());
         });
