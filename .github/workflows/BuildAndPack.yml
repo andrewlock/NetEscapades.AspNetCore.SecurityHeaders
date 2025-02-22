@@ -92,13 +92,13 @@ jobs:
         uses: actions/attest-sbom@v2
         with:
           subject-path: artifacts/packages/NetEscapades.AspNetCore.SecurityHeaders.*.nupkg
-          sbom-path: artifacts/sboms/netescapades_aspnetcore_securityheaders.bom.json
+          sbom-path: artifacts/sboms/netescapades-aspnetcore-securityheaders.bom.json
 
       - name: Attest testhelpers
         uses: actions/attest-sbom@v2
         with:
           subject-path: artifacts/packages/NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.*.nupkg
-          sbom-path: artifacts/sboms/netescapades_aspnetcore_securityheaders_taghelpers.bom.json
+          sbom-path: artifacts/sboms/netescapades-aspnetcore-securityheaders-taghelpers.bom.json
 
   publish-test-results:
     name: "Publish Tests Results"
