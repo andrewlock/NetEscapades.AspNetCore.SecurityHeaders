@@ -43,23 +43,30 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
 
-      - name: Run './build.cmd Test Pack PushToNuGet'
-        run: ./build.cmd Test Pack PushToNuGet
+      - name: Run './build.cmd Test Pack PushToNuGet GenerateSbom'
+        run: ./build.cmd Test Pack PushToNuGet GenerateSbom
         env:
           GithubToken: ${{ secrets.GITHUB_TOKEN }}
           NuGetToken: ${{ secrets.NUGET_TOKEN }}
           DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "true"
 
       - uses: actions/upload-artifact@v4
+        if: ${{ matrix.os == 'windows' }}
         with:
-          name: packages-${{ matrix.os}}
+          name: packages
           path: artifacts/packages
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ matrix.os == 'windows' }}
+        with:
+          name: sboms
+          path: artifacts/sboms
 
       - uses: actions/upload-artifact@v4
         with:
           name: results-${{ matrix.os}}
           path: artifacts/results
-  
+
   publish-test-results:
     name: "Publish Tests Results"
     needs: build-and-test

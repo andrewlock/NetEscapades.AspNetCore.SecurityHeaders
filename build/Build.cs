@@ -24,13 +24,14 @@ class Build : NukeBuild
 
     readonly string Version = "1.0.0-preview.3"; 
     
-    [Solution] readonly Solution Solution;
+    [Solution(GenerateProjects = true)] readonly Solution Solution;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath TestsDirectory => RootDirectory / "test";
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
     AbsolutePath OuptutPackagesDirectory => ArtifactsDirectory / "packages";
     AbsolutePath TestResultsDirectory => ArtifactsDirectory / "results";
+    AbsolutePath SbomDirectory => ArtifactsDirectory / "sboms";
 
     [Parameter] readonly string GithubToken;
     [Parameter] readonly string NuGetToken;
@@ -105,7 +106,7 @@ class Build : NukeBuild
         .DependsOn(Compile)
         .OnlyWhenStatic(() => IsTag && IsServerBuild && IsWin)
         .Requires(() => NuGetToken)
-        .After(Pack)
+        .After(Pack, GenerateSbom)
         .Executes(() =>
         {
             var packages = OuptutPackagesDirectory.GlobFiles("*.nupkg");
@@ -115,5 +116,27 @@ class Build : NukeBuild
                 .EnableSkipDuplicate()
                 .CombineWith(packages, (x, package) => x
                     .SetTargetPath(package)));
+        });
+
+    Target GenerateSbom => _ => _
+        .After(Compile, Pack)
+        .Executes(() =>
+        {
+            DotNetToolRestore();
+
+            var projects = new[]
+            {
+                Solution.src.NetEscapades_AspNetCore_SecurityHeaders,
+                Solution.src.NetEscapades_AspNetCore_SecurityHeaders_TagHelpers,
+            };
+            foreach (var project in projects)
+            {
+                var projectName = project.Name;
+                DotNet($"""tool run dotnet-CycloneDX "{project}" --json --recursive --disable-package-restore """ +
+                       $"""--set-name {projectName} --set-version {Version} """ +
+                       $"""--base-intermediate-output-path "{ArtifactsDirectory}" """ +
+                       $"""--output "{SbomDirectory}" """ +
+                       $"""--filename {projectName.Replace('.', '-').ToLowerInvariant()}.bom.json --set-type library""");
+            }
         });
 }
