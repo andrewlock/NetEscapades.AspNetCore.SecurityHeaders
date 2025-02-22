@@ -56,11 +56,6 @@ jobs:
           path: ./artifacts/bin/NetEscapades.AspNetCore.SecurityHeaders
           output-file: ./artifacts/sboms/netescapades-aspnetcore-securityheaders.spdx.json
 
-      - uses: anchore/sbom-action@v0
-        with:
-          path: ./artifacts/bin/NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
-          output-file: ./artifacts/sboms/netescapades-aspnetcore-securityheaders-taghelpers.spdx.json
-
       - uses: actions/upload-artifact@v4
         if: '${{ matrix.os}}' == 'windows'
         with:
