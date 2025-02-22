@@ -22,6 +22,8 @@ class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
+    readonly string Version = "1.0.0-preview.3"; 
+    
     [Solution] readonly Solution Solution;
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
@@ -48,6 +50,7 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetRestore(s => s
+                .SetProperty("Version", Version)
                 .SetProjectFile(Solution));
         });
 
@@ -59,6 +62,7 @@ class Build : NukeBuild
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
                 .SetProperty("ContinuousIntegrationBuild", "true")
+                .SetProperty("Version", Version)
                 .EnableNoRestore());
         });
 
@@ -69,6 +73,7 @@ class Build : NukeBuild
             DotNetTest(s => s
                 .SetProjectFile(Solution)
                 .SetConfiguration(Configuration)
+                .SetProperty("Version", Version)
                 .When(IsServerBuild, x => x
                     .SetLoggers("trx")
                     .SetResultsDirectory(TestResultsDirectory))
@@ -88,6 +93,7 @@ class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .SetOutputDirectory(OuptutPackagesDirectory)
                 .SetProperty("ContinuousIntegrationBuild", "true")
+                .SetProperty("Version", Version)
                 .EnableNoBuild()
                 .EnableNoRestore()
                 .CombineWith(projects, (x, project) => x

@@ -1,7 +1,5 @@
 <Project>
 
-  <Import Project="version.props" />
-
   <PropertyGroup>
     <Authors>Andrew Lock</Authors>
     <Product>NetEscapades.AspNetCore.SecurityHeaders</Product>
