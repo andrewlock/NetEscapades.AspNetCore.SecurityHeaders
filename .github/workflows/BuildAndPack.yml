@@ -26,10 +26,8 @@ jobs:
       MSBuildEnableWorkloadResolver: false
     name: ${{ matrix.os}}
     runs-on: ${{ matrix.vm}}
-    permissions:
-      id-token: write
-      contents: read
-      attestations: write
+    outputs:
+      hashes: ${{ steps.hash.outputs.hashes }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
@@ -66,16 +64,31 @@ jobs:
           name: sboms
           path: artifacts/sboms
 
-      - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: 'artifacts/packages/*.nupkg'
+      - name: Generate hashes
+        if: ${{ matrix.os == 'windows' }}
+        shell: bash
+        id: hash
+        run: |
+          # sha256sum generates sha256 hash for all artifacts.
+          # base64 -w0 encodes to base64 and outputs on a single line.
+          # sha256sum artifact1 artifact2 ... | base64 -w0
+          echo "hashes=$(sha256sum artifacts/packages/* | base64 -w0)" >> "$GITHUB_OUTPUT"
 
       - uses: actions/upload-artifact@v4
         with:
           name: results-${{ matrix.os}}
           path: artifacts/results
 
+  provenance:
+    needs: [build-and-test]
+    permissions:
+      actions: read
+      id-token: write
+      contents: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.0.0
+    with:
+      base64-subjects: "${{ needs.build.outputs.hashes }}"
+      
   generate-attestations:
     name: "Generate attestations"
     needs: build-and-test
