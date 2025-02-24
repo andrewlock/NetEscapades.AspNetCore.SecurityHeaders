@@ -73,6 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
+      contents: read
       attestations: write
 
     steps:
@@ -99,6 +100,11 @@ jobs:
         with:
           subject-path: artifacts/packages/NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.*.nupkg
           sbom-path: artifacts/sboms/netescapades-aspnetcore-securityheaders-taghelpers.bom.json
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: 'artifacts/packages/*.nupkg'
 
   publish-test-results:
     name: "Publish Tests Results"
