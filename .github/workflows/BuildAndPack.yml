@@ -26,10 +26,6 @@ jobs:
       MSBuildEnableWorkloadResolver: false
     name: ${{ matrix.os}}
     runs-on: ${{ matrix.vm}}
-    permissions:
-      id-token: write
-      contents: read
-      attestations: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
@@ -65,11 +61,6 @@ jobs:
         with:
           name: sboms
           path: artifacts/sboms
-
-      - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: 'artifacts/packages/*.nupkg'
 
       - uses: actions/upload-artifact@v4
         with:
@@ -110,6 +101,10 @@ jobs:
           subject-path: artifacts/packages/NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.*.nupkg
           sbom-path: artifacts/sboms/netescapades-aspnetcore-securityheaders-taghelpers.bom.json
 
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: 'artifacts/packages/*.nupkg'
 
   publish-test-results:
     name: "Publish Tests Results"
