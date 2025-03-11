@@ -18,10 +18,11 @@
     <PackageIcon>icon.png</PackageIcon>
     <UseArtifactsOutput>true</UseArtifactsOutput>
     <ArtifactsPath>$(msbuildthisfiledirectory)artifacts</ArtifactsPath>
+    <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildThisFileDirectory)/ReleaseNotes.md"))</PackageReleaseNotes>
+    <PackageReleaseNotes>$(PackageReleaseNotes)
+      See $(PackageProjectUrl)/blob/master/CHANGELOG.md#v$(Version.Replace('.','')) for more details.</PackageReleaseNotes>
   </PropertyGroup>
 
-  <Import Project="releasenotes.props" />
-  
   <ItemGroup>
     <None Include="..\..\icon.png" Pack="true" PackagePath="\"/>
     <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
