@@ -33,7 +33,6 @@ class Build : NukeBuild
     AbsolutePath TestResultsDirectory => ArtifactsDirectory / "results";
     AbsolutePath SbomDirectory => ArtifactsDirectory / "sboms";
 
-    [Parameter] readonly string GithubToken;
     [Parameter] readonly string NuGetToken;
     const string NugetOrgUrl = "https://api.nuget.org/v3/index.json";
     bool IsTag => GitHubActions.Instance?.Ref.StartsWith("refs/tags/") ?? false;
