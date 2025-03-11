@@ -46,8 +46,7 @@ jobs:
       - name: Run './build.cmd Test Pack PushToNuGet GenerateSbom'
         run: ./build.cmd Test Pack PushToNuGet GenerateSbom
         env:
-          GithubToken: ${{ secrets.GITHUB_TOKEN }}
-          NuGetToken: ${{ secrets.NUGET_TOKEN }}
+          NuGetToken: ${{ secrets.NUGET_TOKEN || 'NOT_SET'}}
           DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "true"
 
       - uses: actions/upload-artifact@v4
