@@ -18,7 +18,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <UseArtifactsOutput>true</UseArtifactsOutput>
     <ArtifactsPath>$(msbuildthisfiledirectory)artifacts</ArtifactsPath>
-    <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/ReleaseNotes.md"))</PackageReleaseNotes>
+    <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildThisFileDirectory)/ReleaseNotes.md"))</PackageReleaseNotes>
     <PackageReleaseNotes>$(PackageReleaseNotes)
       See $(PackageProjectUrl)/blob/master/CHANGELOG.md#v$(Version.Replace('.','')) for more details.</PackageReleaseNotes>
   </PropertyGroup>
