@@ -1,5 +1,12 @@
 # Changelog
 
+## [v1.0.0-preview.5]
+
+Build updates:
+
+* Allow building from forks #232
+* Try to fix release generation #231
+
 ## [v1.0.0-preview.4]
 
 Build updates:
