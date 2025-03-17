@@ -109,26 +109,28 @@ jobs:
         with:
           subject-path: 'artifacts/packages/*.nupkg'
 
+      - name: Read ReleaseNotes.md
+        id: release_notes
+        uses: jaywcjlove/github-action-read-file@546dbc91f1187996f2ef0f5a199a9a4af05a978b #v2.0.0
+        with:
+          localfile: ReleaseNotes.md
+
       - name: Create Release
         uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda # v2.2.1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           fail_on_unmatched_files: true
-          body_path: ReleaseNotes.md
           files: |
             artifacts/packages/*.nupkg
             artifacts/sboms/netescapades-aspnetcore-securityheaders.bom.json
             artifacts/sboms/netescapades-aspnetcore-securityheaders-taghelpers.bom.json
-
-      - name: Update Release with attestations
-        uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda # v2.2.1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          append_body: true
           body: |
+            ${{steps.release_notes.outputs.content}}
             
+            ---
+
             All NuGet packages are available on https://www.nuget.org.
-            You can view the provenance attestation for the packages at ${{ steps.artifact-attestation.outputs.attestation-url }}.
+            You can view the provenance attestation for [the NuGet packages here](${{ steps.artifact-attestation.outputs.attestation-url }}).
 
             To verify the provenance for a given downloaded NuGet package, you can use the GitHub CLI:
 
@@ -137,9 +139,8 @@ jobs:
             ```
             
             The Software Bill of Materials (SBOM) is available for each package in CycloneDX format, and is attached to the relase.
-            View the provenance attestation for the NetEscapades.AspNetCore.SecurityHeaders SBOM at ${{ steps.nupkg-sbom.outputs.attestation-url }}.
-            and for the NetEscapades.AspNetCore.SecurityHeaders.TagHelpers SBOM at ${{ steps.taghelpers-sbom.outputs.attestation-url }}.
-            
+            View the provenance attestation for [the NetEscapades.AspNetCore.SecurityHeaders SBOM here](${{ steps.nupkg-sbom.outputs.attestation-url }}).
+            and for [the NetEscapades.AspNetCore.SecurityHeaders.TagHelpers SBOM here](${{ steps.taghelpers-sbom.outputs.attestation-url }}).
 
   publish-test-results:
     name: "Publish Tests Results"
