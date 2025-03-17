@@ -9,9 +9,6 @@
         "Release"
       ]
     },
-    "GithubToken": {
-      "type": "string"
-    },
     "NuGetToken": {
       "type": "string"
     },
