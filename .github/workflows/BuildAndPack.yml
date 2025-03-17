@@ -113,7 +113,7 @@ jobs:
         id: release_notes
         uses: jaywcjlove/github-action-read-file@546dbc91f1187996f2ef0f5a199a9a4af05a978b #v2.0.0
         with:
-          path: ReleaseNotes.md
+          localfile: ReleaseNotes.md
 
       - name: Create Release
         uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda # v2.2.1
