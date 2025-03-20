@@ -688,6 +688,75 @@ If you aren't using Razor, or don't want to use the TagHelpers library, you can 
 string nonce = HttpContext.GetNonce();
 ```
 
+# Verifying NuGet provenance attestations
+
+All releases of the NuGet packages in this repository include provenance attestations, a Software Bill of Materials (SBOM),
+and attestations for the SBOMs. These attestations are generated based on the NuGet packages created in the pipeline. 
+However, [nuget.org modifies any uploaded packages]((https://andrewlock.net/creating-provenance-attestations-for-nuget-packages-in-github-actions/#and-now-for-the-bad-news)) 
+to include a signature file, which changes the SHA of the packages.
+
+To verify the provenance for a given downloaded NuGet package from nuget.org, you must first reverse the signature file
+modification, to reconstruct the package for which the attestation was made. You can then use the GitHub CLI to verify
+the provenance of the package and the associated SBOMs.
+
+To remove the signature file on Linux or macOS, you can use the `zip` utility:
+
+```bash
+file="path/to/NetEscapades.AspNetCore.SecurityHeaders.1.0.0.nupkg"
+zip -d $file .signature.p7s
+```
+
+alternatively, use PowerShell and .NET to remove the `.signature.p7s` file: 
+
+```powershell
+$file="path/to/NetEscapades.AspNetCore.SecurityHeaders.1.0.0.nupkg"
+[Reflection.Assembly]::LoadWithPartialName('System.IO.Compression')
+$stream = New-Object IO.FileStream($file, [IO.FileMode]::Open)
+$zip    = New-Object IO.Compression.ZipArchive($stream, [IO.Compression.ZipArchiveMode]::Update)
+$zip.Entries | ? { $_.Name -eq ".signature.p7s" } | % { $_.Delete() }
+$zip.Dispose();
+```
+
+You can then verify the provenance of the package using [the GitHub CLI](https://cli.github.com/):
+
+```bash
+gh attestation verify --owner andrewlock "NetEscapades.AspNetCore.SecurityHeaders.1.0.0.nupkg"
+gh attestation verify --owner andrewlock "NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.1.0.0.nupkg"
+```
+
+on success, this displays output similar to the following:
+
+```bash
+Loaded digest sha256:bf809ff0ed6a8a31131df4391b169e35ded44d4dfd97cc797123441683a95c9f for file://NetEscapades.AspNetCore.SecurityHeaders.1.0.0.nupkg
+Loaded 2 attestations from GitHub API
+
+The following policy criteria will be enforced:
+- Predicate type must match:................ https://slsa.dev/provenance/v1
+- Source Repository Owner URI must match:... https://github.com/andrewlock
+- Subject Alternative Name must match regex: (?i)^https://github.com/andrewlock/
+- OIDC Issuer must match:................... https://token.actions.githubusercontent.com
+
+✓ Verification succeeded!
+
+The following 1 attestation matched the policy criteria
+
+- Attestation #1
+  - Build repo:..... andrewlock/NetEscapades.AspNetCore.SecurityHeaders
+  - Build workflow:. .github/workflows/BuildAndPack.yml@refs/tags/v1.0.0
+  - Signer repo:.... andrewlock/NetEscapades.AspNetCore.SecurityHeaders
+  - Signer workflow: .github/workflows/BuildAndPack.yml@refs/tags/v1.0.0
+```
+
+SBOMs are provided in the GitHub release for the packages using the [CycloneDX standard](https://cyclonedx.org/). 
+As for build provenance, attestations for the SBOMs must be verified against the _.nupkg_ files
+with the `.signature.p7s` file removed. Assuming you have modified the _.nupkg_ files to remove the signature file, as described above,
+you can verify the SBOM attestations by specifying the `--predicate-type`:
+
+```bash
+gh attestation verify --owner andrewlock --predicate-type https://cyclonedx.org/bom "NetEscapades.AspNetCore.SecurityHeaders.1.0.0nupkg"
+gh attestation verify --owner andrewlock --predicate-type https://cyclonedx.org/bom "NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.1.0.0.nupkg"
+```
+
 ## Additional Resources
 
 * [ASP.NET Core Middleware Docs](https://docs.asp.net/en/latest/fundamentals/middleware.html)

@@ -121,7 +121,6 @@ jobs:
         with:
           fail_on_unmatched_files: true
           files: |
-            artifacts/packages/*.nupkg
             artifacts/sboms/netescapades-aspnetcore-securityheaders.bom.json
             artifacts/sboms/netescapades-aspnetcore-securityheaders-taghelpers.bom.json
           body: |
@@ -129,18 +128,17 @@ jobs:
             
             ---
 
-            All NuGet packages are available on https://www.nuget.org.
-            You can view the provenance attestation for [the NuGet packages here](${{ steps.artifact-attestation.outputs.attestation-url }}).
-
-            To verify the provenance for a given downloaded NuGet package, you can use the GitHub CLI:
-
-            ```bash
-            gh attestation verify --owner andrewlock <filename-or-url>
-            ```
+            All NuGet packages are available on https://www.nuget.org. You can view the build provenance attestation 
+            for [the NuGet packages here](${{ steps.artifact-attestation.outputs.attestation-url }}).
             
-            The Software Bill of Materials (SBOM) is available for each package in CycloneDX format, and is attached to the relase.
-            View the provenance attestation for [the NetEscapades.AspNetCore.SecurityHeaders SBOM here](${{ steps.nupkg-sbom.outputs.attestation-url }}).
-            and for [the NetEscapades.AspNetCore.SecurityHeaders.TagHelpers SBOM here](${{ steps.taghelpers-sbom.outputs.attestation-url }}).
+            The Software Bill of Materials (SBOM) is available for each package in CycloneDX format. View the provenance
+            attestations for the SBOMs here:
+            - [NetEscapades.AspNetCore.SecurityHeaders SBOM](${{ steps.nupkg-sbom.outputs.attestation-url }})
+            - [NetEscapades.AspNetCore.SecurityHeaders.TagHelpers SBOM](${{ steps.taghelpers-sbom.outputs.attestation-url }})
+
+            > [!NOTE]
+            > You cannot assert the provenance of the _.nupkg_ packages downloaded from nuget.org directly. First, you
+            > must remove the `.signature.p7s` file, [as described here](https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders#verifying-nuget-provenance-attestations). 
 
   publish-test-results:
     name: "Publish Tests Results"
