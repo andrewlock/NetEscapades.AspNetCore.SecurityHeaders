@@ -18,7 +18,7 @@ PM> Install-Package NetEscapades.AspNetCore.SecurityHeaders
 Or using the `dotnet` CLI
 
 ```bash
-dotnet add package NetEscapades.AspNetCore.SecurityHeaders --version 1.0.0-preview.4
+dotnet add package NetEscapades.AspNetCore.SecurityHeaders --version 1.0.0
 ```
 
 ## Usage
@@ -33,7 +33,7 @@ When you install the package, it should be added to your `.csproj`. Alternativel
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.0.0-preview.4" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.0.0" />
   </ItemGroup>
   
 </Project>
@@ -554,7 +554,7 @@ To use a nonce or an auto-generated hash with your ASP.NET Core application, use
 For example:
 
 ```bash
-dotnet package add Install-Package NetEscapades.AspNetCore.SecurityHeaders.TagHelpers --version 1.0.0-preview.4
+dotnet package add Install-Package NetEscapades.AspNetCore.SecurityHeaders.TagHelpers
 ```
 
 This adds the package to your _.csproj_ file:
@@ -567,8 +567,8 @@ This adds the package to your _.csproj_ file:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.0.0-preview.4" />
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="1.0.0-preview.4" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.0.0" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="1.0.0" />
   </ItemGroup>
   
 </Project>
@@ -753,7 +753,7 @@ with the `.signature.p7s` file removed. Assuming you have modified the _.nupkg_ 
 you can verify the SBOM attestations by specifying the `--predicate-type`:
 
 ```bash
-gh attestation verify --owner andrewlock --predicate-type https://cyclonedx.org/bom "NetEscapades.AspNetCore.SecurityHeaders.1.0.0nupkg"
+gh attestation verify --owner andrewlock --predicate-type https://cyclonedx.org/bom "NetEscapades.AspNetCore.SecurityHeaders.1.0.0.nupkg"
 gh attestation verify --owner andrewlock --predicate-type https://cyclonedx.org/bom "NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.1.0.0.nupkg"
 ```
 
