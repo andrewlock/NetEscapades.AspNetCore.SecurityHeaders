@@ -6,7 +6,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers;
 /// <summary>
 /// A collection of sources for a given directive
 /// </summary>
-public class SourceCollection : IEnumerable<string>
+public sealed class SourceCollection : IEnumerable<string>
 {
     private readonly List<string> _sources = [];
 
@@ -26,6 +26,20 @@ public class SourceCollection : IEnumerable<string>
         if (!_sources.Contains(source))
         {
             _sources.Add(source);
+        }
+    }
+
+    /// <summary>
+    /// Adds a source to the collection for the given directive.
+    /// Calls to <see cref="AddRange"/> are idempotent;
+    /// if the source has already been added, it will not be added again.
+    /// </summary>
+    /// <param name="sources">The sources to add</param>
+    public void AddRange(IEnumerable<string> sources)
+    {
+        foreach (var source in sources)
+        {
+            Add(source);
         }
     }
 
