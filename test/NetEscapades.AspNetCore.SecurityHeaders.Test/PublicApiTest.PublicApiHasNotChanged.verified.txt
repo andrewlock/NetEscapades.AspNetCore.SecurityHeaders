@@ -599,6 +599,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
         public SourceCollection() { }
         public int Count { get; }
         public void Add(string source) { }
+        public void AddRange(System.Collections.Generic.IEnumerable<string> sources) { }
         public System.Collections.Generic.IEnumerator<string> GetEnumerator() { }
         public bool Remove(string source) { }
     }

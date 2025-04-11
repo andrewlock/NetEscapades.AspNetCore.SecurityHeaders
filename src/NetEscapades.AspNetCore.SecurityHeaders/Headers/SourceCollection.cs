@@ -30,6 +30,20 @@ public class SourceCollection : IEnumerable<string>
     }
 
     /// <summary>
+    /// Adds a source to the collection for the given directive.
+    /// Calls to <see cref="AddRange"/> are idempotent;
+    /// if the source has already been added, it will not be added again.
+    /// </summary>
+    /// <param name="sources">The sources to add</param>
+    public void AddRange(IEnumerable<string> sources)
+    {
+        foreach (var source in sources)
+        {
+            Add(source);
+        }
+    }
+
+    /// <summary>
     /// Removes a source from the collection for the given directive.
     /// Returns true if the source was removed. Returns false if the
     /// source was not found in the collection.
