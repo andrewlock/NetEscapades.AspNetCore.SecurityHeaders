@@ -1,7 +1,7 @@
 ﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 /// <summary>
-/// The manifest-src directive specifies which manifest can be applied to the resource.
+/// The <c>manifest-src</c> directive specifies which manifest can be applied to the resource.
 /// </summary>
 public class ManifestSourceDirectiveBuilder : CspDirectiveBuilder
 {

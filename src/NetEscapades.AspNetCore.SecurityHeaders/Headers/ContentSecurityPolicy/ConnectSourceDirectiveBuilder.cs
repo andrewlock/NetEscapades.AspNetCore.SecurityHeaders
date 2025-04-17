@@ -1,7 +1,7 @@
 ﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 /// <summary>
-/// The connect-src directive restricts the URLs which can be loaded using script interfaces
+/// The <c>connect-src</c> directive restricts the URLs which can be loaded using script interfaces
 /// The APIs that are restricted are:  &lt;a&gt; ping, Fetch, XMLHttpRequest, WebSocket, and EventSource.
 /// </summary>
 public class ConnectSourceDirectiveBuilder : CspDirectiveBuilder

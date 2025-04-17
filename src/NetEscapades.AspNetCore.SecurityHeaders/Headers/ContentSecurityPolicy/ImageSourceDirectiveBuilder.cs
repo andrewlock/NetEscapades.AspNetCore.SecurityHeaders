@@ -1,7 +1,7 @@
 ﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 /// <summary>
-/// The img-src directive specifies valid sources of images and favicons.
+/// The <c>img-src</c> directive specifies valid sources of images and favicons.
 /// </summary>
 public class ImageSourceDirectiveBuilder : CspDirectiveBuilder
 {
