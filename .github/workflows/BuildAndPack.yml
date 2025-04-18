@@ -69,7 +69,9 @@ jobs:
   generate-attestations-and-release:
     name: "Generate attestations and Create Release"
     needs: build-and-test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-lates
+    # don't run on forks because  they won't have permission
+    if: github.repository == 'andrewlock/NetEscapades.AspNetCore.SecurityHeaders'
     permissions:
       id-token: write
       contents: write # write required for release creation
