@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -31,11 +32,25 @@ public class SourceCollection : IEnumerable<string>
 
     /// <summary>
     /// Adds a source to the collection for the given directive.
-    /// Calls to <see cref="AddRange"/> are idempotent;
+    /// Calls to <see cref="AddRange(System.ReadOnlySpan{string})"/> are idempotent;
     /// if the source has already been added, it will not be added again.
     /// </summary>
     /// <param name="sources">The sources to add</param>
-    public void AddRange(IEnumerable<string> sources)
+    public void AddRange(params ReadOnlySpan<string> sources)
+    {
+        foreach (var source in sources)
+        {
+            Add(source);
+        }
+    }
+
+    /// <summary>
+    /// Adds a source to the collection for the given directive.
+    /// Calls to <see cref="AddRange(IEnumerable{string})"/> are idempotent;
+    /// if the source has already been added, it will not be added again.
+    /// </summary>
+    /// <param name="sources">The sources to add</param>
+    public void AddRange(params IEnumerable<string> sources)
     {
         foreach (var source in sources)
         {
