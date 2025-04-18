@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 /// <summary>
-/// The sandbox directive enables a sandbox for the requested resource similar
+/// The <c>sandbox</c> directive enables a sandbox for the requested resource similar
 /// to the &lt;script&gt; sandbox attribute. It applies restrictions to a
 /// page's actions including preventing popups, preventing the execution
 /// of plugins and scripts, and enforcing a same-origin policy.

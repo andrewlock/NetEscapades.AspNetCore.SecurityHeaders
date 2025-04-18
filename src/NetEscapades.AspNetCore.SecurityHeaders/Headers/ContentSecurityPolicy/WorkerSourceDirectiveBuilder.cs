@@ -1,7 +1,7 @@
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 /// <summary>
-/// The worker-src directive specifies valid sources for Worker, SharedWorker, or ServiceWorker scripts.
+/// The <c>worker-src</c> directive specifies valid sources for Worker, SharedWorker, or ServiceWorker scripts.
 /// </summary>
 public class WorkerSourceDirectiveBuilder : CspDirectiveBuilder
 {

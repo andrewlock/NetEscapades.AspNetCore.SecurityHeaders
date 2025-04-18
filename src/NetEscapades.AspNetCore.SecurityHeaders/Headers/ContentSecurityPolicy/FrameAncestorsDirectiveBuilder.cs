@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 /// <summary>
-/// The frame-ancestors directive specifies valid parents that may embed a page using
+/// The <c>frame-ancestors</c> directive specifies valid parents that may embed a page using
 /// &lt;frame&gt;, &lt;iframe&gt;, &lt;object&gt;, &lt;embed&gt;, or &lt;applet&gt;.
 /// Setting this directive to 'none' is similar to X-Frame-Options: DENY (which is also supported in older browers).
 /// </summary>

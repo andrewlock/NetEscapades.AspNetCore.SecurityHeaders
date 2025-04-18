@@ -1,7 +1,7 @@
 ﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 /// <summary>
-/// The style-src directive specifies valid sources for sources for stylesheets.
+/// The <c>style-src</c> directive specifies valid sources for sources for stylesheets.
 /// </summary>
 public class StyleSourceDirectiveBuilder : CspDirectiveBuilder
 {

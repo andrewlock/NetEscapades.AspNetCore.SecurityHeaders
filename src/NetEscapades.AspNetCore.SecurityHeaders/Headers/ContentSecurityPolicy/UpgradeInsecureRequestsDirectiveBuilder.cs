@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 /// <summary>
-/// The upgrade-insecure-requests directive instructs user agents to treat all of a
+/// The <c>upgrade-insecure-requests</c> directive instructs user agents to treat all of a
 /// site's insecure URLs (those served over HTTP) as though they have been
 /// replaced with secure URLs (those served over HTTPS). This directive is
 /// intended for web sites with large numbers of insecure legacy URLs that need to be rewritten.

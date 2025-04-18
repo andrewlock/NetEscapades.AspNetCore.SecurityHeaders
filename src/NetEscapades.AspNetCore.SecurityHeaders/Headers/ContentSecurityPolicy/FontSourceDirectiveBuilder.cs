@@ -1,7 +1,7 @@
 ﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 /// <summary>
-/// The font-src directive specifies valid sources for fonts loaded using @font-face.
+/// The <c>font-src</c> directive specifies valid sources for fonts loaded using @font-face.
 /// </summary>
 public class FontSourceDirectiveBuilder : CspDirectiveBuilder
 {

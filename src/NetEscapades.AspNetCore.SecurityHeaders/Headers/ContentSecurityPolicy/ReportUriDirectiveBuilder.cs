@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 /// <summary>
-/// The report-uri directive instructs the user agent to report attempts to
+/// The <c>report-uri</c> directive instructs the user agent to report attempts to
 /// violate the Content Security Policy. These violation reports consist of
 /// JSON documents sent via an HTTP POST request to the specified URI.
 /// </summary>
