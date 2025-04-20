@@ -267,6 +267,7 @@ namespace Microsoft.AspNetCore.Builder
     }
     public static class XFrameOptionsHeaderExtensions
     {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddFrameOptionsAllowFrom(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, string uri) { }
         public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddFrameOptionsDeny(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
         public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddFrameOptionsSameOrigin(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
         public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddFrameOptionsSameOrigin(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, string uri) { }
