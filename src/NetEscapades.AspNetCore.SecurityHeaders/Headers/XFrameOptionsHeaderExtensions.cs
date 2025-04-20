@@ -38,6 +38,16 @@ public static class XFrameOptionsHeaderExtensions
     /// <param name="uri">The uri of the origin in which the page may be displayed in a frame</param>
     /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
     public static HeaderPolicyCollection AddFrameOptionsSameOrigin(this HeaderPolicyCollection policies, string uri)
+        => policies.AddFrameOptionsAllowFrom(uri);
+
+    /// <summary>
+    /// Add X-Frame-Options ALLOW-FROM {uri} to all requests, where the uri is provided
+    /// The page can only be displayed in a frame on the specified origin.
+    /// </summary>
+    /// <param name="policies">The collection of policies</param>
+    /// <param name="uri">The uri of the origin in which the page may be displayed in a frame</param>
+    /// <returns>The <see cref="HeaderPolicyCollection"/> for method chaining</returns>
+    public static HeaderPolicyCollection AddFrameOptionsAllowFrom(this HeaderPolicyCollection policies, string uri)
     {
         return policies.ApplyPolicy(new XFrameOptionsHeader($"ALLOW-FROM {uri}"));
     }
