@@ -1,5 +1,14 @@
 # Changelog
 
+## [v1.1.0]
+
+### Changes from 1.0.0-1.1.0:
+
+Features:
+* Add `AddRange()` to `SourceCollection` #240, #242 (Thanks [@rankobp](https://github.com/rankobp))
+* Improve CSP documentation #241 (Thanks [@Meir017](https://github.com/Meir017))
+* Add `X-Frame-Options ALLOW-FROM` with correct method name `AddFrameOptionsAllowFrom()` #244
+
 ## [v1.0.0]
 
 ### Changes from 0.24.0-1.0.0:

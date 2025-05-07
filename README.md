@@ -18,7 +18,7 @@ PM> Install-Package NetEscapades.AspNetCore.SecurityHeaders
 Or using the `dotnet` CLI
 
 ```bash
-dotnet add package NetEscapades.AspNetCore.SecurityHeaders --version 1.0.0
+dotnet add package NetEscapades.AspNetCore.SecurityHeaders --version 1.1.0
 ```
 
 ## Usage
@@ -33,7 +33,7 @@ When you install the package, it should be added to your `.csproj`. Alternativel
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.0.0" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.1.0" />
   </ItemGroup>
   
 </Project>
@@ -567,8 +567,8 @@ This adds the package to your _.csproj_ file:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.0.0" />
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="1.0.0" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.1.0" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="1.1.0" />
   </ItemGroup>
   
 </Project>
@@ -702,14 +702,14 @@ the provenance of the package and the associated SBOMs.
 To remove the signature file on Linux or macOS, you can use the `zip` utility:
 
 ```bash
-file="path/to/NetEscapades.AspNetCore.SecurityHeaders.1.0.0.nupkg"
+file="path/to/NetEscapades.AspNetCore.SecurityHeaders.1.1.0.nupkg"
 zip -d $file .signature.p7s
 ```
 
 alternatively, use PowerShell and .NET to remove the `.signature.p7s` file: 
 
 ```powershell
-$file="path/to/NetEscapades.AspNetCore.SecurityHeaders.1.0.0.nupkg"
+$file="path/to/NetEscapades.AspNetCore.SecurityHeaders.1.1.0.nupkg"
 [Reflection.Assembly]::LoadWithPartialName('System.IO.Compression')
 $stream = New-Object IO.FileStream($file, [IO.FileMode]::Open)
 $zip    = New-Object IO.Compression.ZipArchive($stream, [IO.Compression.ZipArchiveMode]::Update)
@@ -720,14 +720,14 @@ $zip.Dispose();
 You can then verify the provenance of the package using [the GitHub CLI](https://cli.github.com/):
 
 ```bash
-gh attestation verify --owner andrewlock "NetEscapades.AspNetCore.SecurityHeaders.1.0.0.nupkg"
-gh attestation verify --owner andrewlock "NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.1.0.0.nupkg"
+gh attestation verify --owner andrewlock "NetEscapades.AspNetCore.SecurityHeaders.1.1.0.nupkg"
+gh attestation verify --owner andrewlock "NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.1.1.0.nupkg"
 ```
 
 on success, this displays output similar to the following:
 
 ```bash
-Loaded digest sha256:bf809ff0ed6a8a31131df4391b169e35ded44d4dfd97cc797123441683a95c9f for file://NetEscapades.AspNetCore.SecurityHeaders.1.0.0.nupkg
+Loaded digest sha256:bf809ff0ed6a8a31131df4391b169e35ded44d4dfd97cc797123441683a95c9f for file://NetEscapades.AspNetCore.SecurityHeaders.1.1.0.nupkg
 Loaded 2 attestations from GitHub API
 
 The following policy criteria will be enforced:
@@ -742,9 +742,9 @@ The following 1 attestation matched the policy criteria
 
 - Attestation #1
   - Build repo:..... andrewlock/NetEscapades.AspNetCore.SecurityHeaders
-  - Build workflow:. .github/workflows/BuildAndPack.yml@refs/tags/v1.0.0
+  - Build workflow:. .github/workflows/BuildAndPack.yml@refs/tags/v1.1.0
   - Signer repo:.... andrewlock/NetEscapades.AspNetCore.SecurityHeaders
-  - Signer workflow: .github/workflows/BuildAndPack.yml@refs/tags/v1.0.0
+  - Signer workflow: .github/workflows/BuildAndPack.yml@refs/tags/v1.1.0
 ```
 
 SBOMs are provided in the GitHub release for the packages using the [CycloneDX standard](https://cyclonedx.org/). 
@@ -753,8 +753,8 @@ with the `.signature.p7s` file removed. Assuming you have modified the _.nupkg_ 
 you can verify the SBOM attestations by specifying the `--predicate-type`:
 
 ```bash
-gh attestation verify --owner andrewlock --predicate-type https://cyclonedx.org/bom "NetEscapades.AspNetCore.SecurityHeaders.1.0.0.nupkg"
-gh attestation verify --owner andrewlock --predicate-type https://cyclonedx.org/bom "NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.1.0.0.nupkg"
+gh attestation verify --owner andrewlock --predicate-type https://cyclonedx.org/bom "NetEscapades.AspNetCore.SecurityHeaders.1.1.0.nupkg"
+gh attestation verify --owner andrewlock --predicate-type https://cyclonedx.org/bom "NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.1.1.0``.nupkg"
 ```
 
 ## Additional Resources
