@@ -22,7 +22,7 @@ class Build : NukeBuild
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    readonly string Version = "1.0.0"; 
+    readonly string Version = "1.1.0"; 
     
     [Solution(GenerateProjects = true)] readonly Solution Solution;
 

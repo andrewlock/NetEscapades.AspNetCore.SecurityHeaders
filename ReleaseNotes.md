@@ -1,3 +1,10 @@
+## Changes in 1.1.0
+
+Features:
+* Add `AddRange()` to `SourceCollection` #240, #242 (Thanks [@rankobp](https://github.com/rankobp))
+* Improve CSP documentation #241 (Thanks [@Meir017](https://github.com/Meir017))
+* Add `X-Frame-Options ALLOW-FROM` with correct method name `AddFrameOptionsAllowFrom()` #244
+
 ## Changes in 1.0.0
 
 This marks the first major release of the _NetEscapades.AspNetCore.SecurityHeaders_. For simplicity, all the changes since 0.24.0 are included below.  
