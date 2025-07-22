@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NetEscapades.AspNetCore.SecurityHeaders;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
@@ -28,8 +30,8 @@ public static class SecurityHeadersMiddlewareExtensions
             throw new ArgumentNullException(nameof(policies));
         }
 
-        var opts = app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) as CustomHeaderOptions;
-        return app.UseMiddleware(policies, opts);
+        var options = app.ApplicationServices.GetService<IOptions<CustomHeaderOptions>>().Value;
+        return app.UseMiddleware(policies, options);
     }
 
     /// <summary>
@@ -65,8 +67,8 @@ public static class SecurityHeadersMiddlewareExtensions
             throw new ArgumentNullException(nameof(app));
         }
 
-        var options = app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) as CustomHeaderOptions;
-        var policy = options?.DefaultPolicy ?? new HeaderPolicyCollection().AddDefaultSecurityHeaders();
+        var options = app.ApplicationServices.GetService<IOptions<CustomHeaderOptions>>().Value;
+        var policy = options.DefaultPolicy ?? new HeaderPolicyCollection().AddDefaultSecurityHeaders();
 
         return app.UseMiddleware(policy, options);
     }
@@ -89,8 +91,8 @@ public static class SecurityHeadersMiddlewareExtensions
             throw new ArgumentNullException(nameof(policyName));
         }
 
-        var options = app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) as CustomHeaderOptions;
-        var policy = options?.GetPolicy(policyName);
+        var options = app.ApplicationServices.GetService<IOptions<CustomHeaderOptions>>().Value;
+        var policy = options.GetPolicy(policyName);
         if (policy is null)
         {
             throw new InvalidOperationException(
@@ -105,8 +107,8 @@ public static class SecurityHeadersMiddlewareExtensions
     private static IApplicationBuilder UseMiddleware(
         this IApplicationBuilder app,
         IReadOnlyHeaderPolicyCollection policies,
-        CustomHeaderOptions? options)
+        CustomHeaderOptions options)
     {
-        return app.UseMiddleware<SecurityHeadersMiddleware>(options ?? new(), policies);
+        return app.UseMiddleware<SecurityHeadersMiddleware>(options, policies);
     }
 }
