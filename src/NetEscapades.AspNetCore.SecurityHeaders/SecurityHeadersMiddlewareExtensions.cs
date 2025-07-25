@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NetEscapades.AspNetCore.SecurityHeaders;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
@@ -28,7 +30,7 @@ public static class SecurityHeadersMiddlewareExtensions
             throw new ArgumentNullException(nameof(policies));
         }
 
-        var opts = app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) as CustomHeaderOptions;
+        var opts = GetOptions(app.ApplicationServices);
         return app.UseMiddleware(policies, opts);
     }
 
@@ -65,7 +67,7 @@ public static class SecurityHeadersMiddlewareExtensions
             throw new ArgumentNullException(nameof(app));
         }
 
-        var options = app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) as CustomHeaderOptions;
+        var options = GetOptions(app.ApplicationServices);
         var policy = options?.DefaultPolicy ?? new HeaderPolicyCollection().AddDefaultSecurityHeaders();
 
         return app.UseMiddleware(policy, options);
@@ -89,7 +91,7 @@ public static class SecurityHeadersMiddlewareExtensions
             throw new ArgumentNullException(nameof(policyName));
         }
 
-        var options = app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) as CustomHeaderOptions;
+        var options = GetOptions(app.ApplicationServices);
         var policy = options?.GetPolicy(policyName);
         if (policy is null)
         {
@@ -108,5 +110,79 @@ public static class SecurityHeadersMiddlewareExtensions
         CustomHeaderOptions? options)
     {
         return app.UseMiddleware<SecurityHeadersMiddleware>(options ?? new(), policies);
+    }
+
+    private static CustomHeaderOptions? GetOptions(IServiceProvider services)
+    {
+        var allOpts = services.GetServices<CustomHeaderOptions>();
+        if (allOpts is null)
+        {
+            return null;
+        }
+
+        // Merge all the options
+        CustomHeaderOptions? merged = null;
+        ILogger? logger = null;
+
+        foreach (var opt in allOpts)
+        {
+            if (opt is null)
+            {
+                continue;
+            }
+
+            if (merged is null)
+            {
+                merged = opt;
+                continue;
+            }
+
+            logger = Merge(services, logger, merged, opt);
+        }
+
+        return merged;
+    }
+
+    private static ILogger? Merge(
+        IServiceProvider services,
+        ILogger? logger,
+        CustomHeaderOptions current,
+        CustomHeaderOptions next)
+    {
+        if (next.DefaultPolicy is not null)
+        {
+            if (current.DefaultPolicy is not null)
+            {
+                // TODO: Log warning
+                logger ??= services.GetRequiredService<ILogger<CustomHeaderOptions>>();
+            }
+
+            current.DefaultPolicy = next.DefaultPolicy;
+        }
+
+        if (next.PolicySelector is not null)
+        {
+            if (current.PolicySelector is not null)
+            {
+                // TODO: Log warning
+                logger ??= services.GetRequiredService<ILogger<CustomHeaderOptions>>();
+            }
+
+            current.PolicySelector = next.PolicySelector;
+        }
+
+        var policies = current.NamedPolicyCollections;
+        foreach (var kvp in next.NamedPolicyCollections)
+        {
+            if (policies.ContainsKey(kvp.Key))
+            {
+                // TODO: Log warning
+                logger ??= services.GetRequiredService<ILogger<CustomHeaderOptions>>();
+            }
+
+            policies[kvp.Key] = kvp.Value;
+        }
+
+        return logger;
     }
 }
