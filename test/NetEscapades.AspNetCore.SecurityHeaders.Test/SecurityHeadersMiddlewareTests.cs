@@ -120,7 +120,9 @@ public class SecurityHeadersMiddlewareTests
     public void HttpRequest_WithDefaultSecurityHeaders_WithUnknownNamedPolicy_ThrowsException()
     {
         // Arrange
-        var hostBuilder = new WebHostBuilder().Configure(app =>
+        var hostBuilder = new WebHostBuilder()
+            .UseSetting("suppressStatusMessages", "true")
+            .Configure(app =>
         {
             app.UseSecurityHeaders("Unknown name");
             app.Run(async context =>
