@@ -16,20 +16,20 @@ public class ReportingEndpointsHeaderBuilderTests
     [Test]
     [Arguments(null)]
     [Arguments("")]
-    public void Build_WhenNullName_Throws(string name)
+    public void Build_WhenNullName_Throws(string? name)
     {
         var builder = new ReportingEndpointsHeaderBuilder();
-        var act = () => builder.AddEndpoint(name, "http://localhost:80/");
+        var act = () => builder.AddEndpoint(name!, "http://localhost:80/");
         act.Should().ThrowExactly<ArgumentNullException>();
     }
 
     [Test]
     [Arguments(null)]
     [Arguments("")]
-    public void Build_WhenNullUrl_Throws(string url)
+    public void Build_WhenNullUrl_Throws(string? url)
     {
         var builder = new ReportingEndpointsHeaderBuilder();
-        var act = () => builder.AddDefaultEndpoint(url);
+        var act = () => builder.AddDefaultEndpoint(url!);
         act.Should().ThrowExactly<ArgumentNullException>();
     }
 

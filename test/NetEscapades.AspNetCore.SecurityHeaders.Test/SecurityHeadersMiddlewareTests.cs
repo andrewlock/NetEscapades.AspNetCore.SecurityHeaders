@@ -782,7 +782,7 @@ public class SecurityHeadersMiddlewareTests
     [Arguments(null)]
     [Arguments("application/json")]
     [Arguments("foo/bar")]
-    public async Task HttpRequest_WithCspHeaderAndDefaultContentTypes_SetsCspHeader(string requestContentType)
+    public async Task HttpRequest_WithCspHeaderAndDefaultContentTypes_SetsCspHeader(string? requestContentType)
     {
         // Arrange
         var hostBuilder = new WebHostBuilder().Configure(app =>
@@ -794,7 +794,7 @@ public class SecurityHeadersMiddlewareTests
             }));
             app.Run(async context =>
             {
-                context.Response.ContentType = requestContentType;
+                context.Response.ContentType = requestContentType!;
                 await context.Response.WriteAsync("Test response");
             });
         });
