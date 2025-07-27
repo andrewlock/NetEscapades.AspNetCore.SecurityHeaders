@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using FluentAssertions;
+using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
@@ -10,7 +11,7 @@ public class CustomHeadersResultTests
         // Arrange & Act
         var result = new CustomHeadersResult();
 
-        Assert.Empty(result.SetHeaders);
-        Assert.Empty(result.RemoveHeaders);
+        result.SetHeaders.Should().BeEmpty();
+        result.RemoveHeaders.Should().BeEmpty();
     }
 }

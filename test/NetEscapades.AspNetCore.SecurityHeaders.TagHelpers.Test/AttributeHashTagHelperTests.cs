@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -45,9 +46,9 @@ background: blue;
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
 
             // Assert
-            Assert.Equal(tagName, fixture.Output.TagName);
-            Assert.Equal([styleAttribute], fixture.Output.Attributes);
-            Assert.Empty(fixture.Output.Content.GetContent());
+            fixture.Output.TagName.Should().Be(tagName);
+            fixture.Output.Attributes.Should().BeEquivalentTo([styleAttribute]);
+            fixture.Output.Content.GetContent().Should().BeEmpty();
         }
 
         [Fact]
@@ -68,9 +69,9 @@ background: blue;
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
 
             // Assert
-            var hash = Assert.Single(tagHelper.ViewContext.HttpContext.GetStyleCSPHashes());
             var expected = "'sha256-NerDAUWfwD31YdZHveMrq0GLjsNFMwxLpZl0dPUeCcw='";
-            Assert.Equal(expected, hash);
+            var hash = tagHelper.ViewContext.HttpContext.GetStyleCSPHashes().Should().ContainSingle()
+                .Which.Should().Be(expected);
         }
 
         [Fact]
@@ -91,9 +92,9 @@ background: blue;
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
 
             // Assert
-            var hash = Assert.Single(tagHelper.ViewContext.HttpContext.GetStyleCSPHashes());
             var expected = "'sha384-YoSV9pxydVBLyyDpluNe9tQWgtUWlnzHS/zCvuNc30tEu0YwLQPRgNAXk+h06DXU'";
-            Assert.Equal(expected, hash);
+            tagHelper.ViewContext.HttpContext.GetStyleCSPHashes().Should().ContainSingle()
+                .Which.Should().Be(expected);
         }
 
         [Fact]
@@ -114,9 +115,9 @@ background: blue;
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
 
             // Assert
-            var hash = Assert.Single(tagHelper.ViewContext.HttpContext.GetStyleCSPHashes());
             var expected = "'sha256-ly/Q8sGjROqYelSQCwIsD00L09JdMcVcMFTDyK7N7GM='";
-            Assert.Equal(expected, hash);
+            tagHelper.ViewContext.HttpContext.GetStyleCSPHashes().Should().ContainSingle()
+                .Which.Should().Be(expected);
         }
 
         [Fact]
@@ -136,9 +137,9 @@ background: blue;
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
 
             // Assert
-            Assert.Equal(tagName, fixture.Output.TagName);
-            Assert.Empty(fixture.Output.Attributes);
-            Assert.Empty(fixture.Output.Content.GetContent());
+            fixture.Output.TagName.Should().Be(tagName);
+            fixture.Output.Attributes.Should().BeEmpty();
+            fixture.Output.Content.GetContent().Should().BeEmpty();
         }
 
         [Fact]
@@ -159,9 +160,9 @@ background: blue;
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
 
             // Assert
-            Assert.Equal(tagName, fixture.Output.TagName);
-            Assert.Equal([inlineScriptAttribute], fixture.Output.Attributes);
-            Assert.Empty(fixture.Output.Content.GetContent());
+            fixture.Output.TagName.Should().Be(tagName);
+            fixture.Output.Attributes.Should().BeEquivalentTo([inlineScriptAttribute]);
+            fixture.Output.Content.GetContent().Should().BeEmpty();
         }
 
         [Fact]
@@ -182,9 +183,9 @@ background: blue;
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
 
             // Assert
-            var hash = Assert.Single(tagHelper.ViewContext.HttpContext.GetScriptCSPHashes());
             var expected = "'sha256-1lzfyKjJuCLGsHTaOB3al0SElf3ats68l7XOAdrWd+E='";
-            Assert.Equal(expected, hash);
+            tagHelper.ViewContext.HttpContext.GetScriptCSPHashes().Should().ContainSingle()
+                .Which.Should().Be(expected);
         }
 
         [Fact]
@@ -215,13 +216,12 @@ background: blue;
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
 
             // Assert
-            var styleHash = Assert.Single(tagHelper.ViewContext.HttpContext.GetStyleCSPHashes());
-            var scriptHash = Assert.Single(tagHelper.ViewContext.HttpContext.GetScriptCSPHashes());
             var expectedStyleHash = "'sha256-NerDAUWfwD31YdZHveMrq0GLjsNFMwxLpZl0dPUeCcw='";
             var expectedScriptHash = "'sha256-1lzfyKjJuCLGsHTaOB3al0SElf3ats68l7XOAdrWd+E='";
-
-            Assert.Equal(expectedStyleHash, styleHash);
-            Assert.Equal(expectedScriptHash, scriptHash);
+            tagHelper.ViewContext.HttpContext.GetStyleCSPHashes().Should().ContainSingle()
+                .Which.Should().Be(expectedStyleHash);
+            tagHelper.ViewContext.HttpContext.GetScriptCSPHashes().Should().ContainSingle()
+                .Which.Should().Be(expectedScriptHash);
         }
 
         private static Fixture CreateFixture(string id, string tagName, params TagHelperAttribute[] attributes)
