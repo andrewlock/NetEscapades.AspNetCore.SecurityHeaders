@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="TUnit" Version="0.25.21" />
     <PackageReference Include="FluentAssertions" Version="7.2.0" />
     <PackageReference Include="FluentAssertions.Analyzers" Version="0.34.1" PrivateAssets="all" IncludeAssets="analyzers" />
     <PackageReference Include="PublicApiGenerator" Version="11.1.0" />
