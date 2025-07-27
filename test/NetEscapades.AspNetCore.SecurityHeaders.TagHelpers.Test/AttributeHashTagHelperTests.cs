@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.Routing;
 using Moq;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
-using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
 {
@@ -25,10 +24,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
 color: red;
 background: blue;
 ";
-
         const string inlineScriptSnippet = "myScript()";
-
-        [Fact]
+        [Test]
         public async Task ProcessAsync_StyleAttribute_GeneratesExpectedOutput()
         {
             // Arrange
@@ -41,17 +38,15 @@ background: blue;
             {
                 ViewContext = GetViewContext(),
             };
-
             // Act
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
-
             // Assert
             fixture.Output.TagName.Should().Be(tagName);
             fixture.Output.Attributes.Should().BeEquivalentTo([styleAttribute]);
             fixture.Output.Content.GetContent().Should().BeEmpty();
         }
 
-        [Fact]
+        [Test]
         public async Task ProcessAsync_StyleAttribute_AddsHashToHttpContext()
         {
             // Arrange
@@ -64,17 +59,14 @@ background: blue;
             {
                 ViewContext = GetViewContext(),
             };
-
             // Act
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
-
             // Assert
             var expected = "'sha256-NerDAUWfwD31YdZHveMrq0GLjsNFMwxLpZl0dPUeCcw='";
-            var hash = tagHelper.ViewContext.HttpContext.GetStyleCSPHashes().Should().ContainSingle()
-                .Which.Should().Be(expected);
+            var hash = tagHelper.ViewContext.HttpContext.GetStyleCSPHashes().Should().ContainSingle().Which.Should().Be(expected);
         }
 
-        [Fact]
+        [Test]
         public async Task ProcessAsync_StyleAttributeWithExplicitHashType_AddsHashToHttpContext()
         {
             // Arrange
@@ -87,17 +79,14 @@ background: blue;
             {
                 ViewContext = GetViewContext(),
             };
-
             // Act
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
-
             // Assert
             var expected = "'sha384-YoSV9pxydVBLyyDpluNe9tQWgtUWlnzHS/zCvuNc30tEu0YwLQPRgNAXk+h06DXU'";
-            tagHelper.ViewContext.HttpContext.GetStyleCSPHashes().Should().ContainSingle()
-                .Which.Should().Be(expected);
+            tagHelper.ViewContext.HttpContext.GetStyleCSPHashes().Should().ContainSingle().Which.Should().Be(expected);
         }
 
-        [Fact]
+        [Test]
         public async Task ProcessAsync_StyleAttributeWithMultiLine_AddsHashToHttpContext()
         {
             // Arrange
@@ -110,17 +99,14 @@ background: blue;
             {
                 ViewContext = GetViewContext(),
             };
-
             // Act
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
-
             // Assert
             var expected = "'sha256-ly/Q8sGjROqYelSQCwIsD00L09JdMcVcMFTDyK7N7GM='";
-            tagHelper.ViewContext.HttpContext.GetStyleCSPHashes().Should().ContainSingle()
-                .Which.Should().Be(expected);
+            tagHelper.ViewContext.HttpContext.GetStyleCSPHashes().Should().ContainSingle().Which.Should().Be(expected);
         }
 
-        [Fact]
+        [Test]
         public async Task ProcessAsync_StyleAttributeTargetingNonExistingAttribute_DoesntAddAndCleansUp()
         {
             // Arrange
@@ -132,17 +118,15 @@ background: blue;
             {
                 ViewContext = GetViewContext(),
             };
-
             // Act
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
-
             // Assert
             fixture.Output.TagName.Should().Be(tagName);
             fixture.Output.Attributes.Should().BeEmpty();
             fixture.Output.Content.GetContent().Should().BeEmpty();
         }
 
-        [Fact]
+        [Test]
         public async Task ProcessAsync_InlineScriptAttribute_GeneratesExpectedOutput()
         {
             // Arrange
@@ -155,17 +139,15 @@ background: blue;
             {
                 ViewContext = GetViewContext(),
             };
-
             // Act
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
-
             // Assert
             fixture.Output.TagName.Should().Be(tagName);
             fixture.Output.Attributes.Should().BeEquivalentTo([inlineScriptAttribute]);
             fixture.Output.Content.GetContent().Should().BeEmpty();
         }
 
-        [Fact]
+        [Test]
         public async Task ProcessAsync_InlineScriptAttribute_AddsHashToHttpContext()
         {
             // Arrange
@@ -178,50 +160,35 @@ background: blue;
             {
                 ViewContext = GetViewContext(),
             };
-
             // Act
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
-
             // Assert
             var expected = "'sha256-1lzfyKjJuCLGsHTaOB3al0SElf3ats68l7XOAdrWd+E='";
-            tagHelper.ViewContext.HttpContext.GetScriptCSPHashes().Should().ContainSingle()
-                .Which.Should().Be(expected);
+            tagHelper.ViewContext.HttpContext.GetScriptCSPHashes().Should().ContainSingle().Which.Should().Be(expected);
         }
 
-        [Fact]
+        [Test]
         public async Task ProcessAsync_MultipleAttributes_AddsAllHashesToHttpContext()
         {
             // Arrange
             var id = Guid.NewGuid().ToString();
             var tagName = "div";
-
             var styleAttribute = new TagHelperAttribute("style", inlineStyleSnippet);
             var inlineScriptAttribute = new TagHelperAttribute("onclick", inlineScriptSnippet);
             var cspStyleAttribute = new TagHelperAttribute("asp-add-csp-for-style");
             var cspScriptAttribute = new TagHelperAttribute("asp-add-csp-for-onclick");
-
-            var fixture = CreateFixture(id, tagName,
-                styleAttribute,
-                inlineScriptAttribute,
-                cspStyleAttribute,
-                cspScriptAttribute
-            );
-
+            var fixture = CreateFixture(id, tagName, styleAttribute, inlineScriptAttribute, cspStyleAttribute, cspScriptAttribute);
             var tagHelper = new AttributeHashTagHelper()
             {
                 ViewContext = GetViewContext(),
             };
-
             // Act
             await tagHelper.ProcessAsync(fixture.Context, fixture.Output);
-
             // Assert
             var expectedStyleHash = "'sha256-NerDAUWfwD31YdZHveMrq0GLjsNFMwxLpZl0dPUeCcw='";
             var expectedScriptHash = "'sha256-1lzfyKjJuCLGsHTaOB3al0SElf3ats68l7XOAdrWd+E='";
-            tagHelper.ViewContext.HttpContext.GetStyleCSPHashes().Should().ContainSingle()
-                .Which.Should().Be(expectedStyleHash);
-            tagHelper.ViewContext.HttpContext.GetScriptCSPHashes().Should().ContainSingle()
-                .Which.Should().Be(expectedScriptHash);
+            tagHelper.ViewContext.HttpContext.GetStyleCSPHashes().Should().ContainSingle().Which.Should().Be(expectedStyleHash);
+            tagHelper.ViewContext.HttpContext.GetScriptCSPHashes().Should().ContainSingle().Which.Should().Be(expectedScriptHash);
         }
 
         private static Fixture CreateFixture(string id, string tagName, params TagHelperAttribute[] attributes)
@@ -236,39 +203,27 @@ background: blue;
         private static ViewContext GetViewContext()
         {
             var actionContext = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
-            return new ViewContext(actionContext,
-                                   Mock.Of<IView>(),
-                                   new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary()),
-                                   Mock.Of<ITempDataDictionary>(),
-                                   TextWriter.Null,
-                                   new HtmlHelperOptions());
+            return new ViewContext(actionContext, Mock.Of<IView>(), new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary()), Mock.Of<ITempDataDictionary>(), TextWriter.Null, new HtmlHelperOptions());
         }
 
         private static TagHelperContext GetTagHelperContext(string id, string tagName, TagHelperAttributeList attributes)
         {
-            return new TagHelperContext(
-                tagName: tagName,
-                allAttributes: attributes,
-                items: new Dictionary<object, object>(),
-                uniqueId: id);
+            return new TagHelperContext(tagName: tagName, allAttributes: attributes, items: new Dictionary<object, object>(), uniqueId: id);
         }
 
         private static TagHelperOutput GetTagHelperOutput(string id, string tagName, TagHelperAttributeList attributes)
         {
-            return new TagHelperOutput(
-               tagName,
-               attributes: attributes,
-               getChildContentAsync: (useCachedResult, encoder) =>
-               {
-                   var tagHelperContent = new DefaultTagHelperContent();
-                   return Task.FromResult<TagHelperContent>(tagHelperContent);
-               });
+            return new TagHelperOutput(tagName, attributes: attributes, getChildContentAsync: (useCachedResult, encoder) =>
+            {
+                var tagHelperContent = new DefaultTagHelperContent();
+                return Task.FromResult<TagHelperContent>(tagHelperContent);
+            });
         }
 
         private class Fixture
         {
-            public TagHelperContext Context { get; set; } = default!;
-            public TagHelperOutput Output { get; set; } = default!;
+            public TagHelperContext Context { get; set; } = default !;
+            public TagHelperOutput Output { get; set; } = default !;
         }
     }
 }
