@@ -11,9 +11,6 @@
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     <NuGetAudit>false</NuGetAudit>
     <NoWarn>$(NoWarn);NU1510</NoWarn>
-
-    <TUnitImplicitUsings>false</TUnitImplicitUsings>
-    <TUnitAssertionsImplicitUsings>false</TUnitAssertionsImplicitUsings>
   </PropertyGroup>
 
 </Project>
