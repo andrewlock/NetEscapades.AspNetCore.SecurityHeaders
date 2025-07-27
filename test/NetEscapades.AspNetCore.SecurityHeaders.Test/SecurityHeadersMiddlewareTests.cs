@@ -369,6 +369,76 @@ public class SecurityHeadersMiddlewareTests
             
         }
     }
+    
+    [Fact]
+    public async Task HttpRequest_CallingAddSecurityHeaderPoliciesTwice_CombinesPolicies()
+    {
+        var policyName = "custom";
+
+        // Arrange
+        var hostBuilder = new WebHostBuilder()
+            .ConfigureServices(s =>
+            {
+                s.AddRouting();
+                s.AddSecurityHeaderPolicies()
+                    .SetDefaultPolicy(p => p.AddCustomHeader("Default-Header", "MyValue"));
+                s.AddSecurityHeaderPolicies()
+                    .AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"));
+                s.AddSecurityHeaderPolicies()
+                    .SetPolicySelector(ctx =>
+                        ctx.HttpContext.Request.Headers.ContainsKey("AddTo-Default")
+                            ? ctx.SelectedPolicy.Copy().AddCustomHeader("Added-Header", "MyValue")
+                            : ctx.SelectedPolicy);
+            })
+            .Configure(app =>
+            {
+                app.UseSecurityHeaders();
+                app.UseRouting();
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapPut("/", async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Default");
+                    });
+                    
+                    endpoints.MapPut("/custom", async context =>
+                    {
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Custom");
+                    }).WithSecurityHeadersPolicy(policyName);
+                });
+            });
+
+        using (var server = new TestServer(hostBuilder))
+        {
+            // default policy
+            {
+                using var response = await server.CreateRequest("/").SendAsync("PUT");
+                response.EnsureSuccessStatusCode();
+                (await response.Content.ReadAsStringAsync()).Should().Be("Default");
+                response.Headers.Should().ContainKey("Default-Header").WhoseValue.Should().Contain("MyValue");
+            }
+
+            // custom policy
+            {
+                using var response = await server.CreateRequest("/custom").SendAsync("PUT");
+                response.EnsureSuccessStatusCode();
+                (await response.Content.ReadAsStringAsync()).Should().Be("Custom");
+                response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().Contain("MyValue");
+            }
+
+            // selector policy
+            {
+                using var response = await server.CreateRequest("/custom")
+                    .AddHeader("AddTo-Default", "Something")
+                    .SendAsync("PUT");
+                response.EnsureSuccessStatusCode();
+                (await response.Content.ReadAsStringAsync()).Should().Be("Custom");
+                response.Headers.Should().ContainKey("Added-Header").WhoseValue.Should().Contain("MyValue");
+            }
+        }
+    }
 
     [Fact]
     public async Task HttpRequest_WithCustomEndpointPolicy_WhenCustomEndpointIsSelected_UsesCustomPolicy()
