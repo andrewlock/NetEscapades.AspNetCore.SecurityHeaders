@@ -597,8 +597,7 @@ public class SecurityHeadersMiddlewareTests
             response.EnsureSuccessStatusCode();
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            Assert.False(response.Headers.Contains("Strict-Transport-Security"),
-                "Should not contain Strict-Transport-Security header on localhost");
+            response.Headers.Contains("Strict-Transport-Security").Should().BeFalse("Should not contain Strict-Transport-Security header on localhost");
         }
     }
 
@@ -1468,8 +1467,7 @@ public class SecurityHeadersMiddlewareTests
             response.EnsureSuccessStatusCode();
 
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            Assert.False(response.Headers.Contains("Expect-CT"),
-                "Should not contain Expect-CT header on localhost");
+            response.Headers.Contains("Expect-CT").Should().BeFalse("Should not contain Expect-CT header on localhost");
         }
     }
 

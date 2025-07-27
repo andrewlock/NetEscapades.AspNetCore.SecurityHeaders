@@ -23,7 +23,8 @@ public class ReportingEndpointsHeaderBuilderTests
     {
         var builder = new ReportingEndpointsHeaderBuilder();
 
-        Assert.Throws<ArgumentNullException>(() => builder.AddEndpoint(name, "http://localhost:80/"));
+        var act = () => builder.AddEndpoint(name, "http://localhost:80/");
+        act.Should().ThrowExactly<ArgumentNullException>();
     }
 
     [Theory]
@@ -33,7 +34,8 @@ public class ReportingEndpointsHeaderBuilderTests
     {
         var builder = new ReportingEndpointsHeaderBuilder();
 
-        Assert.Throws<ArgumentNullException>(() => builder.AddDefaultEndpoint(url));
+        var act = () => builder.AddDefaultEndpoint(url);
+        act.Should().ThrowExactly<ArgumentNullException>();
     }
 
     [Theory]
@@ -43,7 +45,8 @@ public class ReportingEndpointsHeaderBuilderTests
     {
         var builder = new ReportingEndpointsHeaderBuilder();
 
-        Assert.Throws<ArgumentException>(() => builder.AddDefaultEndpoint(url));
+        var act = () => builder.AddDefaultEndpoint(url);
+        act.Should().ThrowExactly<ArgumentException>();
     }
 
     [Fact]

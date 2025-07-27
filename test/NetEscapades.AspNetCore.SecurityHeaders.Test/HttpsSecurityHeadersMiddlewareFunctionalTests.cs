@@ -35,9 +35,9 @@ public class HttpsSecurityHeadersMiddlewareFunctionalTests : IClassFixture<Https
         var response = await Client.SendAsync(request);
 
         // Assert
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await response.Content.ReadAsStringAsync();
-        Assert.Equal(path, content);
+        content.Should().Be(path);
         var responseHeaders = response.Headers;
 
         responseHeaders.AssertSecureRequestDefaultSecurityHeaders();

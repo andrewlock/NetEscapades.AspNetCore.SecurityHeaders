@@ -24,10 +24,8 @@ public static class HeaderAssertionHelpers
         headers.Should().ContainKey("Cross-Origin-Resource-Policy")
             .WhoseValue.Should().ContainSingle("same-origin");
 
-        Assert.False(headers.Contains("Server"),
-            "Should not contain server header");
-        Assert.False(headers.Contains("Strict-Transport-Security"),
-            "Should not contain Strict-Transport-Security header over http");
+        headers.Contains("Server").Should().BeFalse("Should not contain server header");
+        headers.Contains("Strict-Transport-Security").Should().BeFalse("Should not contain Strict-Transport-Security header over http");
     }
 
     public static void AssertSecureRequestDefaultSecurityHeaders(this HttpResponseHeaders headers)
@@ -47,8 +45,7 @@ public static class HeaderAssertionHelpers
         headers.Should().ContainKey("Cross-Origin-Resource-Policy")
             .WhoseValue.Should().ContainSingle("same-origin");
 
-        Assert.False(headers.Contains("Server"),
-            "Should not contain server header");
+        headers.Contains("Server").Should().BeFalse("Should not contain server header");
     }
     
     public static void AssertHttpRequestDefaultApiSecurityHeaders(this HttpResponseHeaders headers)
@@ -70,9 +67,7 @@ public static class HeaderAssertionHelpers
         headers.Should().ContainKey("Cross-Origin-Resource-Policy")
             .WhoseValue.Should().ContainSingle("same-site");
 
-        Assert.False(headers.Contains("Server"),
-            "Should not contain server header");
-        Assert.False(headers.Contains("Strict-Transport-Security"),
-            "Should not contain Strict-Transport-Security header over http");
+        headers.Contains("Server").Should().BeFalse("Should not contain server header");
+        headers.Contains("Strict-Transport-Security").Should().BeFalse("Should not contain Strict-Transport-Security header over http");
     }
 }

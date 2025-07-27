@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -8,10 +13,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.Routing;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 using Xunit;
 
@@ -58,9 +59,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             await tagHelper.ProcessAsync(tagHelperContext, output);
 
             // Assert
-            Assert.Equal(tagName, output.TagName);
-            Assert.Empty(output.Attributes);
-            Assert.Equal(shortSnippet, output.Content.GetContent());
+            output.TagName.Should().Be(tagName);
+            output.Attributes.Should().BeEmpty();
+            output.Content.GetContent().Should().Be(shortSnippet);
         }
 
         [Fact]
@@ -90,9 +91,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             await tagHelper.ProcessAsync(tagHelperContext, output);
 
             // Assert
-            var hash = Assert.Single(tagHelper.ViewContext.HttpContext.GetScriptCSPHashes());
             var expected = "'sha256-1yLcYHZUiV92moZ6snTrg6e0yBO8emEEpUSB2wlMFz8='";
-            Assert.Equal(expected, hash);
+            tagHelper.ViewContext.HttpContext.GetScriptCSPHashes().Should().ContainSingle()
+                .Which.Should().Be(expected);
         }
 
         [Fact]
@@ -122,9 +123,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             await tagHelper.ProcessAsync(tagHelperContext, output);
 
             // Assert
-            var hash = Assert.Single(tagHelper.ViewContext.HttpContext.GetScriptCSPHashes());
             var expected = "'sha256-Oro8tit8euyKzxqyJteBRTdQBlipvXGQWfS5epMHmUU='";
-            Assert.Equal(expected, hash);
+            tagHelper.ViewContext.HttpContext.GetScriptCSPHashes().Should().ContainSingle()
+                .Which.Should().Be(expected);
         }
 
         [Fact]
@@ -156,9 +157,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             await tagHelper.ProcessAsync(tagHelperContext, output);
 
             // Assert
-            Assert.Equal(tagName, output.TagName);
-            Assert.Empty(output.Attributes);
-            Assert.Equal(styleSnippet, output.Content.GetContent());
+            output.TagName.Should().Be(tagName);
+            output.Attributes.Should().BeEmpty();
+            output.Content.GetContent().Should().Be(styleSnippet);
         }
 
         [Fact]
@@ -188,9 +189,9 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test
             await tagHelper.ProcessAsync(tagHelperContext, output);
 
             // Assert
-            var hash = Assert.Single(tagHelper.ViewContext.HttpContext.GetStyleCSPHashes());
             var expected = "'sha256-Wz9o8J/ijdXtAzs95rmQ8OtBacYk6JfYTXQlM8yxIjg='";
-            Assert.Equal(expected, hash);
+            tagHelper.ViewContext.HttpContext.GetStyleCSPHashes().Should().ContainSingle()
+                .Which.Should().Be(expected);
         }
 
         private static ViewContext GetViewContext()

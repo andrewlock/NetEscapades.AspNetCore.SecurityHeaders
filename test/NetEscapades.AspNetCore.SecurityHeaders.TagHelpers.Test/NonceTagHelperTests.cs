@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -10,10 +15,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test;
@@ -49,11 +50,11 @@ public class NonceTagHelperTests
         await nonceTagHelper.ProcessAsync(tagHelperContext, output);
 
         // Assert
-        Assert.Equal(tagName, output.TagName);
-        Assert.Single(output.Attributes);
-        var attribute = Assert.Single(output.Attributes, attr => attr.Name.Equals("nonce"));
-        Assert.Equal(nonceValue, attribute.Value);
-        Assert.Equal("Something Else", output.Content.GetContent());
+        output.TagName.Should().Be(tagName);
+        var attribute = output.Attributes.Should().ContainSingle().Subject;
+        attribute.Name.Should().Be("nonce");
+        attribute.Value.Should().Be(nonceValue);
+        output.Content.GetContent().Should().Be("Something Else");
     }
 
     [Fact]
@@ -85,9 +86,9 @@ public class NonceTagHelperTests
         await nonceTagHelper.ProcessAsync(tagHelperContext, output);
 
         // Assert
-        Assert.Equal(tagName, output.TagName);
-        Assert.Empty(output.Attributes);
-        Assert.Equal("Something Else", output.Content.GetContent());
+        output.TagName.Should().Be(tagName);
+        output.Attributes.Should().BeEmpty();
+        output.Content.GetContent().Should().Be("Something Else");
     }
 
     private static ViewContext GetViewContext(string nonce)

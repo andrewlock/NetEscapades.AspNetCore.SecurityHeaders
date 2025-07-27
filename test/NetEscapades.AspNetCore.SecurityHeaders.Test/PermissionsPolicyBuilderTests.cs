@@ -93,7 +93,8 @@ public class PermissionsPolicyBuilderTests
             .None()
             .All();
 
-        Assert.Throws<InvalidOperationException>(() => builder.Build());
+        var act = () => builder.Build();
+        act.Should().ThrowExactly<InvalidOperationException>();
     }
 
     [Fact]

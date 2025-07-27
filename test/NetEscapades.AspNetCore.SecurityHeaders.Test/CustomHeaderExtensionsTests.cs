@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using System;
+using FluentAssertions;
 using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Test;
@@ -12,8 +13,8 @@ public class CustomHeaderExtensionsTests
         // https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders/issues/35
         var collection = new HeaderPolicyCollection();
 
-        Assert.Throws<ArgumentNullException>(
-            "header", () => collection.AddCustomHeader(null!, "asdf"));
+        var add = () => collection.AddCustomHeader(null!, "asdf");
+        add.Should().Throw<ArgumentNullException>();
     }
 
     [Fact]
