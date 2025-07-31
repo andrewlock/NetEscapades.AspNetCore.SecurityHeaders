@@ -3,10 +3,9 @@ using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using PublicApiGenerator;
-using VerifyXunit;
+using VerifyTUnit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Test;
-[UsesVerify]
 public class PublicApiTest
 {
     [Test]

@@ -2,10 +2,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using PublicApiGenerator;
-using VerifyXunit;
+using VerifyTUnit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test;
-[UsesVerify]
 public class PublicApiTest
 {
     [Test]
