@@ -75,7 +75,7 @@ class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .SetProperty("Version", Version)
                 .When(IsServerBuild, x => x
-                    .SetLoggers("trx")
+                    .SetProcessArgumentConfigurator(x=>x.Add("--report-trx"))
                     .SetResultsDirectory(TestResultsDirectory))
                 .EnableNoBuild()
                 .EnableNoRestore());
