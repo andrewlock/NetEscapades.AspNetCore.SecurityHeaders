@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="1.8.0" />
     <PackageReference Include="TUnit" Version="0.25.21" />
     <PackageReference Include="PublicApiGenerator" Version="11.1.0" />
     <PackageReference Include="NetEscapades.Verify.TUnit" Version="21.3.1" />
