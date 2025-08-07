@@ -3,10 +3,8 @@ using System.Net.Http.Headers;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
-using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Test;
-
 public static class HeaderAssertionHelpers
 {
     public static void AssertHttpRequestDefaultSecurityHeaders(this HttpResponseHeaders headers)
@@ -19,11 +17,8 @@ public static class HeaderAssertionHelpers
         header.Should().Be("strict-origin-when-cross-origin");
         header = headers.GetValues("Content-Security-Policy").FirstOrDefault()!;
         header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
-        headers.Should().ContainKey("Cross-Origin-Opener-Policy")
-            .WhoseValue.Should().ContainSingle("same-origin");
-        headers.Should().ContainKey("Cross-Origin-Resource-Policy")
-            .WhoseValue.Should().ContainSingle("same-origin");
-
+        headers.Should().ContainKey("Cross-Origin-Opener-Policy").WhoseValue.Should().ContainSingle("same-origin");
+        headers.Should().ContainKey("Cross-Origin-Resource-Policy").WhoseValue.Should().ContainSingle("same-origin");
         headers.Contains("Server").Should().BeFalse("Should not contain server header");
         headers.Contains("Strict-Transport-Security").Should().BeFalse("Should not contain Strict-Transport-Security header over http");
     }
@@ -40,33 +35,21 @@ public static class HeaderAssertionHelpers
         header.Should().Be("strict-origin-when-cross-origin");
         header = headers.GetValues("Content-Security-Policy").FirstOrDefault()!;
         header.Should().Be("object-src 'none'; form-action 'self'; frame-ancestors 'none'");
-        headers.Should().ContainKey("Cross-Origin-Opener-Policy")
-            .WhoseValue.Should().ContainSingle("same-origin");
-        headers.Should().ContainKey("Cross-Origin-Resource-Policy")
-            .WhoseValue.Should().ContainSingle("same-origin");
-
+        headers.Should().ContainKey("Cross-Origin-Opener-Policy").WhoseValue.Should().ContainSingle("same-origin");
+        headers.Should().ContainKey("Cross-Origin-Resource-Policy").WhoseValue.Should().ContainSingle("same-origin");
         headers.Contains("Server").Should().BeFalse("Should not contain server header");
     }
-    
+
     public static void AssertHttpRequestDefaultApiSecurityHeaders(this HttpResponseHeaders headers)
     {
-        headers.Should().ContainKey("X-Content-Type-Options")
-            .WhoseValue.Should().ContainSingle("nosniff");
-        headers.Should().ContainKey("X-Frame-Options")
-            .WhoseValue.Should().ContainSingle("DENY");
-        headers.Should().ContainKey("Content-Security-Policy")
-            .WhoseValue.Should().ContainSingle("default-src: none; frame-ancestors 'none'");
-        headers.Should().ContainKey("Referrer-Policy")
-            .WhoseValue.Should().ContainSingle("no-referrer");
-        headers.Should().ContainKey("Permissions-Policy")
-            .WhoseValue.Should().ContainSingle(PermissionsPolicyHeaderExtensions.DefaultSecurePolicy);
-        headers.Should().ContainKey("Cross-Origin-Opener-Policy")
-           .WhoseValue.Should().ContainSingle("same-origin");
-        headers.Should().ContainKey("Cross-Origin-Embedder-Policy")
-           .WhoseValue.Should().ContainSingle("require-corp");
-        headers.Should().ContainKey("Cross-Origin-Resource-Policy")
-            .WhoseValue.Should().ContainSingle("same-site");
-
+        headers.Should().ContainKey("X-Content-Type-Options").WhoseValue.Should().ContainSingle("nosniff");
+        headers.Should().ContainKey("X-Frame-Options").WhoseValue.Should().ContainSingle("DENY");
+        headers.Should().ContainKey("Content-Security-Policy").WhoseValue.Should().ContainSingle("default-src: none; frame-ancestors 'none'");
+        headers.Should().ContainKey("Referrer-Policy").WhoseValue.Should().ContainSingle("no-referrer");
+        headers.Should().ContainKey("Permissions-Policy").WhoseValue.Should().ContainSingle(PermissionsPolicyHeaderExtensions.DefaultSecurePolicy);
+        headers.Should().ContainKey("Cross-Origin-Opener-Policy").WhoseValue.Should().ContainSingle("same-origin");
+        headers.Should().ContainKey("Cross-Origin-Embedder-Policy").WhoseValue.Should().ContainSingle("require-corp");
+        headers.Should().ContainKey("Cross-Origin-Resource-Policy").WhoseValue.Should().ContainSingle("same-site");
         headers.Contains("Server").Should().BeFalse("Should not contain server header");
         headers.Contains("Strict-Transport-Security").Should().BeFalse("Should not contain Strict-Transport-Security header over http");
     }

@@ -15,13 +15,11 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.TagHelpers.Test;
-
 public class NonceTagHelperTests
 {
-    [Fact]
+    [Test]
     public async Task ProcessAsync_GeneratesExpectedOutput()
     {
         // Arrange
@@ -34,21 +32,15 @@ public class NonceTagHelperTests
             AddNonce = true,
             ViewContext = GetViewContext(nonceValue),
         };
-
-        var output = new TagHelperOutput(
-            tagName,
-            attributes: new TagHelperAttributeList(),
-            getChildContentAsync: (_, _) =>
-            {
-                var tagHelperContent = new DefaultTagHelperContent();
-                var content = tagHelperContent.SetContent("Something");
-                return Task.FromResult(content);
-            });
+        var output = new TagHelperOutput(tagName, attributes: new TagHelperAttributeList(), getChildContentAsync: (_, _) =>
+        {
+            var tagHelperContent = new DefaultTagHelperContent();
+            var content = tagHelperContent.SetContent("Something");
+            return Task.FromResult(content);
+        });
         output.Content.SetContent("Something Else");
-
         // Act
         await nonceTagHelper.ProcessAsync(tagHelperContext, output);
-
         // Assert
         output.TagName.Should().Be(tagName);
         var attribute = output.Attributes.Should().ContainSingle().Subject;
@@ -57,7 +49,7 @@ public class NonceTagHelperTests
         output.Content.GetContent().Should().Be("Something Else");
     }
 
-    [Fact]
+    [Test]
     public async Task ProcessAsync_WhenNoNonceDoesNotAdd()
     {
         // Arrange
@@ -70,21 +62,15 @@ public class NonceTagHelperTests
             AddNonce = true,
             ViewContext = GetViewContext(nonceValue),
         };
-
-        var output = new TagHelperOutput(
-            tagName,
-            attributes: new TagHelperAttributeList(),
-            getChildContentAsync: (_, _) =>
-            {
-                var tagHelperContent = new DefaultTagHelperContent();
-                var content = tagHelperContent.SetContent("Something");
-                return Task.FromResult(content);
-            });
+        var output = new TagHelperOutput(tagName, attributes: new TagHelperAttributeList(), getChildContentAsync: (_, _) =>
+        {
+            var tagHelperContent = new DefaultTagHelperContent();
+            var content = tagHelperContent.SetContent("Something");
+            return Task.FromResult(content);
+        });
         output.Content.SetContent("Something Else");
-
         // Act
         await nonceTagHelper.ProcessAsync(tagHelperContext, output);
-
         // Assert
         output.TagName.Should().Be(tagName);
         output.Attributes.Should().BeEmpty();
@@ -95,25 +81,12 @@ public class NonceTagHelperTests
     {
         var actionContext = new ActionContext(new DefaultHttpContext(), new RouteData(), new ActionDescriptor());
         actionContext.HttpContext.Items[Infrastructure.Constants.DefaultNonceKey] = nonce;
-
-        actionContext.HttpContext.RequestServices = new ServiceCollection()
-            .AddTransient(_ => Mock.Of<ILogger<NonceTagHelper>>())
-            .BuildServiceProvider();
-
-        return new ViewContext(actionContext,
-            Mock.Of<IView>(),
-            new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary()),
-            Mock.Of<ITempDataDictionary>(),
-            TextWriter.Null,
-            new HtmlHelperOptions());
+        actionContext.HttpContext.RequestServices = new ServiceCollection().AddTransient(_ => Mock.Of<ILogger<NonceTagHelper>>()).BuildServiceProvider();
+        return new ViewContext(actionContext, Mock.Of<IView>(), new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary()), Mock.Of<ITempDataDictionary>(), TextWriter.Null, new HtmlHelperOptions());
     }
 
     private static TagHelperContext GetTagHelperContext(string id = "testid", string tagName = "script")
     {
-        return new TagHelperContext(
-            tagName: tagName,
-            allAttributes: new TagHelperAttributeList(),
-            items: new Dictionary<object, object>(),
-            uniqueId: id);
+        return new TagHelperContext(tagName: tagName, allAttributes: new TagHelperAttributeList(), items: new Dictionary<object, object>(), uniqueId: id);
     }
 }

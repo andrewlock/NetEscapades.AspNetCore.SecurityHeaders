@@ -2,119 +2,87 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
-using Xunit;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Test;
-
 public class PermissionsPolicyBuilderTests
 {
-    [Fact]
+    [Test]
     public void PermissionsPolicy_Build_WhenNoValues_Returns()
     {
         var builder = new PermissionsPolicyBuilder();
-
         var result = builder.Build();
-
         result.Should().BeNullOrEmpty();
     }
 
-    [Fact]
+    [Test]
     public void PermissionsPolicy_Build_AddSelfOnly_ReturnsOnlySelf()
     {
         var builder = new PermissionsPolicyBuilder();
-
-        builder.AddAccelerometer()
-            .Self();
-
+        builder.AddAccelerometer().Self();
         var result = builder.Build();
-
         result.Should().Be("accelerometer=self");
     }
 
-    [Fact]
+    [Test]
     public void PermissionsPolicy_Build_AddAccelerometer_WhenAddsMultipleValue_ReturnsAllValues()
     {
         var builder = new PermissionsPolicyBuilder();
-
-        builder.AddAccelerometer()
-            .Self()
-            .For("http://testUrl.com").For("https://testUrl2.se");
-
+        builder.AddAccelerometer().Self().For("http://testUrl.com").For("https://testUrl2.se");
         var result = builder.Build();
-
         result.Should().Be("accelerometer=(self \"http://testUrl.com\" \"https://testUrl2.se\")");
     }
 
-    [Fact]
+    [Test]
     public void PermissionsPolicy_Build_AddAccelerometer_WhenIncludesNone_OnlyWritesNone()
     {
         var builder = new PermissionsPolicyBuilder();
-        builder.AddAccelerometer()
-            .Self()
-            .For("http://testUrl.com")
-            .None();
-
+        builder.AddAccelerometer().Self().For("http://testUrl.com").None();
         var result = builder.Build();
-
         result.Should().Be("accelerometer=()");
     }
 
-    [Fact]
+    [Test]
     public void PermissionsPolicy_Build_AddFLoC_Calculation_WhenIncludesNone_OnlyWritesNone()
     {
         var builder = new PermissionsPolicyBuilder();
-        builder.AddFederatedLearningOfCohortsCalculation()
-            .None();
-
+        builder.AddFederatedLearningOfCohortsCalculation().None();
         var result = builder.Build();
-
         result.Should().Be("interest-cohort=()");
     }
 
-    [Fact]
+    [Test]
     public void PermissionsBuild_AddAccelerometer_WhenIncludesAll_OnlyWritesAll()
     {
         var builder = new PermissionsPolicyBuilder();
-        builder.AddAccelerometer()
-            .Self()
-            .For("http://testUrl.com")
-            .All();
-
+        builder.AddAccelerometer().Self().For("http://testUrl.com").All();
         var result = builder.Build();
-
         result.Should().Be("accelerometer=*");
     }
 
-    [Fact]
+    [Test]
     public void PermissionsPolicy_Build_AddAccelerometer_WhenIncludesAllAndNone_ThrowsInvalidOperationException()
     {
         var builder = new PermissionsPolicyBuilder();
-        builder.AddAccelerometer()
-            .None()
-            .All();
-
+        builder.AddAccelerometer().None().All();
         var act = () => builder.Build();
         act.Should().ThrowExactly<InvalidOperationException>();
     }
 
-    [Fact]
+    [Test]
     public void PermissionsPolicy_Build_CustomPermissionsPolicyDirective_AddsValues()
     {
         var builder = new PermissionsPolicyBuilder();
         builder.AddCustomFeature("push", string.Empty);
         builder.AddCustomFeature("vibrate", "*");
         builder.AddCustomFeature("something-else", string.Empty);
-
         var result = builder.Build();
-
         result.Should().Be("push=(), vibrate=*, something-else=()");
     }
 
-    [Fact]
+    [Test]
     public void PermissionsPolicy_Build_WhenHasAllPermissions_HasValues()
     {
         var builder = new PermissionsPolicyBuilder();
-
         builder.AddAccelerometer().None();
         builder.AddAmbientLightSensor().None();
         builder.AddAttributionReporting().None();
@@ -150,48 +118,35 @@ public class PermissionsPolicyBuilderTests
         builder.AddWebShare().None();
         builder.AddWindowManagement().None();
         builder.AddXrSpatialTracking().None();
-
         var result = builder.Build();
-
-        result.Should().Be("accelerometer=(), ambient-light-sensor=(), attribution-reporting=(), autoplay=(), bluetooth=()," +
-            " camera=(), display-capture=(), encrypted-media=(), interest-cohort=(), fullscreen=(), geolocation=(), gyroscope=(), hid=()," +
-            " identity-credentials-get=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), otp-credentials=()," +
-            " payment=(), picture-in-picture=(), publickey-credentials-create=(), publickey-credentials-get=(), screen-wake-lock=()," +
-            " serial=(), speaker=(), speaker-selection=(), storage-access=(), sync-xhr=(), usb=(), vr=(), web-share=(), window-management=(), xr-spatial-tracking=()");
+        result.Should().Be("accelerometer=(), ambient-light-sensor=(), attribution-reporting=(), autoplay=(), bluetooth=()," + " camera=(), display-capture=(), encrypted-media=(), interest-cohort=(), fullscreen=(), geolocation=(), gyroscope=(), hid=()," + " identity-credentials-get=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), otp-credentials=()," + " payment=(), picture-in-picture=(), publickey-credentials-create=(), publickey-credentials-get=(), screen-wake-lock=()," + " serial=(), speaker=(), speaker-selection=(), storage-access=(), sync-xhr=(), usb=(), vr=(), web-share=(), window-management=(), xr-spatial-tracking=()");
     }
 
-    [Fact]
+    [Test]
     public void PermissionsPolicy_Build_CustomPermissionsPolicyBuilder_AddsValues()
     {
         var builder = new PermissionsPolicyBuilder();
         builder.AddCustomFeature("push").None();
         builder.AddCustomFeature("vibrate").All();
-
         var result = builder.Build();
-
         result.Should().Be("push=(), vibrate=*");
     }
 
-    [Fact]
+    [Test]
     public void PermissionsPolicy_Build_AddingTheSameDirectiveTwice_OverwritesThePreviousCopy()
     {
         var builder = new PermissionsPolicyBuilder();
         builder.AddAccelerometer().Self();
         builder.AddAccelerometer().None();
-
         var result = builder.Build();
-
         result.Should().Be("accelerometer=()");
     }
 
-    [Fact]
+    [Test]
     public void PermissionsPolicy_DefaultSecure_IsEquivalent()
     {
-        var builder = new PermissionsPolicyBuilder()
-            .AddDefaultSecureDirectives();
-
+        var builder = new PermissionsPolicyBuilder().AddDefaultSecureDirectives();
         var expected = builder.Build();
-        
         PermissionsPolicyHeaderExtensions.DefaultSecurePolicy.Should().Be(expected);
     }
 }
