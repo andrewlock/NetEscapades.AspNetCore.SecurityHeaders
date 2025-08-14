@@ -409,10 +409,10 @@ public void Configure(IApplicationBuilder app)
             builder.AddFrameAncestors() // frame-ancestors 'none'
                 .None();
 
-            builder.AddBaseUri() // base-ri 'self'
+            builder.AddBaseUri() // base-uri 'self'
                 .Self();
 
-            builder.AddFrameSource() // frame-src http://testUrl.com
+            builder.AddFrameSrc() // frame-src http://testUrl.com
                 .From("http://testUrl.com");
 
             // You can also add arbitrary extra directives: plugin-types application/x-shockwave-flash"
