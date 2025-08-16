@@ -1,6 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
@@ -9,15 +9,39 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 /// </summary>
 public class SecurityHeaderPolicyBuilder
 {
-    private readonly CustomHeaderOptions _options;
+    private readonly IServiceCollection? _services;
+    private readonly CustomHeaderOptions? _options;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SecurityHeaderPolicyBuilder"/> class.
     /// </summary>
-    /// <param name="options">The options where the configuration is stored</param>
+    /// <param name="services">The <see cref="IServiceCollection"/> where the options are configured.</param>
+    internal SecurityHeaderPolicyBuilder(IServiceCollection services)
+    {
+        _services = services;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SecurityHeaderPolicyBuilder"/> class.
+    /// </summary>
+    /// <param name="options">The options to configure.</param>
     internal SecurityHeaderPolicyBuilder(CustomHeaderOptions options)
     {
         _options = options;
+    }
+
+    private SecurityHeaderPolicyBuilder ConfigureOptions(Action<CustomHeaderOptions> configureOptions)
+    {
+        if (_options != null)
+        {
+            configureOptions(_options);
+        }
+        else
+        {
+            _services.Configure(configureOptions);
+        }
+
+        return this;
     }
 
     /// <summary>
@@ -29,9 +53,12 @@ public class SecurityHeaderPolicyBuilder
     /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> for chaining</returns>
     public SecurityHeaderPolicyBuilder AddPolicy(string name, Action<HeaderPolicyCollection> configurePolicy)
     {
-        var policyCollection = new HeaderPolicyCollection();
-        configurePolicy(policyCollection);
-        return AddPolicy(name, policyCollection);
+        return ConfigureOptions(o =>
+        {
+            var policyCollection = new HeaderPolicyCollection();
+            configurePolicy(policyCollection);
+            o.NamedPolicyCollections[name] = policyCollection;
+        });
     }
 
     /// <summary>
@@ -43,8 +70,10 @@ public class SecurityHeaderPolicyBuilder
     /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> for chaining</returns>
     public SecurityHeaderPolicyBuilder AddPolicy(string name, HeaderPolicyCollection policyCollection)
     {
-        _options.NamedPolicyCollections[name] = policyCollection;
-        return this;
+        return ConfigureOptions(o =>
+        {
+            o.NamedPolicyCollections[name] = policyCollection;
+        });
     }
 
     /// <summary>
@@ -55,9 +84,12 @@ public class SecurityHeaderPolicyBuilder
     /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> for chaining</returns>
     public SecurityHeaderPolicyBuilder SetDefaultPolicy(Action<HeaderPolicyCollection> configurePolicy)
     {
-        var policyCollection = new HeaderPolicyCollection();
-        configurePolicy(policyCollection);
-        return SetDefaultPolicy(policyCollection);
+        return ConfigureOptions(o =>
+        {
+            var policyCollection = new HeaderPolicyCollection();
+            configurePolicy(policyCollection);
+            o.DefaultPolicy = policyCollection;
+        });
     }
 
     /// <summary>
@@ -68,8 +100,10 @@ public class SecurityHeaderPolicyBuilder
     /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> for chaining</returns>
     public SecurityHeaderPolicyBuilder SetDefaultPolicy(HeaderPolicyCollection policyCollection)
     {
-        _options.DefaultPolicy = policyCollection;
-        return this;
+        return ConfigureOptions(o =>
+        {
+            o.DefaultPolicy = policyCollection;
+        });
     }
 
     /// <summary>
@@ -81,7 +115,9 @@ public class SecurityHeaderPolicyBuilder
     public SecurityHeaderPolicyBuilder SetPolicySelector(
         Func<PolicySelectorContext, IReadOnlyHeaderPolicyCollection> policySelector)
     {
-        _options.PolicySelector = policySelector;
-        return this;
+        return ConfigureOptions(o =>
+        {
+            o.PolicySelector = policySelector;
+        });
     }
 }

@@ -21,9 +21,7 @@ public static class ServiceCollectionExtensions
             throw new ArgumentNullException(nameof(services));
         }
 
-        var options = new CustomHeaderOptions();
-        services.AddSingleton(options);
-        return new SecurityHeaderPolicyBuilder(options);
+        return new SecurityHeaderPolicyBuilder(services);
     }
 
     /// <summary>
@@ -47,12 +45,12 @@ public static class ServiceCollectionExtensions
             throw new ArgumentNullException(nameof(configure));
         }
 
-        var options = new CustomHeaderOptions();
-        services.AddSingleton<CustomHeaderOptions>(provider =>
-        {
-            configure(new SecurityHeaderPolicyBuilder(options), provider);
-            return options;
-        });
+        services.AddOptions<CustomHeaderOptions>()
+                .Configure<IServiceProvider>((o, sp) =>
+                {
+                    var builder = new SecurityHeaderPolicyBuilder(o);
+                    configure(builder, sp);
+                });
 
         return services;
     }
