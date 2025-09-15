@@ -33,16 +33,15 @@ public class SecurityHeadersMiddlewareTests
             .Build();
         await host.StartAsync();
 
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultSecurityHeaders();
     }
 
     [Test]
@@ -63,16 +62,15 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultSecurityHeaders();
     }
 
     [Test]
@@ -93,16 +91,15 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultSecurityHeaders();
     }
 
     [Test]
@@ -126,17 +123,16 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().NotContainKey("X-Frame-Options");
-            response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().ContainSingle("MyValue");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.Should().NotContainKey("X-Frame-Options");
+        response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().ContainSingle("MyValue");
     }
 
     [Test]
@@ -187,16 +183,15 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultSecurityHeaders();
     }
 
     [Test]
@@ -228,16 +223,15 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultSecurityHeaders();
     }
 
     [Test]
@@ -269,17 +263,16 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().NotContainKey("X-Frame-Options");
-            response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().ContainSingle("MyValue");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.Should().NotContainKey("X-Frame-Options");
+        response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().ContainSingle("MyValue");
     }
 
     [Test]
@@ -302,18 +295,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.TryGetValues("X-Frame-Options", out _).Should().BeFalse();
-            response.Headers.TryGetValues("Custom-Value", out var h).Should().BeTrue();
-            h.Should().ContainSingle("MyValue");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.TryGetValues("X-Frame-Options", out _).Should().BeFalse();
+        response.Headers.TryGetValues("Custom-Value", out var h).Should().BeTrue();
+        h.Should().ContainSingle("MyValue");
     }
 
     [Test]
@@ -339,24 +331,23 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Add header
-            var response = await server.CreateRequest("/").AddHeader("AddTo-Default", "Something").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
-            response.Headers.Should().ContainKey("Added-Header").WhoseValue.Should().Contain("MyValue");
-            // No header
-            response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
-            response.Headers.Should().NotContainKey("Added-Header");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Add header
+        var response = await server.CreateRequest("/").AddHeader("AddTo-Default", "Something").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultSecurityHeaders();
+        response.Headers.Should().ContainKey("Added-Header").WhoseValue.Should().Contain("MyValue");
+        // No header
+        response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultSecurityHeaders();
+        response.Headers.Should().NotContainKey("Added-Header");
     }
 
     [Test]
@@ -389,18 +380,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().NotContainKey("X-Frame-Options");
-            response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().ContainSingle("MyValue");
-            response.Headers.Should().ContainKey("Added-Header").WhoseValue.Should().ContainSingle("MyValue");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.Should().NotContainKey("X-Frame-Options");
+        response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().ContainSingle("MyValue");
+        response.Headers.Should().ContainKey("Added-Header").WhoseValue.Should().ContainSingle("MyValue");
     }
 
     [Test]
@@ -433,18 +423,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.AssertHttpRequestDefaultSecurityHeaders();
-            response.Headers.Should().ContainKey("Added-Header");
-            response.Headers.Should().NotContainKey("Custom-Header");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultSecurityHeaders();
+        response.Headers.Should().ContainKey("Added-Header");
+        response.Headers.Should().NotContainKey("Custom-Header");
     }
 
     [Test]
@@ -465,13 +454,12 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Add header
-            var act = async () => await server.CreateRequest("/").SendAsync("PUT");
-            await act.Should().ThrowAsync<InvalidOperationException>();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Add header
+        var act = async () => await server.CreateRequest("/").SendAsync("PUT");
+        await act.Should().ThrowAsync<InvalidOperationException>();
     }
 
     [Test]
@@ -502,17 +490,16 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Add header
-            var response = await server.CreateRequest("/").AddHeader("Tenant-ID", "Default").SendAsync("PUT");
-            response.EnsureSuccessStatusCode();
-            response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().Contain("Default");
-            response = await server.CreateRequest("/").AddHeader("Tenant-ID", "1234").SendAsync("PUT");
-            response.EnsureSuccessStatusCode();
-            response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().Contain("Custom");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Add header
+        var response = await server.CreateRequest("/").AddHeader("Tenant-ID", "Default").SendAsync("PUT");
+        response.EnsureSuccessStatusCode();
+        response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().Contain("Default");
+        response = await server.CreateRequest("/").AddHeader("Tenant-ID", "1234").SendAsync("PUT");
+        response.EnsureSuccessStatusCode();
+        response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().Contain("Custom");
     }
 
     [Test]
@@ -535,17 +522,16 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            server.BaseAddress = new Uri("https://example.com:5001");
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.AssertSecureRequestDefaultSecurityHeaders();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        server.BaseAddress = new Uri("https://example.com:5001");
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertSecureRequestDefaultSecurityHeaders();
     }
 
     [Test]
@@ -567,18 +553,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            server.BaseAddress = new Uri("https://localhost:5001");
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Contains("Strict-Transport-Security").Should()
-                .BeFalse("Should not contain Strict-Transport-Security header on localhost");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        server.BaseAddress = new Uri("https://localhost:5001");
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.Contains("Strict-Transport-Security").Should()
+            .BeFalse("Should not contain Strict-Transport-Security header on localhost");
     }
 
     [Test]
@@ -596,17 +581,16 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("X-My-Test-Header").FirstOrDefault();
-            header.Should().Be("Header value");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("X-My-Test-Header").FirstOrDefault();
+        header.Should().Be("Header value");
     }
 
     [Test]
@@ -623,17 +607,16 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("X-My-Test-Header").FirstOrDefault();
-            header.Should().Be("Header value");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("X-My-Test-Header").FirstOrDefault();
+        header.Should().Be("Header value");
     }
 
     [Test]
@@ -652,16 +635,15 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().BeEmpty();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.Should().BeEmpty();
     }
 
     [Test]
@@ -686,18 +668,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("default-src 'self'; object-src 'none'");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("default-src 'self'; object-src 'none'");
     }
 
     [Test]
@@ -721,18 +702,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().StartWith("script-src 'nonce-");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().StartWith("script-src 'nonce-");
     }
 
     [Test]
@@ -756,23 +736,22 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response1 = await server.CreateRequest("/").SendAsync("PUT");
-            var response2 = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response1.EnsureSuccessStatusCode();
-            response2.EnsureSuccessStatusCode();
-            (await response1.Content.ReadAsStringAsync()).Should().Be("Test response");
-            (await response2.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header1 = response1.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
-            var header2 = response2.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
-            header1.Should().NotBeNull();
-            header2.Should().NotBeNull();
-            header1.Should().NotBe(header2);
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response1 = await server.CreateRequest("/").SendAsync("PUT");
+        var response2 = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response1.EnsureSuccessStatusCode();
+        response2.EnsureSuccessStatusCode();
+        (await response1.Content.ReadAsStringAsync()).Should().Be("Test response");
+        (await response2.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header1 = response1.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+        var header2 = response2.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+        header1.Should().NotBeNull();
+        header2.Should().NotBeNull();
+        header1.Should().NotBe(header2);
     }
 
     [Test]
@@ -797,19 +776,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Content-Security-Policy-Report-Only").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("default-src 'self'; object-src 'none'");
-            response.Headers.Contains("Content-Security-Policy").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Content-Security-Policy-Report-Only").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("default-src 'self'; object-src 'none'");
+        response.Headers.Contains("Content-Security-Policy").Should().BeFalse();
     }
 
     [Test]
@@ -834,19 +812,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Content-Security-Policy-Report-Only").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("default-src 'self'; object-src 'none'");
-            response.Headers.Contains("Content-Security-Policy").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Content-Security-Policy-Report-Only").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("default-src 'self'; object-src 'none'");
+        response.Headers.Contains("Content-Security-Policy").Should().BeFalse();
     }
 
     [Test]
@@ -878,16 +855,15 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Contains("Content-Security-Policy").Should().BeTrue();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.Contains("Content-Security-Policy").Should().BeTrue();
     }
 
     [Test]
@@ -908,18 +884,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("default-src 'self'; object-src 'none'");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("default-src 'self'; object-src 'none'");
     }
 
     [Test]
@@ -950,18 +925,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("default-src 'self'; object-src 'none'");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Content-Security-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("default-src 'self'; object-src 'none'");
     }
 
     [Test]
@@ -978,17 +952,16 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("X-My-Test-Header").FirstOrDefault();
-            header.Should().Be("Header value");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("X-My-Test-Header").FirstOrDefault();
+        header.Should().Be("Header value");
     }
 
     [Test]
@@ -1013,17 +986,16 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().ContainKey("Feature-Policy").WhoseValue.Should()
-                .ContainSingle("fullscreen 'self'; geolocation 'none'");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.Should().ContainKey("Feature-Policy").WhoseValue.Should()
+            .ContainSingle("fullscreen 'self'; geolocation 'none'");
     }
 
     [Test]
@@ -1048,17 +1020,16 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().ContainKey("Feature-Policy").WhoseValue.Should()
-                .ContainSingle("fullscreen 'self'; geolocation 'none'");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.Should().ContainKey("Feature-Policy").WhoseValue.Should()
+            .ContainSingle("fullscreen 'self'; geolocation 'none'");
     }
 
     [Test]
@@ -1079,17 +1050,16 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().ContainKey("Feature-Policy").WhoseValue.Should()
-                .ContainSingle("fullscreen 'self'; geolocation 'none'");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.Should().ContainKey("Feature-Policy").WhoseValue.Should()
+            .ContainSingle("fullscreen 'self'; geolocation 'none'");
     }
 
     [Test]
@@ -1118,17 +1088,16 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().ContainKey("Permissions-Policy").WhoseValue.Should().ContainSingle(
-                "accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=self, ambient-light-sensor=\"https://testurl.com\", geolocation=(), camera=*\"");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.Should().ContainKey("Permissions-Policy").WhoseValue.Should().ContainSingle(
+            "accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=self, ambient-light-sensor=\"https://testurl.com\", geolocation=(), camera=*\"");
     }
 
     [Test]
@@ -1153,17 +1122,16 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().ContainKey("Permissions-Policy").WhoseValue.Should().ContainSingle(
-                "accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=self, ambient-light-sensor=\"https://testurl.com\", geolocation=(), camera=*\"");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.Should().ContainKey("Permissions-Policy").WhoseValue.Should().ContainSingle(
+            "accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=self, ambient-light-sensor=\"https://testurl.com\", geolocation=(), camera=*\"");
     }
 
     [Test]
@@ -1184,18 +1152,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Permissions-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("fullscreen=self, geolocation=()");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Permissions-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("fullscreen=self, geolocation=()");
     }
 
     [Test]
@@ -1217,18 +1184,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            server.BaseAddress = new Uri("https://example.com:5001");
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
-            header.Should().Be($"max-age={maxAge}");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        server.BaseAddress = new Uri("https://example.com:5001");
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
+        header.Should().Be($"max-age={maxAge}");
     }
 
     [Test]
@@ -1251,18 +1217,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            server.BaseAddress = new Uri("https://example.com:5001");
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
-            header.Should().Be($"max-age={maxAge}; includeSubDomains");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        server.BaseAddress = new Uri("https://example.com:5001");
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
+        header.Should().Be($"max-age={maxAge}; includeSubDomains");
     }
 
     [Test]
@@ -1285,18 +1250,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            server.BaseAddress = new Uri("https://example.com:5001");
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
-            header.Should().Be($"max-age={maxAge}; includeSubDomains; preload");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        server.BaseAddress = new Uri("https://example.com:5001");
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
+        header.Should().Be($"max-age={maxAge}; includeSubDomains; preload");
     }
 
     [Test]
@@ -1320,18 +1284,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            server.BaseAddress = new Uri("https://example.com:5001");
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
-            header.Should().Be($"max-age={maxAge}; includeSubDomains");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        server.BaseAddress = new Uri("https://example.com:5001");
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Strict-Transport-Security").FirstOrDefault();
+        header.Should().Be($"max-age={maxAge}; includeSubDomains");
     }
 
     [Test]
@@ -1353,16 +1316,15 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Contains("Expect-CT").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.Contains("Expect-CT").Should().BeFalse();
     }
 
     [Test]
@@ -1385,17 +1347,16 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            server.BaseAddress = new Uri("https://localhost:5001");
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Contains("Expect-CT").Should().BeFalse("Should not contain Expect-CT header on localhost");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        server.BaseAddress = new Uri("https://localhost:5001");
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.Contains("Expect-CT").Should().BeFalse("Should not contain Expect-CT header on localhost");
     }
 
     [Test]
@@ -1418,18 +1379,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            server.BaseAddress = new Uri("https://example.com:5001");
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
-            header.Should().Be($"max-age={maxAge}, enforce");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        server.BaseAddress = new Uri("https://example.com:5001");
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
+        header.Should().Be($"max-age={maxAge}, enforce");
     }
 
     [Test]
@@ -1452,18 +1412,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            server.BaseAddress = new Uri("https://example.com:5001");
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
-            header.Should().Be($"max-age={maxAge}");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        server.BaseAddress = new Uri("https://example.com:5001");
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
+        header.Should().Be($"max-age={maxAge}");
     }
 
     [Test]
@@ -1487,18 +1446,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            server.BaseAddress = new Uri("https://example.com:5001");
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
-            header.Should().Be($"max-age={maxAge}, report-uri=\"{reportUri}\"");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        server.BaseAddress = new Uri("https://example.com:5001");
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
+        header.Should().Be($"max-age={maxAge}, report-uri=\"{reportUri}\"");
     }
 
     [Test]
@@ -1522,18 +1480,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            server.BaseAddress = new Uri("https://example.com:5001");
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
-            header.Should().Be($"max-age={maxAge}, enforce, report-uri=\"{reportUri}\"");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        server.BaseAddress = new Uri("https://example.com:5001");
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
+        header.Should().Be($"max-age={maxAge}, enforce, report-uri=\"{reportUri}\"");
     }
 
     [Test]
@@ -1557,18 +1514,17 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            server.BaseAddress = new Uri("https://example.com:5001");
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
-            header.Should().Be($"max-age={maxAge}, enforce, report-uri=\"{reportUri}\"");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        server.BaseAddress = new Uri("https://example.com:5001");
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Expect-CT").FirstOrDefault();
+        header.Should().Be($"max-age={maxAge}, enforce, report-uri=\"{reportUri}\"");
     }
 
     [Test]
@@ -1592,19 +1548,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("unsafe-none");
-            response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("unsafe-none");
+        response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
     }
 
     [Test]
@@ -1629,19 +1584,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("unsafe-none; report-to=\"coop_endpoint\"");
-            response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("unsafe-none; report-to=\"coop_endpoint\"");
+        response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
     }
 
     [Test]
@@ -1665,19 +1619,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("same-origin");
-            response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("same-origin");
+        response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
     }
 
     [Test]
@@ -1701,19 +1654,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("same-origin-allow-popups");
-            response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("same-origin-allow-popups");
+        response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
     }
 
     [Test]
@@ -1737,19 +1689,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Cross-Origin-Embedder-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("unsafe-none");
-            response.Headers.Contains("Cross-Origin-Embedder-Policy-Report-Only").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Cross-Origin-Embedder-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("unsafe-none");
+        response.Headers.Contains("Cross-Origin-Embedder-Policy-Report-Only").Should().BeFalse();
     }
 
     [Test]
@@ -1773,19 +1724,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Cross-Origin-Embedder-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("require-corp");
-            response.Headers.Contains("Cross-Origin-Embedder-Policy-Report-Only").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Cross-Origin-Embedder-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("require-corp");
+        response.Headers.Contains("Cross-Origin-Embedder-Policy-Report-Only").Should().BeFalse();
     }
 
     [Test]
@@ -1809,19 +1759,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Cross-Origin-Resource-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("same-site");
-            response.Headers.Contains("Cross-Origin-Resource-Policy-Report-Only").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Cross-Origin-Resource-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("same-site");
+        response.Headers.Contains("Cross-Origin-Resource-Policy-Report-Only").Should().BeFalse();
     }
 
     [Test]
@@ -1845,19 +1794,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Cross-Origin-Resource-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("same-origin");
-            response.Headers.Contains("Cross-Origin-Resource-Policy-Report-Only").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Cross-Origin-Resource-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("same-origin");
+        response.Headers.Contains("Cross-Origin-Resource-Policy-Report-Only").Should().BeFalse();
     }
 
     [Test]
@@ -1881,19 +1829,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Cross-Origin-Resource-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("cross-origin");
-            response.Headers.Contains("Cross-Origin-Resource-Policy-Report-Only").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Cross-Origin-Resource-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("cross-origin");
+        response.Headers.Contains("Cross-Origin-Resource-Policy-Report-Only").Should().BeFalse();
     }
 
     [Test]
@@ -1918,19 +1865,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be(json);
-            var header = response.Headers.GetValues("Cross-Origin-Resource-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("cross-origin");
-            response.Headers.Contains("Cross-Origin-Resource-Policy-Report-Only").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be(json);
+        var header = response.Headers.GetValues("Cross-Origin-Resource-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("cross-origin");
+        response.Headers.Contains("Cross-Origin-Resource-Policy-Report-Only").Should().BeFalse();
     }
 
     [Test]
@@ -1955,19 +1901,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Cross-Origin-Opener-Policy-Report-Only").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("unsafe-none; report-to=\"coop_endpoint\"");
-            response.Headers.Contains("Cross-Origin-Opener-Policy").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Cross-Origin-Opener-Policy-Report-Only").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("unsafe-none; report-to=\"coop_endpoint\"");
+        response.Headers.Contains("Cross-Origin-Opener-Policy").Should().BeFalse();
     }
 
     [Test]
@@ -1992,19 +1937,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Cross-Origin-Opener-Policy-Report-Only").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("unsafe-none; report-to=\"coop_endpoint\"");
-            response.Headers.Contains("Cross-Origin-Opener-Policy").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Cross-Origin-Opener-Policy-Report-Only").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("unsafe-none; report-to=\"coop_endpoint\"");
+        response.Headers.Contains("Cross-Origin-Opener-Policy").Should().BeFalse();
     }
 
     [Test]
@@ -2029,19 +1973,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("unsafe-none; report-to=\"coop_endpoint\"");
-            response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Cross-Origin-Opener-Policy").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("unsafe-none; report-to=\"coop_endpoint\"");
+        response.Headers.Contains("Cross-Origin-Opener-Policy-Report-Only").Should().BeFalse();
     }
 
     [Test]
@@ -2067,19 +2010,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Cross-Origin-Embedder-Policy-Report-Only").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("unsafe-none; report-to=\"coep_endpoint\"");
-            response.Headers.Contains("Cross-Origin-Embedder-Policy").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Cross-Origin-Embedder-Policy-Report-Only").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("unsafe-none; report-to=\"coep_endpoint\"");
+        response.Headers.Contains("Cross-Origin-Embedder-Policy").Should().BeFalse();
     }
 
     [Test]
@@ -2104,19 +2046,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Cross-Origin-Embedder-Policy-Report-Only").FirstOrDefault();
-            header.Should().NotBeNull();
-            header.Should().Be("unsafe-none; report-to=\"coep_endpoint\"");
-            response.Headers.Contains("Cross-Origin-Embedder-Policy").Should().BeFalse();
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Cross-Origin-Embedder-Policy-Report-Only").FirstOrDefault();
+        header.Should().NotBeNull();
+        header.Should().Be("unsafe-none; report-to=\"coep_endpoint\"");
+        response.Headers.Contains("Cross-Origin-Embedder-Policy").Should().BeFalse();
     }
 
     [Test]
@@ -2141,19 +2082,18 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Actual request.
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            // Assert
-            response.EnsureSuccessStatusCode();
-            (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            var header = response.Headers.GetValues("Reporting-Endpoints").SingleOrDefault();
-            header.Should().NotBeNull();
-            header.Should()
-                .Be("default=\"https://localhost:5000/default\", endpoint-1=\"http://localhost/endpoint-1\"");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        var header = response.Headers.GetValues("Reporting-Endpoints").SingleOrDefault();
+        header.Should().NotBeNull();
+        header.Should()
+            .Be("default=\"https://localhost:5000/default\", endpoint-1=\"http://localhost/endpoint-1\"");
     }
 
     [Test]
@@ -2192,6 +2132,7 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
+
         using var server = host.GetTestServer();
         // API request.
         var response = await server.CreateRequest("/api").SendAsync("GET");
@@ -2231,14 +2172,13 @@ public class SecurityHeadersMiddlewareTests
                 }))
             .Build();
         await host.StartAsync();
-        using (var server = host.GetTestServer())
-        {
-            // Act
-            // Add header
-            var response = await server.CreateRequest("/").SendAsync("PUT");
-            response.EnsureSuccessStatusCode();
-            response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().Contain("Default");
-        }
+
+        using var server = host.GetTestServer();
+        // Act
+        // Add header
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+        response.EnsureSuccessStatusCode();
+        response.Headers.Should().ContainKey("Custom-Header").WhoseValue.Should().Contain("Default");
     }
 
     private class HeaderPolicyCollectionFactory
