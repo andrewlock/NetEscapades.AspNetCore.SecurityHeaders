@@ -54,6 +54,7 @@ namespace Microsoft.AspNetCore.Builder
         public CspBuilder() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.BaseUriDirectiveBuilder AddBaseUri() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.BlockAllMixedContentDirectiveBuilder AddBlockAllMixedContent() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ChildSourceDirectiveBuilder AddChildSrc() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ConnectSourceDirectiveBuilder AddConnectSrc() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirective AddCustomDirective(string directive) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirective AddCustomDirective(string directive, string value) { }
@@ -300,6 +301,10 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
     public class BlockAllMixedContentDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilderBase
     {
         public BlockAllMixedContentDirectiveBuilder() { }
+    }
+    public class ChildSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public ChildSourceDirectiveBuilder() { }
     }
     public class ConnectSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
     {
