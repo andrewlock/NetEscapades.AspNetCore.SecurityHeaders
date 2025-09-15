@@ -50,6 +50,15 @@ public class CspBuilderTests
     }
 
     [Test]
+    public void Build_AddChildSrc_WhenAddsMultipleValue_ReturnsAllValues()
+    {
+        var builder = new CspBuilder();
+        builder.AddChildSrc().Self().Blob().Data().From("http://testUrl.com");
+        var result = builder.Build();
+        result.ConstantValue.Should().Be("child-src 'self' blob: data: http://testUrl.com");
+    }
+
+    [Test]
     public void Build_AddConnectSrc_WhenAddsMultipleValue_ReturnsAllValues()
     {
         var builder = new CspBuilder();
@@ -384,6 +393,7 @@ public class CspBuilderTests
     {
         var builder = new CspBuilder();
         builder.AddDefaultSrc().Self().Blob().Data().From("http://testUrl.com");
+        builder.AddChildSrc().Self().Blob().Data().From("http://testUrl.com");
         builder.AddConnectSrc().Self().Blob().Data().From("http://testUrl.com");
         builder.AddFontSrc().Self().Blob().Data().From("http://testUrl.com");
         builder.AddObjectSrc().Self().Blob().Data().From("http://testUrl.com");
@@ -407,6 +417,7 @@ public class CspBuilderTests
     {
         var builder = new CspBuilder();
         builder.AddDefaultSrc().Self().Blob().Data().From("http://testUrl.com");
+        builder.AddChildSrc().Self().Blob().Data().From("http://testUrl.com");
         builder.AddConnectSrc().Self().Blob().Data().From("http://testUrl.com");
         builder.AddFontSrc().Self().Blob().Data().From("http://testUrl.com");
         builder.AddObjectSrc().Self().Blob().Data().From("http://testUrl.com");
