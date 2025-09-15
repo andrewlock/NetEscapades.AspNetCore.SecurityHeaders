@@ -35,6 +35,7 @@ public class Startup
             {
                 builder.AddUpgradeInsecureRequests();
                 builder.AddDefaultSrc().Self();
+                builder.AddChildSrc().From("*");
                 builder.AddConnectSrc().From("*");
                 builder.AddFontSrc().From("*");
                 builder.AddFrameAncestors().From("*");

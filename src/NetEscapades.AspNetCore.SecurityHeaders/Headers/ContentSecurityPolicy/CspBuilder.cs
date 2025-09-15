@@ -27,6 +27,14 @@ public class CspBuilder
     public DefaultSourceDirectiveBuilder AddDefaultSrc() => AddDirective(new DefaultSourceDirectiveBuilder());
 
     /// <summary>
+    /// The <c>child</c> directive specifies valid sources for web workers and
+    /// nested browsing contexts loaded using elements such as &lt;frame&gt; and &lt;iframe&gt;
+    /// For workers, non-compliant requests are treated as fatal network errors by the user agent.
+    /// </summary>
+    /// <returns>A configured <see cref="ChildSourceDirectiveBuilder"/></returns>
+    public ChildSourceDirectiveBuilder AddChildSrc() => AddDirective(new ChildSourceDirectiveBuilder());
+
+    /// <summary>
     /// The <c>connect-src</c> directive restricts the URLs which can be loaded using script interfaces
     /// The APIs that are restricted are:  &lt;a&gt; ping, Fetch, XMLHttpRequest, WebSocket, and EventSource.
     /// </summary>
