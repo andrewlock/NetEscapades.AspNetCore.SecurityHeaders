@@ -11,6 +11,8 @@ public static class ServiceCollectionExtensions
 {
     /// <summary>
     /// Creates a builder for configuring security header policies.
+    /// Note that this method overrides any previous calls to the method. Favor calling <see cref="AddSecurityHeaderPolicies(Microsoft.Extensions.DependencyInjection.IServiceCollection)"/>
+    /// or <see cref="AddSecurityHeaderPolicies(Microsoft.Extensions.DependencyInjection.IServiceCollection)"/> to chain multiple calls.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
     /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> so that header policies can be configured.</returns>
@@ -24,6 +26,34 @@ public static class ServiceCollectionExtensions
         var options = new CustomHeaderOptions();
         services.AddSingleton(options);
         return new SecurityHeaderPolicyBuilder(options);
+    }
+
+    /// <summary>
+    /// Creates a builder for configuring security header policies.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
+    /// <param name="configure">A configuration method to configure your header policies</param>
+    /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+    public static IServiceCollection AddSecurityHeaderPolicies(
+        this IServiceCollection services,
+        Action<SecurityHeaderPolicyBuilder> configure)
+    {
+        if (services == null)
+        {
+            throw new ArgumentNullException(nameof(services));
+        }
+
+        if (configure == null)
+        {
+            throw new ArgumentNullException(nameof(configure));
+        }
+
+        services.AddSingleton(new ConfigureHeaderOptions((options, provider) =>
+        {
+            configure(new SecurityHeaderPolicyBuilder(options));
+        }));
+
+        return services;
     }
 
     /// <summary>
@@ -47,12 +77,10 @@ public static class ServiceCollectionExtensions
             throw new ArgumentNullException(nameof(configure));
         }
 
-        var options = new CustomHeaderOptions();
-        services.AddSingleton<CustomHeaderOptions>(provider =>
+        services.AddSingleton(new ConfigureHeaderOptions((options, provider) =>
         {
             configure(new SecurityHeaderPolicyBuilder(options), provider);
-            return options;
-        });
+        }));
 
         return services;
     }

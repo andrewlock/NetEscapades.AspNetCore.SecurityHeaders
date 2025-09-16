@@ -114,75 +114,22 @@ public static class SecurityHeadersMiddlewareExtensions
 
     private static CustomHeaderOptions? GetOptions(IServiceProvider services)
     {
-        var allOpts = services.GetServices<CustomHeaderOptions>();
-        if (allOpts is null)
+        // Only choose the _last_ directly registered CustomHeaderOptions
+        var options = services.GetService<CustomHeaderOptions>();
+
+        // Apply all the configure options
+        var configureOptions = services.GetServices<ConfigureHeaderOptions>();
+        if (configureOptions is null)
         {
-            return null;
+            return options;
         }
 
-        // Merge all the options
-        CustomHeaderOptions? merged = null;
-        ILogger? logger = null;
-
-        foreach (var opt in allOpts)
+        options ??= new();
+        foreach (var configure in configureOptions)
         {
-            if (opt is null)
-            {
-                continue;
-            }
-
-            if (merged is null)
-            {
-                merged = opt;
-                continue;
-            }
-
-            logger = Merge(services, logger, merged, opt);
+            configure.Configure(options, services);
         }
 
-        return merged;
-    }
-
-    private static ILogger? Merge(
-        IServiceProvider services,
-        ILogger? logger,
-        CustomHeaderOptions current,
-        CustomHeaderOptions next)
-    {
-        if (next.DefaultPolicy is not null)
-        {
-            if (current.DefaultPolicy is not null)
-            {
-                // TODO: Log warning
-                logger ??= services.GetRequiredService<ILogger<CustomHeaderOptions>>();
-            }
-
-            current.DefaultPolicy = next.DefaultPolicy;
-        }
-
-        if (next.PolicySelector is not null)
-        {
-            if (current.PolicySelector is not null)
-            {
-                // TODO: Log warning
-                logger ??= services.GetRequiredService<ILogger<CustomHeaderOptions>>();
-            }
-
-            current.PolicySelector = next.PolicySelector;
-        }
-
-        var policies = current.NamedPolicyCollections;
-        foreach (var kvp in next.NamedPolicyCollections)
-        {
-            if (policies.ContainsKey(kvp.Key))
-            {
-                // TODO: Log warning
-                logger ??= services.GetRequiredService<ILogger<CustomHeaderOptions>>();
-            }
-
-            policies[kvp.Key] = kvp.Value;
-        }
-
-        return logger;
+        return options;
     }
 }
