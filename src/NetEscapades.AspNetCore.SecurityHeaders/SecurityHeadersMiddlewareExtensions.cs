@@ -112,24 +112,43 @@ public static class SecurityHeadersMiddlewareExtensions
         return app.UseMiddleware<SecurityHeadersMiddleware>(options ?? new(), policies);
     }
 
-    private static CustomHeaderOptions? GetOptions(IServiceProvider services)
+    /// <summary>
+    /// Get the <see cref="CustomHeaderOptions"/> to use. Internal for testing.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceProvider"/> to use</param>
+    /// <returns>The options to use in the middleware</returns>
+    internal static CustomHeaderOptions? GetOptions(IServiceProvider services)
     {
         // Only choose the _last_ directly registered CustomHeaderOptions
-        var options = services.GetService<CustomHeaderOptions>();
-
-        // Apply all the configure options
-        var configureOptions = services.GetServices<ConfigureHeaderOptions>();
-        if (configureOptions is null)
+        var allOptions = services.GetServices<CustomHeaderOptions>();
+        if (allOptions is null)
         {
-            return options;
+            return null;
         }
 
-        options ??= new();
-        foreach (var configure in configureOptions)
+        CustomHeaderOptions? current = null;
+        foreach (var next in allOptions)
         {
-            configure.Configure(options, services);
+            if (next is null)
+            {
+                continue;
+            }
+
+            if (current is null)
+            {
+                current = next;
+                continue;
+            }
+
+            // overwrite/merge everything
+            current.DefaultPolicy = next.DefaultPolicy ?? current.DefaultPolicy;
+            current.PolicySelector = next.PolicySelector ?? current.PolicySelector;
+            foreach (var kvp in next.NamedPolicyCollections)
+            {
+                current.NamedPolicyCollections[kvp.Key] = kvp.Value;
+            }
         }
 
-        return options;
+        return current;
     }
 }

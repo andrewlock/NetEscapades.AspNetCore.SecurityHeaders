@@ -48,10 +48,12 @@ public static class ServiceCollectionExtensions
             throw new ArgumentNullException(nameof(configure));
         }
 
-        services.AddSingleton(new ConfigureHeaderOptions((options, provider) =>
+        services.AddSingleton(_ =>
         {
+            var options = new CustomHeaderOptions();
             configure(new SecurityHeaderPolicyBuilder(options));
-        }));
+            return options;
+        });
 
         return services;
     }
@@ -77,10 +79,12 @@ public static class ServiceCollectionExtensions
             throw new ArgumentNullException(nameof(configure));
         }
 
-        services.AddSingleton(new ConfigureHeaderOptions((options, provider) =>
+        services.AddSingleton(provider =>
         {
+            var options = new CustomHeaderOptions();
             configure(new SecurityHeaderPolicyBuilder(options), provider);
-        }));
+            return options;
+        });
 
         return services;
     }
