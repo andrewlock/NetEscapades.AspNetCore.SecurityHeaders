@@ -11,8 +11,6 @@ public static class ServiceCollectionExtensions
 {
     /// <summary>
     /// Creates a builder for configuring security header policies.
-    /// Note that this method overrides any previous calls to the method. Favor calling <see cref="AddSecurityHeaderPolicies(Microsoft.Extensions.DependencyInjection.IServiceCollection)"/>
-    /// or <see cref="AddSecurityHeaderPolicies(Microsoft.Extensions.DependencyInjection.IServiceCollection)"/> to chain multiple calls.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
     /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> so that header policies can be configured.</returns>
