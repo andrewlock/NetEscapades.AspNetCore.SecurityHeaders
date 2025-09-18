@@ -1,3 +1,12 @@
+## Changes in 1.2.0:
+
+Features:
+* Add support for `child-src` to `Content-Security-Policy` #259
+* Allow multiple calls to `AddSecurityHeadersPolicies()` for registering named polices #250
+
+Fixes:
+* Fix typos in ReadMe #256 (Thanks [@jt-pt-dev](https://github.com/jt-pt-dev))
+
 ## Changes in 1.1.0
 
 Features:
