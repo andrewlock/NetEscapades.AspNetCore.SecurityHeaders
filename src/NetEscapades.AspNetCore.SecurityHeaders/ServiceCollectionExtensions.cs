@@ -30,6 +30,36 @@ public static class ServiceCollectionExtensions
     /// Creates a builder for configuring security header policies.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
+    /// <param name="configure">A configuration method to configure your header policies</param>
+    /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
+    public static IServiceCollection AddSecurityHeaderPolicies(
+        this IServiceCollection services,
+        Action<SecurityHeaderPolicyBuilder> configure)
+    {
+        if (services == null)
+        {
+            throw new ArgumentNullException(nameof(services));
+        }
+
+        if (configure == null)
+        {
+            throw new ArgumentNullException(nameof(configure));
+        }
+
+        services.AddSingleton(_ =>
+        {
+            var options = new CustomHeaderOptions();
+            configure(new SecurityHeaderPolicyBuilder(options));
+            return options;
+        });
+
+        return services;
+    }
+
+    /// <summary>
+    /// Creates a builder for configuring security header policies.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection" /> to add services to.</param>
     /// <param name="configure">A configuration method that provides access to an <see cref="IServiceProvider"/>
     /// to configure your header policies</param>
     /// <returns>The <see cref="IServiceCollection"/> so that additional calls can be chained.</returns>
@@ -47,9 +77,9 @@ public static class ServiceCollectionExtensions
             throw new ArgumentNullException(nameof(configure));
         }
 
-        var options = new CustomHeaderOptions();
-        services.AddSingleton<CustomHeaderOptions>(provider =>
+        services.AddSingleton(provider =>
         {
+            var options = new CustomHeaderOptions();
             configure(new SecurityHeaderPolicyBuilder(options), provider);
             return options;
         });

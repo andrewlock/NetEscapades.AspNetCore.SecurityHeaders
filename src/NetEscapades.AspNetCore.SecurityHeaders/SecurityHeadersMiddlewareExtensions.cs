@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NetEscapades.AspNetCore.SecurityHeaders;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
@@ -28,7 +30,7 @@ public static class SecurityHeadersMiddlewareExtensions
             throw new ArgumentNullException(nameof(policies));
         }
 
-        var opts = app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) as CustomHeaderOptions;
+        var opts = GetOptions(app.ApplicationServices);
         return app.UseMiddleware(policies, opts);
     }
 
@@ -65,7 +67,7 @@ public static class SecurityHeadersMiddlewareExtensions
             throw new ArgumentNullException(nameof(app));
         }
 
-        var options = app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) as CustomHeaderOptions;
+        var options = GetOptions(app.ApplicationServices);
         var policy = options?.DefaultPolicy ?? new HeaderPolicyCollection().AddDefaultSecurityHeaders();
 
         return app.UseMiddleware(policy, options);
@@ -89,7 +91,7 @@ public static class SecurityHeadersMiddlewareExtensions
             throw new ArgumentNullException(nameof(policyName));
         }
 
-        var options = app.ApplicationServices.GetService(typeof(CustomHeaderOptions)) as CustomHeaderOptions;
+        var options = GetOptions(app.ApplicationServices);
         var policy = options?.GetPolicy(policyName);
         if (policy is null)
         {
@@ -108,5 +110,45 @@ public static class SecurityHeadersMiddlewareExtensions
         CustomHeaderOptions? options)
     {
         return app.UseMiddleware<SecurityHeadersMiddleware>(options ?? new(), policies);
+    }
+
+    /// <summary>
+    /// Get the <see cref="CustomHeaderOptions"/> to use. Internal for testing.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceProvider"/> to use</param>
+    /// <returns>The options to use in the middleware</returns>
+    internal static CustomHeaderOptions? GetOptions(IServiceProvider services)
+    {
+        // Only choose the _last_ directly registered CustomHeaderOptions
+        var allOptions = services.GetServices<CustomHeaderOptions>();
+        if (allOptions is null)
+        {
+            return null;
+        }
+
+        CustomHeaderOptions? current = null;
+        foreach (var next in allOptions)
+        {
+            if (next is null)
+            {
+                continue;
+            }
+
+            if (current is null)
+            {
+                current = next;
+                continue;
+            }
+
+            // overwrite/merge everything
+            current.DefaultPolicy = next.DefaultPolicy ?? current.DefaultPolicy;
+            current.PolicySelector = next.PolicySelector ?? current.PolicySelector;
+            foreach (var kvp in next.NamedPolicyCollections)
+            {
+                current.NamedPolicyCollections[kvp.Key] = kvp.Value;
+            }
+        }
+
+        return current;
     }
 }
