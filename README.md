@@ -207,7 +207,6 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.UseRouting(); 
 
-app.UseEndpointSecurityHeaders(); 
 app.UseAuthorization();
 
 app.MapGet("/", () => "Hello world")
