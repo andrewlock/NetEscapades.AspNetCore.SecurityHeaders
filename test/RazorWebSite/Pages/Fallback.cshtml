@@ -1,0 +1,8 @@
+﻿@page
+@using NetEscapades.AspNetCore.SecurityHeaders
+@attribute [SecurityHeadersPolicy("FallbackPolicy")]
+@{
+    ViewData["Title"] = "Fallback!";
+}
+
+<h1> This is the Fallback page</h1>

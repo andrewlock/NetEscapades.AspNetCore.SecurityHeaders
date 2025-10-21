@@ -17,6 +17,10 @@ public class Startup
             .AddPolicy("CustomHeader", policy =>
             {
                 policy.AddCustomHeader("Custom-Header", "MyValue");
+            })
+            .AddPolicy("FallbackPolicy", policy =>
+            {
+                policy.AddCustomHeader("Fallback-Header", "FallbackPage");
             });
     }
 
@@ -57,12 +61,15 @@ public class Startup
 
         app.UseStaticFiles();
         app.UseRouting();
-        app.UseSecurityHeaders(policyCollection);
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapRazorPages();
             endpoints.MapGet("/api", context => context.Response.WriteAsync("ping-pong"))
                 .WithSecurityHeadersPolicy("CustomHeader");
+            endpoints.MapFallbackToPage("/Fallback");
+            // The below won't work, because the endpoint selected is replaced with the "real" endpoint
+            // This is by design, e.g. https://github.com/dotnet/aspnetcore/issues/14679
+            // .WithSecurityHeadersPolicy("FallbackPolicy");  
         });
     }
 }

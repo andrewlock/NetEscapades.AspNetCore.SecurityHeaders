@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\NetEscapades.AspNetCore.SecurityHeaders\NetEscapades.AspNetCore.SecurityHeaders.csproj" />
     <ProjectReference Include="..\SecurityHeadersMiddlewareWebSite\SecurityHeadersMiddlewareWebSite.csproj" />
+    <ProjectReference Include="..\RazorWebSite\RazorWebSite.csproj" />
   </ItemGroup>
 
   <ItemGroup>
