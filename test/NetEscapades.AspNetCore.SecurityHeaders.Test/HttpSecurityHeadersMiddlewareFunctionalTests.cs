@@ -6,7 +6,7 @@ using FluentAssertions;
 using NetEscapades.AspNetCore.SecurityHeaders.Test;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
-[ClassDataSource<NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.HttpSecurityHeadersTestFixture<SecurityHeadersMiddlewareWebSite.Startup>>(Shared = SharedType.PerClass)]
+[ClassDataSource<HttpSecurityHeadersTestFixture<SecurityHeadersMiddlewareWebSite.Startup>>(Shared = SharedType.PerClass)]
 public class HttpSecurityHeadersMiddlewareFunctionalTests
 {
     private const string EchoPath = "/SecurityHeadersMiddleware/EC6AA70D-BA3E-4B71-A87F-18625ADDB2BD";
