@@ -58,7 +58,7 @@ internal class SecurityHeadersMiddleware
         throw new InvalidOperationException($"{nameof(SecurityHeaderPolicyBuilder.SetPolicySelector)} must not return null.");
     }
 
-    private static Task OnResponseStarting(object state)
+    private static async Task OnResponseStarting(object state)
     {
         var (context, middleware) = (Tuple<HttpContext, SecurityHeadersMiddleware>)state;
         var options = middleware._options;
@@ -96,7 +96,7 @@ internal class SecurityHeadersMiddleware
         IReadOnlyHeaderPolicyCollection? policyToApply = null;
         if (options.PolicySelector is not null)
         {
-            policyToApply = options.PolicySelector(
+            policyToApply = await options.PolicySelector(
                 new(context, options.NamedPolicyCollections, middleware._defaultPolicy, policyName, endpointPolicy));
 
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
@@ -110,7 +110,5 @@ internal class SecurityHeadersMiddleware
 
         var result = CustomHeaderService.EvaluatePolicy(context, policyToApply ?? endpointPolicy ?? middleware._defaultPolicy);
         CustomHeaderService.ApplyResult(context.Response, result);
-
-        return Task.CompletedTask;
     }
 }

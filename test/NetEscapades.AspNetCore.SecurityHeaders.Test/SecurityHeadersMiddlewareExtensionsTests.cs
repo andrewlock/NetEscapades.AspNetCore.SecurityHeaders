@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -90,8 +91,8 @@ public class SecurityHeadersMiddlewareExtensionsTests
         [Matrix] RegistrationType second)
     {
         var serviceCollection = new ServiceCollection();
-        Func<PolicySelectorContext, IReadOnlyHeaderPolicyCollection> selector1 = x => x.DefaultPolicy;
-        Func<PolicySelectorContext, IReadOnlyHeaderPolicyCollection> selector2 = x => x.DefaultPolicy;
+        Func<PolicySelectorContext, Task<IReadOnlyHeaderPolicyCollection>> selector1 = x => Task.FromResult(x.DefaultPolicy);
+        Func<PolicySelectorContext, Task<IReadOnlyHeaderPolicyCollection>> selector2 = x => Task.FromResult(x.DefaultPolicy);
         SetSelector(serviceCollection, first, selector1);
         SetSelector(serviceCollection, second, selector2);
         var provider = serviceCollection.BuildServiceProvider();
@@ -101,7 +102,7 @@ public class SecurityHeadersMiddlewareExtensionsTests
         opts.PolicySelector.Should().BeSameAs(selector2);
 
         static void SetSelector(ServiceCollection services, RegistrationType type,
-            Func<PolicySelectorContext, IReadOnlyHeaderPolicyCollection> selector)
+            Func<PolicySelectorContext, Task<IReadOnlyHeaderPolicyCollection>> selector)
         {
             switch (type)
             {

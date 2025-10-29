@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
@@ -23,7 +24,7 @@ internal class CustomHeaderOptions
     /// <summary>
     /// The policy selector function
     /// </summary>
-    public Func<PolicySelectorContext, IReadOnlyHeaderPolicyCollection>? PolicySelector { get; set; }
+    public Func<PolicySelectorContext, Task<IReadOnlyHeaderPolicyCollection>>? PolicySelector { get; set; }
 
     /// <summary>
     /// Gets the policy based on the <paramref name="name"/>

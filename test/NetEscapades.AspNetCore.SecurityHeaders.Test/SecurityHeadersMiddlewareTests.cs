@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Test;
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -94,15 +95,17 @@ public class SecurityHeadersMiddlewareTests
     {
         var policyName = "default";
         // Arrange
-        var hostBuilder = new WebHostBuilder().ConfigureServices(s => s.AddSecurityHeaderPolicies().AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"))).Configure(app =>
-        {
-            app.UseSecurityHeaders(policyName);
-            app.Run(async context =>
+        var hostBuilder = new WebHostBuilder().ConfigureServices(s =>
+                s.AddSecurityHeaderPolicies().AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue")))
+            .Configure(app =>
             {
-                context.Response.ContentType = "text/html";
-                await context.Response.WriteAsync("Test response");
+                app.UseSecurityHeaders(policyName);
+                app.Run(async context =>
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync("Test response");
+                });
             });
-        });
         using (var server = new TestServer(hostBuilder))
         {
             // Act
@@ -123,14 +126,14 @@ public class SecurityHeadersMiddlewareTests
         var hostBuilder = new WebHostBuilder()
             .UseSetting("suppressStatusMessages", "true")
             .Configure(app =>
-        {
-            app.UseSecurityHeaders("Unknown name");
-            app.Run(async context =>
             {
-                context.Response.ContentType = "text/html";
-                await context.Response.WriteAsync("Test response");
+                app.UseSecurityHeaders("Unknown name");
+                app.Run(async context =>
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync("Test response");
+                });
             });
-        });
         Func<TestServer> act = () => new TestServer(hostBuilder);
         act.Should().Throw<InvalidOperationException>();
     }
@@ -239,15 +242,17 @@ public class SecurityHeadersMiddlewareTests
     public async Task HttpRequest_WithDefaultSecurityHeaders_WithConfiguredDefaultPolicy_SetsCustomHeaders()
     {
         // Arrange
-        var hostBuilder = new WebHostBuilder().ConfigureServices(s => s.AddSecurityHeaderPolicies().SetDefaultPolicy(p => p.AddCustomHeader("Custom-Value", "MyValue"))).Configure(app =>
-        {
-            app.UseSecurityHeaders();
-            app.Run(async context =>
+        var hostBuilder = new WebHostBuilder().ConfigureServices(s =>
+                s.AddSecurityHeaderPolicies().SetDefaultPolicy(p => p.AddCustomHeader("Custom-Value", "MyValue")))
+            .Configure(app =>
             {
-                context.Response.ContentType = "text/html";
-                await context.Response.WriteAsync("Test response");
+                app.UseSecurityHeaders();
+                app.Run(async context =>
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync("Test response");
+                });
             });
-        });
         using (var server = new TestServer(hostBuilder))
         {
             // Act
@@ -266,7 +271,12 @@ public class SecurityHeadersMiddlewareTests
     public async Task HttpRequest_WithCustomDefaultPolicy_UsesCustomPolicy()
     {
         // Arrange
-        var hostBuilder = new WebHostBuilder().ConfigureServices(s => s.AddSecurityHeaderPolicies().SetPolicySelector(ctx => ctx.HttpContext.Request.Headers.ContainsKey("AddTo-Default") ? ctx.DefaultPolicy.Copy().AddCustomHeader("Added-Header", "MyValue") : ctx.DefaultPolicy)).Configure(app =>
+        var hostBuilder = new WebHostBuilder().ConfigureServices(s =>
+            s.AddSecurityHeaderPolicies().SetPolicySelector(ctx =>
+            {
+                var headerPolicyCollection = ctx.HttpContext.Request.Headers.ContainsKey("AddTo-Default") ? ctx.DefaultPolicy.Copy().AddCustomHeader("Added-Header", "MyValue") : ctx.DefaultPolicy;
+                return Task.FromResult(headerPolicyCollection);
+            })).Configure(app =>
         {
             app.UseSecurityHeaders();
             app.Run(async context =>
@@ -311,9 +321,13 @@ public class SecurityHeadersMiddlewareTests
                     .AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue")));
                 s.AddSecurityHeaderPolicies(opts => opts
                     .SetPolicySelector(ctx =>
-                        ctx.HttpContext.Request.Headers.ContainsKey("AddTo-Default")
+                    {
+                        var headerPolicyCollection = ctx.HttpContext.Request.Headers.ContainsKey("AddTo-Default")
                             ? ctx.SelectedPolicy.Copy().AddCustomHeader("Added-Header", "MyValue")
-                            : ctx.SelectedPolicy));
+                            : ctx.SelectedPolicy;
+                            
+                        return Task.FromResult(headerPolicyCollection);
+                    }));
             })
             .Configure(app =>
             {
@@ -326,7 +340,7 @@ public class SecurityHeadersMiddlewareTests
                         context.Response.ContentType = "text/html";
                         await context.Response.WriteAsync("Default");
                     });
-                    
+
                     endpoints.MapPut("/custom", async context =>
                     {
                         context.Response.ContentType = "text/html";
@@ -381,9 +395,14 @@ public class SecurityHeadersMiddlewareTests
                     .AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"));
                 s.AddSecurityHeaderPolicies(opts => opts // lambda
                     .SetPolicySelector(ctx =>
-                        ctx.HttpContext.Request.Headers.ContainsKey("AddTo-Default")
+                    {
+                        var headerPolicyCollection = ctx.HttpContext.Request.Headers.ContainsKey("AddTo-Default")
                             ? ctx.SelectedPolicy.Copy().AddCustomHeader("Added-Header", "MyValue")
-                            : ctx.SelectedPolicy));
+                            : ctx.SelectedPolicy;
+                            
+                        return Task.FromResult(headerPolicyCollection);
+                       
+                    }));
             })
             .Configure(app =>
             {
@@ -396,7 +415,7 @@ public class SecurityHeadersMiddlewareTests
                         context.Response.ContentType = "text/html";
                         await context.Response.WriteAsync("Default");
                     });
-                    
+
                     endpoints.MapPut("/custom", async context =>
                     {
                         context.Response.ContentType = "text/html";
@@ -443,7 +462,12 @@ public class SecurityHeadersMiddlewareTests
         var hostBuilder = new WebHostBuilder().ConfigureServices(s =>
         {
             s.AddRouting();
-            s.AddSecurityHeaderPolicies().AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue")).SetPolicySelector(ctx => ctx.SelectedPolicy.Copy().AddCustomHeader("Added-Header", "MyValue"));
+            s.AddSecurityHeaderPolicies().AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"))
+                .SetPolicySelector(ctx =>
+                {
+                    IReadOnlyHeaderPolicyCollection headerPolicyCollection = ctx.SelectedPolicy.Copy().AddCustomHeader("Added-Header", "MyValue");
+                    return Task.FromResult(headerPolicyCollection);
+                });
         }).Configure(app =>
         {
             app.UseSecurityHeaders();
@@ -479,7 +503,13 @@ public class SecurityHeadersMiddlewareTests
         var hostBuilder = new WebHostBuilder().ConfigureServices(s =>
         {
             s.AddRouting();
-            s.AddSecurityHeaderPolicies().AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue")).SetPolicySelector(ctx => ctx.SelectedPolicy.Copy().AddCustomHeader("Added-Header", "MyValue"));
+            s.AddSecurityHeaderPolicies().AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"))
+                .SetPolicySelector(ctx =>
+                {
+                    IReadOnlyHeaderPolicyCollection headerPolicyCollection =
+                        ctx.SelectedPolicy.Copy().AddCustomHeader("Added-Header", "MyValue");
+                    return Task.FromResult(headerPolicyCollection);
+                });
         }).Configure(app =>
         {
             app.UseSecurityHeaders();
@@ -511,15 +541,16 @@ public class SecurityHeadersMiddlewareTests
     public async Task HttpRequest_WithCustomDefaultPolicy_WhenItReturnsNull_ThrowsInvalidOperationException()
     {
         // Arrange
-        var hostBuilder = new WebHostBuilder().ConfigureServices(s => s.AddSecurityHeaderPolicies().SetPolicySelector(ctx => null !)).Configure(app =>
-        {
-            app.UseSecurityHeaders();
-            app.Run(async context =>
+        var hostBuilder = new WebHostBuilder()
+            .ConfigureServices(s => s.AddSecurityHeaderPolicies().SetPolicySelector(ctx => null !)).Configure(app =>
             {
-                context.Response.ContentType = "text/html";
-                await context.Response.WriteAsync("Test response");
+                app.UseSecurityHeaders();
+                app.Run(async context =>
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync("Test response");
+                });
             });
-        });
         using (var server = new TestServer(hostBuilder))
         {
             // Act
@@ -541,7 +572,8 @@ public class SecurityHeadersMiddlewareTests
                 var httpContext = ctx.HttpContext;
                 var service = httpContext.RequestServices.GetRequiredService<HeaderPolicyCollectionFactory>();
                 var tenantId = httpContext.Request.Headers["Tenant-ID"];
-                return service.GetPolicy(tenantId);
+                IReadOnlyHeaderPolicyCollection policy = service.GetPolicy(tenantId);
+                return Task.FromResult(policy);
             });
         }).Configure(app =>
         {
@@ -566,7 +598,8 @@ public class SecurityHeadersMiddlewareTests
     }
 
     [Test]
-    public async Task SecureRequest_WithDefaultSecurityHeaders_WhenNotOnLocalhost_SetsSecurityHeadersIncludingStrictTransport()
+    public async Task
+        SecureRequest_WithDefaultSecurityHeaders_WhenNotOnLocalhost_SetsSecurityHeadersIncludingStrictTransport()
     {
         // Arrange
         var hostBuilder = new WebHostBuilder().UseUrls("https://example.com:5001").Configure(app =>
@@ -613,7 +646,8 @@ public class SecurityHeadersMiddlewareTests
             // Assert
             response.EnsureSuccessStatusCode();
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Contains("Strict-Transport-Security").Should().BeFalse("Should not contain Strict-Transport-Security header on localhost");
+            response.Headers.Contains("Strict-Transport-Security").Should()
+                .BeFalse("Should not contain Strict-Transport-Security header on localhost");
         }
     }
 
@@ -624,10 +658,7 @@ public class SecurityHeadersMiddlewareTests
         var hostBuilder = new WebHostBuilder().Configure(app =>
         {
             app.UseSecurityHeaders(new HeaderPolicyCollection().AddCustomHeader("X-My-Test-Header", "Header value"));
-            app.Run(async context =>
-            {
-                await context.Response.WriteAsync("Test response");
-            });
+            app.Run(async context => { await context.Response.WriteAsync("Test response"); });
         });
         using (var server = new TestServer(hostBuilder))
         {
@@ -649,10 +680,7 @@ public class SecurityHeadersMiddlewareTests
         var hostBuilder = new WebHostBuilder().Configure(app =>
         {
             app.UseSecurityHeaders(policies => policies.AddCustomHeader("X-My-Test-Header", "Header value"));
-            app.Run(async context =>
-            {
-                await context.Response.WriteAsync("Test response");
-            });
+            app.Run(async context => { await context.Response.WriteAsync("Test response"); });
         });
         using (var server = new TestServer(hostBuilder))
         {
@@ -673,11 +701,9 @@ public class SecurityHeadersMiddlewareTests
         // Arrange
         var hostBuilder = new WebHostBuilder().Configure(app =>
         {
-            app.UseSecurityHeaders(new HeaderPolicyCollection().AddCustomHeader("X-My-Test-Header", "Header value").RemoveCustomHeader("X-My-Test-Header"));
-            app.Run(async context =>
-            {
-                await context.Response.WriteAsync("Test response");
-            });
+            app.UseSecurityHeaders(new HeaderPolicyCollection().AddCustomHeader("X-My-Test-Header", "Header value")
+                .RemoveCustomHeader("X-My-Test-Header"));
+            app.Run(async context => { await context.Response.WriteAsync("Test response"); });
         });
         using (var server = new TestServer(hostBuilder))
         {
@@ -898,10 +924,7 @@ public class SecurityHeadersMiddlewareTests
                 builder.AddDefaultSrc().Self();
                 builder.AddObjectSrc().None();
             }));
-            app.Run(async context =>
-            {
-                await context.Response.WriteAsync("Test response");
-            });
+            app.Run(async context => { await context.Response.WriteAsync("Test response"); });
         });
         using (var server = new TestServer(hostBuilder))
         {
@@ -961,10 +984,7 @@ public class SecurityHeadersMiddlewareTests
         var hostBuilder = new WebHostBuilder().Configure(app =>
         {
             app.UseSecurityHeaders(policies => policies.AddCustomHeader("X-My-Test-Header", "Header value"));
-            app.Run(async context =>
-            {
-                await context.Response.WriteAsync("Test response");
-            });
+            app.Run(async context => { await context.Response.WriteAsync("Test response"); });
         });
         using (var server = new TestServer(hostBuilder))
         {
@@ -1004,7 +1024,8 @@ public class SecurityHeadersMiddlewareTests
             // Assert
             response.EnsureSuccessStatusCode();
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().ContainKey("Feature-Policy").WhoseValue.Should().ContainSingle("fullscreen 'self'; geolocation 'none'");
+            response.Headers.Should().ContainKey("Feature-Policy").WhoseValue.Should()
+                .ContainSingle("fullscreen 'self'; geolocation 'none'");
         }
     }
 
@@ -1033,7 +1054,8 @@ public class SecurityHeadersMiddlewareTests
             // Assert
             response.EnsureSuccessStatusCode();
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().ContainKey("Feature-Policy").WhoseValue.Should().ContainSingle("fullscreen 'self'; geolocation 'none'");
+            response.Headers.Should().ContainKey("Feature-Policy").WhoseValue.Should()
+                .ContainSingle("fullscreen 'self'; geolocation 'none'");
         }
     }
 
@@ -1048,10 +1070,7 @@ public class SecurityHeadersMiddlewareTests
                 builder.AddFullscreen().Self();
                 builder.AddGeolocation().None();
             }));
-            app.Run(async context =>
-            {
-                await context.Response.WriteAsync("Test response");
-            });
+            app.Run(async context => { await context.Response.WriteAsync("Test response"); });
         });
         using (var server = new TestServer(hostBuilder))
         {
@@ -1061,7 +1080,8 @@ public class SecurityHeadersMiddlewareTests
             // Assert
             response.EnsureSuccessStatusCode();
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().ContainKey("Feature-Policy").WhoseValue.Should().ContainSingle("fullscreen 'self'; geolocation 'none'");
+            response.Headers.Should().ContainKey("Feature-Policy").WhoseValue.Should()
+                .ContainSingle("fullscreen 'self'; geolocation 'none'");
         }
     }
 
@@ -1073,7 +1093,8 @@ public class SecurityHeadersMiddlewareTests
         {
             app.UseSecurityHeaders(new HeaderPolicyCollection().AddPermissionsPolicy(builder =>
             {
-                builder.AddAccelerometer().Self().For("https://testurl1.com").For("https://testurl2.com").For("https://testurl3.com").For("https://testurl4.com");
+                builder.AddAccelerometer().Self().For("https://testurl1.com").For("https://testurl2.com")
+                    .For("https://testurl3.com").For("https://testurl4.com");
                 builder.AddFullscreen().Self();
                 builder.AddAmbientLightSensor().For("https://testurl.com");
                 builder.AddGeolocation().None();
@@ -1093,7 +1114,8 @@ public class SecurityHeadersMiddlewareTests
             // Assert
             response.EnsureSuccessStatusCode();
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().ContainKey("Permissions-Policy").WhoseValue.Should().ContainSingle("accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=self, ambient-light-sensor=\"https://testurl.com\", geolocation=(), camera=*\"");
+            response.Headers.Should().ContainKey("Permissions-Policy").WhoseValue.Should().ContainSingle(
+                "accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=self, ambient-light-sensor=\"https://testurl.com\", geolocation=(), camera=*\"");
         }
     }
 
@@ -1122,7 +1144,8 @@ public class SecurityHeadersMiddlewareTests
             // Assert
             response.EnsureSuccessStatusCode();
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
-            response.Headers.Should().ContainKey("Permissions-Policy").WhoseValue.Should().ContainSingle("accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=self, ambient-light-sensor=\"https://testurl.com\", geolocation=(), camera=*\"");
+            response.Headers.Should().ContainKey("Permissions-Policy").WhoseValue.Should().ContainSingle(
+                "accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=self, ambient-light-sensor=\"https://testurl.com\", geolocation=(), camera=*\"");
         }
     }
 
@@ -1137,10 +1160,7 @@ public class SecurityHeadersMiddlewareTests
                 builder.AddFullscreen().Self();
                 builder.AddGeolocation().None();
             }));
-            app.Run(async context =>
-            {
-                await context.Response.WriteAsync("Test response");
-            });
+            app.Run(async context => { await context.Response.WriteAsync("Test response"); });
         });
         using (var server = new TestServer(hostBuilder))
         {
@@ -1963,7 +1983,8 @@ public class SecurityHeadersMiddlewareTests
             (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
             var header = response.Headers.GetValues("Reporting-Endpoints").SingleOrDefault();
             header.Should().NotBeNull();
-            header.Should().Be("default=\"https://localhost:5000/default\", endpoint-1=\"http://localhost/endpoint-1\"");
+            header.Should()
+                .Be("default=\"https://localhost:5000/default\", endpoint-1=\"http://localhost/endpoint-1\"");
         }
     }
 
@@ -1974,7 +1995,17 @@ public class SecurityHeadersMiddlewareTests
         var hostBuilder = new WebHostBuilder().ConfigureServices(services =>
         {
             services.AddRouting();
-            services.AddSecurityHeaderPolicies().AddPolicy("text/html", x => x.AddDefaultSecurityHeaders()).SetDefaultPolicy(x => x.AddDefaultApiSecurityHeaders()).SetPolicySelector(ctx => ctx.HttpContext.Response.ContentType == "text/html" && ctx.ConfiguredPolicies.TryGetValue("text/html", out var htmlPolicy) ? htmlPolicy : ctx.SelectedPolicy);
+            services.AddSecurityHeaderPolicies().AddPolicy("text/html", x => x.AddDefaultSecurityHeaders())
+                .SetDefaultPolicy(x => x.AddDefaultApiSecurityHeaders()).SetPolicySelector(async ctx =>
+                {
+                    var policy = ctx.HttpContext.Response.ContentType == "text/html" &&
+                              ctx.ConfiguredPolicies.TryGetValue("text/html", out var htmlPolicy)
+                        ? htmlPolicy
+                        : ctx.SelectedPolicy;
+
+                    await Task.Yield();//Simulate async
+                    return policy;
+                });
         }).Configure(app =>
         {
             app.UseSecurityHeaders();
@@ -2039,8 +2070,12 @@ public class SecurityHeadersMiddlewareTests
 
     private class HeaderPolicyCollectionFactory
     {
-        private readonly HeaderPolicyCollection _default = new HeaderPolicyCollection().AddCustomHeader("Custom-Header", "Default");
-        private readonly HeaderPolicyCollection _custom = new HeaderPolicyCollection().AddCustomHeader("Custom-Header", "Custom");
+        private readonly HeaderPolicyCollection _default =
+            new HeaderPolicyCollection().AddCustomHeader("Custom-Header", "Default");
+
+        private readonly HeaderPolicyCollection _custom =
+            new HeaderPolicyCollection().AddCustomHeader("Custom-Header", "Custom");
+
         public HeaderPolicyCollection GetPolicy(string? tenantId) => tenantId == "1234" ? _custom : _default;
     }
 }
