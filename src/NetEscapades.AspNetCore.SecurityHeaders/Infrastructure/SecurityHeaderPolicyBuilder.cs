@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
@@ -79,7 +80,7 @@ public class SecurityHeaderPolicyBuilder
     /// to select the policy to use. The final policy to execute should be returned from the function.</param>
     /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> for chaining</returns>
     public SecurityHeaderPolicyBuilder SetPolicySelector(
-        Func<PolicySelectorContext, IReadOnlyHeaderPolicyCollection> policySelector)
+        Func<PolicySelectorContext, Task<IReadOnlyHeaderPolicyCollection>> policySelector)
     {
         _options.PolicySelector = policySelector;
         return this;
