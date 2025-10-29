@@ -542,7 +542,7 @@ public class SecurityHeadersMiddlewareTests
     {
         // Arrange
         var hostBuilder = new WebHostBuilder()
-            .ConfigureServices(s => s.AddSecurityHeaderPolicies().SetPolicySelector(ctx => null !)).Configure(app =>
+            .ConfigureServices(s => s.AddSecurityHeaderPolicies().SetPolicySelector(ctx => Task.FromResult<IReadOnlyHeaderPolicyCollection>(null !))).Configure(app =>
             {
                 app.UseSecurityHeaders();
                 app.Run(async context =>
