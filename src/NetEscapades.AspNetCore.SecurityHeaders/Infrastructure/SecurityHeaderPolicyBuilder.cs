@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
@@ -80,6 +81,19 @@ public class SecurityHeaderPolicyBuilder
     /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> for chaining</returns>
     public SecurityHeaderPolicyBuilder SetPolicySelector(
         Func<PolicySelectorContext, IReadOnlyHeaderPolicyCollection> policySelector)
+    {
+        _options.PolicySelector = ctx => new ValueTask<IReadOnlyHeaderPolicyCollection>(policySelector(ctx));
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the policy selector. Use this to customise a policy before it's applied to the request.
+    /// </summary>
+    /// <param name="policySelector">A function to invoke just before applying policies to a response,
+    /// to select the policy to use. The final policy to execute should be returned from the function.</param>
+    /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> for chaining</returns>
+    public SecurityHeaderPolicyBuilder SetPolicySelectorAsync(
+        Func<PolicySelectorContext, ValueTask<IReadOnlyHeaderPolicyCollection>> policySelector)
     {
         _options.PolicySelector = policySelector;
         return this;
