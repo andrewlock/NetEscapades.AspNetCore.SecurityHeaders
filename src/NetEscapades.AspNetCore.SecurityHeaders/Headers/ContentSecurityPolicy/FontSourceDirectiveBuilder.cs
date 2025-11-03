@@ -3,7 +3,8 @@
 /// <summary>
 /// The <c>font-src</c> directive specifies valid sources for fonts loaded using @font-face.
 /// </summary>
-public class FontSourceDirectiveBuilder : CspDirectiveBuilder
+[CspMixin(MixinTypes.HostSource | MixinTypes.SchemeSource | MixinTypes.Self | MixinTypes.None)]
+public partial class FontSourceDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="FontSourceDirectiveBuilder"/> class.

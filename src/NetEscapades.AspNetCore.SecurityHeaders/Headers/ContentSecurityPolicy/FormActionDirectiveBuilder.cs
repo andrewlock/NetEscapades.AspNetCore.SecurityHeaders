@@ -3,7 +3,8 @@
 /// <summary>
 /// The <c>form-action</c> directive restricts the URLs which can be used as the target of a form submissions from a given context.
 /// </summary>
-public class FormActionDirectiveBuilder : CspDirectiveBuilder
+[CspMixin(MixinTypes.HostSource | MixinTypes.SchemeSource | MixinTypes.Self | MixinTypes.None)]
+public partial class FormActionDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="FormActionDirectiveBuilder"/> class.

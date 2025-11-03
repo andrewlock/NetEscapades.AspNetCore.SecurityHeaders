@@ -5,7 +5,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 /// nested browsing contexts loaded using elements such as &lt;frame&gt; and &lt;iframe&gt;
 /// For workers, non-compliant requests are treated as fatal network errors by the user agent.
 /// </summary>
-public class ChildSourceDirectiveBuilder : CspDirectiveBuilder
+[CspMixin(MixinTypes.HostSource | MixinTypes.SchemeSource | MixinTypes.Self | MixinTypes.None)]
+public partial class ChildSourceDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ChildSourceDirectiveBuilder"/> class.

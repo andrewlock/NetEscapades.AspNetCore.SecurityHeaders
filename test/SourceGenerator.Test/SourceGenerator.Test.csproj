@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SourceGenerator\SourceGenerator.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing" Version="1.1.2" />
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" PrivateAssets="all" />
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.14.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!--  Testing packages-->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" Version="1.8.0" />
+    <PackageReference Include="TUnit" Version="0.25.21" />
+    <PackageReference Include="NetEscapades.Verify.TUnit" Version="21.3.1" />
+    <PackageReference Include="FluentAssertions" Version="7.2.0" />
+    <PackageReference Include="FluentAssertions.Analyzers" Version="0.34.1" PrivateAssets="all" IncludeAssets="analyzers" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\src\NetEscapades.AspNetCore.SecurityHeaders\Headers\ContentSecurityPolicy\GeneratorHelpers\CspMixinAttribute.cs">
+      <Link>CspMixinAttribute.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\src\NetEscapades.AspNetCore.SecurityHeaders\Headers\ContentSecurityPolicy\GeneratorHelpers\MixinTypes.cs">
+      <Link>MixinTypes.cs</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

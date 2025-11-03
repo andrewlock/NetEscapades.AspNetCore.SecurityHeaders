@@ -9,36 +9,13 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 /// can be specified for all JavaScript script sources using <c>script-src</c>, or just for
 /// &lt;script&gt; elements using <c>script-src-elem</c>.)
 /// </summary>
-public class ScriptSourceAttrDirectiveBuilder : CspDirectiveBuilder
+[CspMixin(MixinTypes.UnsafeHashes | MixinTypes.Hash | MixinTypes.UnsafeInline | MixinTypes.None | MixinTypes.ReportSample)]
+public partial class ScriptSourceAttrDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ScriptSourceAttrDirectiveBuilder"/> class.
     /// </summary>
     public ScriptSourceAttrDirectiveBuilder() : base("script-src-attr")
     {
-    }
-
-    /// <summary>
-    /// Requires a sample of the violating code to be included in the violation report
-    /// </summary>
-    /// <returns>The CSP builder for method chaining</returns>
-    public ScriptSourceAttrDirectiveBuilder ReportSample()
-    {
-        MustReportSample = true;
-        Sources.Add("'report-sample'");
-        return this;
-    }
-
-    /// <summary>
-    /// Allow sources for content generated using the HashTagHelper.
-    /// </summary>
-    /// <returns>The CSP builder for method chaining</returns>
-    public ScriptSourceAttrDirectiveBuilder WithHashTagHelper()
-    {
-        // TODO: check hash algorithm is one of expected values
-        SourceBuilders.Add(
-            ctx => string.Join(" ", ctx.GetScriptCSPHashes()),
-            $"{nameof(ScriptSourceAttrDirectiveBuilder)}.{nameof(WithHashTagHelper)}");
-        return this;
     }
 }

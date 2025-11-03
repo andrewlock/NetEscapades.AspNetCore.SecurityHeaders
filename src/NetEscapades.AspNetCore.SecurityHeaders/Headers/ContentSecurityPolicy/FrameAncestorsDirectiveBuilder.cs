@@ -9,7 +9,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 /// &lt;frame&gt;, &lt;iframe&gt;, &lt;object&gt;, &lt;embed&gt;, or &lt;applet&gt;.
 /// Setting this directive to 'none' is similar to X-Frame-Options: DENY (which is also supported in older browers).
 /// </summary>
-public class FrameAncestorsDirectiveBuilder : CspDirectiveBuilderBase
+[CspMixin(MixinTypes.HostSource | MixinTypes.SchemeSource | MixinTypes.Self | MixinTypes.None)]
+public partial class FrameAncestorsDirectiveBuilder : CspDirectiveBuilderBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="FrameAncestorsDirectiveBuilder"/> class.
@@ -47,92 +48,5 @@ public class FrameAncestorsDirectiveBuilder : CspDirectiveBuilderBase
         }
 
         return $"{Directive} {value}";
-    }
-
-    /// <summary>
-    /// Allow sources from the origin from which the protected document is being served, including the same URL scheme and port number
-    /// </summary>
-    /// <returns>The CSP builder for method chaining</returns>
-    public FrameAncestorsDirectiveBuilder Self()
-    {
-        Sources.Add("'self'");
-        return this;
-    }
-
-    /// <summary>
-    /// Allows blob: URIs to be used as a content source
-    /// </summary>
-    /// <returns>The CSP builder for method chaining</returns>
-    public FrameAncestorsDirectiveBuilder Blob()
-    {
-        Sources.Add("blob:");
-        return this;
-    }
-
-    /// <summary>
-    /// data: Allows data: URIs to be used as a content source.
-    /// WARNING: This is insecure; an attacker can also inject arbitrary data: URIs. Use this sparingly and definitely not for scripts.
-    /// </summary>
-    /// <returns>The CSP builder for method chaining</returns>
-    public FrameAncestorsDirectiveBuilder Data()
-    {
-        Sources.Add("data:");
-        return this;
-    }
-
-    /// <summary>
-    /// Block the resource (Refers to the empty set; that is, no URLs match)
-    /// </summary>
-    /// <returns>The CSP builder for method chaining</returns>
-    public FrameAncestorsDirectiveBuilder None()
-    {
-        BlockResources = true;
-        return this;
-    }
-
-    /// <summary>
-    /// Allow resources from the given <paramref name="uri"/>. May be any non-empty value
-    /// </summary>
-    /// <param name="uri">The URI to allow.</param>
-    /// <returns>The CSP builder for method chaining</returns>
-    public FrameAncestorsDirectiveBuilder From(string uri)
-    {
-        if (string.IsNullOrWhiteSpace(uri))
-        {
-            throw new System.ArgumentException("Uri may not be null or empty", nameof(uri));
-        }
-
-        Sources.Add(uri);
-        return this;
-    }
-
-    /// <summary>
-    /// Allow resources from the given <paramref name="uris"/>. May be any non-empty value.
-    /// </summary>
-    /// <param name="uris">The URIs to allow.</param>
-    /// <returns>The CSP builder for method chaining</returns>
-    public FrameAncestorsDirectiveBuilder From(IEnumerable<string> uris)
-    {
-        foreach (var uri in uris)
-        {
-            if (string.IsNullOrWhiteSpace(uri))
-            {
-                throw new System.ArgumentException("Uri may not be null or empty", nameof(uri));
-            }
-
-            Sources.Add(uri);
-        }
-
-        return this;
-    }
-
-    /// <summary>
-    /// Allow resources served over https
-    /// </summary>
-    /// <returns>The CSP builder for method chaining</returns>
-    public FrameAncestorsDirectiveBuilder OverHttps()
-    {
-        Sources.Add("https:");
-        return this;
     }
 }
