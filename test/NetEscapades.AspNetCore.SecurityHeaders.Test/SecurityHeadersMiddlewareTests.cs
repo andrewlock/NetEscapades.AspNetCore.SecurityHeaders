@@ -517,7 +517,7 @@ public class SecurityHeadersMiddlewareTests
             s.AddRouting();
             s.AddSecurityHeaderPolicies()
                 .AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"))
-                .SetPolicySelectorAsync(ctx =>
+                .SetAsyncPolicySelector(ctx =>
                     new(ctx.SelectedPolicy.Copy().AddCustomHeader("Added-Header", "MyValue")));
         }).Configure(app =>
         {
@@ -556,7 +556,7 @@ public class SecurityHeadersMiddlewareTests
             s.AddRouting();
             s.AddSecurityHeaderPolicies()
                 .AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"))
-                .SetPolicySelectorAsync(async ctx =>
+                .SetAsyncPolicySelector(async ctx =>
                 {
                     await Task.Yield();
                     return ctx.SelectedPolicy.Copy().AddCustomHeader("Added-Header", "MyValue");
@@ -618,7 +618,7 @@ public class SecurityHeadersMiddlewareTests
         var hostBuilder = new WebHostBuilder()
             .ConfigureServices(s => s
                 .AddSecurityHeaderPolicies()
-                .SetPolicySelectorAsync(ctx => new(result: null!)))
+                .SetAsyncPolicySelector(ctx => new(result: null!)))
             .Configure(app =>
             {
                 app.UseSecurityHeaders();

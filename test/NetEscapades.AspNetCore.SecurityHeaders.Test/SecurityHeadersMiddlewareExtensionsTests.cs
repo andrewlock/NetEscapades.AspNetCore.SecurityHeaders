@@ -113,7 +113,7 @@ public class SecurityHeadersMiddlewareExtensionsTests
                     services.AddSecurityHeaderPolicies().SetPolicySelector(selector);
                     break;
                 case SelectorRegistrationType.Async:
-                    services.AddSecurityHeaderPolicies().SetPolicySelectorAsync(c => new(selector(c)));
+                    services.AddSecurityHeaderPolicies().SetAsyncPolicySelector(c => new(selector(c)));
                     break;
                 case SelectorRegistrationType.Func:
                     services.AddSecurityHeaderPolicies(o => o.SetPolicySelector(selector));

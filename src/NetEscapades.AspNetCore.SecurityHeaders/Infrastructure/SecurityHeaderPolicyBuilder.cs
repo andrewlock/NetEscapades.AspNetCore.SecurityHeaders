@@ -92,7 +92,7 @@ public class SecurityHeaderPolicyBuilder
     /// <param name="policySelector">A function to invoke just before applying policies to a response,
     /// to select the policy to use. The final policy to execute should be returned from the function.</param>
     /// <returns>The <see cref="SecurityHeaderPolicyBuilder"/> for chaining</returns>
-    public SecurityHeaderPolicyBuilder SetPolicySelectorAsync(
+    public SecurityHeaderPolicyBuilder SetAsyncPolicySelector(
         Func<PolicySelectorContext, ValueTask<IReadOnlyHeaderPolicyCollection>> policySelector)
     {
         _options.PolicySelector = policySelector;
