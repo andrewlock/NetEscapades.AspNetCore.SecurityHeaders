@@ -508,6 +508,88 @@ public class SecurityHeadersMiddlewareTests
     }
 
     [Test]
+    public async Task HttpRequest_WithAsyncPolicySelector_CanUseSelectorThatReturnsSynchronously()
+    {
+        var policyName = "custom";
+        // Arrange
+        var hostBuilder = new WebHostBuilder().ConfigureServices(s =>
+        {
+            s.AddRouting();
+            s.AddSecurityHeaderPolicies()
+                .AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"))
+                .SetAsyncPolicySelector(ctx =>
+                    new(ctx.SelectedPolicy.Copy().AddCustomHeader("Added-Header", "MyValue")));
+        }).Configure(app =>
+        {
+            app.UseSecurityHeaders();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapPut("/", async context =>
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync("Test response");
+                });
+            });
+        });
+
+        using var server = new TestServer(hostBuilder);
+
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultSecurityHeaders();
+        response.Headers.Should().ContainKey("Added-Header");
+        response.Headers.Should().NotContainKey("Custom-Header");
+    }
+    [Test]
+    public async Task HttpRequest_WithAsyncPolicySelector_CanUseSelectorThatReturnsAsynchronously()
+    {
+        var policyName = "custom";
+        // Arrange
+        var hostBuilder = new WebHostBuilder().ConfigureServices(s =>
+        {
+            s.AddRouting();
+            s.AddSecurityHeaderPolicies()
+                .AddPolicy(policyName, p => p.AddCustomHeader("Custom-Header", "MyValue"))
+                .SetAsyncPolicySelector(async ctx =>
+                {
+                    await Task.Yield();
+                    return ctx.SelectedPolicy.Copy().AddCustomHeader("Added-Header", "MyValue");
+                });
+        }).Configure(app =>
+        {
+            app.UseSecurityHeaders();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapPut("/", async context =>
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync("Test response");
+                });
+            });
+        });
+
+        using var server = new TestServer(hostBuilder);
+
+        // Act
+        // Actual request.
+        var response = await server.CreateRequest("/").SendAsync("PUT");
+
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultSecurityHeaders();
+        response.Headers.Should().ContainKey("Added-Header");
+        response.Headers.Should().NotContainKey("Custom-Header");
+    }
+
+    [Test]
     public async Task HttpRequest_WithCustomDefaultPolicy_WhenItReturnsNull_ThrowsInvalidOperationException()
     {
         // Arrange
@@ -527,6 +609,30 @@ public class SecurityHeadersMiddlewareTests
             var act = async () => await server.CreateRequest("/").SendAsync("PUT");
             await act.Should().ThrowAsync<InvalidOperationException>();
         }
+    }
+
+    [Test]
+    public async Task HttpRequest_WithCustomDefaultPolicyAsync_WhenItReturnsNull_ThrowsInvalidOperationException()
+    {
+        // Arrange
+        var hostBuilder = new WebHostBuilder()
+            .ConfigureServices(s => s
+                .AddSecurityHeaderPolicies()
+                .SetAsyncPolicySelector(ctx => new(result: null!)))
+            .Configure(app =>
+            {
+                app.UseSecurityHeaders();
+                app.Run(async context =>
+                {
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync("Test response");
+                });
+            });
+
+        using var server = new TestServer(hostBuilder);
+        // Act
+        var act = async () => await server.CreateRequest("/").SendAsync("PUT");
+        await act.Should().ThrowAsync<InvalidOperationException>();
     }
 
     [Test]

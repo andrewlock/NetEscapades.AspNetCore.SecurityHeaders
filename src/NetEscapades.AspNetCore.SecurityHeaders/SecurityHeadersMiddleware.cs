@@ -96,8 +96,16 @@ internal class SecurityHeadersMiddleware
         IReadOnlyHeaderPolicyCollection? policyToApply = null;
         if (options.PolicySelector is not null)
         {
-            policyToApply = options.PolicySelector(
+            var policySelectorResult = options.PolicySelector(
                 new(context, options.NamedPolicyCollections, middleware._defaultPolicy, policyName, endpointPolicy));
+
+            if (!policySelectorResult.IsCompletedSuccessfully)
+            {
+                // Async, so pushed to separate method to avoid async machinery unless we need it
+                return AwaitAndApplyPolicySelector(policySelectorResult, context);
+            }
+
+            policyToApply = policySelectorResult.Result;
 
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             if (policyToApply is null)
@@ -112,5 +120,21 @@ internal class SecurityHeadersMiddleware
         CustomHeaderService.ApplyResult(context.Response, result);
 
         return Task.CompletedTask;
+
+        static async Task AwaitAndApplyPolicySelector(ValueTask<IReadOnlyHeaderPolicyCollection> policySelectorResult, HttpContext httpContext)
+        {
+            var policyToApply = await policySelectorResult.ConfigureAwait(false);
+
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            if (policyToApply is null)
+            {
+                // This obviously kills the request, but it's better (from a security PoV)
+                // than accidentally not setting any policies
+                ThrowNull();
+            }
+
+            var result = CustomHeaderService.EvaluatePolicy(httpContext, policyToApply);
+            CustomHeaderService.ApplyResult(httpContext.Response, result);
+        }
     }
 }

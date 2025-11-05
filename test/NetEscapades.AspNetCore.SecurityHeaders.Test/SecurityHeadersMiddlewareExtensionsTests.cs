@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -85,33 +86,39 @@ public class SecurityHeadersMiddlewareExtensionsTests
 
     [Test]
     [MatrixDataSource]
-    public void AddSecurityHeaderPolicies_OverwritesPreviousPolicySelector(
-        [Matrix] RegistrationType first,
-        [Matrix] RegistrationType second)
+    public async Task AddSecurityHeaderPolicies_OverwritesPreviousPolicySelector(
+        [Matrix] SelectorRegistrationType first,
+        [Matrix] SelectorRegistrationType second)
     {
+        IReadOnlyHeaderPolicyCollection policy1 = new HeaderPolicyCollection();
+        IReadOnlyHeaderPolicyCollection policy2 = new HeaderPolicyCollection();
         var serviceCollection = new ServiceCollection();
-        Func<PolicySelectorContext, IReadOnlyHeaderPolicyCollection> selector1 = x => x.DefaultPolicy;
-        Func<PolicySelectorContext, IReadOnlyHeaderPolicyCollection> selector2 = x => x.DefaultPolicy;
+        Func<PolicySelectorContext, IReadOnlyHeaderPolicyCollection> selector1 = _ => policy1;
+        Func<PolicySelectorContext, IReadOnlyHeaderPolicyCollection> selector2 = _ => policy2;
         SetSelector(serviceCollection, first, selector1);
         SetSelector(serviceCollection, second, selector2);
         var provider = serviceCollection.BuildServiceProvider();
         var opts = SecurityHeadersMiddlewareExtensions.GetOptions(provider);
         
         opts.Should().NotBeNull();
-        opts.PolicySelector.Should().BeSameAs(selector2);
+        opts.PolicySelector.Should().NotBeNull();
+        var policy = await opts.PolicySelector.Invoke(new PolicySelectorContext());
 
-        static void SetSelector(ServiceCollection services, RegistrationType type,
+        static void SetSelector(ServiceCollection services, SelectorRegistrationType type,
             Func<PolicySelectorContext, IReadOnlyHeaderPolicyCollection> selector)
         {
             switch (type)
             {
-                case RegistrationType.Direct:
+                case SelectorRegistrationType.Direct:
                     services.AddSecurityHeaderPolicies().SetPolicySelector(selector);
                     break;
-                case RegistrationType.Func:
+                case SelectorRegistrationType.Async:
+                    services.AddSecurityHeaderPolicies().SetAsyncPolicySelector(c => new(selector(c)));
+                    break;
+                case SelectorRegistrationType.Func:
                     services.AddSecurityHeaderPolicies(o => o.SetPolicySelector(selector));
                     break;
-                case RegistrationType.FuncWithProvider:
+                case SelectorRegistrationType.FuncWithProvider:
                     services.AddSecurityHeaderPolicies((o, _) => o.SetPolicySelector(selector));
                     break;
                 default:
@@ -144,6 +151,14 @@ public class SecurityHeadersMiddlewareExtensionsTests
 
     public enum RegistrationType
     {
+        Direct,
+        Func,
+        FuncWithProvider
+    }
+
+    public enum SelectorRegistrationType
+    {
+        Async,
         Direct,
         Func,
         FuncWithProvider

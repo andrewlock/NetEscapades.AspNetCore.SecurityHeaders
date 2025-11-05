@@ -1011,6 +1011,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
     {
         public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder AddPolicy(string name, Microsoft.AspNetCore.Builder.HeaderPolicyCollection policyCollection) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder AddPolicy(string name, System.Action<Microsoft.AspNetCore.Builder.HeaderPolicyCollection> configurePolicy) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder SetAsyncPolicySelector(System.Func<NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.PolicySelectorContext, System.Threading.Tasks.ValueTask<NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IReadOnlyHeaderPolicyCollection>> policySelector) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder SetDefaultPolicy(Microsoft.AspNetCore.Builder.HeaderPolicyCollection policyCollection) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder SetDefaultPolicy(System.Action<Microsoft.AspNetCore.Builder.HeaderPolicyCollection> configurePolicy) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder SetPolicySelector(System.Func<NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.PolicySelectorContext, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IReadOnlyHeaderPolicyCollection> policySelector) { }
