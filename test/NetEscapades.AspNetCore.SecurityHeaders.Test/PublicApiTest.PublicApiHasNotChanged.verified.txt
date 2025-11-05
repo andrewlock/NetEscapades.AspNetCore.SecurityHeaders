@@ -58,7 +58,7 @@ namespace Microsoft.AspNetCore.Builder
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ConnectSourceDirectiveBuilder AddConnectSrc() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirective AddCustomDirective(string directive) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirective AddCustomDirective(string directive, string value) { }
-        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder AddCustomDirectiveBuilder(string directive) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder AddCustomDirectiveBuilder(string directive) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder AddDefaultSrc() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FontSourceDirectiveBuilder AddFontSrc() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FormActionDirectiveBuilder AddFormAction() { }
@@ -370,6 +370,31 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public CustomDirective(string directive) { }
         public CustomDirective(string directive, string value) { }
         public string Value { get; }
+    }
+    public class CustomDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
+    {
+        public CustomDirectiveBuilder(string directive) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder Blob() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder Data() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder From(System.Collections.Generic.IEnumerable<string> uris) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder From(string uri) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder InlineSpeculationRules() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder None() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder OverWss() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder ReportSample() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder Self() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder StrictDynamic() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder UnsafeEval() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder UnsafeHashes() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder UnsafeInline() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder WasmUnsafeEval() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder WithHash(string algorithm, string hash) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder WithHash256(string hash) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder WithHashSha384(string hash) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder WithHashSha512(string hash) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder WithHashTagHelper() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder WithNonce() { }
     }
     public class DefaultSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
     {
