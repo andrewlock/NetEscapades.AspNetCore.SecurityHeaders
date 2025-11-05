@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\NetEscapades.AspNetCore.SecurityHeaders.Analyzers\NetEscapades.AspNetCore.SecurityHeaders.Analyzers.csproj" />
     <ProjectReference Include="..\..\src\SourceGenerator\SourceGenerator.csproj" />
   </ItemGroup>
 
@@ -29,6 +30,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\src\NetEscapades.AspNetCore.SecurityHeaders\Headers\ContentSecurityPolicy\GeneratorHelpers\MixinTypes.cs">
       <Link>MixinTypes.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\src\NetEscapades.AspNetCore.SecurityHeaders\Helpers\DeprecatedAttribute.cs">
+      <Link>DeprecatedAttribute.cs</Link>
     </EmbeddedResource>
   </ItemGroup>
 

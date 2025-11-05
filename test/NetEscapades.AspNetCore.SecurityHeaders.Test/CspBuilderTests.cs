@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -125,9 +126,9 @@ public class CspBuilderTests
     public void Build_AddSrciptSrcAttr_WhenAddsMultipleValue_ReturnsAllValues()
     {
         var builder = new CspBuilder();
-        builder.AddScriptSrcAttr().Self().Blob().Data().From("http://testUrl.com");
+        builder.AddScriptSrcAttr().UnsafeInline().ReportSample();
         var result = builder.Build();
-        result.ConstantValue.Should().Be("script-src-attr 'self' blob: data: http://testUrl.com");
+        result.ConstantValue.Should().Be("script-src-attr 'unsafe-inline' 'report-sample'");
     }
 
     [Test]
@@ -208,9 +209,9 @@ public class CspBuilderTests
     public void Build_AddStyleSrcAttr_WhenAddsMultipleValue_ReturnsAllValues()
     {
         var builder = new CspBuilder();
-        builder.AddStyleSrcAttr().Self().ReportSample().Blob().Data().From("http://testUrl.com");
+        builder.AddStyleSrcAttr().UnsafeInline().ReportSample();
         var result = builder.Build();
-        result.ConstantValue.Should().Be("style-src-attr 'self' 'report-sample' blob: data: http://testUrl.com");
+        result.ConstantValue.Should().Be("style-src-attr 'unsafe-inline' 'report-sample'");
     }
 
     [Test]
@@ -477,5 +478,15 @@ public class CspBuilderTests
         httpContext.Items[Infrastructure.Constants.DefaultNonceKey] = nonce;
         var csp = result.Builder(httpContext);
         csp.Should().Be($"script-src 'nonce-{nonce}'; style-src 'nonce-{nonce}'");
+    }
+
+    [Test]
+    [SuppressMessage("Usage", "NEASPSH001:API is deprecated")] // Without this we get analyzer warnings as expected
+    public void Builder_WhenUsingDeprecatedValues_HasAnalyzerFlagging()
+    {
+        var builder = new CspBuilder();
+        builder.AddImgSrc().UnsafeInline().UnsafeEval();
+        var result = builder.Build();
+        result.ConstantValue.Should().Be("img-src 'unsafe-inline' 'unsafe-eval'");
     }
 }

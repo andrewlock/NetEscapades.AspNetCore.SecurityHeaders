@@ -11,6 +11,9 @@
     <ProjectReference Include="..\..\src\NetEscapades.AspNetCore.SecurityHeaders\NetEscapades.AspNetCore.SecurityHeaders.csproj" />
     <ProjectReference Include="..\SecurityHeadersMiddlewareWebSite\SecurityHeadersMiddlewareWebSite.csproj" />
     <ProjectReference Include="..\RazorWebSite\RazorWebSite.csproj" />
+    <ProjectReference Include="..\..\src\NetEscapades.AspNetCore.SecurityHeaders.Analyzers\NetEscapades.AspNetCore.SecurityHeaders.Analyzers.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    
   </ItemGroup>
 
   <ItemGroup>

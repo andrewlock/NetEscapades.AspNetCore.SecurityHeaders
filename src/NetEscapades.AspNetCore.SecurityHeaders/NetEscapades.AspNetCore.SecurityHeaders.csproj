@@ -42,6 +42,13 @@
 
     <ProjectReference Include="..\SourceGenerator\SourceGenerator.csproj"
                       OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\NetEscapades.AspNetCore.SecurityHeaders.Analyzers\NetEscapades.AspNetCore.SecurityHeaders.Analyzers.csproj" 
+                      PrivateAssets="All" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(OutputPath)\..\..\NetEscapades.AspNetCore.SecurityHeaders.Analyzers\$(Configuration)\NetEscapades.AspNetCore.SecurityHeaders.Analyzers.dll"
+          Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
 
   <ItemGroup>

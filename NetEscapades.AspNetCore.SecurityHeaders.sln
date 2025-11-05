@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceGenerator", "src\Sour
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceGenerator.Test", "test\SourceGenerator.Test\SourceGenerator.Test.csproj", "{B82C4D02-15B1-4B23-A7FF-CF971CD5E911}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetEscapades.AspNetCore.SecurityHeaders.Analyzers", "src\NetEscapades.AspNetCore.SecurityHeaders.Analyzers\NetEscapades.AspNetCore.SecurityHeaders.Analyzers.csproj", "{DFC80207-40C9-42CB-A958-26FF248820D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -150,6 +152,18 @@ Global
 		{B82C4D02-15B1-4B23-A7FF-CF971CD5E911}.Release|x64.Build.0 = Release|Any CPU
 		{B82C4D02-15B1-4B23-A7FF-CF971CD5E911}.Release|x86.ActiveCfg = Release|Any CPU
 		{B82C4D02-15B1-4B23-A7FF-CF971CD5E911}.Release|x86.Build.0 = Release|Any CPU
+		{DFC80207-40C9-42CB-A958-26FF248820D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFC80207-40C9-42CB-A958-26FF248820D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFC80207-40C9-42CB-A958-26FF248820D5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DFC80207-40C9-42CB-A958-26FF248820D5}.Debug|x64.Build.0 = Debug|Any CPU
+		{DFC80207-40C9-42CB-A958-26FF248820D5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DFC80207-40C9-42CB-A958-26FF248820D5}.Debug|x86.Build.0 = Debug|Any CPU
+		{DFC80207-40C9-42CB-A958-26FF248820D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFC80207-40C9-42CB-A958-26FF248820D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFC80207-40C9-42CB-A958-26FF248820D5}.Release|x64.ActiveCfg = Release|Any CPU
+		{DFC80207-40C9-42CB-A958-26FF248820D5}.Release|x64.Build.0 = Release|Any CPU
+		{DFC80207-40C9-42CB-A958-26FF248820D5}.Release|x86.ActiveCfg = Release|Any CPU
+		{DFC80207-40C9-42CB-A958-26FF248820D5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -163,6 +177,7 @@ Global
 		{0739A48E-D2E5-4529-A539-5A2C44901DFC} = {A2E64919-761D-4412-AFF7-D167023FD55E}
 		{448B1B7C-2A8E-4B4A-A7DA-978840E4C514} = {F51609AF-585F-4BBD-89BD-4FE245292018}
 		{B82C4D02-15B1-4B23-A7FF-CF971CD5E911} = {A2E64919-761D-4412-AFF7-D167023FD55E}
+		{DFC80207-40C9-42CB-A958-26FF248820D5} = {F51609AF-585F-4BBD-89BD-4FE245292018}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BA9BB36D-F8F5-4E54-BE37-94B8AD619F00}

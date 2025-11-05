@@ -1,0 +1,4 @@
+#### .NET Coding Conventions ####
+[*.{cs,vb}]
+
+dotnet_diagnostic.NEASPSH001.severity = warning

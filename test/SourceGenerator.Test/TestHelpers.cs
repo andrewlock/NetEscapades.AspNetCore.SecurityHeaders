@@ -23,6 +23,9 @@ internal static class TestHelpers
     public static string EmbeddedEnum { get; }
         = LoadEmbeddedResource("SourceGenerator.Test.MixinTypes.cs");
 
+    public static string DeprecatedAttribute { get; }
+        = LoadEmbeddedResource("SourceGenerator.Test.DeprecatedAttribute.cs");
+
     private static string LoadEmbeddedResource(string resourceName)
     {
         var assembly = typeof(TestHelpers).Assembly;

@@ -293,26 +293,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddSecurityHeaderPolicies(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, System.Action<NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder, System.IServiceProvider> configure) { }
     }
 }
-namespace NetEscapades.AspNetCore.SecurityHeaders
-{
-    public class DeprecatedAttribute : System.Attribute
-    {
-        public DeprecatedAttribute(string message) { }
-        public string Message { get; }
-        public string? Url { get; }
-    }
-    public static class HttpContextExtensions
-    {
-        public static string GetNonce(this Microsoft.AspNetCore.Http.HttpContext context) { }
-        public static void SetScriptCSPHash(this Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CSPHashType algorithm, string hash) { }
-        public static void SetStylesCSPHash(this Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CSPHashType algorithm, string hash) { }
-    }
-    public class SecurityHeadersPolicyAttribute : System.Attribute
-    {
-        public SecurityHeadersPolicyAttribute(string policyName) { }
-        public string PolicyName { get; }
-    }
-}
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
 {
     public class BaseUriDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
@@ -1204,6 +1184,20 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy
     public class XrSpatialTrackingPermissionsPolicyDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicy.PermissionsPolicyDirectiveBuilder
     {
         public XrSpatialTrackingPermissionsPolicyDirectiveBuilder() { }
+    }
+}
+namespace NetEscapades.AspNetCore.SecurityHeaders
+{
+    public static class HttpContextExtensions
+    {
+        public static string GetNonce(this Microsoft.AspNetCore.Http.HttpContext context) { }
+        public static void SetScriptCSPHash(this Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CSPHashType algorithm, string hash) { }
+        public static void SetStylesCSPHash(this Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CSPHashType algorithm, string hash) { }
+    }
+    public class SecurityHeadersPolicyAttribute : System.Attribute
+    {
+        public SecurityHeadersPolicyAttribute(string policyName) { }
+        public string PolicyName { get; }
     }
 }
 namespace NetEscapades.AspNetCore.SecurityHeaders.Infrastructure
