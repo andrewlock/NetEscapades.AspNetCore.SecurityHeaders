@@ -28,6 +28,7 @@ jobs:
     runs-on: ${{ matrix.vm}}
     steps:
       - name: Support longpaths
+        if: ${{ matrix.os == 'windows' }}
         run: git config --system core.longpaths true
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
