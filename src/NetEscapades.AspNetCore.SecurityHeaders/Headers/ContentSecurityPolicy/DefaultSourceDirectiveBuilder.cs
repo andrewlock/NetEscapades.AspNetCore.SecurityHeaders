@@ -7,7 +7,8 @@
 /// The site's address may include an optional leading wildcard (the asterisk character, '*'), and
 /// you may use a wildcard (again, '*') as the port number, indicating that all legal ports are valid for the source.
 /// </summary>
-public class DefaultSourceDirectiveBuilder : CspDirectiveBuilder
+[CspMixin(MixinTypes.All)]
+public partial class DefaultSourceDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultSourceDirectiveBuilder"/> class.

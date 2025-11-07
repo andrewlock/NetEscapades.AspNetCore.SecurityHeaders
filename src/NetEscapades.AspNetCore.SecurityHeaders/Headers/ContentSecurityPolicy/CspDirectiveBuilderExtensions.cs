@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NetEscapades.AspNetCore.SecurityHeaders;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
+using NetEscapades.AspNetCore.SecurityHeaders.Helpers;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.AspNetCore.Builder;
@@ -18,6 +19,7 @@ public static class CspDirectiveBuilderExtensions
     /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("'self' is not a valid source expression for this Content-Security-Policy directive")]
     public static T Self<T>(this T builder) where T : CspDirectiveBuilder
     {
         builder.Sources.Add("'self'");
@@ -30,6 +32,7 @@ public static class CspDirectiveBuilderExtensions
     /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("blob: is not a valid source expression for this Content-Security-Policy directive")]
     public static T Blob<T>(this T builder) where T : CspDirectiveBuilder
     {
         builder.Sources.Add("blob:");
@@ -43,6 +46,7 @@ public static class CspDirectiveBuilderExtensions
     /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("data: is not a valid source expression for this Content-Security-Policy directive")]
     public static T Data<T>(this T builder) where T : CspDirectiveBuilder
     {
         builder.Sources.Add("data:");
@@ -55,6 +59,7 @@ public static class CspDirectiveBuilderExtensions
     /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("'none' is not a valid source expression for this Content-Security-Policy directive")]
     public static T None<T>(this T builder) where T : CspDirectiveBuilder
     {
         builder.BlockResources = true;
@@ -68,6 +73,7 @@ public static class CspDirectiveBuilderExtensions
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <param name="uri">The URI to allow.</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("host-source is not a valid source expression for this Content-Security-Policy directive")]
     public static T From<T>(this T builder, string uri) where T : CspDirectiveBuilder
     {
         if (string.IsNullOrWhiteSpace(uri))
@@ -86,6 +92,7 @@ public static class CspDirectiveBuilderExtensions
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <param name="uris">An IEnumerable of URIs to allow.</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("host-source is not a valid source expression for this Content-Security-Policy directive")]
     public static T From<T>(this T builder, IEnumerable<string> uris) where T : CspDirectiveBuilder
     {
         if (uris == null)
@@ -107,6 +114,7 @@ public static class CspDirectiveBuilderExtensions
     /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("http: is not a valid source expression for this Content-Security-Policy directive")]
     public static T OverHttps<T>(this T builder) where T : CspDirectiveBuilder
     {
         builder.Sources.Add("https:");
@@ -122,6 +130,7 @@ public static class CspDirectiveBuilderExtensions
     /// <param name="algorithm">The hash algorithm - one of sha256, sha384 or sha512 </param>
     /// <param name="hash">The hash for the source</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("A hash source is not a valid source expression for this Content-Security-Policy directive")]
     public static T WithHash<T>(this T builder, string algorithm, string hash) where T : CspDirectiveBuilder
     {
         // TODO: check hash algorithm is one of expected values
@@ -137,6 +146,7 @@ public static class CspDirectiveBuilderExtensions
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <param name="hash">The hash for the source</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("A hash source is not a valid source expression for this Content-Security-Policy directive")]
     public static T WithHash256<T>(this T builder, string hash) where T : CspDirectiveBuilder
     {
         return builder.WithHash("sha256", hash);
@@ -150,6 +160,7 @@ public static class CspDirectiveBuilderExtensions
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <param name="hash">The hash for the source</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("A hash source is not a valid source expression for this Content-Security-Policy directive")]
     public static T WithHashSha384<T>(this T builder, string hash) where T : CspDirectiveBuilder
     {
         return builder.WithHash("sha384", hash);
@@ -163,6 +174,7 @@ public static class CspDirectiveBuilderExtensions
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <param name="hash">The hash for the source</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("A hash source is not a valid source expression for this Content-Security-Policy directive")]
     public static T WithHashSha512<T>(this T builder, string hash) where T : CspDirectiveBuilder
     {
         return builder.WithHash("sha512", hash);
@@ -176,6 +188,7 @@ public static class CspDirectiveBuilderExtensions
     /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("'unsafe-inline' is not a valid source expression for this Content-Security-Policy directive")]
     public static T UnsafeInline<T>(this T builder) where T : CspDirectiveBuilder
     {
         builder.Sources.Add("'unsafe-inline'");
@@ -191,6 +204,7 @@ public static class CspDirectiveBuilderExtensions
     /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("'unsafe-hashes' is not a valid source expression for this Content-Security-Policy directive")]
     public static T UnsafeHashes<T>(this T builder) where T : CspDirectiveBuilder
     {
         builder.Sources.Add("'unsafe-hashes'");
@@ -204,6 +218,7 @@ public static class CspDirectiveBuilderExtensions
     /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("'unsafe-eval' is not a valid source expression for this Content-Security-Policy directive")]
     public static T UnsafeEval<T>(this T builder) where T : CspDirectiveBuilder
     {
         builder.Sources.Add("'unsafe-eval'");
@@ -218,6 +233,7 @@ public static class CspDirectiveBuilderExtensions
     /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("'wasm-unsafe-eval' is not a valid source expression for this Content-Security-Policy directive")]
     public static T WasmUnsafeEval<T>(this T builder) where T : CspDirectiveBuilder
     {
         builder.Sources.Add("'wasm-unsafe-eval'");
@@ -233,6 +249,7 @@ public static class CspDirectiveBuilderExtensions
     /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("'strict-dynamic' is not a valid source expression for this Content-Security-Policy directive")]
     public static T StrictDynamic<T>(this T builder) where T : CspDirectiveBuilder
     {
         builder.Sources.Add("'strict-dynamic'");
@@ -248,6 +265,7 @@ public static class CspDirectiveBuilderExtensions
     /// <typeparam name="T">A <see cref="CspDirectiveBuilder"/> to configure.</typeparam>
     /// <param name="builder">The <see cref="CspDirectiveBuilder"/> to apply the source to.</param>
     /// <returns>The CSP builder for method chaining</returns>
+    [Deprecated("A nonce expression is not a valid source expression for this Content-Security-Policy directive")]
     public static T WithNonce<T>(this T builder) where T : CspDirectiveBuilder
     {
         // The format parameter will be replaced with the nonce for each request

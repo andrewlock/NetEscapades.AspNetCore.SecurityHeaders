@@ -247,8 +247,8 @@ public class CspBuilder
     /// </summary>
     /// <param name="directive">The directive name, e.g. <c>default-src</c></param>
     /// <remarks>If you need a directive without a value, use <see cref="AddCustomDirective(string)"/> instead</remarks>
-    /// <returns>A configured <see cref="CspDirectiveBuilder"/></returns>
-    public CspDirectiveBuilder AddCustomDirectiveBuilder(string directive) => AddDirective(new CspDirectiveBuilder(directive));
+    /// <returns>A configured <see cref="CustomDirectiveBuilder"/></returns>
+    public CustomDirectiveBuilder AddCustomDirectiveBuilder(string directive) => AddDirective(new CustomDirectiveBuilder(directive));
 
     private T AddDirective<T>(T directive) where T : CspDirectiveBuilderBase
     {

@@ -398,9 +398,9 @@ public void Configure(IApplicationBuilder app)
                 .UnsafeEval()
                 .ReportSample();
 
-            builder.AddStyleSrc() // style-src 'self' 'strict-dynamic'
+            builder.AddStyleSrc() // style-src 'self' 'unsafe-inline'
                 .Self()
-                .StrictDynamic();
+                .UnsafeInline();
 
             builder.AddMediaSrc() // media-src https:
                 .OverHttps();

@@ -17,6 +17,19 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <!-- Persist the source generator (and other) files to disk -->
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <GeneratedFolder>Generated</GeneratedFolder>
+    <CompilerGeneratedFilesOutputPath>$(GeneratedFolder)\$(TargetFramework)</CompilerGeneratedFilesOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="$(GeneratedFolder)/*/**/*.cs" />
+    <None Include="$(GeneratedFolder)/*/**/*.cs" />
+    <None Remove="NetEscapades.AspNetCore.SecurityHeaders.csproj.DotSettings" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Remove="stylecop.json" />
     <AdditionalFiles Include="stylecop.json" />
@@ -26,6 +39,16 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+
+    <ProjectReference Include="..\SourceGenerator\SourceGenerator.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\NetEscapades.AspNetCore.SecurityHeaders.Analyzers\NetEscapades.AspNetCore.SecurityHeaders.Analyzers.csproj" 
+                      PrivateAssets="All" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(OutputPath)\..\..\NetEscapades.AspNetCore.SecurityHeaders.Analyzers\$(ArtifactsPivots)\NetEscapades.AspNetCore.SecurityHeaders.Analyzers.dll"
+          Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
 
   <ItemGroup>
