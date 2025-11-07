@@ -47,7 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(OutputPath)\..\..\NetEscapades.AspNetCore.SecurityHeaders.Analyzers\$(Configuration)\NetEscapades.AspNetCore.SecurityHeaders.Analyzers.dll"
+    <None Include="$(OutputPath)\..\..\NetEscapades.AspNetCore.SecurityHeaders.Analyzers\$(ArtifactsPivots)\NetEscapades.AspNetCore.SecurityHeaders.Analyzers.dll"
           Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
 
