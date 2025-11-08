@@ -34,6 +34,9 @@
     <EmbeddedResource Include="..\..\src\NetEscapades.AspNetCore.SecurityHeaders\Helpers\DeprecatedAttribute.cs">
       <Link>DeprecatedAttribute.cs</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\..\src\NetEscapades.AspNetCore.SecurityHeaders\Helpers\InsecureApiAttribute.cs">
+      <Link>InsecureApiAttribute.cs</Link>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

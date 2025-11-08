@@ -242,12 +242,14 @@ public class CspBuilderTests
     }
 
     [Test]
+    [SuppressMessage("Usage", "NEASPSH002:API is insecure")] // insecure http / insecure ws
     public void Build_AddBaseUri_WhenAddsMultipleValue_ReturnsAllValues()
     {
         var builder = new CspBuilder();
-        builder.AddBaseUri().Self().Blob().Data().From("http://testUrl.com");
+        builder.AddBaseUri().Self().Blob().Data().From("http://testUrl.com")
+            .OverInsecureHttp().OverInsecureWs();
         var result = builder.Build();
-        result.ConstantValue.Should().Be("base-uri 'self' blob: data: http://testUrl.com");
+        result.ConstantValue.Should().Be("base-uri 'self' blob: data: http://testUrl.com http: ws:");
     }
 
     [Test]

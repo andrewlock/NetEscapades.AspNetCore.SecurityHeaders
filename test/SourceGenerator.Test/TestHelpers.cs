@@ -26,6 +26,9 @@ internal static class TestHelpers
     public static string DeprecatedAttribute { get; }
         = LoadEmbeddedResource("SourceGenerator.Test.DeprecatedAttribute.cs");
 
+    public static string InsecureApiAttribute { get; }
+        = LoadEmbeddedResource("SourceGenerator.Test.InsecureApiAttribute.cs");
+
     private static string LoadEmbeddedResource(string resourceName)
     {
         var assembly = typeof(TestHelpers).Assembly;

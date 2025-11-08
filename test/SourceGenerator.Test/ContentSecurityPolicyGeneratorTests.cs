@@ -20,22 +20,23 @@ public class ContentSecurityPolicyGeneratorTests
     }
 
     [Test]
-    public Task CanGenerateEnumExtensionsInGlobalNamespace()
+    public Task CanGenerateCspMixinsInGlobalNamespace()
     {
-        const string input =
-            $$"""
-            using System;
-            using System.Collections.Generic;
+        var input = $$"""
+                      using System;
+                      using System.Collections.Generic;
+                      
+                      #nullable enable
 
-            namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
-            {
-                [CspMixin(MixinTypes.All)]
-                public partial class TestBuilder : CspDirectiveBuilder
-                {
-                }
-            }
-            {{Included.CspDirectiveBuilder}}
-            """;
+                      namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
+                      {
+                          [CspMixin(MixinTypes.All)]
+                          public partial class TestBuilder : CspDirectiveBuilder
+                          {
+                          }
+                      }
+                      {{Included.CspDirectiveBuilder}}
+                      """;
         var (diagnostics, output) = TestHelpers.GetGeneratedOutput(_generator,
             new(TestHelpers.EmbeddedAttribute, TestHelpers.EmbeddedEnum, input));
 
@@ -45,34 +46,36 @@ public class ContentSecurityPolicyGeneratorTests
 
     private class Included
     {
-        public const string CspDirectiveBuilder =
-            """
-            namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
-            {
-                using Microsoft.AspNetCore.Http;
-                public class CspDirectiveBuilder
-                {
-                    public bool BlockResources { get; set; }
-                    public bool MustReportSample { get; set; }
-                    public List<string> Sources { get; } = new();
-                    public SourceBuilderCollection SourceBuilders { get; } = new();
-                }
-                
-                public class SourceBuilderCollection
-                {
-                    public void Add(Func<HttpContext, string> a, string b)
-                    {
-                    }
-                }
-            }
-            namespace Microsoft.AspNetCore.Http
-            {
-                public class HttpContext
-                {
-                    public string GetNonce() => string.Empty;
-                    public string[] GetScriptCSPHashes() => new string[] { };
-                }
-            }
-            """;
+        public static readonly string CspDirectiveBuilder =
+            $$"""
+              namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
+              {
+                  using Microsoft.AspNetCore.Http;
+                  public class CspDirectiveBuilder
+                  {
+                      public bool BlockResources { get; set; }
+                      public bool MustReportSample { get; set; }
+                      public List<string> Sources { get; } = new();
+                      public SourceBuilderCollection SourceBuilders { get; } = new();
+                  }
+                  
+                  public class SourceBuilderCollection
+                  {
+                      public void Add(Func<HttpContext, string> a, string b)
+                      {
+                      }
+                  }
+              }
+              namespace Microsoft.AspNetCore.Http
+              {
+                  public class HttpContext
+                  {
+                      public string GetNonce() => string.Empty;
+                      public string[] GetScriptCSPHashes() => new string[] { };
+                  }
+              }
+
+              //{{TestHelpers.InsecureApiAttribute}}
+              """;
     }
 }
