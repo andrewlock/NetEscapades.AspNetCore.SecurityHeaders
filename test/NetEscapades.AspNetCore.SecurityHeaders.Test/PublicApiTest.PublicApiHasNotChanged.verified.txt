@@ -304,6 +304,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.BaseUriDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.BaseUriDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.BaseUriDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.BaseUriDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.BaseUriDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.BaseUriDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.BaseUriDirectiveBuilder Self() { }
     }
@@ -320,6 +322,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ChildSourceDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ChildSourceDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ChildSourceDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ChildSourceDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ChildSourceDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ChildSourceDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ChildSourceDirectiveBuilder Self() { }
     }
@@ -332,6 +336,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ConnectSourceDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ConnectSourceDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ConnectSourceDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ConnectSourceDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ConnectSourceDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ConnectSourceDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ConnectSourceDirectiveBuilder Self() { }
     }
@@ -361,6 +367,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder InlineSpeculationRules() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder ReportSample() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder Self() { }
@@ -386,6 +394,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder InlineSpeculationRules() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder ReportSample() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder Self() { }
@@ -410,6 +420,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FontSourceDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FontSourceDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FontSourceDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FontSourceDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FontSourceDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FontSourceDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FontSourceDirectiveBuilder Self() { }
     }
@@ -422,6 +434,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FormActionDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FormActionDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FormActionDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FormActionDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FormActionDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FormActionDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FormActionDirectiveBuilder Self() { }
     }
@@ -436,6 +450,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameAncestorsDirectiveBuilder Self() { }
     }
@@ -448,6 +464,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameSourceDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameSourceDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameSourceDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameSourceDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameSourceDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameSourceDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.FrameSourceDirectiveBuilder Self() { }
     }
@@ -460,6 +478,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ImageSourceDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ImageSourceDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ImageSourceDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ImageSourceDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ImageSourceDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ImageSourceDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ImageSourceDirectiveBuilder Self() { }
     }
@@ -472,6 +492,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ManifestSourceDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ManifestSourceDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ManifestSourceDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ManifestSourceDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ManifestSourceDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ManifestSourceDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ManifestSourceDirectiveBuilder Self() { }
     }
@@ -484,6 +506,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.MediaSourceDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.MediaSourceDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.MediaSourceDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.MediaSourceDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.MediaSourceDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.MediaSourceDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.MediaSourceDirectiveBuilder Self() { }
     }
@@ -496,6 +520,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ObjectSourceDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ObjectSourceDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ObjectSourceDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ObjectSourceDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ObjectSourceDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ObjectSourceDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ObjectSourceDirectiveBuilder Self() { }
     }
@@ -555,6 +581,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceDirectiveBuilder InlineSpeculationRules() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceDirectiveBuilder ReportSample() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceDirectiveBuilder Self() { }
@@ -580,6 +608,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceElemDirectiveBuilder InlineSpeculationRules() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceElemDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceElemDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceElemDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceElemDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceElemDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceElemDirectiveBuilder ReportSample() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.ScriptSourceElemDirectiveBuilder Self() { }
@@ -616,6 +646,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceDirectiveBuilder ReportSample() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceDirectiveBuilder Self() { }
@@ -638,6 +670,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder ReportSample() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder Self() { }
@@ -672,6 +706,8 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.WorkerSourceDirectiveBuilder From(string uri) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.WorkerSourceDirectiveBuilder None() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.WorkerSourceDirectiveBuilder OverHttps() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.WorkerSourceDirectiveBuilder OverInsecureHttp() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.WorkerSourceDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.WorkerSourceDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.WorkerSourceDirectiveBuilder Self() { }
     }

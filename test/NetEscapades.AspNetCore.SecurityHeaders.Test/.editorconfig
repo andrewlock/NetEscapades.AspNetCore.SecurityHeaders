@@ -2,3 +2,4 @@
 [*.{cs,vb}]
 
 dotnet_diagnostic.NEASPSH001.severity = warning
+dotnet_diagnostic.NEASPSH002.severity = warning

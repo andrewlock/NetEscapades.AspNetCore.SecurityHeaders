@@ -34,27 +34,6 @@ public partial class WorkerSourceDirectiveBuilder
     }
 
     /// <summary>
-    /// Allows blob: URIs to be used as a content source
-    /// </summary>
-    /// <returns>The CSP builder for method chaining</returns>
-    public WorkerSourceDirectiveBuilder Blob()
-    {
-        Sources.Add("blob:");
-        return this;
-    }
-
-    /// <summary>
-    /// data: Allows data: URIs to be used as a content source.
-    /// WARNING: This is insecure; an attacker can also inject arbitrary data: URIs. Use this sparingly and definitely not for scripts.
-    /// </summary>
-    /// <returns>The CSP builder for method chaining</returns>
-    public WorkerSourceDirectiveBuilder Data()
-    {
-        Sources.Add("data:");
-        return this;
-    }
-
-    /// <summary>
     /// Allow resources from the given <paramref name="uri"/>. May be any non-empty value
     /// </summary>
     /// <param name="uri">The URI to allow.</param>
@@ -89,9 +68,29 @@ public partial class WorkerSourceDirectiveBuilder
 
         return this;
     }
+    /// <summary>
+    /// Allows blob: URIs to be used as a content source
+    /// </summary>
+    /// <returns>The CSP builder for method chaining</returns>
+    public WorkerSourceDirectiveBuilder Blob()
+    {
+        Sources.Add("blob:");
+        return this;
+    }
 
     /// <summary>
-    /// Allow resources served over https
+    /// data: Allows data: URIs to be used as a content source.
+    /// WARNING: This is insecure; an attacker can also inject arbitrary data: URIs. Use this sparingly and definitely not for scripts.
+    /// </summary>
+    /// <returns>The CSP builder for method chaining</returns>
+    public WorkerSourceDirectiveBuilder Data()
+    {
+        Sources.Add("data:");
+        return this;
+    }
+
+    /// <summary>
+    /// Allow resources served over https:
     /// </summary>
     /// <returns>The CSP builder for method chaining</returns>
     public WorkerSourceDirectiveBuilder OverHttps()
@@ -101,12 +100,34 @@ public partial class WorkerSourceDirectiveBuilder
     }
 
     /// <summary>
-    /// Allow resources served over wss
+    /// Allow resources served over wss:
     /// </summary>
     /// <returns>The CSP builder for method chaining</returns>
     public WorkerSourceDirectiveBuilder OverWss()
     {
         Sources.Add("wss:");
+        return this;
+    }
+
+    /// <summary>
+    /// Allow resources served over http: This also allows resources served over https://  
+    /// </summary>
+    /// <returns>The CSP builder for method chaining</returns>
+    [global::NetEscapades.AspNetCore.SecurityHeaders.Helpers.InsecureApi("This API allows the use of the insecure HTTP scheme. Consider calling OverHttps() instead")]
+    public WorkerSourceDirectiveBuilder OverInsecureHttp()
+    {
+        Sources.Add("http:");
+        return this;
+    }
+
+    /// <summary>
+    /// Allow resources served over ws:This also allows resources served over wss://
+    /// </summary>
+    /// <returns>The CSP builder for method chaining</returns>
+    [global::NetEscapades.AspNetCore.SecurityHeaders.Helpers.InsecureApi("This API allows the use of the insecure websocket scheme. Consider calling OverWss() instead")]
+    public WorkerSourceDirectiveBuilder OverInsecureWs()
+    {
+        Sources.Add("ws:");
         return this;
     }
 }
