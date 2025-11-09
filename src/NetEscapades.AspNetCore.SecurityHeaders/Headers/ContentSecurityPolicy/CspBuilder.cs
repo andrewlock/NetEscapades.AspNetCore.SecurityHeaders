@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
+﻿using NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.AspNetCore.Builder;

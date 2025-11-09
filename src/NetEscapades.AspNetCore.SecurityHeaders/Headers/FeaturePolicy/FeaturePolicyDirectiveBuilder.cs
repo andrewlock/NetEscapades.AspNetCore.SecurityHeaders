@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy;
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicy;
 
 /// <summary>
 /// Used to build a Feature-Policy directive that uses a standard set of sources.

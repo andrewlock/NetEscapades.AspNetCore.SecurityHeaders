@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies;
+﻿using NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.AspNetCore.Builder;

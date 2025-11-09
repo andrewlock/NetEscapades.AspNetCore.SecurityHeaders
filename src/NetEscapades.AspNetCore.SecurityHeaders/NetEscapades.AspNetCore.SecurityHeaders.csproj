@@ -15,6 +15,7 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <CodeAnalysisRuleSet>NetEscapades.AspNetCore.SecurityHeaders.ruleset</CodeAnalysisRuleSet>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -40,15 +41,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
 
-    <ProjectReference Include="..\SourceGenerator\SourceGenerator.csproj"
-                      OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-    <ProjectReference Include="..\NetEscapades.AspNetCore.SecurityHeaders.Analyzers\NetEscapades.AspNetCore.SecurityHeaders.Analyzers.csproj" 
-                      PrivateAssets="All" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\SourceGenerator\SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\NetEscapades.AspNetCore.SecurityHeaders.Analyzers\NetEscapades.AspNetCore.SecurityHeaders.Analyzers.csproj" PrivateAssets="All" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="$(OutputPath)\..\..\NetEscapades.AspNetCore.SecurityHeaders.Analyzers\$(ArtifactsPivots)\NetEscapades.AspNetCore.SecurityHeaders.Analyzers.dll"
-          Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)\..\..\NetEscapades.AspNetCore.SecurityHeaders.Analyzers\$(ArtifactsPivots)\NetEscapades.AspNetCore.SecurityHeaders.Analyzers.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
 
   <ItemGroup>

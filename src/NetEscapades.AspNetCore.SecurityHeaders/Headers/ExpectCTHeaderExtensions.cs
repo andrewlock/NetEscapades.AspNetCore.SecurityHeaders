@@ -1,4 +1,3 @@
-using System;
 using NetEscapades.AspNetCore.SecurityHeaders.Headers;
 
 namespace Microsoft.AspNetCore.Builder;

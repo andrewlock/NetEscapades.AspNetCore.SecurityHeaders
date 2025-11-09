@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
+﻿namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 
 /// <summary>
 /// The <c>base-uri</c> directive restricts the URLs which can be used in a document's

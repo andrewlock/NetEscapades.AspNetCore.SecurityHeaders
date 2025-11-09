@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NetEscapades.AspNetCore.SecurityHeaders;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
