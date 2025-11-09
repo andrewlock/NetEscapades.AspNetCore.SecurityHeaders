@@ -1,15 +1,14 @@
-﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using RazorWebSite;
+using SecurityHeadersMiddlewareWebSite;
 
 using var host = new HostBuilder()
     .ConfigureWebHost(webHostBuilder =>
     {
         webHostBuilder
-            .UseContentRoot(Directory.GetCurrentDirectory())
-            .UseStartup<Startup>()
-            .UseKestrel();
+            .UseKestrel()
+            .UseIISIntegration()
+            .UseStartup<Startup>();
     })
     .Build();
 await host.StartAsync();

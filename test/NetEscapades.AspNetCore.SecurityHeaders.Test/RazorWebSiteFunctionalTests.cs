@@ -3,19 +3,18 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
+using RazorWebSite;
 
 namespace NetEscapades.AspNetCore.SecurityHeaders.Test;
 
 [ClassDataSource<HttpsSecurityHeadersTestFixture<RazorWebSite.Startup>>(Shared = SharedType.PerClass)]
 public class RazorWebSiteFunctionalTests
 {
-    private const string EchoPath = "/SecurityHeadersMiddleware/BG36A632-C4D2-4B71-B2BD-18625ADDA87F";
+    private readonly HttpsSecurityHeadersTestFixture<Startup> _fixture;
     public RazorWebSiteFunctionalTests(HttpsSecurityHeadersTestFixture<RazorWebSite.Startup> fixture)
     {
-        Client = fixture.Client;
+        _fixture = fixture;
     }
-
-    public HttpClient Client { get; }
 
     [Test]
     [Arguments("GET")]
@@ -23,9 +22,10 @@ public class RazorWebSiteFunctionalTests
     public async Task AllMethods_AddSecurityHeaders_IncludesCsp(string method)
     {
         // Arrange
+        var client = await _fixture.GetClient();
         var request = new HttpRequestMessage(new HttpMethod(method), "/");
         // Act
-        var response = await Client.SendAsync(request);
+        var response = await client.SendAsync(request);
         
         
         // Assert
@@ -46,8 +46,9 @@ public class RazorWebSiteFunctionalTests
     public async Task WhenUsingEndpoint_Overrides_Default(string path, string expected)
     {
         // Arrange
+        var client = await _fixture.GetClient();
         // Act
-        var response = await Client.GetAsync(path);
+        var response = await client.GetAsync(path);
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await response.Content.ReadAsStringAsync();
@@ -64,8 +65,9 @@ public class RazorWebSiteFunctionalTests
     public async Task WhenUsingFallback_Overrides_Default(string path)
     {
         // Arrange
+        var client = await _fixture.GetClient();
         // Act
-        var response = await Client.GetAsync(path);
+        var response = await client.GetAsync(path);
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await response.Content.ReadAsStringAsync();
