@@ -105,6 +105,6 @@ public class DeprecatedApiAnalyzerTests
             {{testCode}}
         }
 
-        //{{TestHelpers.DeprecatedAttribute}}
+        {{TestHelpers.DeprecatedAttribute}}
         """;
 }

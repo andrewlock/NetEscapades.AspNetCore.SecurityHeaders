@@ -104,6 +104,6 @@ public class InsecureApiAnalyzerTests
                                                                 {{testCode}}
                                                             }
 
-                                                            //{{TestHelpers.InsecureApiAttribute}}
+                                                            {{TestHelpers.InsecureApiAttribute}}
                                                             """;
 }

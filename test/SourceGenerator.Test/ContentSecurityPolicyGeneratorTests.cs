@@ -75,7 +75,7 @@ public class ContentSecurityPolicyGeneratorTests
                   }
               }
 
-              //{{TestHelpers.InsecureApiAttribute}}
+              {{TestHelpers.InsecureApiAttribute}}
               """;
     }
 }

@@ -1,5 +1,3 @@
-using System;
-
 // Keep it block scoped to make it easier to use in tests
 namespace NetEscapades.AspNetCore.SecurityHeaders.Helpers
 {
