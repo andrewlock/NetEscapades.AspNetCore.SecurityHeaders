@@ -595,7 +595,6 @@ public void Configure(IApplicationBuilder app)
 
             builder.AddStyleSrc() // style-src 'self' 'strict-dynamic' 'sha256-<base64-value>'
                 .Self()
-                .StrictDynamic()
                 .WithHashTagHelper().UnsafeHashes(); // Allow allowlisted elements based on their SHA256 hash value
         })
         .AddCustomHeader("X-My-Test-Header", "Header value");
