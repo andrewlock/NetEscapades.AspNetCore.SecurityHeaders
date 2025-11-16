@@ -26,6 +26,9 @@ jobs:
       MSBuildEnableWorkloadResolver: false
     name: ${{ matrix.os}}
     runs-on: ${{ matrix.vm}}
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Support longpaths
         if: ${{ matrix.os == 'windows' }}
@@ -47,10 +50,18 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
 
+      # Use the ambient GitHub token to login to NuGet and retrieve an API key
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          # Secret is your NuGet username, e.g. andrewlock
+          user: ${{ secrets.NUGET_USER || 'andrewlock' }}
+
       - name: Run './build.cmd Test Pack PushToNuGet GenerateSbom'
         run: ./build.cmd Test Pack PushToNuGet GenerateSbom
         env:
-          NuGetToken: ${{ secrets.NUGET_TOKEN || 'NOT_SET'}}
+          NuGetToken: ${{ steps.login.outputs.NUGET_API_KEY || 'NOT_SET'}}
           DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "true"
 
       - uses: actions/upload-artifact@v4
