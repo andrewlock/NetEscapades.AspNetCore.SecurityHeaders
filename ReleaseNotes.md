@@ -1,3 +1,10 @@
+## Changes in 1.3.0:
+
+Features:
+* Add API for registering an async policy selector #259 (Thanks [@jchannon](https://github.com/jchannon))
+* Update Content-Security-Policy builders to encourage correct directives and to flag incorrect directives #272
+* Add `OverInsecureHttp()` and `OverInsecureWs()` scheme sources to CSP builders #273
+
 ## Changes in 1.2.0:
 
 Features:
@@ -52,10 +59,3 @@ Build updates:
 * Generate SBOM attestation #224
 * Generate artifact provenance attestation #225
 * Automatically create releases #229
-
---- 
-
-Changes from 1.0.0-preview.4 to 1.0.0:
-
-* Allow building from forks #232
-* Fix release generation #231, #235, #236

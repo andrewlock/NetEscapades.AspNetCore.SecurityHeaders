@@ -1,5 +1,14 @@
 # Changelog
 
+## [v1.3.0]
+
+### Changes from 1.2.0-1.3.0:
+
+Features:
+* Add API for registering an async policy selector #259 (Thanks [@jchannon](https://github.com/jchannon))
+* Update Content-Security-Policy builders to encourage correct directives and to flag incorrect directives #272
+* Add `OverInsecureHttp()` and `OverInsecureWs()` scheme sources to CSP builders #273
+
 ## [v1.2.0]
 
 ### Changes from 1.1.0-1.2.0:
