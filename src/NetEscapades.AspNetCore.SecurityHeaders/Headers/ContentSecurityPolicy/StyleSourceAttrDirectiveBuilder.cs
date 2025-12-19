@@ -6,7 +6,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 /// The directive does not set valid sources for &lt;style&gt; elements and &lt;link&gt; elements with rel="stylesheet".
 /// These are set using <c>style-src-elem</c> (and valid sources for all styles may be set with <c>style-src</c>).
 /// </summary>
-[CspMixin(MixinTypes.UnsafeInline | MixinTypes.UnsafeHashes | MixinTypes.Hash | MixinTypes.ReportSample | MixinTypes.None)]
+[CspMixin(MixinTypes.UnsafeInline | MixinTypes.UnsafeHashes | MixinTypes.Hash | MixinTypes.ReportSample | MixinTypes.None | MixinTypes.StyleHashTagHelper)]
 public partial class StyleSourceAttrDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>

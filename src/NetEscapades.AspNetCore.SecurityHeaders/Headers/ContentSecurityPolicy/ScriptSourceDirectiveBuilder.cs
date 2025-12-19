@@ -5,7 +5,7 @@
 /// This includes not only URLs loaded directly into &lt;script&gt; elements, but also things
 /// like inline script event handlers (onclick) and XSLT stylesheets which can trigger script execution.
 /// </summary>
-[CspMixin(MixinTypes.All)]
+[CspMixin(MixinTypes.All | MixinTypes.ScriptHashTagHelper)]
 public partial class ScriptSourceDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>

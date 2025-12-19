@@ -9,7 +9,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 /// "unsafe-eval" check, and XSLT stylesheets. (Valid sources can be specified for all
 /// JavaScript script sources using <c>script-src</c>, or just for inline script handlers using <c>script-src-attr</c>.)
 /// </summary>
-[CspMixin(MixinTypes.All & ~MixinTypes.UnsafeHashes)] // Everything except unsafe hashes
+[CspMixin((MixinTypes.All & ~MixinTypes.UnsafeHashes) | MixinTypes.ScriptHashTagHelper)] // Everything except unsafe hashes
 public partial class ScriptSourceElemDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>

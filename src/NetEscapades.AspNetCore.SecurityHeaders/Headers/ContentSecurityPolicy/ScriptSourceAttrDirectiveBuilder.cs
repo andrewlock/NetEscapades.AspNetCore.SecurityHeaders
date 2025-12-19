@@ -9,7 +9,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 /// can be specified for all JavaScript script sources using <c>script-src</c>, or just for
 /// &lt;script&gt; elements using <c>script-src-elem</c>.)
 /// </summary>
-[CspMixin(MixinTypes.UnsafeHashes | MixinTypes.Hash | MixinTypes.UnsafeInline | MixinTypes.None | MixinTypes.ReportSample)]
+[CspMixin(MixinTypes.UnsafeHashes | MixinTypes.Hash | MixinTypes.UnsafeInline | MixinTypes.None | MixinTypes.ReportSample | MixinTypes.ScriptHashTagHelper)]
 public partial class ScriptSourceAttrDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>

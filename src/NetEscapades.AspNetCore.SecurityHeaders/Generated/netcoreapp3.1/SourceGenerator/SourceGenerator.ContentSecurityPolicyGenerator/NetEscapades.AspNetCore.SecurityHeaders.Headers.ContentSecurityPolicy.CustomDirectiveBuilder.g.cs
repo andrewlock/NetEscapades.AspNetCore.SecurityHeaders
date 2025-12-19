@@ -179,18 +179,6 @@ public partial class CustomDirectiveBuilder
     }
 
     /// <summary>
-    /// Allow sources for content generated using the HashTagHelper.
-    /// </summary>
-    /// <returns>The CSP builder for method chaining</returns>
-    public CustomDirectiveBuilder WithHashTagHelper()
-    {
-        SourceBuilders.Add(
-            ctx => string.Join(" ", ctx.GetScriptCSPHashes()),
-            $"NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder.{nameof(WithHashTagHelper)}");
-        return this;
-    }
-
-    /// <summary>
     /// Allows the use of inline resources, such as inline &lt;scripT&gt; elements, javascript : URLs,
     /// inline event handlers, and inline &lt;style&gt; elements
     /// WARNING: This source is insecure - you should not use this directive if at all possible

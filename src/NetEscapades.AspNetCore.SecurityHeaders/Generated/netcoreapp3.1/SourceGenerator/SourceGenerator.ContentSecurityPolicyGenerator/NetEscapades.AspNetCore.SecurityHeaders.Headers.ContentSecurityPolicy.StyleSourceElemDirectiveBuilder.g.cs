@@ -185,7 +185,7 @@ public partial class StyleSourceElemDirectiveBuilder
     public StyleSourceElemDirectiveBuilder WithHashTagHelper()
     {
         SourceBuilders.Add(
-            ctx => string.Join(" ", ctx.GetScriptCSPHashes()),
+            ctx => string.Join(" ", ctx.GetStyleCSPHashes()),
             $"NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceElemDirectiveBuilder.{nameof(WithHashTagHelper)}");
         return this;
     }

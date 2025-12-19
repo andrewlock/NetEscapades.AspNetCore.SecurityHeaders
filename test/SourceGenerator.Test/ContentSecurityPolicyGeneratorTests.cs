@@ -30,7 +30,7 @@ public class ContentSecurityPolicyGeneratorTests
 
                       namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
                       {
-                          [CspMixin(MixinTypes.All)]
+                          [CspMixin(MixinTypes.All | MixinTypes.ScriptHashTagHelper)]
                           public partial class TestBuilder : CspDirectiveBuilder
                           {
                           }

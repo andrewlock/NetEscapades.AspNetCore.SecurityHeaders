@@ -8,7 +8,7 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy;
 /// set using <c>style-src-attr</c> (and valid sources for all styles may be set with <c>style-src</c>).
 /// </summary>
 [CspMixin(MixinTypes.HostSource | MixinTypes.SchemeSource | MixinTypes.Self | MixinTypes.None | MixinTypes.UnsafeEval
-          | MixinTypes.UnsafeInline | MixinTypes.Hash | MixinTypes.Nonce | MixinTypes.ReportSample)]
+          | MixinTypes.UnsafeInline | MixinTypes.Hash | MixinTypes.Nonce | MixinTypes.ReportSample | MixinTypes.StyleHashTagHelper)]
 public partial class StyleSourceElemDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>
