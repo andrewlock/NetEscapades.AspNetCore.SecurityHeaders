@@ -1,3 +1,11 @@
+### Changes in 1.3.1
+
+Fixes:
+* Fix `WithHashTagHelper()` using incorrect tag helper hashes for `style-src`, `style-src-attr`, and `style-scr-elem` CSP directives (#279)
+
+Breaking Changes:
+* Don't expose `WithHashTagHelper()` on `CustomDirectiveBuilder` or `DefaultSourceDirectiveBuilder` - technically breaking, but really a bug (#279)
+
 ## Changes in 1.3.0:
 
 Features:
