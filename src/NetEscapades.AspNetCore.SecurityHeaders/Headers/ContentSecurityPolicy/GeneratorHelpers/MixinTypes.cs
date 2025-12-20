@@ -74,7 +74,17 @@ internal enum MixinTypes
     None = 1 << 12,
 
     /// <summary>
-    /// Convenience combination of all mixin flags.
+    /// Adds the <c>'WithHashTagHelper'</c> source, by calling <c>GetScriptCSPHashes</c>
+    /// </summary>
+    ScriptHashTagHelper = 1 << 13,
+
+    /// <summary>
+    /// Adds the <c>'WithHashTagHelper'</c> source, by calling <c>GetStyleCSPHashes</c>
+    /// </summary>
+    StyleHashTagHelper = 1 << 14,
+
+    /// <summary>
+    /// Convenience combination of all mixin flags except <see cref="ScriptHashTagHelper"/> and <see cref="StyleHashTagHelper"/>
     /// </summary>
     All = Self |
           HostSource |

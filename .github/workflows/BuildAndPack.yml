@@ -21,7 +21,7 @@ jobs:
           - os: linux
             vm: ubuntu-latest
           - os: macos
-            vm: macos-13  # latest is arm64, and it breaks a bunch of stuff
+            vm: macos-14  # latest is arm64, and it breaks a bunch of stuff
     env:
       MSBuildEnableWorkloadResolver: false
     name: ${{ matrix.os}}

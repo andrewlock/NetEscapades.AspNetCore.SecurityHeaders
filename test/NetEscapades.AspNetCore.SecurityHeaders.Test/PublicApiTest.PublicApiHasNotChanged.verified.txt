@@ -381,7 +381,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder WithHash256(string hash) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder WithHashSha384(string hash) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder WithHashSha512(string hash) { }
-        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder WithHashTagHelper() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CustomDirectiveBuilder WithNonce() { }
     }
     public class DefaultSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder
@@ -408,7 +407,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder WithHash256(string hash) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder WithHashSha384(string hash) { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder WithHashSha512(string hash) { }
-        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder WithHashTagHelper() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.DefaultSourceDirectiveBuilder WithNonce() { }
     }
     public class FontSourceDirectiveBuilder : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.CspDirectiveBuilder

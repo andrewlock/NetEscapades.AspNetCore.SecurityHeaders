@@ -221,7 +221,14 @@ internal static class SourceGenerationHelper
                       {
                           return WithHash("sha512", hash);
                       }
-                  
+                  """);
+        }
+
+        if (Contains(mixins, MixinTypes.ScriptHashTagHelper))
+        {
+            sb.AppendLine(
+                $$"""
+
                       /// <summary>
                       /// Allow sources for content generated using the HashTagHelper.
                       /// </summary>
@@ -230,6 +237,25 @@ internal static class SourceGenerationHelper
                       {
                           SourceBuilders.Add(
                               ctx => string.Join(" ", ctx.GetScriptCSPHashes()),
+                              $"{{toGenerate.NameSpace}}.{{toGenerate.ClassName}}.{nameof(WithHashTagHelper)}");
+                          return this;
+                      }
+                  """);
+        }
+
+        if (Contains(mixins, MixinTypes.StyleHashTagHelper))
+        {
+            sb.AppendLine(
+                $$"""
+
+                      /// <summary>
+                      /// Allow sources for content generated using the HashTagHelper.
+                      /// </summary>
+                      /// <returns>The CSP builder for method chaining</returns>
+                      public {{toGenerate.ClassName}} WithHashTagHelper()
+                      {
+                          SourceBuilders.Add(
+                              ctx => string.Join(" ", ctx.GetStyleCSPHashes()),
                               $"{{toGenerate.NameSpace}}.{{toGenerate.ClassName}}.{nameof(WithHashTagHelper)}");
                           return this;
                       }

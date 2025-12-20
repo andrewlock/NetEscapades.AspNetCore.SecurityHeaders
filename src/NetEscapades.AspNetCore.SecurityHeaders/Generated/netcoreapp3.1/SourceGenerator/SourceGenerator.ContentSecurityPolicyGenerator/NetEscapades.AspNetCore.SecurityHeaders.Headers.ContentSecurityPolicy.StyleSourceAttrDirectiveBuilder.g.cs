@@ -77,7 +77,7 @@ public partial class StyleSourceAttrDirectiveBuilder
     public StyleSourceAttrDirectiveBuilder WithHashTagHelper()
     {
         SourceBuilders.Add(
-            ctx => string.Join(" ", ctx.GetScriptCSPHashes()),
+            ctx => string.Join(" ", ctx.GetStyleCSPHashes()),
             $"NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.StyleSourceAttrDirectiveBuilder.{nameof(WithHashTagHelper)}");
         return this;
     }

@@ -4,7 +4,7 @@
 /// The <c>style-src</c> directive specifies valid sources for sources for stylesheets.
 /// </summary>
 [CspMixin(MixinTypes.HostSource | MixinTypes.SchemeSource | MixinTypes.Self | MixinTypes.None | MixinTypes.UnsafeEval
-          | MixinTypes.UnsafeInline | MixinTypes.UnsafeHashes | MixinTypes.Hash | MixinTypes.Nonce | MixinTypes.ReportSample)]
+          | MixinTypes.UnsafeInline | MixinTypes.UnsafeHashes | MixinTypes.Hash | MixinTypes.Nonce | MixinTypes.ReportSample | MixinTypes.StyleHashTagHelper)]
 public partial class StyleSourceDirectiveBuilder : CspDirectiveBuilder
 {
     /// <summary>
