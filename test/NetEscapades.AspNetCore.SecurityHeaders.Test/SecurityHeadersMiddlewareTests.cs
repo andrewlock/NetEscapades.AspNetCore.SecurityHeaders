@@ -351,6 +351,65 @@ public class SecurityHeadersMiddlewareTests
     }
 
     [Test]
+    public async Task HttpRequest_WithCustomDefaultPolicy_CanAvoidReplacingHeader()
+    {
+        var defaultHeaders = new HeaderPolicyCollection().AddDefaultSecurityHeaders();
+        var headerPolicyMinusCsp = new HeaderPolicyCollection()
+            .AddDefaultSecurityHeaders();
+        headerPolicyMinusCsp.Remove("Content-Security-Policy");
+
+        // Arrange
+        using var host = new HostBuilder()
+            .ConfigureWebHost(b => b
+                .UseTestServer()
+                .ConfigureServices(s => s
+                    .AddSecurityHeaderPolicies()
+                    .AddPolicy("no-csp", headerPolicyMinusCsp)
+                    .SetDefaultPolicy(defaultHeaders)
+                    .SetPolicySelector(ctx =>
+                        ctx.HttpContext.Response.Headers.ContainsKey("Content-Security-Policy")
+                            ? ctx.ConfiguredPolicies["no-csp"]
+                            : ctx.DefaultPolicy)).Configure(app =>
+                {
+                    app.UseSecurityHeaders();
+                    app.Run(async context =>
+                    {
+                        if (context.Request.Path.StartsWithSegments("/manual-csp"))
+                        {
+                            context.Response.Headers["Content-Security-Policy"] = "default-src 'self'";
+                        }
+                        context.Response.ContentType = "text/html";
+                        await context.Response.WriteAsync("Test response");
+                    });
+                }))
+            .Build();
+        await host.StartAsync();
+
+        using var server = host.GetTestServer();
+        
+        // request to `/` should have default CSP
+        var response = await server.CreateRequest("/").SendAsync("GET");
+        
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers.AssertHttpRequestDefaultSecurityHeaders();
+        
+        // request to /manual-csp should have different CSP
+        response = await server.CreateRequest("/manual-csp").SendAsync("PUT");
+        // Assert
+        response.EnsureSuccessStatusCode();
+        (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
+        response.Headers
+            .Should().ContainKey("Content-Security-Policy")
+            .WhoseValue
+            .Should().ContainSingle("default-src 'self'");
+
+        // Other default headers should be added
+        response.Headers.Should().ContainKey("Cross-Origin-Opener-Policy").WhoseValue.Should().ContainSingle("same-origin");
+        response.Headers.Should().ContainKey("Cross-Origin-Resource-Policy").WhoseValue.Should().ContainSingle("same-origin");
+    }
+
+    [Test]
     public async Task HttpRequest_CallingAddSecurityHeaderPoliciesWithLambdaRepeatedly_CombinesPolicies()
     {
         var policyName = "custom";
