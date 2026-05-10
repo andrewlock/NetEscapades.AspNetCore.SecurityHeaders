@@ -2,6 +2,22 @@
 [assembly: System.Resources.NeutralResourcesLanguage("en-GB")]
 namespace Microsoft.AspNetCore.Builder
 {
+    public class ClearSiteDataBuilder
+    {
+        public ClearSiteDataBuilder() { }
+        public Microsoft.AspNetCore.Builder.ClearSiteDataBuilder All() { }
+        public Microsoft.AspNetCore.Builder.ClearSiteDataBuilder Cache() { }
+        public Microsoft.AspNetCore.Builder.ClearSiteDataBuilder Cookies() { }
+        public Microsoft.AspNetCore.Builder.ClearSiteDataBuilder CustomDirective(string directiveName) { }
+        public Microsoft.AspNetCore.Builder.ClearSiteDataBuilder ExecutionContexts() { }
+        public Microsoft.AspNetCore.Builder.ClearSiteDataBuilder Storage() { }
+    }
+    public static class ClearSiteDataHeaderExtensions
+    {
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddClearSiteData(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, System.Action<Microsoft.AspNetCore.Builder.ClearSiteDataBuilder> configure) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddClearSiteDataAll(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+        public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddClearSiteDataForLogout(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies) { }
+    }
     public static class ContentSecurityPolicyHeaderExtensions
     {
         public static Microsoft.AspNetCore.Builder.HeaderPolicyCollection AddContentSecurityPolicy(this Microsoft.AspNetCore.Builder.HeaderPolicyCollection policies, System.Action<Microsoft.AspNetCore.Builder.CspBuilder> configure, bool asReportOnly = false) { }
@@ -291,6 +307,197 @@ namespace Microsoft.Extensions.DependencyInjection
         public static NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder AddSecurityHeaderPolicies(this Microsoft.Extensions.DependencyInjection.IServiceCollection services) { }
         public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddSecurityHeaderPolicies(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, System.Action<NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder> configure) { }
         public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddSecurityHeaderPolicies(this Microsoft.Extensions.DependencyInjection.IServiceCollection services, System.Action<NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeaderPolicyBuilder, System.IServiceProvider> configure) { }
+    }
+}
+namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
+{
+    public class ClearSiteDataHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public ClearSiteDataHeader(string value) { }
+        public override string Header { get; }
+        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.ClearSiteDataHeader Build(System.Action<Microsoft.AspNetCore.Builder.ClearSiteDataBuilder> configure) { }
+    }
+    public abstract class ContentSecurityPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        protected ContentSecurityPolicyHeader(bool reportOnly, bool hasPerRequestValues) { }
+        public override string Header { get; }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.CspBuilder> configure, bool asReportOnly) { }
+        public class DynamicContentSecurityPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicyHeader
+        {
+            public DynamicContentSecurityPolicyHeader(System.Func<Microsoft.AspNetCore.Http.HttpContext, string> builder, bool asReportOnly) { }
+            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        }
+        public class StaticContentSecurityPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicyHeader
+        {
+            public StaticContentSecurityPolicyHeader(string value, bool asReportOnly) { }
+            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        }
+    }
+    public abstract class CrossOriginEmbedderPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        protected CrossOriginEmbedderPolicyHeader(bool reportOnly) { }
+        public override string Header { get; }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginEmbedderPolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.CrossOriginEmbedderPolicyBuilder> configure, bool asReportOnly) { }
+        public class StaticCrossOriginEmbedderPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginEmbedderPolicyHeader
+        {
+            public StaticCrossOriginEmbedderPolicyHeader(string value, bool asReportOnly) { }
+            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        }
+    }
+    public abstract class CrossOriginOpenerPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        protected CrossOriginOpenerPolicyHeader(bool reportOnly) { }
+        public override string Header { get; }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginOpenerPolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.CrossOriginOpenerPolicyBuilder> configure, bool asReportOnly) { }
+        public class StaticCrossOriginOpenerPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginOpenerPolicyHeader
+        {
+            public StaticCrossOriginOpenerPolicyHeader(string value, bool asReportOnly) { }
+            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        }
+    }
+    public abstract class CrossOriginResourcePolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        protected CrossOriginResourcePolicyHeader() { }
+        public override string Header { get; }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginResourcePolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.CrossOriginResourcePolicyBuilder> configure) { }
+        public class StaticCrossOriginResourcePolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginResourcePolicyHeader
+        {
+            public StaticCrossOriginResourcePolicyHeader(string value) { }
+            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        }
+    }
+    public class CustomHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public CustomHeader(string header, string value) { }
+        public override string Header { get; }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    [System.Obsolete(@"This feature is no longer recommended. Only Chromium-based browsers implemented Expect-CT, and Chromium has deprecated the header from version 107, because Chromium now enforces CT by default. For more details see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT.")]
+    public class ExpectCTHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public ExpectCTHeader(string value, System.Collections.Generic.IReadOnlyList<string> excludedHosts) { }
+        public override string Header { get; }
+        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    [System.Obsolete("The Feature-Policy header has been deprecated. Use Permissions-Policy instead.")]
+    public class FeaturePolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public FeaturePolicyHeader(string value) { }
+        public override string Header { get; }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.FeaturePolicyBuilder> configure) { }
+    }
+    public abstract class HeaderPolicyBase : NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy
+    {
+        protected HeaderPolicyBase() { }
+        public abstract string Header { get; }
+        public virtual void Apply(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected virtual void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected virtual void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected abstract string GetValue(Microsoft.AspNetCore.Http.HttpContext context);
+    }
+    public abstract class HtmlOnlyHeaderPolicyBase : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        protected HtmlOnlyHeaderPolicyBase() { }
+        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+    }
+    public interface IHeaderPolicy
+    {
+        string Header { get; }
+        void Apply(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result);
+    }
+    public class PermissionsPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public PermissionsPolicyHeader(string value) { }
+        public override string Header { get; }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.PermissionsPolicyBuilder> configure) { }
+    }
+    public class ReferrerPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public ReferrerPolicyHeader(string value) { }
+        public override string Header { get; }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    public class RemoveCustomHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public RemoveCustomHeader(string header) { }
+        public override string Header { get; }
+        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    public abstract class ReportingEndpointsHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        protected ReportingEndpointsHeader() { }
+        public override string Header { get; }
+        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeader Build(System.Action<NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder> configure) { }
+        public class StaticReportingEndpointsHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeader
+        {
+            public StaticReportingEndpointsHeader(string value) { }
+            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+        }
+    }
+    public class ReportingEndpointsHeaderBuilder
+    {
+        public ReportingEndpointsHeaderBuilder() { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder AddDefaultEndpoint(string url) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder AddDefaultEndpoint(System.Uri url) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder AddEndpoint(string name, string url) { }
+        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder AddEndpoint(string name, System.Uri url) { }
+    }
+    public class ServerHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public ServerHeader(string value) { }
+        public override string Header { get; }
+        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    public class SourceCollection : System.Collections.Generic.IEnumerable<string>, System.Collections.IEnumerable
+    {
+        public SourceCollection() { }
+        public int Count { get; }
+        public void Add(string source) { }
+        public void AddRange(System.Collections.Generic.IEnumerable<string> sources) { }
+        public void AddRange(System.ReadOnlySpan<string> sources) { }
+        public System.Collections.Generic.IEnumerator<string> GetEnumerator() { }
+        public bool Remove(string source) { }
+    }
+    public class StrictTransportSecurityHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public const int OneYearInSeconds = 31536000;
+        public StrictTransportSecurityHeader(string value, System.Collections.Generic.IReadOnlyList<string> excludedHosts) { }
+        public override string Header { get; }
+        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    public class XContentTypeOptionsHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public XContentTypeOptionsHeader(string value) { }
+        public override string Header { get; }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    public class XFrameOptionsHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public XFrameOptionsHeader(string value) { }
+        public override string Header { get; }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
+    }
+    [System.Obsolete("The `X-XSS-Protection` header can create XSS vulnerabilities in otherwise safe we" +
+        "bsites. For more details, see https://developer.mozilla.org/en-US/docs/Web/HTTP/" +
+        "Headers/X-XSS-Protection")]
+    public class XssProtectionHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
+    {
+        public XssProtectionHeader(string value) { }
+        public override string Header { get; }
+        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
     }
 }
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
@@ -708,189 +915,6 @@ namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.WorkerSourceDirectiveBuilder OverInsecureWs() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.WorkerSourceDirectiveBuilder OverWss() { }
         public NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicy.WorkerSourceDirectiveBuilder Self() { }
-    }
-}
-namespace NetEscapades.AspNetCore.SecurityHeaders.Headers
-{
-    public abstract class ContentSecurityPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        protected ContentSecurityPolicyHeader(bool reportOnly, bool hasPerRequestValues) { }
-        public override string Header { get; }
-        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.CspBuilder> configure, bool asReportOnly) { }
-        public class DynamicContentSecurityPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicyHeader
-        {
-            public DynamicContentSecurityPolicyHeader(System.Func<Microsoft.AspNetCore.Http.HttpContext, string> builder, bool asReportOnly) { }
-            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-        }
-        public class StaticContentSecurityPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.ContentSecurityPolicyHeader
-        {
-            public StaticContentSecurityPolicyHeader(string value, bool asReportOnly) { }
-            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-        }
-    }
-    public abstract class CrossOriginEmbedderPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        protected CrossOriginEmbedderPolicyHeader(bool reportOnly) { }
-        public override string Header { get; }
-        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginEmbedderPolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.CrossOriginEmbedderPolicyBuilder> configure, bool asReportOnly) { }
-        public class StaticCrossOriginEmbedderPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginEmbedderPolicyHeader
-        {
-            public StaticCrossOriginEmbedderPolicyHeader(string value, bool asReportOnly) { }
-            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-        }
-    }
-    public abstract class CrossOriginOpenerPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        protected CrossOriginOpenerPolicyHeader(bool reportOnly) { }
-        public override string Header { get; }
-        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginOpenerPolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.CrossOriginOpenerPolicyBuilder> configure, bool asReportOnly) { }
-        public class StaticCrossOriginOpenerPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginOpenerPolicyHeader
-        {
-            public StaticCrossOriginOpenerPolicyHeader(string value, bool asReportOnly) { }
-            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-        }
-    }
-    public abstract class CrossOriginResourcePolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        protected CrossOriginResourcePolicyHeader() { }
-        public override string Header { get; }
-        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginResourcePolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.CrossOriginResourcePolicyBuilder> configure) { }
-        public class StaticCrossOriginResourcePolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginResourcePolicyHeader
-        {
-            public StaticCrossOriginResourcePolicyHeader(string value) { }
-            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-        }
-    }
-    public class CustomHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        public CustomHeader(string header, string value) { }
-        public override string Header { get; }
-        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-    }
-    [System.Obsolete(@"This feature is no longer recommended. Only Chromium-based browsers implemented Expect-CT, and Chromium has deprecated the header from version 107, because Chromium now enforces CT by default. For more details see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT.")]
-    public class ExpectCTHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        public ExpectCTHeader(string value, System.Collections.Generic.IReadOnlyList<string> excludedHosts) { }
-        public override string Header { get; }
-        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-    }
-    [System.Obsolete("The Feature-Policy header has been deprecated. Use Permissions-Policy instead.")]
-    public class FeaturePolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        public FeaturePolicyHeader(string value) { }
-        public override string Header { get; }
-        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.FeaturePolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.FeaturePolicyBuilder> configure) { }
-    }
-    public abstract class HeaderPolicyBase : NetEscapades.AspNetCore.SecurityHeaders.Headers.IHeaderPolicy
-    {
-        protected HeaderPolicyBase() { }
-        public abstract string Header { get; }
-        public virtual void Apply(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-        protected virtual void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-        protected virtual void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-        protected abstract string GetValue(Microsoft.AspNetCore.Http.HttpContext context);
-    }
-    public abstract class HtmlOnlyHeaderPolicyBase : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        protected HtmlOnlyHeaderPolicyBase() { }
-        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-    }
-    public interface IHeaderPolicy
-    {
-        string Header { get; }
-        void Apply(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result);
-    }
-    public class PermissionsPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        public PermissionsPolicyHeader(string value) { }
-        public override string Header { get; }
-        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.PermissionsPolicyHeader Build(System.Action<Microsoft.AspNetCore.Builder.PermissionsPolicyBuilder> configure) { }
-    }
-    public class ReferrerPolicyHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        public ReferrerPolicyHeader(string value) { }
-        public override string Header { get; }
-        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-    }
-    public class RemoveCustomHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        public RemoveCustomHeader(string header) { }
-        public override string Header { get; }
-        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-    }
-    public abstract class ReportingEndpointsHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        protected ReportingEndpointsHeader() { }
-        public override string Header { get; }
-        public static NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeader Build(System.Action<NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder> configure) { }
-        public class StaticReportingEndpointsHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeader
-        {
-            public StaticReportingEndpointsHeader(string value) { }
-            protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-        }
-    }
-    public class ReportingEndpointsHeaderBuilder
-    {
-        public ReportingEndpointsHeaderBuilder() { }
-        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder AddDefaultEndpoint(string url) { }
-        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder AddDefaultEndpoint(System.Uri url) { }
-        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder AddEndpoint(string name, string url) { }
-        public NetEscapades.AspNetCore.SecurityHeaders.Headers.ReportingEndpointsHeaderBuilder AddEndpoint(string name, System.Uri url) { }
-    }
-    public class ServerHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        public ServerHeader(string value) { }
-        public override string Header { get; }
-        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-    }
-    public class SourceCollection : System.Collections.Generic.IEnumerable<string>, System.Collections.IEnumerable
-    {
-        public SourceCollection() { }
-        public int Count { get; }
-        public void Add(string source) { }
-        public void AddRange(System.Collections.Generic.IEnumerable<string> sources) { }
-        public void AddRange(System.ReadOnlySpan<string> sources) { }
-        public System.Collections.Generic.IEnumerator<string> GetEnumerator() { }
-        public bool Remove(string source) { }
-    }
-    public class StrictTransportSecurityHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        public const int OneYearInSeconds = 31536000;
-        public StrictTransportSecurityHeader(string value, System.Collections.Generic.IReadOnlyList<string> excludedHosts) { }
-        public override string Header { get; }
-        protected override void EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-        protected override void EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext context, NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult result) { }
-        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-    }
-    public class XContentTypeOptionsHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        public XContentTypeOptionsHeader(string value) { }
-        public override string Header { get; }
-        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-    }
-    public class XFrameOptionsHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        public XFrameOptionsHeader(string value) { }
-        public override string Header { get; }
-        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
-    }
-    [System.Obsolete("The `X-XSS-Protection` header can create XSS vulnerabilities in otherwise safe we" +
-        "bsites. For more details, see https://developer.mozilla.org/en-US/docs/Web/HTTP/" +
-        "Headers/X-XSS-Protection")]
-    public class XssProtectionHeader : NetEscapades.AspNetCore.SecurityHeaders.Headers.HeaderPolicyBase
-    {
-        public XssProtectionHeader(string value) { }
-        public override string Header { get; }
-        protected override string GetValue(Microsoft.AspNetCore.Http.HttpContext context) { }
     }
 }
 namespace NetEscapades.AspNetCore.SecurityHeaders.Headers.CrossOriginPolicies

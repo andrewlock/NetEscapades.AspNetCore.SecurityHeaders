@@ -51,7 +51,7 @@ Generated source files are emitted to `src/NetEscapades.AspNetCore.SecurityHeade
 
 ## Where to add things
 
-- **New header type** → `src/NetEscapades.AspNetCore.SecurityHeaders/Headers/` with a `*Header.cs` + `*HeaderExtensions.cs` pair; register via extensions on `HeaderPolicyCollection`.
+- **New header type** → `src/NetEscapades.AspNetCore.SecurityHeaders/Headers/` with a `*Header.cs` + `*HeaderExtensions.cs` pair; register via extensions on `HeaderPolicyCollection`. Include an MDN reference on the header class, builder, and extension class — use `/// <seealso href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/<header-name>"/>` (matches the existing convention in `Cross-Origin-Opener-Policy` and `Clear-Site-Data` builders).
 - **New CSP directive** → usually needs changes in `src/SourceGenerator/` (the directive builders are generated). Check `ContentSecurityPolicyGenerator.cs` and `SourceGenerationHelper.cs`.
 - **Deprecation / insecure API warnings** → `src/NetEscapades.AspNetCore.SecurityHeaders.Analyzers/` and the `[Deprecated]` / `[InsecureApi]` attributes in `Helpers/`.
 - **Tests** → prefer adding to `NetEscapades.AspNetCore.SecurityHeaders.Test` using `TestServer` against the sample web apps rather than unit-testing middleware internals directly.
