@@ -1425,7 +1425,7 @@ public class SecurityHeadersMiddlewareTests
         response.EnsureSuccessStatusCode();
         (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
         response.Headers.Should().ContainKey("Permissions-Policy").WhoseValue.Should().ContainSingle(
-            "accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=self, ambient-light-sensor=\"https://testurl.com\", geolocation=(), camera=*\"");
+            "accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=(self), ambient-light-sensor=(\"https://testurl.com\"), geolocation=(), camera=*\"");
     }
 
     [Test]
@@ -1459,7 +1459,7 @@ public class SecurityHeadersMiddlewareTests
         response.EnsureSuccessStatusCode();
         (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
         response.Headers.Should().ContainKey("Permissions-Policy").WhoseValue.Should().ContainSingle(
-            "accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=self, ambient-light-sensor=\"https://testurl.com\", geolocation=(), camera=*\"");
+            "accelerometer=(self \"https://testurl1.com\" \"https://testurl2.com\" \"https://testurl3.com\" \"https://testurl4.com\"), fullscreen=(self), ambient-light-sensor=(\"https://testurl.com\"), geolocation=(), camera=*\"");
     }
 
     [Test]
@@ -1490,7 +1490,7 @@ public class SecurityHeadersMiddlewareTests
         (await response.Content.ReadAsStringAsync()).Should().Be("Test response");
         var header = response.Headers.GetValues("Permissions-Policy").FirstOrDefault();
         header.Should().NotBeNull();
-        header.Should().Be("fullscreen=self, geolocation=()");
+        header.Should().Be("fullscreen=(self), geolocation=()");
     }
 
     [Test]

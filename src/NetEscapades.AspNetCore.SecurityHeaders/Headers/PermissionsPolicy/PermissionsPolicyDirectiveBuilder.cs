@@ -47,11 +47,6 @@ public abstract class PermissionsPolicyDirectiveBuilder : PermissionsPolicyDirec
             return $"{Directive}=*";
         }
 
-        if (Sources.Count == 1)
-        {
-            return $"{Directive}={Sources.FirstOrDefault()}";
-        }
-
         return $"{Directive}=({string.Join(" ", Sources)})";
     }
 

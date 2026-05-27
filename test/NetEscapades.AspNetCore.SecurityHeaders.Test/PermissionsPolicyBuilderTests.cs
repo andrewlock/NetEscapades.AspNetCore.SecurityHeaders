@@ -20,7 +20,7 @@ public class PermissionsPolicyBuilderTests
         var builder = new PermissionsPolicyBuilder();
         builder.AddAccelerometer().Self();
         var result = builder.Build();
-        result.Should().Be("accelerometer=self");
+        result.Should().Be("accelerometer=(self)");
     }
 
     [Test]
