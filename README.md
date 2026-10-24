@@ -270,7 +270,7 @@ As described in the [OWASP guidance](https://cheatsheetseries.owasp.org/cheatshe
 * `X-Content-Type-Options: nosniff`
 * `Strict-Transport-Security: max-age=31536000;` - _only applied to HTTPS responses_
 * `X-Frame-Options: Deny`
-* `Content-Security-Policy: default-src: none; frame-ancestors 'none'`
+* `Content-Security-Policy: default-src 'none'; frame-ancestors 'none'`
 * `Referrer-Policy: no-referrer`
 * `Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()`
 * `Cross-Origin-Opener-Policy: same-origin`

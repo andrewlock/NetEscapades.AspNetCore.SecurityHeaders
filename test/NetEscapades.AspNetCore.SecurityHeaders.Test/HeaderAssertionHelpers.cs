@@ -44,7 +44,7 @@ public static class HeaderAssertionHelpers
     {
         headers.Should().ContainKey("X-Content-Type-Options").WhoseValue.Should().ContainSingle("nosniff");
         headers.Should().ContainKey("X-Frame-Options").WhoseValue.Should().ContainSingle("DENY");
-        headers.Should().ContainKey("Content-Security-Policy").WhoseValue.Should().ContainSingle("default-src: none; frame-ancestors 'none'");
+        headers.Should().ContainKey("Content-Security-Policy").WhoseValue.Should().ContainSingle("default-src 'none'; frame-ancestors 'none'");
         headers.Should().ContainKey("Referrer-Policy").WhoseValue.Should().ContainSingle("no-referrer");
         headers.Should().ContainKey("Permissions-Policy").WhoseValue.Should().ContainSingle(PermissionsPolicyHeaderExtensions.DefaultSecurePolicy);
         headers.Should().ContainKey("Cross-Origin-Opener-Policy").WhoseValue.Should().ContainSingle("same-origin");
